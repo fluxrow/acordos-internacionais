@@ -9,38 +9,187 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ProfissionalRouteImport } from './routes/profissional'
+import { Route as GlossarioRouteImport } from './routes/glossario'
+import { Route as ContatoRouteImport } from './routes/contato'
+import { Route as BlogRouteImport } from './routes/blog'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AcordosIndexRouteImport } from './routes/acordos.index'
+import { Route as SobreDrMarcosRouteImport } from './routes/sobre.dr-marcos'
+import { Route as JornadasJornadaRouteImport } from './routes/jornadas.$jornada'
+import { Route as GuiasSlugRouteImport } from './routes/guias.$slug'
+import { Route as AcordosPaisRouteImport } from './routes/acordos.$pais'
 
+const ProfissionalRoute = ProfissionalRouteImport.update({
+  id: '/profissional',
+  path: '/profissional',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GlossarioRoute = GlossarioRouteImport.update({
+  id: '/glossario',
+  path: '/glossario',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContatoRoute = ContatoRouteImport.update({
+  id: '/contato',
+  path: '/contato',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AcordosIndexRoute = AcordosIndexRouteImport.update({
+  id: '/acordos/',
+  path: '/acordos/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SobreDrMarcosRoute = SobreDrMarcosRouteImport.update({
+  id: '/sobre/dr-marcos',
+  path: '/sobre/dr-marcos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JornadasJornadaRoute = JornadasJornadaRouteImport.update({
+  id: '/jornadas/$jornada',
+  path: '/jornadas/$jornada',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuiasSlugRoute = GuiasSlugRouteImport.update({
+  id: '/guias/$slug',
+  path: '/guias/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AcordosPaisRoute = AcordosPaisRouteImport.update({
+  id: '/acordos/$pais',
+  path: '/acordos/$pais',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/blog': typeof BlogRoute
+  '/contato': typeof ContatoRoute
+  '/glossario': typeof GlossarioRoute
+  '/profissional': typeof ProfissionalRoute
+  '/acordos/$pais': typeof AcordosPaisRoute
+  '/guias/$slug': typeof GuiasSlugRoute
+  '/jornadas/$jornada': typeof JornadasJornadaRoute
+  '/sobre/dr-marcos': typeof SobreDrMarcosRoute
+  '/acordos/': typeof AcordosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/blog': typeof BlogRoute
+  '/contato': typeof ContatoRoute
+  '/glossario': typeof GlossarioRoute
+  '/profissional': typeof ProfissionalRoute
+  '/acordos/$pais': typeof AcordosPaisRoute
+  '/guias/$slug': typeof GuiasSlugRoute
+  '/jornadas/$jornada': typeof JornadasJornadaRoute
+  '/sobre/dr-marcos': typeof SobreDrMarcosRoute
+  '/acordos': typeof AcordosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/blog': typeof BlogRoute
+  '/contato': typeof ContatoRoute
+  '/glossario': typeof GlossarioRoute
+  '/profissional': typeof ProfissionalRoute
+  '/acordos/$pais': typeof AcordosPaisRoute
+  '/guias/$slug': typeof GuiasSlugRoute
+  '/jornadas/$jornada': typeof JornadasJornadaRoute
+  '/sobre/dr-marcos': typeof SobreDrMarcosRoute
+  '/acordos/': typeof AcordosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/blog'
+    | '/contato'
+    | '/glossario'
+    | '/profissional'
+    | '/acordos/$pais'
+    | '/guias/$slug'
+    | '/jornadas/$jornada'
+    | '/sobre/dr-marcos'
+    | '/acordos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/blog'
+    | '/contato'
+    | '/glossario'
+    | '/profissional'
+    | '/acordos/$pais'
+    | '/guias/$slug'
+    | '/jornadas/$jornada'
+    | '/sobre/dr-marcos'
+    | '/acordos'
+  id:
+    | '__root__'
+    | '/'
+    | '/blog'
+    | '/contato'
+    | '/glossario'
+    | '/profissional'
+    | '/acordos/$pais'
+    | '/guias/$slug'
+    | '/jornadas/$jornada'
+    | '/sobre/dr-marcos'
+    | '/acordos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BlogRoute: typeof BlogRoute
+  ContatoRoute: typeof ContatoRoute
+  GlossarioRoute: typeof GlossarioRoute
+  ProfissionalRoute: typeof ProfissionalRoute
+  AcordosPaisRoute: typeof AcordosPaisRoute
+  GuiasSlugRoute: typeof GuiasSlugRoute
+  JornadasJornadaRoute: typeof JornadasJornadaRoute
+  SobreDrMarcosRoute: typeof SobreDrMarcosRoute
+  AcordosIndexRoute: typeof AcordosIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/profissional': {
+      id: '/profissional'
+      path: '/profissional'
+      fullPath: '/profissional'
+      preLoaderRoute: typeof ProfissionalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/glossario': {
+      id: '/glossario'
+      path: '/glossario'
+      fullPath: '/glossario'
+      preLoaderRoute: typeof GlossarioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contato': {
+      id: '/contato'
+      path: '/contato'
+      fullPath: '/contato'
+      preLoaderRoute: typeof ContatoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +197,56 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/acordos/': {
+      id: '/acordos/'
+      path: '/acordos'
+      fullPath: '/acordos/'
+      preLoaderRoute: typeof AcordosIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sobre/dr-marcos': {
+      id: '/sobre/dr-marcos'
+      path: '/sobre/dr-marcos'
+      fullPath: '/sobre/dr-marcos'
+      preLoaderRoute: typeof SobreDrMarcosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/jornadas/$jornada': {
+      id: '/jornadas/$jornada'
+      path: '/jornadas/$jornada'
+      fullPath: '/jornadas/$jornada'
+      preLoaderRoute: typeof JornadasJornadaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guias/$slug': {
+      id: '/guias/$slug'
+      path: '/guias/$slug'
+      fullPath: '/guias/$slug'
+      preLoaderRoute: typeof GuiasSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/acordos/$pais': {
+      id: '/acordos/$pais'
+      path: '/acordos/$pais'
+      fullPath: '/acordos/$pais'
+      preLoaderRoute: typeof AcordosPaisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BlogRoute: BlogRoute,
+  ContatoRoute: ContatoRoute,
+  GlossarioRoute: GlossarioRoute,
+  ProfissionalRoute: ProfissionalRoute,
+  AcordosPaisRoute: AcordosPaisRoute,
+  GuiasSlugRoute: GuiasSlugRoute,
+  JornadasJornadaRoute: JornadasJornadaRoute,
+  SobreDrMarcosRoute: SobreDrMarcosRoute,
+  AcordosIndexRoute: AcordosIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
