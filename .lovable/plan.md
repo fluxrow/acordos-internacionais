@@ -1,192 +1,83 @@
 
-# PRD — acordosinternacionais.com
+# Ajuste de escopo: o que fica aberto vs o que vai para o hub pago
 
-Hub de referência sobre Acordos Internacionais de Previdência Social do Brasil. Duas áreas: **Pessoa Física** (informação + lead-gen para Dr. Marcos) e **Advogados** (base profissional, acesso vitalício pago). Reaproveita conteúdo e dados do repo `Mapa-de-Acordos`; **substitui** a identidade dark-navy original por uma identidade editorial clara (Paper & Ink).
+Faz total sentido. Hoje o site público entrega quase tudo — não há razão para um advogado pagar R$ 1.997 se ele resolve no `/acordos/portugal` aberto. Precisamos rebalancear: a área pública vira **lead-gen para o Dr. Marcos** (suficiente para o cidadão decidir contratar, insuficiente para o advogado trabalhar), e a profundidade técnica fica atrás do paywall.
 
-## 1. Posicionamento
+## Princípio de divisão
 
-> "O mapa definitivo dos acordos internacionais de previdência do Brasil — para quem precisa de orientação e para quem advoga na área."
+> **Aberto** responde *"o que é, se eu tenho direito, e com quem falo".*
+> **Pago** responde *"como eu, advogado, executo o caso de ponta a ponta".*
 
-Diferenciais:
-- Cobertura completa por país acordante, atualizada
-- Linguagem dual: clara para leigos, técnica para advogados
-- Funil curto cidadão → atendimento direto com Dr. Marcos
-- Base profissional única no mercado brasileiro (vitalícia)
+## Área aberta (PF + SEO) — o que fica
 
-## 2. Personas
+Mantém o tráfego orgânico e converte para o Marcos, sem entregar manual de trabalho.
 
-### A — Pessoa Física (PF) — brasileiro no exterior
-1. Chega via Google (cauda longa: "acordo brasil portugal aposentadoria", "como receber inss morando fora")
-2. Lê página-país ou guia da jornada
-3. CTA persistente: **"Falar com o Dr. Marcos"** → formulário qualificado → email/WhatsApp
+- **Home dual** (igual hoje)
+- **`/acordos`** — grid dos 25 países (nome, bandeira, status, 1 linha)
+- **`/acordos/{pais}`** — versão **resumida**:
+  - O que é o acordo (2–3 parágrafos)
+  - Principais benefícios cobertos (lista curta, sem detalhe técnico)
+  - "Quem deve procurar um advogado" + **CTA Marcos**
+  - Link "Sou advogado, quero a ficha técnica completa →" para `/profissional`
+- **`/jornadas/{jornada}`** — narrativa do cidadão (vou me mudar, moro fora, etc.) com CTA Marcos
+- **`/guias/{slug}`** — guias conceituais leigos (totalização explicada, prova de vida)
+- **`/glossario`** — termos básicos
+- **`/blog`** — SEO
+- **`/sobre/dr-marcos`**, **`/contato`**
+- **`/profissional`** — landing de venda do hub (preview do que tem dentro + checkout)
 
-### B — Advogado Previdenciarista
-1. Chega via busca técnica ou indicação
-2. Vê preview da área profissional
-3. Compra acesso vitalício
-4. Consulta diariamente: portarias comentadas, modelos, fluxogramas, base por país, calculadoras
+## Área pública — o que **sai** e vai para o hub
 
-## 3. Pesquisa Semrush BR (resumo)
+Hoje as páginas-país abertas estão entregando coisa de hub. Remover da versão pública:
 
-| Termo | Vol/mês | KDI |
-|---|---|---|
-| acordo internacional inss | 260 | 36 |
-| acordo internacional | 320 | — |
-| sistemas previdenciários por países | 480 | — |
-| acordos previdenciários brasil | 170 | — |
-| direito previdenciário internacional | 110 | CPC alto |
+- Texto integral do acordo / decreto / portaria
+- Lista de documentos oficiais com links
+- Tabela de benefícios detalhada (RMI, carência, regras de totalização caso a caso)
+- Procedimentos passo-a-passo de requerimento
+- Formulários oficiais e modelos
+- Comparativos entre países
+- Qualquer "ficha técnica"
 
-Cauda longa por país é a mina de tráfego PF; CPC alto em termos técnicos confirma valor do público advogado.
+## Área profissional (`/app/*`, paywall) — o que entra
 
-## 4. Identidade visual — **Paper & Ink** (nova)
+Tudo que foi removido do público + o que estava previsto na Fase 2:
 
-**Paleta** (light, editorial Swiss):
-- Background: `#f5f3ee` (off-white papel)
-- Surface/cards: `#e8e4dd` (cream sutil)
-- Foreground: `#0d0d0d` (preto rico)
-- Muted: `#2d2d2d` (cinza-tinta)
-- Accent (links/CTAs): preto + sublinhado fino, hover em vermelho-tinta `#7a1f1f` (referência sutil às cores da bandeira do INSS sem ser óbvio)
+- **`/app/paises/{pais}`** — ficha técnica completa: texto do acordo, decreto, portarias aplicáveis, benefícios cobertos com regras, documentos exigidos, formulários, prazos, autoridade competente, jurisprudência relevante
+- **`/app/portarias`** — atos normativos comentados
+- **`/app/modelos`** — petições, requerimentos, procurações
+- **`/app/calculadoras`** — totalização, conversão de tempo
+- **`/app/fluxogramas`** — passo-a-passo processual por país
+- **`/app/atualizacoes`** — changelog regulatório
+- **`/app/jurisprudencia`**
+- **`/app/conta`**
 
-**Tipografia**:
-- Display: **Playfair Display** (serifa editorial — herdada do repo) → headlines, títulos de país
-- Texto: **Source Serif 4** (texto longo, conforto de leitura) — herdada do repo
-- Sans condensado para labels/UI: **Inter** ou **Söhne-like**
+## Sinalização visual no site público
 
-**Componentes**:
-- Cards: borda 1px sólida, sem sombra forte, hover = inversão (preto sólido, texto cream)
-- Bandeiras dos países como elemento gráfico principal nos cards
-- Badges de status (Em ratificação / Incompleto): texto pequeno em caps, sem cor — só borda
-- Navegação: linha tipográfica fina; sem hambúrguer escondido em desktop
-- Layout: grid amplo, muita respiração, justificativa cuidadosa, índice numerado nas listas
+Para o advogado entender que tem mais lá dentro (sem o cidadão se sentir bloqueado):
 
-**Tema escuro (área profissional, fase 2)**: variante invertida `#0d0d0d` bg + `#f5f3ee` foreground — mantém família visual, sinaliza "modo trabalho".
+- Nas páginas-país abertas, no fim da seção: bloco discreto **"Conteúdo profissional"** listando *"Texto integral do acordo · Portarias comentadas · Modelos de petição · Calculadora de totalização · Fluxograma processual"* todos em cinza, com cadeado fino e CTA "Acessar o hub →"
+- Header ganha um link permanente "Hub profissional"
+- `/profissional` mostra screenshots reais (mockados na Fase 1) do que tem dentro
 
-Tokens em `oklch` em `src/styles.css` (não usar HEX hardcoded em componentes).
+## Impacto na Fase 1 atual
 
-## 5. Conteúdo já mapeado no repo (a reaproveitar)
+Trabalho a fazer agora (somente front, sem mexer em backend):
 
-**Lista completa dos 25 acordos** (país, ISO, nº de documentos, status):
-- Bilaterais (22): Alemanha, Áustria, Bélgica, Bulgária *(incompleto)*, Cabo Verde *(em ratificação)*, Canadá, Chile, Coreia do Sul, Espanha, Estados Unidos, França, Grécia, Índia, Israel *(em ratificação)*, Itália, Japão, Luxemburgo, Moçambique, Portugal, Quebec, República Tcheca, Suíça
-- Multilaterais (3): CPLP, Mercosul, Iberoamericano
+1. **`src/data/acordos.ts`** — separar campos em dois blocos: `public` (resumo, benefícios em linha, quando procurar advogado) e `pro` (texto do acordo, decreto, portarias, documentos, procedimentos). O `pro` fica no arquivo mas não é renderizado pela rota pública.
+2. **`src/routes/acordos.$pais.tsx`** — reescrever para consumir só o bloco `public` + adicionar bloco "Conteúdo profissional (cadeado)" + CTA Marcos no topo e fim.
+3. **`src/routes/acordos.index.tsx`** — remover qualquer detalhe técnico dos cards; deixar apenas país, bandeira, status, 1 linha.
+4. **`src/routes/jornadas.$jornada.tsx`** e **`src/routes/guias.$slug.tsx`** — revisar para não conter procedimento técnico; se contiver, mover para `pro` e substituir por linguagem leiga + CTA.
+5. **`src/components/site-header.tsx`** — adicionar link "Hub profissional".
+6. **`src/routes/profissional.tsx`** — reforçar a lista do que tem dentro (usando exatamente os itens removidos do público) + screenshots mockados.
+7. Novo componente **`<ProContentLock />`** reutilizável: bloco cinza com cadeado, lista de itens trancados, CTA "Acessar o hub".
 
-**Estatísticas-âncora**: 26 acordos ativos · 220+ documentos · 22 bilaterais · 3 multilaterais
+## O que **não** muda
 
-**Estrutura útil**: hero, stats, busca + filtros (todos / bilaterais / multilaterais / em ratificação), grid de cards.
+- Identidade Paper & Ink, fontes, tokens
+- Lista dos 25 acordos
+- Estrutura de rotas públicas
+- Plano de Fase 2 (auth + pagamento) segue como estava
 
-## 6. Arquitetura de rotas
+## Pergunta antes de implementar
 
-### Área pública (PF + SEO)
-
-```text
-/                                       Home dual (PF | Advogados)
-/acordos                                Mapa/grid de todos os países
-/acordos/portugal                       Página-país (versão pública)
-/acordos/japao
-/acordos/estados-unidos
-/acordos/italia
-/acordos/alemanha                       ... 1 por país acordante
-/jornadas/vou-me-mudar
-/jornadas/moro-fora
-/jornadas/estou-voltando
-/jornadas/quero-me-aposentar
-/guias/totalizacao
-/guias/prova-de-vida-no-exterior
-/guias/certificado-deslocamento-temporario
-/guias/aposentadoria-morando-fora
-/glossario
-/blog
-/sobre/dr-marcos
-/contato
-```
-
-### Área profissional (paywall — advogados)
-
-```text
-/profissional                           Landing pública (preview + checkout)
-/profissional/checkout
-/app                                    Dashboard
-/app/paises/[pais]                      Ficha técnica completa
-/app/portarias                          Atos comentados
-/app/modelos                            Petições, requerimentos
-/app/jurisprudencia
-/app/calculadoras
-/app/fluxogramas
-/app/atualizacoes                       Changelog regulatório
-/app/conta
-```
-
-## 7. Modelo de negócio
-
-### 7.1 Lead-gen para Dr. Marcos (PF) — gratuito
-- Formulário pré-qualificado (país do acordo, situação, urgência) em todas as páginas-país e jornadas
-- Encaminhamento por email + WhatsApp para o Marcos
-
-### 7.2 Hub profissional — pagamento único, acesso vitalício
-- Preço sugerido: **R$ 1.997** (early bird R$ 1.297, primeiros 100)
-- Pagamento via Lovable Payments (Stripe)
-
-## 8. Fases de entrega
-
-### Fase 1 — Fundação pública (MVP SEO + lead-gen)
-- Tokens Paper & Ink em `src/styles.css`; importar Playfair Display + Source Serif 4
-- Migrar grid dos 25 acordos para componente React + dados versionados (TS)
-- Home dual, índice `/acordos`, **5 páginas-país prioritárias**: Portugal, Japão, EUA, Itália, Alemanha
-- 4 jornadas, 4 guias temáticos, glossário inicial
-- Página do Dr. Marcos
-- Formulário de contato qualificado (Lovable Email para Marcos)
-- Newsletter
-- Sitemap, robots, JSON-LD por página, og:images por rota
-- Landing `/profissional` com lista de espera (sem checkout ainda)
-
-### Fase 2 — Área profissional
-- Auth + roles (`pf`, `lawyer`, `admin`) — tabela `user_roles` separada + `has_role()` SECURITY DEFINER
-- Pagamento único Stripe → grant `lawyer` vitalício
-- 5 fichas-país profissionais completas
-- Base de portarias comentadas
-- 10 modelos de petições/requerimentos
-- 2 calculadoras (totalização básica, conversão de tempo)
-- Tema escuro do `/app`
-
-### Fase 3 — Cobertura completa
-- Restantes países (até 22 bilaterais + 3 multilaterais)
-- Jurisprudência por tema, fluxogramas interativos
-- Newsletter interna + changelog regulatório
-- Dossiê PDF, lembretes prova de vida
-
-### Fase 4 — Expansão
-- Mentoria mensal recorrente
-- Diretório de advogados parceiros
-- Comunidade fechada
-
-## 9. Métricas
-
-| Métrica | 6 meses | 12 meses |
-|---|---|---|
-| Sessões orgânicas/mês | 5.000 | 25.000 |
-| Top-10 keywords-alvo | 10 | 25 |
-| Leads PF/mês para Marcos | 30 | 150 |
-| Compras hub profissional | 30 | 150 |
-| Receita acumulada hub | R$ 40k | R$ 250k |
-
-## 10. Stack técnica
-
-- TanStack Start (atual) + Tailwind v4 + shadcn/ui
-- Lovable Cloud (Postgres + Auth + Storage)
-- Roles: enum `app_role` + tabela `user_roles` + `has_role()` SECURITY DEFINER
-- Conteúdo de países versionado em TS; artigos/portarias em DB para edição via admin
-- Stripe via Lovable Payments
-- Lovable Email
-- SEO: 1 rota por seção, `head()` único, sitemap/robots, JSON-LD `Article`/`FAQPage`/`LegalService`/`Country`
-
-## 11. Domínio
-
-- **acordosinternacionais.com** (exact match com termo de 320/mês) — configurar em Project Settings → Domains
-- Recomendado: adquirir `.com.br` para 301
-
-## 12. Próximos passos
-
-1. Aprovar este PRD
-2. Confirmar 5 países da Fase 1 (sugestão: Portugal, Japão, EUA, Itália, Alemanha)
-3. Confirmar preço (R$ 1.997 / early bird R$ 1.297)
-4. Confirmar canal de leads (email + WhatsApp?)
-5. Aprovar → iniciar Fase 1
+Confirma este corte? Ou quer ajustar onde fica a linha — por exemplo, manter "lista de documentos exigidos" no público (ajuda o cidadão a se preparar antes de falar com o Marcos) e trancar só o resto?
