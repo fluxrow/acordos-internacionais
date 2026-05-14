@@ -103,7 +103,7 @@ function AcordoPais() {
               <>
                 <Bloco titulo="Quais benefícios o acordo cobre">
                   <ul className="mt-2 space-y-1">
-                    {a.conteudo.beneficios.map((b) => (
+                    {a.conteudo.beneficios.map((b: string) => (
                       <li key={b} className="border-b border-border py-3 text-base">
                         {b}
                       </li>
@@ -113,7 +113,7 @@ function AcordoPais() {
 
                 <Bloco titulo="O que costuma ser exigido">
                   <ul className="mt-2 space-y-1">
-                    {a.conteudo.exigencias.map((e) => (
+                    {a.conteudo.exigencias.map((e: string) => (
                       <li key={e} className="border-b border-border py-3 text-base">
                         {e}
                       </li>
