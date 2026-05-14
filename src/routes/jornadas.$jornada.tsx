@@ -44,7 +44,7 @@ function JornadaPage() {
 
       <section className="mx-auto grid max-w-6xl gap-12 px-6 py-16 md:grid-cols-[1fr_320px]">
         <ol className="space-y-12">
-          {j.passos.map((p, i) => (
+          {j.passos.map((p: { titulo: string; descricao: string }, i: number) => (
             <li key={p.titulo} className="grid grid-cols-[auto_1fr] gap-6 border-b border-border pb-12 last:border-0">
               <span className="font-display text-5xl text-muted-foreground">
                 {String(i + 1).padStart(2, "0")}

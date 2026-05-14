@@ -44,12 +44,12 @@ function GuiaPage() {
 
       <section className="mx-auto grid max-w-6xl gap-12 px-6 py-16 md:grid-cols-[1fr_320px]">
         <div className="space-y-12">
-          {g.blocos.map((b) => (
+          {g.blocos.map((b: { titulo: string; conteudo: string[] }) => (
             <section key={b.titulo}>
               <h2 className="font-display text-2xl md:text-3xl">{b.titulo}</h2>
               <hr className="rule mt-3" />
               <div className="mt-4 space-y-4">
-                {b.conteudo.map((p, i) => (
+                {b.conteudo.map((p: string, i: number) => (
                   <p key={i} className="text-base leading-relaxed">
                     {p}
                   </p>
