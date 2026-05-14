@@ -140,7 +140,7 @@ function AcordoPais() {
                   <p className="text-lg leading-relaxed">
                     Indeferimentos, atrasos no protocolo internacional, erro
                     no cálculo prorata, totalização negada por documentação
-                    estrangeira — situações em que orientação jurídica
+                    estrangeira: situações em que orientação jurídica
                     especializada faz diferença direta no benefício final.
                   </p>
                   <p className="mt-4 text-base text-muted-foreground">

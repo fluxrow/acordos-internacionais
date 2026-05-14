@@ -41,7 +41,7 @@ function Profissional() {
           <p className="mt-8 max-w-2xl text-lg opacity-80">
             Portarias comentadas, modelos de petição e requerimentos,
             jurisprudência por tema, calculadoras de totalização, fluxogramas
-            de procedimento — organizados pelos {totalAcordos} países
+            de procedimento, organizados pelos {totalAcordos} países
             acordantes do Brasil.
           </p>
           <div className="mt-10 flex flex-wrap items-center gap-4">
@@ -66,10 +66,10 @@ function Profissional() {
           <ul className="mt-12 grid gap-px overflow-hidden border border-border bg-border md:grid-cols-2">
             {[
               ["Fichas-país completas", `Os ${totalAcordos} acordos com base legal, formulários, particularidades, jurisprudência relevante.`],
-              ["Portarias comentadas", "Atos do INSS sobre acordos internacionais — explicados por tema."],
+              ["Portarias comentadas", "Atos do INSS sobre acordos internacionais, explicados por tema."],
               ["Modelos de petição", "Petições iniciais, requerimentos administrativos e recursos editáveis."],
               ["Calculadoras", "Totalização, conversão de tempo, cálculo prorata."],
-              ["Fluxogramas de procedimento", "CDT, totalização, prova de vida — passo a passo visual."],
+              ["Fluxogramas de procedimento", "CDT, totalização, prova de vida: passo a passo visual."],
               [`+${totalDocs} documentos`, "Tudo organizado, buscável e atualizado quando há mudança regulatória."],
             ].map(([t, d]) => (
               <li key={t} className="bg-background p-8">
@@ -89,7 +89,7 @@ function Profissional() {
             <h2 className="mt-3 font-display text-4xl">Pagamento único, acesso vitalício.</h2>
             <p className="lede mt-6 text-base">
               Sem mensalidade. Sem renovação. Compre uma vez e tenha acesso
-              para sempre — incluindo as atualizações que vierem.
+              para sempre, incluindo as atualizações que vierem.
             </p>
           </div>
           <div className="border border-foreground bg-background p-8">
@@ -147,7 +147,7 @@ function Profissional() {
           )}
 
           <p className="mt-6 text-xs text-muted-foreground">
-            Lista de espera local — em breve integrada ao Lovable Cloud para
+            Lista de espera local, em breve integrada ao Lovable Cloud para
             disparo automático.
           </p>
 

@@ -22,7 +22,7 @@ export const guias: Guia[] = [
       {
         titulo: "Como funciona o cálculo prorata",
         conteudo: [
-          "Cada país calcula como se todo o tempo (Brasil + exterior) tivesse sido contribuído sob sua legislação — isso resulta no chamado benefício teórico.",
+          "Cada país calcula como se todo o tempo (Brasil + exterior) tivesse sido contribuído sob sua legislação, e isso resulta no chamado benefício teórico.",
           "Em seguida, aplica a proporção entre o tempo realmente contribuído ali e o tempo total. O resultado é o benefício prorata, devido por aquele país.",
         ],
       },
@@ -50,7 +50,7 @@ export const guias: Guia[] = [
       {
         titulo: "Formas de fazer no exterior",
         conteudo: [
-          "Por consulado ou repartição consular brasileira — emite atestado de vida específico para o INSS.",
+          "Por consulado ou repartição consular brasileira, que emite atestado de vida específico para o INSS.",
           "Pelo Meu INSS, com biometria facial pelo aplicativo, quando habilitado.",
           "Por procurador no Brasil em casos previstos pela legislação.",
         ],
@@ -94,7 +94,7 @@ export const guias: Guia[] = [
     slug: "aposentadoria-morando-fora",
     titulo: "Aposentadoria do INSS morando no exterior",
     resumo:
-      "É plenamente possível receber a aposentadoria brasileira morando fora — e em alguns casos somar com a aposentadoria do país de residência.",
+      "É plenamente possível receber a aposentadoria brasileira morando fora, e em alguns casos somar com a aposentadoria do país de residência.",
     blocos: [
       {
         titulo: "É possível receber morando fora?",

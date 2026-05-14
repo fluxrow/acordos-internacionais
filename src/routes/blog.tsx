@@ -23,7 +23,7 @@ function Blog() {
       <h1 className="mt-4 font-display text-5xl">Blog</h1>
       <p className="lede mt-6">
         Em breve: análises de jurisprudência, atualizações de portarias e
-        estudos de caso reais — escritos pelo Dr. Marcos.
+        estudos de caso reais, escritos pelo Dr. Marcos.
       </p>
       <Link
         to="/contato"

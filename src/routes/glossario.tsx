@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 
 const TITLE = "Glossário de previdência internacional";
 const DESC =
-  "Termos essenciais sobre acordos internacionais de previdência social do Brasil — totalização, prorata, CDT, CNIS e mais.";
+  "Termos essenciais sobre acordos internacionais de previdência social do Brasil: totalização, prorata, CDT, CNIS e mais.";
 
 export const Route = createFileRoute("/glossario")({
   head: () => ({
@@ -23,7 +23,7 @@ const termos: { termo: string; def: string }[] = [
   },
   {
     termo: "APS",
-    def: "Agência da Previdência Social — unidade local do INSS para atendimento presencial.",
+    def: "Agência da Previdência Social: unidade local do INSS para atendimento presencial.",
   },
   {
     termo: "Carência",
@@ -35,7 +35,7 @@ const termos: { termo: string; def: string }[] = [
   },
   {
     termo: "CNIS",
-    def: "Cadastro Nacional de Informações Sociais — base de dados das contribuições previdenciárias no Brasil.",
+    def: "Cadastro Nacional de Informações Sociais: base de dados das contribuições previdenciárias no Brasil.",
   },
   {
     termo: "Formulários de ligação",

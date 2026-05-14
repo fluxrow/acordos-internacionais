@@ -4,7 +4,7 @@ import { acordos, totalAcordos } from "@/data/acordos";
 
 const TITLE = "Países com acordo previdenciário com o Brasil";
 const DESC =
-  "Lista completa dos 25 países com acordo internacional de previdência social com o Brasil — bilaterais e multilaterais (CPLP, Mercosul, Iberoamericano).";
+  "Lista completa dos 25 países com acordo internacional de previdência social com o Brasil: bilaterais e multilaterais (CPLP, Mercosul, Iberoamericano).";
 
 export const Route = createFileRoute("/acordos/")({
   head: () => ({
