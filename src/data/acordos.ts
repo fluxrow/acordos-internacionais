@@ -284,11 +284,13 @@ const conteudoExpandido: Record<string, ConteudoPais> = {
       "Pensão por morte",
       "Auxílio-doença (em casos específicos)",
     ],
-    exigencias: [
-      "Contribuições registradas em pelo menos um dos países",
-      "Apresentação do Formulário PT-BR1 ou BR-PT1 conforme o caso",
-      "Tradução juramentada de documentos quando exigido",
-    ],
+    pro: {
+      exigencias: [
+        "Contribuições registradas em pelo menos um dos países",
+        "Apresentação do Formulário PT-BR1 ou BR-PT1 conforme o caso",
+        "Tradução juramentada de documentos quando exigido",
+      ],
+    },
     totalizacao:
       "Tempo contribuído na Segurança Social portuguesa pode ser somado ao tempo no INSS para alcançar a carência. O cálculo do benefício é proporcional em cada país.",
     curiosidade:
@@ -302,11 +304,13 @@ const conteudoExpandido: Record<string, ConteudoPais> = {
       "Aposentadoria por invalidez",
       "Pensão por morte",
     ],
-    exigencias: [
-      "Comprovação de filiação à Nenkin (livreto azul/laranja)",
-      "Formulários JP/BR conforme o tipo de pedido",
-      "Atenção ao Lump-sum Withdrawal Payment, que pode invalidar a totalização",
-    ],
+    pro: {
+      exigencias: [
+        "Comprovação de filiação à Nenkin (livreto azul/laranja)",
+        "Formulários JP/BR conforme o tipo de pedido",
+        "Atenção ao Lump-sum Withdrawal Payment, que pode invalidar a totalização",
+      ],
+    },
     totalizacao:
       "É possível somar períodos de contribuição na Nenkin Kikin e no INSS. Quem sacou o pagamento de retirada (dakkai ichijikin) pode perder o direito à totalização daqueles períodos.",
     curiosidade:
@@ -319,11 +323,13 @@ const conteudoExpandido: Record<string, ConteudoPais> = {
       "Old-Age, Survivors and Disability Insurance (EUA)",
       "Aposentadoria por idade, invalidez e pensão por morte (Brasil)",
     ],
-    exigencias: [
-      "Social Security Number (SSN) e histórico de earnings",
-      "Formulários USA/BR conforme o pedido",
-      "Mínimo de 6 quarters of coverage nos EUA para totalização",
-    ],
+    pro: {
+      exigencias: [
+        "Social Security Number (SSN) e histórico de earnings",
+        "Formulários USA/BR conforme o pedido",
+        "Mínimo de 6 quarters of coverage nos EUA para totalização",
+      ],
+    },
     totalizacao:
       "Períodos de contribuição ao US Social Security e ao INSS são somados. O cálculo final é prorata em cada país, conforme o tempo efetivamente contribuído.",
   },
@@ -335,11 +341,13 @@ const conteudoExpandido: Record<string, ConteudoPais> = {
       "Aposentadoria por invalidez",
       "Pensão por morte (superstiti)",
     ],
-    exigencias: [
-      "Certificato Modello E/IT-BR conforme o caso",
-      "Histórico contributivo da INPS italiana",
-      "Cidadania italiana NÃO é requisito do acordo previdenciário",
-    ],
+    pro: {
+      exigencias: [
+        "Certificato Modello E/IT-BR conforme o caso",
+        "Histórico contributivo da INPS italiana",
+        "Cidadania italiana NÃO é requisito do acordo previdenciário",
+      ],
+    },
     totalizacao:
       "Períodos contribuídos à INPS e ao INSS são somados. Cada país paga a parte proporcional ao tempo contribuído sob sua legislação.",
     curiosidade:
@@ -353,11 +361,13 @@ const conteudoExpandido: Record<string, ConteudoPais> = {
       "Aposentadoria por redução de capacidade laboral",
       "Pensão por morte (Hinterbliebenenrente)",
     ],
-    exigencias: [
-      "Versicherungsnummer (número de segurado alemão)",
-      "Formulários DE/BR conforme o pedido",
-      "Atenção à Mindestversicherungszeit de 5 anos",
-    ],
+    pro: {
+      exigencias: [
+        "Versicherungsnummer (número de segurado alemão)",
+        "Formulários DE/BR conforme o pedido",
+        "Atenção à Mindestversicherungszeit de 5 anos",
+      ],
+    },
     totalizacao:
       "Períodos contribuídos à Deutsche Rentenversicherung e ao INSS podem ser somados para alcançar a carência mínima. O cálculo final é prorata.",
   },
