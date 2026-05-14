@@ -94,7 +94,7 @@ function Home() {
             number="01"
             eyebrow="Para o cidadão"
             titulo="Brasileiro no exterior"
-            descricao="Você mora fora, vai se mudar ou está voltando ao Brasil. Entenda como o tempo contribuído conta — e fale diretamente com o advogado responsável quando precisar."
+            descricao="Você mora fora, vai se mudar ou está voltando ao Brasil. Entenda como o tempo contribuído conta e fale diretamente com o advogado responsável quando precisar."
             ctaLabel="Ver jornadas"
             ctaTo="/jornadas/$jornada"
             ctaParams={{ jornada: "moro-fora" }}
