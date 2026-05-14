@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { acordos, getAcordo } from "@/data/acordos";
 import { CTAMarcos } from "@/components/cta-marcos";
+import { ProContentLock } from "@/components/pro-content-lock";
 
 export const Route = createFileRoute("/acordos/$pais")({
   head: ({ params }) => {
@@ -111,16 +112,6 @@ function AcordoPais() {
                   </ul>
                 </Bloco>
 
-                <Bloco titulo="O que costuma ser exigido">
-                  <ul className="mt-2 space-y-1">
-                    {a.conteudo.exigencias.map((e: string) => (
-                      <li key={e} className="border-b border-border py-3 text-base">
-                        {e}
-                      </li>
-                    ))}
-                  </ul>
-                </Bloco>
-
                 <Bloco titulo="Como funciona a totalização">
                   <p className="text-lg leading-relaxed">{a.conteudo.totalizacao}</p>
                   <p className="mt-4 text-sm text-muted-foreground">
@@ -144,16 +135,43 @@ function AcordoPais() {
                     </p>
                   </aside>
                 )}
+
+                <Bloco titulo="Quando procurar um advogado">
+                  <p className="text-lg leading-relaxed">
+                    Indeferimentos, atrasos no protocolo internacional, erro
+                    no cálculo prorata, totalização negada por documentação
+                    estrangeira — situações em que orientação jurídica
+                    especializada faz diferença direta no benefício final.
+                  </p>
+                  <p className="mt-4 text-base text-muted-foreground">
+                    O Dr. Marcos atende casos ligados ao acordo Brasil–{a.nome}.
+                  </p>
+                </Bloco>
+
+                <ProContentLock
+                  contexto={`Ficha técnica completa · ${a.nome}`}
+                  itens={[
+                    `Texto integral do acordo Brasil–${a.nome} e do decreto de promulgação`,
+                    "Portarias do INSS aplicáveis, comentadas",
+                    "Documentos e formulários oficiais exigidos",
+                    "Modelos de petição e requerimento editáveis",
+                    "Calculadora de totalização específica",
+                    "Fluxograma processual passo a passo",
+                    "Jurisprudência relevante consolidada",
+                  ]}
+                />
               </>
             ) : (
               <Bloco titulo="Sobre este acordo">
                 <p className="text-lg leading-relaxed">{a.resumo}</p>
                 <p className="mt-6 text-base text-muted-foreground">
-                  Esta página será expandida em breve com benefícios cobertos,
-                  documentação exigida e particularidades da totalização. Se
+                  A versão pública desta página será expandida em breve. Se
                   você precisa de orientação imediata sobre um caso ligado a{" "}
                   {a.nome}, fale com o Dr. Marcos.
                 </p>
+                <div className="mt-8">
+                  <ProContentLock contexto={`Ficha técnica · ${a.nome}`} />
+                </div>
               </Bloco>
             )}
           </div>
