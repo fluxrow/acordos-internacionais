@@ -47,14 +47,14 @@ function SobreMarcos() {
             <p>
               A informação sobre acordos internacionais do INSS está
               fragmentada entre o gov.br, portarias dispersas e literatura
-              especializada. O hub nasceu para juntar tudo num único lugar —
-              em linguagem clara para o cidadão e em profundidade técnica para
+              especializada. O hub nasceu para juntar tudo num único lugar: em
+              linguagem clara para o cidadão e em profundidade técnica para
               o advogado.
             </p>
           </Bloco>
           <Bloco titulo="Como falar comigo">
             <p>
-              A melhor forma é pelo formulário de contato — cada pedido é lido
+              A melhor forma é pelo formulário de contato. Cada pedido é lido
               pessoalmente. Para advogados, há também o{" "}
               <Link to="/profissional" className="ink-link">
                 hub profissional

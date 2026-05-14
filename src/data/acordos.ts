@@ -68,7 +68,7 @@ export const acordos: Acordo[] = [
     tipo: "bilateral",
     docs: 1,
     status: "incompleto",
-    resumo: "Documentação ainda em organização — informações preliminares.",
+    resumo: "Documentação ainda em organização. Informações preliminares.",
   },
   {
     slug: "cabo-verde",
@@ -172,7 +172,7 @@ export const acordos: Acordo[] = [
     status: "vigente",
     vigencia: "1977",
     resumo:
-      "Acordo histórico vigente desde 1977 — um dos mais antigos da rede brasileira.",
+      "Acordo histórico vigente desde 1977, um dos mais antigos da rede brasileira.",
   },
   {
     slug: "japao",

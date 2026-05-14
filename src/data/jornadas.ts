@@ -13,7 +13,7 @@ export const jornadas: Jornada[] = [
     titulo: "Vou me mudar para outro país",
     publico: "Brasileiros em vias de mudança internacional",
     resumo:
-      "Antes de embarcar, garanta que seus anos de contribuição no Brasil contem lá fora — e vice-versa.",
+      "Antes de embarcar, garanta que seus anos de contribuição no Brasil contem lá fora, e vice-versa.",
     passos: [
       {
         titulo: "Confirme se há acordo",
@@ -43,7 +43,7 @@ export const jornadas: Jornada[] = [
     titulo: "Já moro no exterior",
     publico: "Brasileiros que vivem fora do Brasil",
     resumo:
-      "Da prova de vida ao planejamento da aposentadoria — o que muda quando o INSS é acessado de outro país.",
+      "Da prova de vida ao planejamento da aposentadoria: o que muda quando o INSS é acessado de outro país.",
     passos: [
       {
         titulo: "Faça a prova de vida certa",
@@ -87,7 +87,7 @@ export const jornadas: Jornada[] = [
       {
         titulo: "Protocole a totalização no INSS",
         descricao:
-          "Pelo Meu INSS ou em uma APS — o INSS oficia o país acordante e calcula a parte proporcional brasileira.",
+          "Pelo Meu INSS ou em uma APS, o INSS oficia o país acordante e calcula a parte proporcional brasileira.",
       },
       {
         titulo: "Acompanhe o processo",

@@ -34,7 +34,7 @@ export function ProContentLock({
       </div>
 
       <p className="mt-4 max-w-2xl text-sm text-muted-foreground">
-        A profundidade técnica deste país está reservada à área profissional —
+        A profundidade técnica deste país está reservada à área profissional,
         feita para advogados que conduzem casos sob o acordo.
       </p>
 
