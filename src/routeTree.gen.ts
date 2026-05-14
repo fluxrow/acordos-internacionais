@@ -10,33 +10,53 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AcordosIndexRouteImport } from './routes/acordos.index'
+import { Route as AcordosPaisRouteImport } from './routes/acordos.$pais'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AcordosIndexRoute = AcordosIndexRouteImport.update({
+  id: '/acordos/',
+  path: '/acordos/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AcordosPaisRoute = AcordosPaisRouteImport.update({
+  id: '/acordos/$pais',
+  path: '/acordos/$pais',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/acordos/$pais': typeof AcordosPaisRoute
+  '/acordos/': typeof AcordosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/acordos/$pais': typeof AcordosPaisRoute
+  '/acordos': typeof AcordosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/acordos/$pais': typeof AcordosPaisRoute
+  '/acordos/': typeof AcordosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/acordos/$pais' | '/acordos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/acordos/$pais' | '/acordos'
+  id: '__root__' | '/' | '/acordos/$pais' | '/acordos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AcordosPaisRoute: typeof AcordosPaisRoute
+  AcordosIndexRoute: typeof AcordosIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,12 +68,38 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/acordos/': {
+      id: '/acordos/'
+      path: '/acordos'
+      fullPath: '/acordos/'
+      preLoaderRoute: typeof AcordosIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/acordos/$pais': {
+      id: '/acordos/$pais'
+      path: '/acordos/$pais'
+      fullPath: '/acordos/$pais'
+      preLoaderRoute: typeof AcordosPaisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AcordosPaisRoute: AcordosPaisRoute,
+  AcordosIndexRoute: AcordosIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
