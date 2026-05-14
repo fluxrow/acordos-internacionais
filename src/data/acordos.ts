@@ -17,11 +17,16 @@ export interface Acordo {
 }
 
 export interface ConteudoPais {
+  // Bloco PÚBLICO — conceitual, suficiente para o cidadão decidir contratar
   destaque: string;
   beneficios: string[];
-  exigencias: string[];
   totalizacao: string;
   curiosidade?: string;
+  // Bloco PRO — itens trancados; não renderizados na rota pública
+  pro?: {
+    exigencias?: string[];
+    extras?: string[];
+  };
 }
 
 export const acordos: Acordo[] = [
