@@ -136,9 +136,8 @@ function AcordosIndex() {
                     )}
                   </div>
                   <p className="text-sm opacity-80">{a.resumo}</p>
-                  <div className="mt-auto flex items-center justify-between border-t border-border pt-3 text-xs opacity-70 transition-colors group-hover:border-background/30">
-                    <span>{a.docs} documento{a.docs === 1 ? "" : "s"}</span>
-                    <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
+                  <div className="mt-auto flex items-center justify-end border-t border-border pt-3 text-xs opacity-70 transition-colors group-hover:border-background/30">
+                    <span aria-hidden className="transition-transform group-hover:translate-x-1">Ver país →</span>
                   </div>
                 </Link>
               </li>
