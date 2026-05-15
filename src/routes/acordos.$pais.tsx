@@ -32,6 +32,51 @@ export const Route = createFileRoute("/acordos/$pais")({
         { name: "twitter:image", content: ogImage },
       ],
       links: [{ rel: "canonical", href: url }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "Article",
+                headline: title,
+                description: desc,
+                inLanguage: "pt-BR",
+                image: ogImage,
+                mainEntityOfPage: url,
+                url,
+                about: `Acordo internacional de previdência social entre Brasil e ${a.nome}`,
+                isPartOf: { "@id": "https://acordo-internacional.lovable.app/#website" },
+                publisher: { "@id": "https://acordo-internacional.lovable.app/#organization" },
+              },
+              {
+                "@type": "BreadcrumbList",
+                itemListElement: [
+                  {
+                    "@type": "ListItem",
+                    position: 1,
+                    name: "Início",
+                    item: "https://acordo-internacional.lovable.app/",
+                  },
+                  {
+                    "@type": "ListItem",
+                    position: 2,
+                    name: "Países",
+                    item: "https://acordo-internacional.lovable.app/acordos",
+                  },
+                  {
+                    "@type": "ListItem",
+                    position: 3,
+                    name: a.nome,
+                    item: url,
+                  },
+                ],
+              },
+            ],
+          }),
+        },
+      ],
     };
   },
   loader: ({ params }) => {
