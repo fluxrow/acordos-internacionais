@@ -47,8 +47,8 @@ export const Route = createFileRoute("/acordos/$pais")({
                 mainEntityOfPage: url,
                 url,
                 about: `Acordo internacional de previdência social entre Brasil e ${a.nome}`,
-                isPartOf: { "@id": "https://acordo-internacional.lovable.app/#website" },
-                publisher: { "@id": "https://acordo-internacional.lovable.app/#organization" },
+                isPartOf: { "@id": "https://acordosinternacionais.lovable.app/#website" },
+                publisher: { "@id": "https://acordosinternacionais.lovable.app/#organization" },
               },
               {
                 "@type": "BreadcrumbList",
@@ -57,13 +57,13 @@ export const Route = createFileRoute("/acordos/$pais")({
                     "@type": "ListItem",
                     position: 1,
                     name: "Início",
-                    item: "https://acordo-internacional.lovable.app/",
+                    item: "https://acordosinternacionais.lovable.app/",
                   },
                   {
                     "@type": "ListItem",
                     position: 2,
                     name: "Países",
-                    item: "https://acordo-internacional.lovable.app/acordos",
+                    item: "https://acordosinternacionais.lovable.app/acordos",
                   },
                   {
                     "@type": "ListItem",
