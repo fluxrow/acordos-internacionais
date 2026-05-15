@@ -47,7 +47,7 @@ const checks: Array<[RegExp, string]> = [
   [/property:\s*["']og:image:height["']/, "rota não declara og:image:height"],
   [/name:\s*["']twitter:image["']/, "rota não emite name twitter:image"],
   [/rel:\s*["']canonical["']/, "rota não emite link canonical"],
-  [/acordo-internacional\.lovable\.app/, "rota não usa o domínio canônico"],
+  [/acordosinternacionais\.lovable\.app/, "rota não usa o domínio canônico"],
 ];
 for (const [re, msg] of checks) {
   if (!re.test(route)) errors.push(msg);
