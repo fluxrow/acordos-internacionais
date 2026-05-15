@@ -78,7 +78,7 @@ const SITE_TITLE =
   "Acordo Internacional — Acordos previdenciários para brasileiros no exterior";
 const SITE_DESC =
   "Acordo Internacional reúne os acordos previdenciários bilaterais do Brasil, totalização de períodos e o hub profissional para advogados previdenciaristas.";
-const OG_IMAGE = "/og-image.jpg";
+const OG_IMAGE = "https://acordo-internacional.lovable.app/og-image.jpg";
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({

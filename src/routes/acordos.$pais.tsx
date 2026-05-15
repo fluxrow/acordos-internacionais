@@ -8,21 +8,30 @@ export const Route = createFileRoute("/acordos/$pais")({
     const a = getAcordo(params.pais);
     if (!a) {
       return {
-        meta: [{ title: "País não encontrado | Acordos Internacionais" }],
+        meta: [{ title: "País não encontrado | Acordo Internacional" }],
       };
     }
-    const title = `Acordo de Previdência Brasil – ${a.nome}`;
+    const title = `Acordo de Previdência Brasil–${a.nome} | Acordo Internacional`;
     const desc = a.conteudo?.destaque ?? a.resumo;
+    const url = `https://acordo-internacional.lovable.app/acordos/${a.slug}`;
+    const flag = a.iso ? `https://flagcdn.com/w1280/${a.iso}.png` : null;
     return {
       meta: [
         { title },
         { name: "description", content: desc },
         { property: "og:title", content: title },
         { property: "og:description", content: desc },
-        ...(a.iso
-          ? [{ property: "og:image", content: `https://flagcdn.com/w640/${a.iso}.png` }]
+        { property: "og:url", content: url },
+        { property: "og:type", content: "article" },
+        ...(flag
+          ? [
+              { property: "og:image", content: flag },
+              { property: "og:image:alt", content: `Bandeira de ${a.nome}` },
+              { name: "twitter:image", content: flag },
+            ]
           : []),
       ],
+      links: [{ rel: "canonical", href: url }],
     };
   },
   loader: ({ params }) => {
