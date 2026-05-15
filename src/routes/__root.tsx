@@ -75,9 +75,10 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 const SITE_TITLE =
-  "Acordos Internacionais de Previdência Social | Brasil";
+  "Acordo Internacional — Acordos previdenciários para brasileiros no exterior";
 const SITE_DESC =
-  "Hub de referência sobre os acordos previdenciários internacionais do Brasil. Conteúdo claro para o cidadão e base técnica para advogados previdenciaristas.";
+  "Acordo Internacional reúne os acordos previdenciários bilaterais do Brasil, totalização de períodos e o hub profissional para advogados previdenciaristas.";
+const OG_IMAGE = "/og-image.jpg";
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
@@ -86,19 +87,24 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: SITE_TITLE },
       { name: "description", content: SITE_DESC },
-      { name: "author", content: "Acordos Internacionais" },
+      { name: "author", content: "AtlasPrev" },
       { name: "robots", content: "index, follow" },
       { property: "og:title", content: SITE_TITLE },
       { property: "og:description", content: SITE_DESC },
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "pt_BR" },
-      { property: "og:site_name", content: "Acordos Internacionais" },
+      { property: "og:site_name", content: "Acordo Internacional" },
+      { property: "og:image", content: OG_IMAGE },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: SITE_TITLE },
       { name: "twitter:description", content: SITE_DESC },
+      { name: "twitter:image", content: OG_IMAGE },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      { rel: "icon", href: "/favicon.ico", sizes: "any" },
+      { rel: "icon", type: "image/png", href: "/icon.png" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://flagcdn.com" },
     ],
