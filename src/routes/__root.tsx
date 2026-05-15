@@ -148,9 +148,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
                 { "@type": "Country", name: "Brasil" },
                 { "@type": "Place", name: "Países com acordo previdenciário com o Brasil" },
               ],
-              // sameAs: preencher com perfis oficiais quando disponíveis
+              // sameAs: adicionar URLs oficiais aqui quando disponíveis
               // (Instagram, LinkedIn AtlasPrev, YouTube, OAB, site institucional).
-              sameAs: [],
+              // Ex.: sameAs: ["https://www.linkedin.com/company/atlasprev", ...]
             },
             {
               "@type": "WebSite",
