@@ -27,49 +27,46 @@ while IFS='|' read -r slug iso nome tipo vigencia; do
   meta="$tipo_label"
   [ -n "$vigencia" ] && meta="$meta · desde $vigencia"
 
-  # Composite: build pieces then merge
-  # 1. Background canvas
+  # 1. Background canvas + brand block on left
   $MAGICK -size 1200x630 "xc:$BG" \
-    \
     -font Liberation-Serif-Bold -fill "$NAVY" \
     -gravity NorthWest -pointsize 180 -annotate +90+130 "AI" \
-    \
     -font Liberation-Sans-Bold -pointsize 22 \
     -annotate +95+340 "ACORDO INTERNACIONAL" \
-    \
     -stroke "$NAVY" -strokewidth 3 -fill none \
     -draw "path 'M 100,420 Q 200,460 300,420'" \
     -draw "circle 100,420 100,425" \
     -draw "circle 300,420 300,425" \
     -stroke none \
-    \
     -fill "#d4ccc1" \
     -draw "rectangle 470,90 472,540" \
-    \
     -font Liberation-Sans-Bold -fill "$NAVY" -pointsize 20 \
     -annotate +540+150 "ACORDO PREVIDENCIÁRIO" \
-    \
-    -font Liberation-Serif-Bold -pointsize 78 \
-    -annotate +540+260 "Brasil–$nome" \
-    \
     -font Liberation-Sans -fill "$MUTED" -pointsize 28 \
     -annotate +540+330 "$meta" \
-    \
     -font Liberation-Sans-Bold -fill "$MUTED" -pointsize 16 \
     -gravity SouthEast -annotate +60+40 "BY  ATLASPREV" \
-    \
     /tmp/og-base-$slug.png
 
-  # 2. Flag (resize to ~280 wide, add subtle border) and composite into right column
+  # 2. Title rendered as auto-fitting caption (scales to box)
+  $MAGICK -background "$BG" -fill "$NAVY" \
+    -font Liberation-Serif-Bold \
+    -size 620x90 -gravity West \
+    caption:"Brasil–$nome" \
+    /tmp/og-title-$slug.png
+
+  # 3. Flag with subtle border
   $MAGICK "$flag" -resize 280x \
     -bordercolor "#d4ccc1" -border 1 \
     /tmp/og-flag-$slug.png
 
-  $MAGICK /tmp/og-base-$slug.png /tmp/og-flag-$slug.png \
-    -geometry +540+400 -composite \
+  # 4. Composite title + flag onto base
+  $MAGICK /tmp/og-base-$slug.png \
+    /tmp/og-title-$slug.png -geometry +540+200 -composite \
+    /tmp/og-flag-$slug.png  -geometry +540+400 -composite \
     -quality 88 "$OUT/$slug.jpg"
 
-  rm -f /tmp/og-base-$slug.png /tmp/og-flag-$slug.png
+  rm -f /tmp/og-base-$slug.png /tmp/og-title-$slug.png /tmp/og-flag-$slug.png
 done <<< "$DATA"
 
 echo "Done. Generated $(ls $OUT | wc -l) images."
