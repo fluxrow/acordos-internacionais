@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "check:og": "bun scripts/check-og.ts"
+    "check:og": "bun scripts/check-og.ts",
+    "check:brand": "bun scripts/check-brand.ts"
   },
   "dependencies": {
     "@cloudflare/vite-plugin": "^1.25.5",
