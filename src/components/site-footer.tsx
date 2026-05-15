@@ -7,7 +7,7 @@ export function SiteFooter() {
         <div className="grid gap-12 md:grid-cols-4">
           <div className="md:col-span-2">
             <p className="font-display text-2xl font-semibold leading-tight text-foreground">
-              Acordo Internacional
+              Acordos Internacionais
             </p>
             <p className="mt-4 max-w-md text-sm text-muted-foreground">
               Acordos previdenciários bilaterais do Brasil, totalização de
