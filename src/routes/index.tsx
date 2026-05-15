@@ -166,6 +166,23 @@ function Home() {
               </li>
             ))}
           </ul>
+
+          <div className="mt-10 flex flex-col gap-3 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="eyebrow">Para advogados</p>
+              <p className="mt-2 max-w-xl text-sm text-muted-foreground">
+                Cada país abre uma vitrine pública. A profundidade técnica
+                (texto integral, portarias, modelos, calculadora, jurisprudência)
+                fica no Hub Profissional.
+              </p>
+            </div>
+            <Link
+              to="/profissional"
+              className="text-sm underline underline-offset-4 hover:text-destructive"
+            >
+              Conhecer o hub →
+            </Link>
+          </div>
         </div>
       </section>
 
