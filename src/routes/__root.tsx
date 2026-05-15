@@ -120,8 +120,37 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
               name: "Acordo Internacional",
               alternateName: "Acordo Internacional by AtlasPrev",
               url: "https://acordo-internacional.lovable.app",
-              logo: "https://acordo-internacional.lovable.app/icon.png",
-              parentOrganization: { "@type": "Organization", name: "AtlasPrev" },
+              logo: {
+                "@type": "ImageObject",
+                url: "https://acordo-internacional.lovable.app/icon.png",
+                width: 512,
+                height: 512,
+              },
+              image: "https://acordo-internacional.lovable.app/og-image.jpg",
+              description:
+                "Plataforma de referência sobre os acordos previdenciários internacionais firmados pelo Brasil — totalização de períodos, benefícios e hub profissional para advogados.",
+              slogan: "Acordos previdenciários do Brasil, sem juridiquês.",
+              parentOrganization: {
+                "@type": "Organization",
+                name: "AtlasPrev",
+              },
+              knowsLanguage: ["pt-BR", "pt", "en", "es"],
+              knowsAbout: [
+                "Acordo internacional de previdência social",
+                "Totalização de períodos contributivos",
+                "Aposentadoria internacional",
+                "INSS para brasileiros no exterior",
+                "Certificado de Deslocamento Temporário",
+                "Prova de vida no exterior",
+                "Direito previdenciário internacional",
+              ],
+              areaServed: [
+                { "@type": "Country", name: "Brasil" },
+                { "@type": "Place", name: "Países com acordo previdenciário com o Brasil" },
+              ],
+              // sameAs: preencher com perfis oficiais quando disponíveis
+              // (Instagram, LinkedIn AtlasPrev, YouTube, OAB, site institucional).
+              sameAs: [],
             },
             {
               "@type": "WebSite",
