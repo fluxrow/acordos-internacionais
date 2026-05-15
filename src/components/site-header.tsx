@@ -40,7 +40,7 @@ export function SiteHeader() {
             className="text-foreground/80 transition-colors hover:text-foreground"
             activeProps={{ className: "text-foreground underline underline-offset-8" }}
           >
-            Dr. Marcos
+            Dr. Marcos Espínola
           </Link>
           <Link
             to="/profissional"

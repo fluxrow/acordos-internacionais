@@ -36,7 +36,7 @@ export const jornadas: Jornada[] = [
           "Estude se vale manter recolhimento como facultativo no Brasil enquanto estiver fora.",
       },
     ],
-    cta: "Tem dúvidas no seu caso? Fale com o Dr. Marcos.",
+    cta: "Tem dúvidas no seu caso? Fale com o Dr. Marcos Espínola.",
   },
   {
     slug: "moro-fora",
@@ -65,7 +65,7 @@ export const jornadas: Jornada[] = [
           "Entenda como o tempo contribuído fora se combinará com o INSS quando chegar a hora.",
       },
     ],
-    cta: "Quer revisar seu plano? Fale com o Dr. Marcos.",
+    cta: "Quer revisar seu plano? Fale com o Dr. Marcos Espínola.",
   },
   {
     slug: "estou-voltando",
@@ -95,7 +95,7 @@ export const jornadas: Jornada[] = [
           "Processos internacionais são mais lentos. Acompanhe e tenha apoio jurídico se houver demora indevida.",
       },
     ],
-    cta: "Demora ou indeferimento? Fale com o Dr. Marcos.",
+    cta: "Demora ou indeferimento? Fale com o Dr. Marcos Espínola.",
   },
   {
     slug: "quero-me-aposentar",
@@ -125,7 +125,7 @@ export const jornadas: Jornada[] = [
           "Em alguns casos vale mais aposentar pelas regras de cada país separadamente. Análise técnica é essencial.",
       },
     ],
-    cta: "Quer simular seu caso? Fale com o Dr. Marcos.",
+    cta: "Quer simular seu caso? Fale com o Dr. Marcos Espínola.",
   },
 ];
 

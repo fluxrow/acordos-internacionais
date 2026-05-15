@@ -16,13 +16,13 @@ export function CTAMarcos({ variant = "card", contexto }: CTAMarcosProps) {
           </h2>
           <p className="lede mx-auto mt-4 max-w-xl">
             {contexto ??
-              "O Dr. Marcos é especialista em acordos internacionais de previdência. Conte sua situação e receba um retorno qualificado."}
+              "O Dr. Marcos Espínola é especialista em acordos internacionais de previdência. Conte sua situação e receba um retorno qualificado."}
           </p>
           <Link
             to="/contato"
             className="mt-8 inline-flex items-center gap-2 rounded-sm bg-foreground px-6 py-3 text-sm font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-foreground/85"
           >
-            Falar com o Dr. Marcos
+            Falar com o Dr. Marcos Espínola
             <span aria-hidden>→</span>
           </Link>
         </div>
@@ -37,7 +37,7 @@ export function CTAMarcos({ variant = "card", contexto }: CTAMarcosProps) {
         Dúvidas no seu caso?
       </p>
       <p className="mt-2 text-sm text-muted-foreground">
-        {contexto ?? "Fale com o Dr. Marcos, advogado responsável."}
+        {contexto ?? "Fale com o Dr. Marcos Espínola, advogado responsável."}
       </p>
       <Link
         to="/contato"

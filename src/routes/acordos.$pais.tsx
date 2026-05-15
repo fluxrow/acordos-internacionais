@@ -202,7 +202,7 @@ function AcordoPais() {
                 <p className="mt-6 text-base text-muted-foreground">
                   A versão pública desta página será expandida em breve. Se
                   você precisa de orientação imediata sobre um caso ligado a{" "}
-                  {a.nome}, fale com o Dr. Marcos.
+                  {a.nome}, fale com o Dr. Marcos Espínola.
                 </p>
                 <div className="mt-8">
                   <ProContentLock contexto={`Ficha técnica · ${a.nome}`} />
@@ -213,7 +213,7 @@ function AcordoPais() {
 
           <aside className="space-y-6 md:sticky md:top-6 md:self-start">
             <CTAMarcos
-              contexto={`Tem um caso ligado ao acordo Brasil–${a.nome}? Fale com o Dr. Marcos.`}
+              contexto={`Tem um caso ligado ao acordo Brasil–${a.nome}? Fale com o Dr. Marcos Espínola.`}
             />
             <div className="border border-border p-6">
               <p className="eyebrow">Próximos passos</p>
