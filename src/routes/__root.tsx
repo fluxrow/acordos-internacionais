@@ -75,10 +75,9 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 const SITE_TITLE =
-  "Acordo Internacional — Acordos previdenciários para brasileiros no exterior";
+  "Acordos Internacionais de Previdência Social | Brasil";
 const SITE_DESC =
-  "Acordo Internacional reúne os acordos previdenciários bilaterais do Brasil, totalização de períodos e o hub profissional para advogados previdenciaristas.";
-const OG_IMAGE = "https://acordo-internacional.lovable.app/og-image.jpg";
+  "Hub de referência sobre os acordos previdenciários internacionais do Brasil. Conteúdo claro para o cidadão e base técnica para advogados previdenciaristas.";
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
@@ -87,83 +86,29 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: SITE_TITLE },
       { name: "description", content: SITE_DESC },
-      { name: "author", content: "AtlasPrev" },
+      { name: "author", content: "Acordos Internacionais" },
       { name: "robots", content: "index, follow" },
       { property: "og:title", content: SITE_TITLE },
       { property: "og:description", content: SITE_DESC },
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "pt_BR" },
-      { property: "og:site_name", content: "Acordo Internacional" },
-      { property: "og:image", content: OG_IMAGE },
+      { property: "og:site_name", content: "Acordos Internacionais" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: SITE_TITLE },
       { name: "twitter:description", content: SITE_DESC },
-      { name: "twitter:image", content: OG_IMAGE },
+      { title: "Lovable App" },
+      { property: "og:title", content: "Lovable App" },
+      { name: "twitter:title", content: "Lovable App" },
+      { name: "description", content: "International Agreements Hub: Your guide to international legal agreements and relocation." },
+      { property: "og:description", content: "International Agreements Hub: Your guide to international legal agreements and relocation." },
+      { name: "twitter:description", content: "International Agreements Hub: Your guide to international legal agreements and relocation." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/46d4b385-b728-4144-a472-78583caf31a9/id-preview-78741ba4--76f6b88b-6d5f-448f-9e82-973d3ae6da41.lovable.app-1778844192909.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/46d4b385-b728-4144-a472-78583caf31a9/id-preview-78741ba4--76f6b88b-6d5f-448f-9e82-973d3ae6da41.lovable.app-1778844192909.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: "/favicon.ico", sizes: "any" },
-      { rel: "icon", type: "image/png", href: "/icon.png" },
-      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://flagcdn.com" },
-    ],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@graph": [
-            {
-              "@type": "Organization",
-              "@id": "https://acordo-internacional.lovable.app/#organization",
-              name: "Acordo Internacional",
-              alternateName: "Acordo Internacional by AtlasPrev",
-              url: "https://acordo-internacional.lovable.app",
-              logo: {
-                "@type": "ImageObject",
-                url: "https://acordo-internacional.lovable.app/icon.png",
-                width: 512,
-                height: 512,
-              },
-              image: "https://acordo-internacional.lovable.app/og-image.jpg",
-              description:
-                "Plataforma de referência sobre os acordos previdenciários internacionais firmados pelo Brasil — totalização de períodos, benefícios e hub profissional para advogados.",
-              slogan: "Acordos previdenciários do Brasil, sem juridiquês.",
-              parentOrganization: {
-                "@type": "Organization",
-                name: "AtlasPrev",
-              },
-              knowsLanguage: ["pt-BR", "pt", "en", "es"],
-              knowsAbout: [
-                "Acordo internacional de previdência social",
-                "Totalização de períodos contributivos",
-                "Aposentadoria internacional",
-                "INSS para brasileiros no exterior",
-                "Certificado de Deslocamento Temporário",
-                "Prova de vida no exterior",
-                "Direito previdenciário internacional",
-              ],
-              areaServed: [
-                { "@type": "Country", name: "Brasil" },
-                { "@type": "Place", name: "Países com acordo previdenciário com o Brasil" },
-              ],
-              // sameAs: adicionar URLs oficiais aqui quando disponíveis
-              // (Instagram, LinkedIn AtlasPrev, YouTube, OAB, site institucional).
-              // Ex.: sameAs: ["https://www.linkedin.com/company/atlasprev", ...]
-            },
-            {
-              "@type": "WebSite",
-              "@id": "https://acordo-internacional.lovable.app/#website",
-              url: "https://acordo-internacional.lovable.app",
-              name: "Acordo Internacional",
-              description: SITE_DESC,
-              inLanguage: "pt-BR",
-              publisher: { "@id": "https://acordo-internacional.lovable.app/#organization" },
-            },
-          ],
-        }),
-      },
     ],
   }),
   shellComponent: RootShell,
