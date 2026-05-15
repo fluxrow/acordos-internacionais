@@ -6,7 +6,7 @@ export function SiteHeader() {
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
         <Link to="/" className="group flex items-baseline gap-3">
           <span className="font-display text-xl font-semibold tracking-tight text-foreground">
-            Acordos Internacionais
+            Acordo Internacional
           </span>
           <span className="hidden text-[10px] uppercase tracking-[0.18em] text-muted-foreground sm:inline">
             Previdência · BR
