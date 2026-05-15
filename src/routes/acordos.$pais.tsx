@@ -14,7 +14,9 @@ export const Route = createFileRoute("/acordos/$pais")({
     const title = `Acordo de Previdência Brasil–${a.nome} | Acordo Internacional`;
     const desc = a.conteudo?.destaque ?? a.resumo;
     const url = `https://acordo-internacional.lovable.app/acordos/${a.slug}`;
-    const flag = a.iso ? `https://flagcdn.com/w1280/${a.iso}.png` : null;
+    const ogImage = a.iso
+      ? `https://acordo-internacional.lovable.app/og/${a.slug}.jpg`
+      : "https://acordo-internacional.lovable.app/og-image.jpg";
     return {
       meta: [
         { title },
@@ -23,13 +25,11 @@ export const Route = createFileRoute("/acordos/$pais")({
         { property: "og:description", content: desc },
         { property: "og:url", content: url },
         { property: "og:type", content: "article" },
-        ...(flag
-          ? [
-              { property: "og:image", content: flag },
-              { property: "og:image:alt", content: `Bandeira de ${a.nome}` },
-              { name: "twitter:image", content: flag },
-            ]
-          : []),
+        { property: "og:image", content: ogImage },
+        { property: "og:image:width", content: "1200" },
+        { property: "og:image:height", content: "630" },
+        { property: "og:image:alt", content: `Acordo de Previdência Brasil–${a.nome}` },
+        { name: "twitter:image", content: ogImage },
       ],
       links: [{ rel: "canonical", href: url }],
     };
