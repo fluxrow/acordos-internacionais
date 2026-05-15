@@ -52,6 +52,19 @@ const PATTERNS: Array<{ name: string; re: RegExp }> = [
     re: /acordo-internacional\.lovable\.app/i,
   },
   {
+    // Qualquer slug/caminho/parâmetro contendo "acordo-internacional"
+    // (singular, com hífen) — ex.: /acordo-internacional, og/acordo-internacional.jpg,
+    // ?ref=acordo-internacional, "slug": "acordo-internacional", etc.
+    name: 'slug/caminho antigo "acordo-internacional"',
+    re: /acordo-internacional/i,
+  },
+  {
+    // Variações comuns por erro de digitação ou colagem antiga
+    // ("acorde-internacional", "acordo_internacional", "acordointernacional").
+    name: 'variação antiga do slug (acorde-/acordo_/acordointernacional)',
+    re: /\b(?:acorde[-_]internacional|acordo_internacional|acordointernacional)\b/i,
+  },
+  {
     // Captura "Acordo Internacional" no singular como nome próprio
     // (com inicial maiúscula em ambas as palavras), evitando frases
     // técnicas como "um acordo internacional bilateral".
@@ -59,6 +72,7 @@ const PATTERNS: Array<{ name: string; re: RegExp }> = [
     re: /\bAcordo\s+Internacional\b(?!is)/,
   },
 ];
+
 
 function* walk(dir: string): Generator<string> {
   let entries;
