@@ -1,0 +1,25 @@
+name: OG image guard
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    paths:
+      - "src/data/acordos.ts"
+      - "src/routes/acordos.$pais.tsx"
+      - "public/og/**"
+      - "public/og-image.jpg"
+      - "scripts/check-og.ts"
+      - "scripts/build-og.sh"
+      - ".github/workflows/check-og.yml"
+
+jobs:
+  check-og:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Verificar OG images por país
+        run: bun run check:og
