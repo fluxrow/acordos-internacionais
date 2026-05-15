@@ -101,7 +101,7 @@ function Home() {
             ctaLabel="Ver jornadas"
             ctaTo="/jornadas/$jornada"
             ctaParams={{ jornada: "moro-fora" }}
-            secondaryLabel="Falar com o Dr. Marcos"
+            secondaryLabel="Falar com o Dr. Marcos Espínola"
             secondaryTo="/contato"
           />
           <PathCard
@@ -111,7 +111,7 @@ function Home() {
             descricao="Base técnica completa por país: portarias comentadas, modelos de petição, jurisprudência, calculadoras e fluxogramas. Acesso vitalício, atualização contínua."
             ctaLabel="Conhecer o hub"
             ctaTo="/profissional"
-            secondaryLabel="Sobre o Dr. Marcos"
+            secondaryLabel="Sobre o Dr. Marcos Espínola"
             secondaryTo="/sobre/dr-marcos"
             inverso
           />

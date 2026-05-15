@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { acordos } from "@/data/acordos";
 
-const TITLE = "Falar com o Dr. Marcos | Acordos Internacionais";
+const TITLE = "Falar com o Dr. Marcos Espínola | Acordos Internacionais";
 const DESC =
   "Conte sua situação envolvendo acordos previdenciários internacionais e receba um retorno qualificado.";
 
@@ -48,7 +48,7 @@ function Contato() {
         <div className="mx-auto max-w-4xl px-6 py-16 md:py-20">
           <p className="eyebrow">Atendimento direto</p>
           <h1 className="mt-4 font-display text-4xl md:text-6xl">
-            Falar com o Dr. Marcos
+            Falar com o Dr. Marcos Espínola
           </h1>
           <p className="lede mt-6 max-w-2xl">
             Conte sua situação. Quanto mais contexto, melhor o retorno. Cada
@@ -156,7 +156,7 @@ function Contato() {
             </button>
 
             <p className="text-xs text-muted-foreground">
-              Ao enviar, você concorda em ser contatado pelo Dr. Marcos sobre
+              Ao enviar, você concorda em ser contatado pelo Dr. Marcos Espínola sobre
               sua situação. Seus dados não são compartilhados com terceiros.
             </p>
           </form>

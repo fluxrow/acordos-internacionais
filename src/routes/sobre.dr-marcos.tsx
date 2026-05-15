@@ -65,7 +65,7 @@ function SobreMarcos() {
         </div>
 
         <aside className="md:sticky md:top-6 md:self-start">
-          <CTAMarcos contexto="Conte sua situação. Cada mensagem é lida pessoalmente pelo Dr. Marcos." />
+          <CTAMarcos contexto="Conte sua situação. Cada mensagem é lida pessoalmente pelo Dr. Marcos Espínola." />
         </aside>
       </section>
     </article>

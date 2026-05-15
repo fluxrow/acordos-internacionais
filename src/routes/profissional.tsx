@@ -102,7 +102,7 @@ function Profissional() {
             <ul className="space-y-2 text-sm">
               <li>· Acesso vitalício a todo o conteúdo</li>
               <li>· Atualizações regulatórias incluídas</li>
-              <li>· Newsletter interna do Dr. Marcos</li>
+              <li>· Newsletter interna do Dr. Marcos Espínola</li>
               <li>· Comunidade fechada (em breve)</li>
             </ul>
           </div>
@@ -155,7 +155,7 @@ function Profissional() {
             to="/sobre/dr-marcos"
             className="mt-12 inline-block underline underline-offset-4 hover:text-destructive"
           >
-            Conhecer o Dr. Marcos →
+            Conhecer o Dr. Marcos Espínola →
           </Link>
         </div>
       </section>

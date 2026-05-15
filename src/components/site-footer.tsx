@@ -49,7 +49,7 @@ export function SiteFooter() {
               </li>
               <li>
                 <Link to="/contato" className="hover:underline underline-offset-4">
-                  Falar com o Dr. Marcos
+                  Falar com o Dr. Marcos Espínola
                 </Link>
               </li>
             </ul>
@@ -65,7 +65,7 @@ export function SiteFooter() {
               </li>
               <li>
                 <Link to="/sobre/dr-marcos" className="hover:underline underline-offset-4">
-                  Sobre o Dr. Marcos
+                  Sobre o Dr. Marcos Espínola
                 </Link>
               </li>
               <li>
