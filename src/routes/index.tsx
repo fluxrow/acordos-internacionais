@@ -10,7 +10,7 @@ import {
 const TITLE = "Acordos Internacionais — Acordos previdenciários para brasileiros no exterior";
 const DESC =
   "Acordos Internacionais é a referência sobre os acordos previdenciários bilaterais do Brasil. Para o cidadão no exterior e para o advogado previdenciarista.";
-const OG_IMAGE = "https://acordosinternacionais.lovable.app/og-image.jpg";
+const OG_IMAGE = "https://acordosinternacionais.lovable.app/og-image.jpg?v=2";
 
 export const Route = createFileRoute("/")({
   head: () => ({
