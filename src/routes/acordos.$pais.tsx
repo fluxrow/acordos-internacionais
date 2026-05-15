@@ -15,8 +15,8 @@ export const Route = createFileRoute("/acordos/$pais")({
     const desc = a.conteudo?.destaque ?? a.resumo;
     const url = `https://acordosinternacionais.lovable.app/acordos/${a.slug}`;
     const ogImage = a.iso
-      ? `https://acordosinternacionais.lovable.app/og/${a.slug}.jpg`
-      : "https://acordosinternacionais.lovable.app/og-image.jpg";
+      ? `https://acordosinternacionais.lovable.app/og/${a.slug}.jpg?v=2`
+      : "https://acordosinternacionais.lovable.app/og-image.jpg?v=2";
     return {
       meta: [
         { title },
