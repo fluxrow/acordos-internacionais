@@ -108,6 +108,34 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://flagcdn.com" },
     ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Organization",
+              "@id": "https://acordo-internacional.lovable.app/#organization",
+              name: "Acordo Internacional",
+              alternateName: "Acordo Internacional by AtlasPrev",
+              url: "https://acordo-internacional.lovable.app",
+              logo: "https://acordo-internacional.lovable.app/icon.png",
+              parentOrganization: { "@type": "Organization", name: "AtlasPrev" },
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://acordo-internacional.lovable.app/#website",
+              url: "https://acordo-internacional.lovable.app",
+              name: "Acordo Internacional",
+              description: SITE_DESC,
+              inLanguage: "pt-BR",
+              publisher: { "@id": "https://acordo-internacional.lovable.app/#organization" },
+            },
+          ],
+        }),
+      },
+    ],
   }),
   shellComponent: RootShell,
   component: RootComponent,
