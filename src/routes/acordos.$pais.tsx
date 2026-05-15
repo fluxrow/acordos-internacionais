@@ -102,20 +102,10 @@ function AcordoPais() {
           <div className="space-y-12">
             {a.conteudo ? (
               <>
-                <Bloco titulo="Quais benefícios o acordo cobre">
-                  <ul className="mt-2 space-y-1">
-                    {a.conteudo.beneficios.map((b: string) => (
-                      <li key={b} className="border-b border-border py-3 text-base">
-                        {b}
-                      </li>
-                    ))}
-                  </ul>
-                </Bloco>
-
-                <Bloco titulo="Como funciona a totalização">
+                <Bloco titulo="Como funciona, em linhas gerais">
                   <p className="text-lg leading-relaxed">{a.conteudo.totalizacao}</p>
                   <p className="mt-4 text-sm text-muted-foreground">
-                    Veja em detalhe no guia{" "}
+                    Conceito geral no guia{" "}
                     <Link
                       to="/guias/$slug"
                       params={{ slug: "totalizacao" }}
@@ -136,28 +126,19 @@ function AcordoPais() {
                   </aside>
                 )}
 
-                <Bloco titulo="Quando procurar um advogado">
-                  <p className="text-lg leading-relaxed">
-                    Indeferimentos, atrasos no protocolo internacional, erro
-                    no cálculo prorata, totalização negada por documentação
-                    estrangeira: situações em que orientação jurídica
-                    especializada faz diferença direta no benefício final.
-                  </p>
-                  <p className="mt-4 text-base text-muted-foreground">
-                    O Dr. Marcos atende casos ligados ao acordo Brasil–{a.nome}.
-                  </p>
-                </Bloco>
-
                 <ProContentLock
-                  contexto={`Ficha técnica completa · ${a.nome}`}
+                  contexto={`Tudo sobre Brasil–${a.nome} no Hub Profissional`}
                   itens={[
+                    "Benefícios cobertos, destrinchados artigo por artigo",
+                    `Aplicação da totalização no acordo Brasil–${a.nome}, com exemplos de cálculo`,
                     `Texto integral do acordo Brasil–${a.nome} e do decreto de promulgação`,
                     "Portarias do INSS aplicáveis, comentadas",
                     "Documentos e formulários oficiais exigidos",
                     "Modelos de petição e requerimento editáveis",
-                    "Calculadora de totalização específica",
+                    "Calculadora de totalização e prorata",
                     "Fluxograma processual passo a passo",
                     "Jurisprudência relevante consolidada",
+                    "Quando e como acionar judicialmente",
                   ]}
                 />
               </>

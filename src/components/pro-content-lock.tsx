@@ -34,8 +34,9 @@ export function ProContentLock({
       </div>
 
       <p className="mt-4 max-w-2xl text-sm text-muted-foreground">
-        A profundidade técnica deste país está reservada à área profissional,
-        feita para advogados que conduzem casos sob o acordo.
+        Esta é a vitrine do que está dentro do Hub Profissional. A profundidade
+        técnica é reservada a advogados que conduzem casos sob o acordo,
+        com pagamento único e acesso vitalício.
       </p>
 
       <ul className="mt-6 grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2">

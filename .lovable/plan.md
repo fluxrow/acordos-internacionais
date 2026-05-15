@@ -1,83 +1,81 @@
+## Contexto
 
-# Ajuste de escopo: o que fica aberto vs o que vai para o hub pago
+Hoje, ao clicar num card de país na home, o usuário cai em `/acordos/portugal` (e similares) onde encontra: lista de benefícios, explicação de como funciona a totalização, curiosidade histórica, "quando procurar um advogado", CTA pro Dr. Marcos e só no final o `ProContentLock` da ficha técnica.
 
-Faz total sentido. Hoje o site público entrega quase tudo — não há razão para um advogado pagar R$ 1.997 se ele resolve no `/acordos/portugal` aberto. Precisamos rebalancear: a área pública vira **lead-gen para o Dr. Marcos** (suficiente para o cidadão decidir contratar, insuficiente para o advogado trabalhar), e a profundidade técnica fica atrás do paywall.
+O problema: muito desse conteúdo intermediário (totalização explicada, quando acionar advogado, benefícios destrinchados) é exatamente o que o **advogado** procura. Se está aberto, ele resolve o caso lendo a página pública e nunca compra o hub.
 
-## Princípio de divisão
+A regra que você definiu:
 
-> **Aberto** responde *"o que é, se eu tenho direito, e com quem falo".*
-> **Pago** responde *"como eu, advogado, executo o caso de ponta a ponta".*
+- **Cidadão final** vê o suficiente pra entender o que é o acordo e procurar ajuda.
+- **Advogado** vê uma vitrine do que tem dentro do hub e é levado pra página de compra.
 
-## Área aberta (PF + SEO) — o que fica
+## O que muda em cada página de país (`/acordos/$pais`)
 
-Mantém o tráfego orgânico e converte para o Marcos, sem entregar manual de trabalho.
+### Continua aberto (cidadão final)
 
-- **Home dual** (igual hoje)
-- **`/acordos`** — grid dos 25 países (nome, bandeira, status, 1 linha)
-- **`/acordos/{pais}`** — versão **resumida**:
-  - O que é o acordo (2–3 parágrafos)
-  - Principais benefícios cobertos (lista curta, sem detalhe técnico)
-  - "Quem deve procurar um advogado" + **CTA Marcos**
-  - Link "Sou advogado, quero a ficha técnica completa →" para `/profissional`
-- **`/jornadas/{jornada}`** — narrativa do cidadão (vou me mudar, moro fora, etc.) com CTA Marcos
-- **`/guias/{slug}`** — guias conceituais leigos (totalização explicada, prova de vida)
-- **`/glossario`** — termos básicos
-- **`/blog`** — SEO
-- **`/sobre/dr-marcos`**, **`/contato`**
-- **`/profissional`** — landing de venda do hub (preview do que tem dentro + checkout)
+- Hero: nome, bandeira, tipo (bilateral/multilateral), vigência, status.
+- Parágrafo único de resumo (`destaque` ou `resumo`).
+- Curiosidade histórica (quando existir) — é narrativa, não operacional.
+- CTA do Dr. Marcos no aside (cidadão com caso real).
+- Navegação entre países (anterior/próximo).
+- Links para jornadas e guia "Prova de vida" no aside.
 
-## Área pública — o que **sai** e vai para o hub
+### Sai da página pública (vai pro hub)
 
-Hoje as páginas-país abertas estão entregando coisa de hub. Remover da versão pública:
+- Lista detalhada de benefícios cobertos (vira bullet teaser dentro do lock).
+- Explicação de como funciona a totalização daquele país.
+- Bloco "Quando procurar um advogado" (é orientação técnica).
+- Ficha técnica completa (já estava trancada).
 
-- Texto integral do acordo / decreto / portaria
-- Lista de documentos oficiais com links
-- Tabela de benefícios detalhada (RMI, carência, regras de totalização caso a caso)
-- Procedimentos passo-a-passo de requerimento
-- Formulários oficiais e modelos
-- Comparativos entre países
-- Qualquer "ficha técnica"
+### Novo bloco central: "O que tem no hub sobre {país}"
 
-## Área profissional (`/app/*`, paywall) — o que entra
+Substitui o miolo técnico atual. Um único `ProContentLock` expandido, com:
 
-Tudo que foi removido do público + o que estava previsto na Fase 2:
+- Título: "Tudo sobre o acordo Brasil–{país} no Hub Profissional"
+- Lista visual do que está dentro (já existe no componente, refinar copy):
+  - Benefícios cobertos, destrinchados artigo por artigo
+  - Como aplicar a totalização neste acordo, com exemplos
+  - Texto integral do acordo + decreto
+  - Portarias do INSS comentadas
+  - Documentos e formulários oficiais
+  - Modelos de petição editáveis
+  - Calculadora de totalização e prorata
+  - Fluxograma processual
+  - Jurisprudência consolidada
+  - Quando e como acionar judicialmente
+- CTA principal: "Acessar o hub →" (leva pra `/profissional`, que já é a landing de venda).
+- Selo: "Pagamento único · acesso vitalício".
 
-- **`/app/paises/{pais}`** — ficha técnica completa: texto do acordo, decreto, portarias aplicáveis, benefícios cobertos com regras, documentos exigidos, formulários, prazos, autoridade competente, jurisprudência relevante
-- **`/app/portarias`** — atos normativos comentados
-- **`/app/modelos`** — petições, requerimentos, procurações
-- **`/app/calculadoras`** — totalização, conversão de tempo
-- **`/app/fluxogramas`** — passo-a-passo processual por país
-- **`/app/atualizacoes`** — changelog regulatório
-- **`/app/jurisprudencia`**
-- **`/app/conta`**
+## O que muda na home (`/`)
 
-## Sinalização visual no site público
+Os cards "Países em destaque" continuam mostrando: bandeira, nome, tipo, vigência. Isso é vitrine institucional, não conteúdo técnico — pode ficar.
 
-Para o advogado entender que tem mais lá dentro (sem o cidadão se sentir bloqueado):
+Adicionar **abaixo da grade de países em destaque** um bloco de transição claro:
 
-- Nas páginas-país abertas, no fim da seção: bloco discreto **"Conteúdo profissional"** listando *"Texto integral do acordo · Portarias comentadas · Modelos de petição · Calculadora de totalização · Fluxograma processual"* todos em cinza, com cadeado fino e CTA "Acessar o hub →"
-- Header ganha um link permanente "Hub profissional"
-- `/profissional` mostra screenshots reais (mockados na Fase 1) do que tem dentro
+- Eyebrow: "Para advogados"
+- Frase curta: "Cada país abre uma vitrine pública. A profundidade técnica fica no Hub Profissional."
+- Link discreto: "Conhecer o hub →"
 
-## Impacto na Fase 1 atual
+Isso resolve o desconforto visual de "abre tudo direto" — o usuário vê na home que existe uma camada paga antes mesmo de clicar.
 
-Trabalho a fazer agora (somente front, sem mexer em backend):
+## O que NÃO muda
 
-1. **`src/data/acordos.ts`** — separar campos em dois blocos: `public` (resumo, benefícios em linha, quando procurar advogado) e `pro` (texto do acordo, decreto, portarias, documentos, procedimentos). O `pro` fica no arquivo mas não é renderizado pela rota pública.
-2. **`src/routes/acordos.$pais.tsx`** — reescrever para consumir só o bloco `public` + adicionar bloco "Conteúdo profissional (cadeado)" + CTA Marcos no topo e fim.
-3. **`src/routes/acordos.index.tsx`** — remover qualquer detalhe técnico dos cards; deixar apenas país, bandeira, status, 1 linha.
-4. **`src/routes/jornadas.$jornada.tsx`** e **`src/routes/guias.$slug.tsx`** — revisar para não conter procedimento técnico; se contiver, mover para `pro` e substituir por linguagem leiga + CTA.
-5. **`src/components/site-header.tsx`** — adicionar link "Hub profissional".
-6. **`src/routes/profissional.tsx`** — reforçar a lista do que tem dentro (usando exatamente os itens removidos do público) + screenshots mockados.
-7. Novo componente **`<ProContentLock />`** reutilizável: bloco cinza com cadeado, lista de itens trancados, CTA "Acessar o hub".
+- Home não ganha nem perde countries cards.
+- `/acordos` (lista completa) continua igual — é catálogo institucional.
+- `/profissional` continua sendo a página de venda real do hub.
+- `ProContentLock` mantém o design atual; só ajusto a copy.
+- Jornadas e guias não são tocadas nesta rodada (são conteúdo pra cidadão final, já estão no escopo certo).
 
-## O que **não** muda
+## Arquivos afetados
 
-- Identidade Paper & Ink, fontes, tokens
-- Lista dos 25 acordos
-- Estrutura de rotas públicas
-- Plano de Fase 2 (auth + pagamento) segue como estava
+- `src/routes/acordos.$pais.tsx` — remover blocos "Benefícios", "Totalização" e "Quando procurar um advogado"; manter hero, curiosidade, aside; substituir miolo por `ProContentLock` expandido.
+- `src/components/pro-content-lock.tsx` — pequeno ajuste de copy do parágrafo introdutório pra reforçar tom de "vitrine de venda".
+- `src/routes/index.tsx` — adicionar um bloco curto de transição abaixo de "Países em destaque" sinalizando a camada paga.
 
-## Pergunta antes de implementar
+## Trade-off de SEO (para você decidir consciente)
 
-Confirma este corte? Ou quer ajustar onde fica a linha — por exemplo, manter "lista de documentos exigidos" no público (ajuda o cidadão a se preparar antes de falar com o Marcos) e trancar só o resto?
+Tirar a totalização e a lista de benefícios da página pública reduz o conteúdo indexável de cada país. O Google vai indexar bem menos cauda longa do tipo "como funciona totalização Brasil Portugal". Em troca, a página converte melhor pra venda do hub.
+
+Se quiser preservar SEO, posso manter **um parágrafo curto de totalização** aberto (genérico, sem mostrar o cálculo) e trancar só o aprofundamento. Me diz se prefere essa variante antes de eu implementar. 
+
+Pode seguir com essa sugestão de manter um pagarafl curto de totalização aberto 
