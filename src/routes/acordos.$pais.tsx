@@ -8,15 +8,15 @@ export const Route = createFileRoute("/acordos/$pais")({
     const a = getAcordo(params.pais);
     if (!a) {
       return {
-        meta: [{ title: "País não encontrado | Acordo Internacional" }],
+        meta: [{ title: "País não encontrado | Acordos Internacionais" }],
       };
     }
-    const title = `Acordo de Previdência Brasil–${a.nome} | Acordo Internacional`;
+    const title = `Acordo de Previdência Brasil–${a.nome} | Acordos Internacionais`;
     const desc = a.conteudo?.destaque ?? a.resumo;
-    const url = `https://acordo-internacional.lovable.app/acordos/${a.slug}`;
+    const url = `https://acordosinternacionais.lovable.app/acordos/${a.slug}`;
     const ogImage = a.iso
-      ? `https://acordo-internacional.lovable.app/og/${a.slug}.jpg`
-      : "https://acordo-internacional.lovable.app/og-image.jpg";
+      ? `https://acordosinternacionais.lovable.app/og/${a.slug}.jpg`
+      : "https://acordosinternacionais.lovable.app/og-image.jpg";
     return {
       meta: [
         { title },
@@ -47,8 +47,8 @@ export const Route = createFileRoute("/acordos/$pais")({
                 mainEntityOfPage: url,
                 url,
                 about: `Acordo internacional de previdência social entre Brasil e ${a.nome}`,
-                isPartOf: { "@id": "https://acordo-internacional.lovable.app/#website" },
-                publisher: { "@id": "https://acordo-internacional.lovable.app/#organization" },
+                isPartOf: { "@id": "https://acordosinternacionais.lovable.app/#website" },
+                publisher: { "@id": "https://acordosinternacionais.lovable.app/#organization" },
               },
               {
                 "@type": "BreadcrumbList",
@@ -57,13 +57,13 @@ export const Route = createFileRoute("/acordos/$pais")({
                     "@type": "ListItem",
                     position: 1,
                     name: "Início",
-                    item: "https://acordo-internacional.lovable.app/",
+                    item: "https://acordosinternacionais.lovable.app/",
                   },
                   {
                     "@type": "ListItem",
                     position: 2,
                     name: "Países",
-                    item: "https://acordo-internacional.lovable.app/acordos",
+                    item: "https://acordosinternacionais.lovable.app/acordos",
                   },
                   {
                     "@type": "ListItem",

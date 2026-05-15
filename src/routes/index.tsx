@@ -7,10 +7,10 @@ import {
   totalMultilaterais,
 } from "@/data/acordos";
 
-const TITLE = "Acordo Internacional — Acordos previdenciários para brasileiros no exterior";
+const TITLE = "Acordos Internacionais — Acordos previdenciários para brasileiros no exterior";
 const DESC =
-  "Acordo Internacional é a referência sobre os acordos previdenciários bilaterais do Brasil. Para o cidadão no exterior e para o advogado previdenciarista.";
-const OG_IMAGE = "https://acordo-internacional.lovable.app/og-image.jpg";
+  "Acordos Internacionais é a referência sobre os acordos previdenciários bilaterais do Brasil. Para o cidadão no exterior e para o advogado previdenciarista.";
+const OG_IMAGE = "https://acordosinternacionais.lovable.app/og-image.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({

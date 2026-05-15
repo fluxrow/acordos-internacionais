@@ -7,7 +7,7 @@ export function SiteFooter() {
         <div className="grid gap-12 md:grid-cols-4">
           <div className="md:col-span-2">
             <p className="font-display text-2xl font-semibold leading-tight text-foreground">
-              Acordo Internacional
+              Acordos Internacionais
             </p>
             <p className="mt-4 max-w-md text-sm text-muted-foreground">
               Acordos previdenciários bilaterais do Brasil, totalização de
@@ -81,11 +81,11 @@ export function SiteFooter() {
 
         <div className="mt-6 flex flex-col items-start justify-between gap-3 text-xs text-muted-foreground md:flex-row md:items-center">
           <p>
-            © {new Date().getFullYear()} Acordo Internacional. Conteúdo
+            © {new Date().getFullYear()} Acordos Internacionais. Conteúdo
             informativo, não substitui orientação jurídica individualizada.
           </p>
           <p className="uppercase tracking-[0.18em]">
-            Acordo Internacional <span className="opacity-60">by</span> AtlasPrev
+            Acordos Internacionais <span className="opacity-60">by</span> AtlasPrev
           </p>
         </div>
       </div>
