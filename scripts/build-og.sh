@@ -9,6 +9,13 @@ NAVY="#0f1b3d"
 BG="#f5f3ee"
 MUTED="#6b7280"
 
+# Brand fonts (downloaded if missing)
+SERIF=/tmp/fonts/PlayfairDisplay.ttf
+SANS=/tmp/fonts/Inter.ttf
+mkdir -p /tmp/fonts
+[ -f "$SERIF" ] || curl -sSfL "https://github.com/google/fonts/raw/main/ofl/playfairdisplay/PlayfairDisplay%5Bwght%5D.ttf" -o "$SERIF"
+[ -f "$SANS" ]  || curl -sSfL "https://github.com/google/fonts/raw/main/ofl/inter/Inter%5Bopsz%2Cwght%5D.ttf" -o "$SANS"
+
 DATA=$(bun -e "import {acordos} from './src/data/acordos'; for (const a of acordos) if (a.iso) console.log([a.slug, a.iso, a.nome, a.tipo, a.vigencia ?? ''].join('|'));")
 
 MAGICK="nix run nixpkgs#imagemagick --"
