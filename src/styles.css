@@ -189,6 +189,16 @@
     background: var(--color-foreground);
     color: var(--color-background);
   }
+
+  /* Visible focus ring for keyboard nav across all links/buttons */
+  a:focus-visible,
+  button:focus-visible,
+  [role="button"]:focus-visible,
+  summary:focus-visible {
+    outline: 2px solid var(--color-foreground);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
 }
 
 /* Editorial utilities */
