@@ -15,9 +15,7 @@ export const Route = createFileRoute("/acordos/$pais")({
     const title = `Acordo de Previdência Brasil–${a.nome} | Acordos Internacionais`;
     const desc = a.conteudo?.destaque ?? a.resumo;
     const url = `https://acordosinternacionais.lovable.app/acordos/${a.slug}`;
-    const ogImage = a.iso
-      ? `https://acordosinternacionais.lovable.app/og/${a.slug}.jpg?v=2`
-      : "https://acordosinternacionais.lovable.app/og-image.jpg?v=2";
+    const ogImage = `https://acordosinternacionais.lovable.app/og/${a.slug}.jpg?v=3`;
     return {
       meta: [
         { title },
