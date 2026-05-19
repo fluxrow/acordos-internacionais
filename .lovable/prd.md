@@ -42,6 +42,7 @@ Dois públicos, um produto:
 | **ROADMAP.md na raiz** com timeline e próximos passos | ✅ |
 | **COLLAB.md na raiz** com divisão Lovable ↔ Claude e regras de coordenação | ✅ |
 | Copy de `pro-content-lock.tsx` alinhado a modelo de assinatura (não mais "pagamento único") | ✅ |
+| **Infra Hub (Claude PR):** migração SQL (`hub_schema`), `_authenticated.tsx`, `hub.functions.ts`, `payments/webhook.ts`, `checkout.functions.ts` | ✅ |
 
 ## 4. Próxima rodada — Hub do Advogado (MVP pago)
 
@@ -55,7 +56,7 @@ Base **já importada** do repo externo `marcosespinola1379/Mapa-de-Acordos`:
 ### 4.2 Acesso e autenticação
 
 - **Login**: e-mail + senha (Lovable Cloud auth) + Google sign-in.
-- **Perfis**: `profiles` (1:1 com `auth.users`) — nome, OAB, telefone, foto.
+- **Perfis**: `profiles` (1:1 com `auth.users`) — apenas `full_name` e `email` (sem OAB, sem telefone, sem foto). Exibição: "Bom dia, Marcos."
 - **Roles**: `user_roles` separada (`app_role` enum: `subscriber`, `admin`). Nunca na `profiles`.
 - **Assinatura**: Stripe via Lovable Payments. Plano único mensal/anual no MVP.
 - **Gate**: server function `getCountryHubData(pais)` valida `subscriptions.status='active'` antes de devolver signed URLs com TTL curto.
@@ -112,7 +113,7 @@ Base **já importada** do repo externo `marcosespinola1379/Mapa-de-Acordos`:
 - **Frontend/SSR:** TanStack Start v1 + React 19 + Vite 7
 - **Estilo:** Tailwind v4 via `src/styles.css` (tokens oklch)
 - **Backend:** Lovable Cloud (Supabase) — auth, Postgres, Storage
-- **Pagamentos:** Stripe via Lovable Payments (a habilitar na rodada do hub)
+- **Pagamentos:** Stripe via Lovable Payments (habilitado — seamless mode)
 - **Deploy:** Cloudflare Workers (`wrangler.jsonc`)
 - **CI:** GitHub Actions — `check-brand.yml`, `check-og.yml`
 
