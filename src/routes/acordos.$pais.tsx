@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { acordos, getAcordo } from "@/data/acordos";
+import type { OrgaoLigacao } from "@/data/acordos.types";
 import { CTAMarcos } from "@/components/cta-marcos";
 import { ProContentLock } from "@/components/pro-content-lock";
 
@@ -368,5 +369,110 @@ function Bloco({ titulo, children }: { titulo: string; children: React.ReactNode
       <hr className="rule mt-3" />
       <div className="mt-4">{children}</div>
     </section>
+  );
+}
+
+function FichaItem({ rotulo, valor }: { rotulo: string; valor: string }) {
+  return (
+    <div className="border border-border p-4">
+      <dt className="eyebrow">{rotulo}</dt>
+      <dd className="mt-2 text-sm leading-snug">{valor}</dd>
+    </div>
+  );
+}
+
+function OrgaoCard({ orgao }: { orgao: OrgaoLigacao }) {
+  return (
+    <article className="border border-border p-6">
+      <h3 className="font-display text-lg leading-snug">{orgao.titulo}</h3>
+      <hr className="rule mt-3" />
+      <dl className="mt-4 space-y-3 text-sm">
+        {orgao.instituicao && (
+          <div>
+            <dt className="eyebrow">Instituição</dt>
+            <dd className="mt-1 leading-snug">{orgao.instituicao}</dd>
+          </div>
+        )}
+        {orgao.endereco && (
+          <div>
+            <dt className="eyebrow">Endereço</dt>
+            <dd className="mt-1 leading-snug text-muted-foreground">{orgao.endereco}</dd>
+          </div>
+        )}
+        {orgao.telefone && (
+          <div>
+            <dt className="eyebrow">Telefone</dt>
+            <dd className="mt-1 leading-snug">
+              <a
+                href={`tel:${orgao.telefone.replace(/[^+\d]/g, "")}`}
+                className="ink-link"
+              >
+                {orgao.telefone}
+              </a>
+            </dd>
+          </div>
+        )}
+        {orgao.email && (
+          <div>
+            <dt className="eyebrow">E-mail</dt>
+            <dd className="mt-1 leading-snug">
+              <a href={`mailto:${orgao.email}`} className="ink-link break-all">
+                {orgao.email}
+              </a>
+            </dd>
+          </div>
+        )}
+      </dl>
+    </article>
+  );
+}
+
+function ListaBeneficios({ titulo, itens }: { titulo: string; itens: string[] }) {
+  return (
+    <div>
+      <p className="eyebrow">{titulo}</p>
+      <ul className="mt-3 space-y-2">
+        {itens.map((item) => (
+          <li key={item} className="flex items-start gap-3 text-sm leading-snug">
+            <span aria-hidden className="mt-0.5 text-foreground">✓</span>
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+const CATEGORIA_LABEL: Record<string, string> = {
+  principal: "Principal",
+  complementar: "Complementar",
+  formulario: "Formulário",
+  roteiro: "Roteiro",
+  outro: "Outro",
+};
+
+function CategoriaBadge({ cat }: { cat: string }) {
+  const label = CATEGORIA_LABEL[cat] ?? "Outro";
+  return (
+    <span className="mt-1 inline-block shrink-0 border border-border px-2 py-1 text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
+      {label}
+    </span>
+  );
+}
+
+function LockIcon() {
+  return (
+    <svg
+      width="10"
+      height="10"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      aria-hidden
+    >
+      <rect x="4" y="11" width="16" height="10" rx="1" />
+      <path d="M8 11V7a4 4 0 1 1 8 0v4" />
+    </svg>
   );
 }
