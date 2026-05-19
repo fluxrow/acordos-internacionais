@@ -1,6 +1,16 @@
 // Dados canônicos dos acordos internacionais de previdência social do Brasil.
 // Fonte: gov.br + repositório Mapa-de-Acordos.
+//
+// Estrutura em camadas:
+//   1. acordos[]               — catálogo curado (status, resumo editorial).
+//   2. conteudoExpandido       — destaque/storytelling para os prioritários.
+//   3. acordosImportados (gen) — dados técnicos crus dos HTMLs do repo,
+//                                ligados via slug.
 
+import { acordosImportados } from "./acordos.generated";
+import type { AcordoImportado } from "./acordos.types";
+
+export type { AcordoImportado } from "./acordos.types";
 export type StatusAcordo = "vigente" | "ratificacao" | "incompleto";
 export type TipoAcordo = "bilateral" | "multilateral";
 
@@ -13,7 +23,8 @@ export interface Acordo {
   status: StatusAcordo;
   vigencia?: string; // ano de vigência
   resumo: string; // 1-2 frases para listagem
-  conteudo?: ConteudoPais; // detalhe expandido (apenas prioritários nesta fase)
+  conteudo?: ConteudoPais; // detalhe editorial (apenas prioritários)
+  importado?: AcordoImportado; // dados técnicos vindos do repo Mapa-de-Acordos
 }
 
 export interface ConteudoPais {
@@ -377,6 +388,12 @@ const conteudoExpandido: Record<string, ConteudoPais> = {
 for (const a of acordos) {
   const c = conteudoExpandido[a.slug];
   if (c) a.conteudo = c;
+  const imp = acordosImportados[a.slug];
+  if (imp) {
+    a.importado = imp;
+    // docs no catálogo passa a refletir a contagem real do repo quando houver
+    if (imp.documentos?.length) a.docs = imp.documentos.length;
+  }
 }
 
 export const totalDocs = acordos.reduce((s, a) => s + a.docs, 0);
