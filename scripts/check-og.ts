@@ -22,9 +22,10 @@ if (!existsSync(FALLBACK)) {
   errors.push("public/og-image.jpg (fallback) não encontrado");
 }
 
-// 2. Toda OG image por país existe e tem tamanho razoável
+// 2. Toda OG image por acordo existe e tem tamanho razoável.
+// Inclui multilaterais (CPLP, Mercosul, Iberoamericano) que agora
+// têm OG dedicada com selo MULTI no lugar da bandeira.
 for (const a of acordos) {
-  if (!a.iso) continue; // multilaterais usam fallback
   const p = resolve(ROOT, `public/og/${a.slug}.jpg`);
   if (!existsSync(p)) {
     errors.push(`OG image ausente para "${a.slug}" (esperado public/og/${a.slug}.jpg)`);
@@ -54,8 +55,8 @@ for (const [re, msg] of checks) {
 }
 
 // 4. Relatório
-const totalCountries = acordos.filter((a) => a.iso).length;
-console.log(`Verificadas ${totalCountries} OG images por país + fallback.`);
+const totalAcordos = acordos.length;
+console.log(`Verificadas ${totalAcordos} OG images (1 por acordo) + fallback.`);
 for (const w of warnings) console.warn(`⚠  ${w}`);
 if (errors.length) {
   console.error(`\n✗ Falhou com ${errors.length} erro(s):`);

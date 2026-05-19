@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { acordos, getAcordo } from "@/data/acordos";
+import type { DocumentoImportado, OrgaoLigacao } from "@/data/acordos.types";
 import { CTAMarcos } from "@/components/cta-marcos";
 import { ProContentLock } from "@/components/pro-content-lock";
 
@@ -14,9 +15,7 @@ export const Route = createFileRoute("/acordos/$pais")({
     const title = `Acordo de Previdência Brasil–${a.nome} | Acordos Internacionais`;
     const desc = a.conteudo?.destaque ?? a.resumo;
     const url = `https://acordosinternacionais.lovable.app/acordos/${a.slug}`;
-    const ogImage = a.iso
-      ? `https://acordosinternacionais.lovable.app/og/${a.slug}.jpg?v=2`
-      : "https://acordosinternacionais.lovable.app/og-image.jpg?v=2";
+    const ogImage = `https://acordosinternacionais.lovable.app/og/${a.slug}.jpg?v=3`;
     return {
       meta: [
         { title },
@@ -153,8 +152,60 @@ function AcordoPais() {
 
         {/* CONTEÚDO PRINCIPAL */}
         <section className="mx-auto grid max-w-6xl gap-12 px-6 py-16 md:grid-cols-[1fr_320px] md:py-20">
-          <div className="space-y-12">
-            {a.conteudo ? (
+          <div className="space-y-14">
+            {/* INSTRUMENTO E DECRETO (público) */}
+            {a.importado && (a.importado.decreto || a.importado.vigorDesde || a.importado.instrumento) && (
+              <Bloco titulo="Instrumento e vigência">
+                <dl className="grid gap-4 sm:grid-cols-3">
+                  {a.importado.instrumento && (
+                    <FichaItem rotulo="Instrumento" valor={a.importado.instrumento} />
+                  )}
+                  {a.importado.decreto && (
+                    <FichaItem rotulo="Decreto de promulgação" valor={a.importado.decreto} />
+                  )}
+                  {a.importado.vigorDesde && (
+                    <FichaItem rotulo="Em vigor desde" valor={a.importado.vigorDesde} />
+                  )}
+                </dl>
+              </Bloco>
+            )}
+
+            {/* ÓRGÃOS DE LIGAÇÃO (público) */}
+            {a.importado && (a.importado.orgaoBR || a.importado.orgaoParceiro) && (
+              <Bloco titulo="Órgãos de ligação">
+                <p className="text-sm text-muted-foreground">
+                  Quem operacionaliza o acordo de cada lado. Use estes contatos
+                  para protocolar requerimentos ou esclarecer pendências
+                  administrativas.
+                </p>
+                <div className="mt-6 grid gap-6 md:grid-cols-2">
+                  {a.importado.orgaoBR && <OrgaoCard orgao={a.importado.orgaoBR} />}
+                  {a.importado.orgaoParceiro && <OrgaoCard orgao={a.importado.orgaoParceiro} />}
+                </div>
+              </Bloco>
+            )}
+
+            {/* BENEFÍCIOS COBERTOS (público) */}
+            {a.importado &&
+              (a.importado.beneficios.brasil.length > 0 ||
+                a.importado.beneficios.parceiro.length > 0) && (
+                <Bloco titulo="Benefícios cobertos pelo acordo">
+                  <div className="mt-2 grid gap-8 md:grid-cols-2">
+                    {a.importado.beneficios.brasil.length > 0 && (
+                      <ListaBeneficios titulo="Lado Brasil" itens={a.importado.beneficios.brasil} />
+                    )}
+                    {a.importado.beneficios.parceiro.length > 0 && (
+                      <ListaBeneficios
+                        titulo={`Lado ${a.nome}`}
+                        itens={a.importado.beneficios.parceiro}
+                      />
+                    )}
+                  </div>
+                </Bloco>
+              )}
+
+            {/* COMO FUNCIONA (editorial, só para prioritários) */}
+            {a.conteudo && (
               <>
                 <Bloco titulo="Como funciona, em linhas gerais">
                   <p className="text-lg leading-relaxed">{a.conteudo.totalizacao}</p>
@@ -179,24 +230,44 @@ function AcordoPais() {
                     </p>
                   </aside>
                 )}
-
-                <ProContentLock
-                  contexto={`Tudo sobre Brasil–${a.nome} no Hub Profissional`}
-                  itens={[
-                    "Benefícios cobertos, destrinchados artigo por artigo",
-                    `Aplicação da totalização no acordo Brasil–${a.nome}, com exemplos de cálculo`,
-                    `Texto integral do acordo Brasil–${a.nome} e do decreto de promulgação`,
-                    "Portarias do INSS aplicáveis, comentadas",
-                    "Documentos e formulários oficiais exigidos",
-                    "Modelos de petição e requerimento editáveis",
-                    "Calculadora de totalização e prorata",
-                    "Fluxograma processual passo a passo",
-                    "Jurisprudência relevante consolidada",
-                    "Quando e como acionar judicialmente",
-                  ]}
-                />
               </>
-            ) : (
+            )}
+
+            {/* DOCUMENTOS (PRO — lista pública dos títulos, download trancado) */}
+            {a.importado && a.importado.documentos.length > 0 && (
+              <Bloco titulo={`Documentos e formulários (${a.importado.documentos.length})`}>
+                <p className="text-sm text-muted-foreground">
+                  Texto integral do acordo, ajuste administrativo e formulários
+                  oficiais para protocolar requerimentos. Download e versões
+                  editáveis ficam dentro do Hub Profissional.
+                </p>
+                <ul className="mt-6 divide-y divide-border border-y border-border">
+                  {a.importado.documentos.map((d: DocumentoImportado) => (
+                    <li
+                      key={d.nome}
+                      className="flex items-start gap-4 py-4"
+                    >
+                      <CategoriaBadge cat={d.cat} />
+                      <div className="min-w-0 flex-1">
+                        <p className="font-display text-base leading-snug">{d.nome}</p>
+                        {d.desc && (
+                          <p className="mt-1 text-sm text-muted-foreground">{d.desc}</p>
+                        )}
+                      </div>
+                      <span
+                        className="ml-auto flex shrink-0 items-center gap-1.5 self-center text-[10px] uppercase tracking-[0.14em] text-muted-foreground"
+                        aria-label="Acesso restrito ao Hub Profissional"
+                      >
+                        <LockIcon /> Hub PRO
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </Bloco>
+            )}
+
+            {/* Caso país sem dados importados, mantém a versão editorial */}
+            {!a.importado && !a.conteudo && (
               <Bloco titulo="Sobre este acordo">
                 <p className="text-lg leading-relaxed">{a.resumo}</p>
                 <p className="mt-6 text-base text-muted-foreground">
@@ -204,11 +275,24 @@ function AcordoPais() {
                   você precisa de orientação imediata sobre um caso ligado a{" "}
                   {a.nome}, fale com o Dr. Marcos Espínola.
                 </p>
-                <div className="mt-8">
-                  <ProContentLock contexto={`Ficha técnica · ${a.nome}`} />
-                </div>
               </Bloco>
             )}
+
+            <ProContentLock
+              contexto={`Tudo sobre Brasil–${a.nome} no Hub Profissional`}
+              itens={[
+                "Benefícios cobertos, destrinchados artigo por artigo",
+                `Aplicação da totalização no acordo Brasil–${a.nome}, com exemplos de cálculo`,
+                `Texto integral do acordo Brasil–${a.nome} e do decreto de promulgação`,
+                "Portarias do INSS aplicáveis, comentadas",
+                "Documentos e formulários oficiais exigidos",
+                "Modelos de petição e requerimento editáveis",
+                "Calculadora de totalização e prorata",
+                "Fluxograma processual passo a passo",
+                "Jurisprudência relevante consolidada",
+                "Quando e como acionar judicialmente",
+              ]}
+            />
           </div>
 
           <aside className="space-y-6 md:sticky md:top-6 md:self-start">
@@ -283,5 +367,110 @@ function Bloco({ titulo, children }: { titulo: string; children: React.ReactNode
       <hr className="rule mt-3" />
       <div className="mt-4">{children}</div>
     </section>
+  );
+}
+
+function FichaItem({ rotulo, valor }: { rotulo: string; valor: string }) {
+  return (
+    <div className="border border-border p-4">
+      <dt className="eyebrow">{rotulo}</dt>
+      <dd className="mt-2 text-sm leading-snug">{valor}</dd>
+    </div>
+  );
+}
+
+function OrgaoCard({ orgao }: { orgao: OrgaoLigacao }) {
+  return (
+    <article className="border border-border p-6">
+      <h3 className="font-display text-lg leading-snug">{orgao.titulo}</h3>
+      <hr className="rule mt-3" />
+      <dl className="mt-4 space-y-3 text-sm">
+        {orgao.instituicao && (
+          <div>
+            <dt className="eyebrow">Instituição</dt>
+            <dd className="mt-1 leading-snug">{orgao.instituicao}</dd>
+          </div>
+        )}
+        {orgao.endereco && (
+          <div>
+            <dt className="eyebrow">Endereço</dt>
+            <dd className="mt-1 leading-snug text-muted-foreground">{orgao.endereco}</dd>
+          </div>
+        )}
+        {orgao.telefone && (
+          <div>
+            <dt className="eyebrow">Telefone</dt>
+            <dd className="mt-1 leading-snug">
+              <a
+                href={`tel:${orgao.telefone.replace(/[^+\d]/g, "")}`}
+                className="ink-link"
+              >
+                {orgao.telefone}
+              </a>
+            </dd>
+          </div>
+        )}
+        {orgao.email && (
+          <div>
+            <dt className="eyebrow">E-mail</dt>
+            <dd className="mt-1 leading-snug">
+              <a href={`mailto:${orgao.email}`} className="ink-link break-all">
+                {orgao.email}
+              </a>
+            </dd>
+          </div>
+        )}
+      </dl>
+    </article>
+  );
+}
+
+function ListaBeneficios({ titulo, itens }: { titulo: string; itens: string[] }) {
+  return (
+    <div>
+      <p className="eyebrow">{titulo}</p>
+      <ul className="mt-3 space-y-2">
+        {itens.map((item) => (
+          <li key={item} className="flex items-start gap-3 text-sm leading-snug">
+            <span aria-hidden className="mt-0.5 text-foreground">✓</span>
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+const CATEGORIA_LABEL: Record<string, string> = {
+  principal: "Principal",
+  complementar: "Complementar",
+  formulario: "Formulário",
+  roteiro: "Roteiro",
+  outro: "Outro",
+};
+
+function CategoriaBadge({ cat }: { cat: string }) {
+  const label = CATEGORIA_LABEL[cat] ?? "Outro";
+  return (
+    <span className="mt-1 inline-block shrink-0 border border-border px-2 py-1 text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
+      {label}
+    </span>
+  );
+}
+
+function LockIcon() {
+  return (
+    <svg
+      width="10"
+      height="10"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      aria-hidden
+    >
+      <rect x="4" y="11" width="16" height="10" rx="1" />
+      <path d="M8 11V7a4 4 0 1 1 8 0v4" />
+    </svg>
   );
 }
