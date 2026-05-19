@@ -248,8 +248,10 @@ async function main() {
         brasil: beneficiosBrasil,
         parceiro: beneficiosParceiro,
       },
-      acordoTexto,
-      ajusteTexto,
+      // Trecho de abertura apenas — texto integral fica no hub PRO via fetch
+      // sob demanda do repo de origem; não bloata o bundle do site público.
+      acordoTrecho: acordoTexto?.slice(0, 600),
+      ajusteTrecho: ajusteTexto?.slice(0, 600),
       documentos,
     };
 
