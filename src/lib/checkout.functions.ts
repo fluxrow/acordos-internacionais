@@ -62,7 +62,7 @@ export const createCheckoutSession = createServerFn()
     const origin =
       process.env.APP_URL ??
       process.env.VITE_APP_URL ??
-      "https://acordo-internacional.com";
+      "https://acordosinternacionais.lovable.app";
 
     const sessionRes = await fetch(
       "https://api.stripe.com/v1/checkout/sessions",
