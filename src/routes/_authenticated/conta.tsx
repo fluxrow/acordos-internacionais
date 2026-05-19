@@ -83,14 +83,21 @@ function ContaPage() {
                   <span className="font-medium">
                     {STATUS_LABEL[sub.status] ?? sub.status}
                   </span>
+                  {sub.lifetimeAccess && (
+                    <span className="rounded-sm bg-foreground px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.1em] text-background">
+                      Fundador
+                    </span>
+                  )}
                 </div>
 
-                {sub.periodEnd && (
+                {sub.lifetimeAccess ? (
+                  <p className="text-muted-foreground">Acesso vitalício — sem renovação</p>
+                ) : sub.periodEnd ? (
                   <p className="text-muted-foreground">
                     {sub.cancelAtPeriodEnd ? "Acaba em" : "Renova em"}{" "}
                     {new Date(sub.periodEnd).toLocaleDateString("pt-BR")}
                   </p>
-                )}
+                ) : null}
 
                 {isActive && (
                   <button

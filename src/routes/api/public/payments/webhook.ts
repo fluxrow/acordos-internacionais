@@ -39,19 +39,44 @@ export const Route = createFileRoute("/api/public/payments/webhook")({
         try {
           switch (event.type) {
             case "checkout.session.completed": {
-              const userId = (obj.metadata as Record<string, string> | null)?.userId;
-              const subId = obj.subscription as string | null;
-              const custId = obj.customer as string | null;
-              if (!userId || !subId) break;
-              await supabaseAdmin.from("subscriptions").upsert(
-                {
-                  user_id: userId,
-                  stripe_customer_id: custId,
-                  stripe_subscription_id: subId,
-                  status: "active",
-                },
-                { onConflict: "user_id" },
-              );
+              const meta = obj.metadata as Record<string, string> | null;
+              const userId = meta?.userId;
+              const mode = obj.mode as string | null;
+
+              if (!userId) break;
+
+              if (mode === "payment" && meta?.isFounder === "true") {
+                // Pagamento único — programa Fundadores (acesso vitalício)
+                const { count } = await supabaseAdmin
+                  .from("subscriptions")
+                  .select("*", { count: "exact", head: true })
+                  .eq("lifetime_access", true);
+
+                const founderCount = count ?? 0;
+                await supabaseAdmin.from("subscriptions").upsert(
+                  {
+                    user_id: userId,
+                    stripe_customer_id: obj.customer as string | null,
+                    status: "active",
+                    // Garante acesso vitalício apenas para os primeiros 100
+                    lifetime_access: founderCount < 100,
+                  },
+                  { onConflict: "user_id" },
+                );
+              } else if (mode === "subscription") {
+                const subId = obj.subscription as string | null;
+                const custId = obj.customer as string | null;
+                if (!subId) break;
+                await supabaseAdmin.from("subscriptions").upsert(
+                  {
+                    user_id: userId,
+                    stripe_customer_id: custId,
+                    stripe_subscription_id: subId,
+                    status: "active",
+                  },
+                  { onConflict: "user_id" },
+                );
+              }
               break;
             }
             case "customer.subscription.created":

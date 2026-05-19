@@ -54,11 +54,12 @@ export const getCountryHubData = createServerFn({ method: "POST" })
 
     const { data: sub } = await supabaseAdmin
       .from("subscriptions")
-      .select("status")
+      .select("status, lifetime_access")
       .eq("user_id", userId)
       .maybeSingle();
 
-    if (!sub || sub.status !== "active") {
+    const hasAccess = sub?.status === "active" || sub?.lifetime_access === true;
+    if (!hasAccess) {
       return {
         locked: true,
         pais,
