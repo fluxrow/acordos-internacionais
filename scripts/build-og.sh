@@ -16,25 +16,12 @@ mkdir -p /tmp/fonts
 [ -f "$SERIF" ] || curl -sSfL "https://github.com/google/fonts/raw/main/ofl/playfairdisplay/PlayfairDisplay%5Bwght%5D.ttf" -o "$SERIF"
 [ -f "$SANS" ]  || curl -sSfL "https://github.com/google/fonts/raw/main/ofl/inter/Inter%5Bopsz%2Cwght%5D.ttf" -o "$SANS"
 
-DATA=$(bun -e "import {acordos} from './src/data/acordos'; for (const a of acordos) if (a.iso) console.log([a.slug, a.iso, a.nome, a.tipo, a.vigencia ?? ''].join('|'));")
+DATA=$(bun -e "import {acordos} from './src/data/acordos'; for (const a of acordos) console.log([a.slug, a.iso ?? '', a.nome, a.tipo, a.vigencia ?? ''].join('|'));")
 
 MAGICK="nix run nixpkgs#imagemagick --"
 
-while IFS='|' read -r slug iso nome tipo vigencia; do
-  [ -z "$slug" ] && continue
-  echo "→ $slug ($iso)"
-
-  flag=/tmp/og-flags/$iso.png
-  if [ ! -f "$flag" ]; then
-    curl -sSfL "https://flagcdn.com/w1280/$iso.png" -o "$flag"
-  fi
-
-  tipo_label="Bilateral"
-  [ "$tipo" = "multilateral" ] && tipo_label="Multilateral"
-  meta="$tipo_label"
-  [ -n "$vigencia" ] && meta="$meta · desde $vigencia"
-
-  # 1. Background canvas + brand block on left
+render_base() {
+  local slug="$1" meta="$2"
   $MAGICK -size 1200x630 "xc:$BG" \
     -font "$SERIF" -fill "$NAVY" \
     -gravity NorthWest -pointsize 200 -annotate +110+150 "AI" \
@@ -53,21 +40,52 @@ while IFS='|' read -r slug iso nome tipo vigencia; do
     -annotate +540+330 "$meta" \
     -font "$SANS" -fill "$MUTED" -pointsize 16 \
     -gravity SouthEast -annotate +60+40 "BY  ATLASPREV" \
-    /tmp/og-base-$slug.png
+    "/tmp/og-base-$slug.png"
+}
 
-  # 2. Title rendered as auto-fitting caption (scales to box)
-  $MAGICK -background "$BG" -fill "$NAVY" \
-    -font "$SERIF" \
-    -size 620x90 -gravity West \
-    caption:"Brasil–$nome" \
-    /tmp/og-title-$slug.png
+while IFS='|' read -r slug iso nome tipo vigencia; do
+  [ -z "$slug" ] && continue
+  echo "→ $slug"
 
-  # 3. Flag with subtle border
-  $MAGICK "$flag" -resize 280x \
-    -bordercolor "#d4ccc1" -border 1 \
-    /tmp/og-flag-$slug.png
+  if [ "$tipo" = "multilateral" ]; then
+    meta="Multilateral"
+    [ -n "$vigencia" ] && meta="$meta · desde $vigencia"
+    render_base "$slug" "$meta"
 
-  # 4. Composite title + flag onto base
+    # Título: nome do bloco (CPLP / Mercosul / Iberoamericano)
+    $MAGICK -background "$BG" -fill "$NAVY" \
+      -font "$SERIF" \
+      -size 620x90 -gravity West \
+      caption:"$nome" \
+      "/tmp/og-title-$slug.png"
+
+    # Selo textual no lugar da bandeira
+    $MAGICK -size 280x170 "xc:$BG" \
+      -bordercolor "#d4ccc1" -border 1 \
+      -font "$SERIF" -fill "$NAVY" -pointsize 64 \
+      -gravity Center -annotate 0 "MULTI" \
+      "/tmp/og-flag-$slug.png"
+  else
+    [ -z "$iso" ] && continue
+    tipo_label="Bilateral"
+    meta="$tipo_label"
+    [ -n "$vigencia" ] && meta="$meta · desde $vigencia"
+    render_base "$slug" "$meta"
+
+    flag=/tmp/og-flags/$iso.png
+    [ -f "$flag" ] || curl -sSfL "https://flagcdn.com/w1280/$iso.png" -o "$flag"
+
+    $MAGICK -background "$BG" -fill "$NAVY" \
+      -font "$SERIF" \
+      -size 620x90 -gravity West \
+      caption:"Brasil–$nome" \
+      "/tmp/og-title-$slug.png"
+
+    $MAGICK "$flag" -resize 280x \
+      -bordercolor "#d4ccc1" -border 1 \
+      "/tmp/og-flag-$slug.png"
+  fi
+
   $MAGICK /tmp/og-base-$slug.png \
     /tmp/og-title-$slug.png -geometry +540+200 -composite \
     /tmp/og-flag-$slug.png  -geometry +540+400 -composite \
