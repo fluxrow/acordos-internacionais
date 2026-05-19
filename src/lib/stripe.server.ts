@@ -1,18 +1,42 @@
-// Wrapper do cliente Stripe para Cloudflare Workers.
-// Sempre usar createStripeClient() — nunca instanciar Stripe() diretamente.
+// Stripe client roteado via Lovable Cloud connector gateway.
+// As STRIPE_*_API_KEY são gateway connection IDs, NÃO chaves Stripe reais —
+// precisam ser proxied via connector-gateway.lovable.dev.
 import Stripe from "stripe";
 
-export function createStripeClient(env?: string) {
-  const key =
-    env === "live"
-      ? process.env.STRIPE_LIVE_API_KEY
-      : (process.env.STRIPE_SANDBOX_API_KEY ?? process.env.STRIPE_API_KEY);
+export type StripeEnv = "sandbox" | "live";
 
-  if (!key) throw new Error(`[stripe] API key não configurada (env=${env ?? "sandbox"})`);
+const GATEWAY_STRIPE_BASE = "https://connector-gateway.lovable.dev/stripe";
 
-  return new Stripe(key, {
-    apiVersion: "2024-12-18.acacia",
-    // Compatível com Cloudflare Workers (sem Node.js http)
-    httpClient: Stripe.createFetchHttpClient(),
+function getEnv(key: string): string {
+  const v = process.env[key];
+  if (!v) throw new Error(`${key} is not configured`);
+  return v;
+}
+
+export function getConnectionApiKey(env: StripeEnv): string {
+  return env === "sandbox"
+    ? getEnv("STRIPE_SANDBOX_API_KEY")
+    : getEnv("STRIPE_LIVE_API_KEY");
+}
+
+export function createStripeClient(env: StripeEnv): Stripe {
+  const connectionApiKey = getConnectionApiKey(env);
+  const lovableApiKey = getEnv("LOVABLE_API_KEY");
+
+  return new Stripe(connectionApiKey, {
+    apiVersion: "2026-03-25.dahlia" as Stripe.StripeConfig["apiVersion"],
+    httpClient: Stripe.createFetchHttpClient((url, init) => {
+      const gatewayUrl = url
+        .toString()
+        .replace("https://api.stripe.com", GATEWAY_STRIPE_BASE);
+      return fetch(gatewayUrl, {
+        ...init,
+        headers: {
+          ...Object.fromEntries(new Headers(init?.headers).entries()),
+          "X-Connection-Api-Key": connectionApiKey,
+          "Lovable-API-Key": lovableApiKey,
+        },
+      });
+    }),
   });
 }

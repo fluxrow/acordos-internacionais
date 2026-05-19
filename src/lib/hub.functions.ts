@@ -1,7 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { createSupabaseAdminClient } from "@/integrations/supabase/client.server";
+import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { acordosImportados } from "@/data/acordos.generated";
+import type { OrgaoLigacao } from "@/data/acordos.types";
 
 type DocumentoComUrl = {
   nome: string;
@@ -29,8 +30,8 @@ export type HubDataUnlocked = {
   instrumento: string;
   decreto: string;
   vigorDesde: string;
-  orgaoBR: string;
-  orgaoParceiro: string;
+  orgaoBR: OrgaoLigacao | null;
+  orgaoParceiro: OrgaoLigacao | null;
   beneficios: { brasil: string[]; parceiro: string[] };
   acordoTrecho: string;
   documentos: DocumentoComUrl[];
@@ -38,16 +39,20 @@ export type HubDataUnlocked = {
 
 export type HubData = HubDataLocked | HubDataUnlocked;
 
-export const getCountryHubData = createServerFn()
-  .validator((pais: string) => pais)
-  .handler(async ({ data: pais }): Promise<HubData> => {
-    const { userId } = await requireSupabaseAuth();
-    const admin = createSupabaseAdminClient();
+export const getCountryHubData = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: { pais: string }) => {
+    if (!/^[a-z0-9-]+$/i.test(input.pais)) throw new Error("Invalid pais");
+    return input;
+  })
+  .handler(async ({ data, context }): Promise<HubData> => {
+    const { userId } = context;
+    const { pais } = data;
 
     const acordoData = acordosImportados[pais];
     if (!acordoData) throw new Error(`Acordo não encontrado: ${pais}`);
 
-    const { data: sub } = await admin
+    const { data: sub } = await supabaseAdmin
       .from("subscriptions")
       .select("status")
       .eq("user_id", userId)
@@ -57,27 +62,38 @@ export const getCountryHubData = createServerFn()
       return {
         locked: true,
         pais,
-        titulo: acordoData.titulo,
-        instrumento: acordoData.instrumento,
-        decreto: acordoData.decreto,
-        vigorDesde: acordoData.vigorDesde,
+        titulo: acordoData.titulo ?? "",
+        instrumento: acordoData.instrumento ?? "",
+        decreto: acordoData.decreto ?? "",
+        vigorDesde: acordoData.vigorDesde ?? "",
         documentosPreview: acordoData.documentos
           .slice(0, 1)
           .map((d) => ({ nome: d.nome, cat: d.cat })),
       };
     }
 
-    const documentos = await Promise.all(
+    const documentos: DocumentoComUrl[] = await Promise.all(
       acordoData.documentos.map(async (doc) => {
-        const filePath = `${pais}/${doc.arquivo}`;
-        const { data: signed } = await admin.storage
-          .from("hub-docs")
-          .createSignedUrl(filePath, 60);
-        return { ...doc, url: signed?.signedUrl ?? null };
-      })
+        const arquivo = doc.arquivo ?? "";
+        let url: string | null = null;
+        if (arquivo) {
+          const { data: signed } = await supabaseAdmin.storage
+            .from("hub-docs")
+            .createSignedUrl(`${pais}/${arquivo}`, 60);
+          url = signed?.signedUrl ?? null;
+        }
+        return {
+          nome: doc.nome,
+          desc: doc.desc ?? "",
+          cat: doc.cat,
+          arquivo,
+          tamanho: doc.tamanho ?? "",
+          url,
+        };
+      }),
     );
 
-    await admin.from("downloads_log").insert({
+    await supabaseAdmin.from("downloads_log").insert({
       user_id: userId,
       country: pais,
       file_path: `${pais}/*`,
@@ -86,14 +102,14 @@ export const getCountryHubData = createServerFn()
     return {
       locked: false,
       pais,
-      titulo: acordoData.titulo,
-      instrumento: acordoData.instrumento,
-      decreto: acordoData.decreto,
-      vigorDesde: acordoData.vigorDesde,
-      orgaoBR: acordoData.orgaoBR,
-      orgaoParceiro: acordoData.orgaoParceiro,
+      titulo: acordoData.titulo ?? "",
+      instrumento: acordoData.instrumento ?? "",
+      decreto: acordoData.decreto ?? "",
+      vigorDesde: acordoData.vigorDesde ?? "",
+      orgaoBR: acordoData.orgaoBR ?? null,
+      orgaoParceiro: acordoData.orgaoParceiro ?? null,
       beneficios: acordoData.beneficios,
-      acordoTrecho: acordoData.acordoTrecho,
+      acordoTrecho: acordoData.acordoTrecho ?? "",
       documentos,
     };
   });
