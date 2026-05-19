@@ -28,7 +28,7 @@ export interface AcordoImportado {
     brasil: string[];
     parceiro: string[];
   };
-  acordoTexto?: string;
-  ajusteTexto?: string;
+  acordoTrecho?: string;
+  ajusteTrecho?: string;
   documentos: DocumentoImportado[];
 }
