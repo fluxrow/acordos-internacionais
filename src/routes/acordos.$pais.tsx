@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { acordos, getAcordo } from "@/data/acordos";
-import type { OrgaoLigacao } from "@/data/acordos.types";
+import type { DocumentoImportado, OrgaoLigacao } from "@/data/acordos.types";
 import { CTAMarcos } from "@/components/cta-marcos";
 import { ProContentLock } from "@/components/pro-content-lock";
 
@@ -244,7 +244,7 @@ function AcordoPais() {
                   editáveis ficam dentro do Hub Profissional.
                 </p>
                 <ul className="mt-6 divide-y divide-border border-y border-border">
-                  {a.importado.documentos.map((d) => (
+                  {a.importado.documentos.map((d: DocumentoImportado) => (
                     <li
                       key={d.nome}
                       className="flex items-start gap-4 py-4"
