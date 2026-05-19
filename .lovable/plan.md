@@ -1,35 +1,77 @@
-## Objetivo
+## Contexto
 
-Criar `README.md` na raiz do projeto com a documentação oficial para humanos e IAs externas (Claude Code, Cursor, Copilot) que forem trabalhar no repositório conectado.
+Claude (via GitHub) revisou minha proposta de divisão e fez 2 descobertas corretas que mudam o sequenciamento:
 
-## Conteúdo do README
+1. **`src/integrations/supabase/` e `supabase/migrations/` não existem** — Lovable Cloud nunca foi provisionado de verdade (PRD estava errado). Sem isso, nenhum dos 5 arquivos de infra do Claude compila.
+2. **`pro-content-lock.tsx` tem copy errado**: "pagamento único e acesso vitalício" — incompatível com modelo de assinatura recorrente do hub.
 
-Seções, nesta ordem:
+Ajuste no plano original: **Lovable provisiona infra primeiro, depois Claude faz PR de schema + server functions, depois Lovable faz UI.**
 
-1. **Cabeçalho** — Nome (Acordo Internacional by AtlasPrev), tagline, links de produção (`acordosinternacionais.com`), preview Lovable e repo de conteúdo (`marcosespinola1379/Mapa-de-Acordos`).
-2. **Sobre o projeto** — Resumo de 1 parágrafo: hub sobre acordos previdenciários internacionais, dois públicos (beneficiário final via SEO, advogado via hub pago).
-3. **Stack** — TanStack Start v1, React 19, Vite 7, Tailwind v4 (tokens oklch em `src/styles.css`), Lovable Cloud (Supabase), Cloudflare Workers, Stripe (futuro), GitHub Actions.
-4. **Como rodar** — `bun install`, `bun run dev` (porta 8080). Aviso para não rodar build manual em ambiente Lovable.
-5. **Estrutura de pastas** — Árvore comentada cobrindo `src/routes`, `src/data`, `src/components`, `src/styles.css`, `scripts/`, `public/og/`, `.lovable/`.
-6. **Conteúdo dos acordos** — Explica que dados vêm do repo `Mapa-de-Acordos` via `scripts/import-acordos.ts`, gerando `acordos.generated.ts`. Cobertura: 25 acordos (21 bilaterais + Suíça + 3 multilaterais).
-7. **Convenções para contribuição (humanos e IAs)** — Lista numerada com as regras críticas:
-   - Não editar `src/routeTree.gen.ts`
-   - Cores só via tokens semânticos (`oklch` em `src/styles.css`), nunca hex em componentes
-   - Roteamento via `@tanstack/react-router` (nunca `react-router-dom`)
-   - Backend: `createServerFn` para lógica interna; `createFileRoute` em `src/routes/api/public/*` para webhooks. **Não usar Supabase Edge Functions**
-   - Auth: middleware `requireSupabaseAuth`
-   - Roles em tabela `user_roles` separada com `has_role()` SECURITY DEFINER, nunca em `profiles`
-   - Schema via migration do Lovable Cloud
-   - Runtime Cloudflare Workers — evitar `child_process`, `sharp`, pacotes Node-only
-   - Env vars: `import.meta.env.VITE_*` no browser, `process.env.*` dentro de `.handler()`
-   - SEO: cada rota com `head()` próprio (title <60, description <160), H1 único, alt em imagens
-   - CI: `check-brand` e `check-og` precisam passar; novo país requer OG gerada
-8. **Fluxo Git / co-edição com IAs externas** — Sync bidirecional Lovable ↔ GitHub. Recomendação: PRs para mudanças grandes; commits diretos OK para fixes.
-9. **Roadmap** — Aponta para `.lovable/prd.md`. Próxima rodada: Hub do Advogado (auth + Stripe).
-10. **Marca** — Distinção "Acordo Internacional" (produto) / "AtlasPrev" (empresa) / "Dr. Marcos Espínola" (rosto especialista, não é marca).
+## Nesta rodada (Lovable, agora)
 
-## Arquivos
+### 1. Habilitar Lovable Cloud (Supabase)
+Chamar `supabase--enable`. Isso cria:
+- `src/integrations/supabase/client.ts` (browser)
+- `src/integrations/supabase/client.server.ts` (admin)
+- `src/integrations/supabase/auth-middleware.ts` (requireSupabaseAuth)
+- `src/integrations/supabase/auth-attacher.ts` (attachSupabaseAuth)
+- `supabase/migrations/` (diretório)
+- `src/start.ts` precisa registrar `attachSupabaseAuth` em `functionMiddleware` (validar após enable)
 
-- **Criar:** `README.md` (raiz)
+### 2. Habilitar Stripe Payments (seamless)
+- Rodar `payments--recommend_payment_provider` para validar elegibilidade
+- Chamar `payments--enable_stripe_payments` (modo seamless, sem BYOK)
+- Após enable, anotar nos secrets: `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`
 
-Sem alterações em código, schema ou CI. Documento puro.
+### 3. Criar `COLLAB.md` na raiz
+Tabela revisada de divisão Lovable ↔ Claude, regras de coordenação (1 arquivo = 1 dono por rodada, mudanças cross-side via PR), sequência obrigatória de provisionamento. Claude lê esse arquivo ao abrir o repo.
+
+Conteúdo da tabela:
+
+| Lovable (UI + setup) | Claude (infra + lógica) |
+|---|---|
+| 1. ✅ Habilitar Supabase + Stripe (esta rodada) | 1. `supabase/migrations/{ts}_hub_schema.sql` |
+| 2. UI completa `/login` e `/cadastro` | 2. `src/routes/_authenticated.tsx` (beforeLoad + redirect + `<Outlet />`) |
+| 3. UI `/_authenticated/hub` (dashboard) | 3. `src/lib/hub.functions.ts` (`getCountryHubData`) |
+| 4. UI `/_authenticated/hub.$pais` | 4. `src/routes/api/public/stripe-webhook.ts` (HMAC) |
+| 5. UI `/precos` (cards de plano) | 5. `src/lib/checkout.functions.ts` (Stripe checkout session) |
+
+### 4. Corrigir `pro-content-lock.tsx`
+- Trocar `"com pagamento único e acesso vitalício"` por `"com assinatura mensal ou anual"`.
+- Conservar resto da estrutura/estilo (sem refactor além do copy).
+
+### 5. Atualizar `.lovable/prd.md`
+- Corrigir status: "Lovable Cloud habilitado" passa de ✅ (incorreto) para ✅ (real, após enable).
+- Adicionar linha: "Stripe Payments habilitado (seamless)".
+- Seção 8 ganha referência ao `COLLAB.md` como leitura obrigatória.
+
+### 6. Atualizar `ROADMAP.md`
+- Adicionar Fase 3.5 "Provisionamento Cloud + Stripe" marcada como ✅ ao final.
+- Mover sub-itens da Fase 4 que dependem só de Supabase/Stripe de `📋` para `🚧` quando Claude começar.
+
+## Para Claude (próxima rodada, via GitHub PR)
+
+Após o sync da habilitação chegar no repo:
+
+- PR único com 5 arquivos: migration SQL + `_authenticated.tsx` + `hub.functions.ts` + `stripe-webhook.ts` + `checkout.functions.ts`
+- Schema da migration (mínimo): `profiles` + trigger auto-create, enum `app_role`, `user_roles` + função `has_role(uuid, app_role)` SECURITY DEFINER, `subscriptions`, `downloads_log`, RLS habilitado em todas com policies por `auth.uid()` e `has_role()`.
+- Após merge, Claude atualiza `ROADMAP.md` e `.lovable/prd.md` no mesmo PR.
+
+## Pós-Claude (rodada seguinte, Lovable)
+
+- Criar UIs: `/login`, `/cadastro`, `/precos`, `/_authenticated/hub`, `/_authenticated/hub.$pais`, `/_authenticated/conta`.
+- Cada uma com `head()` próprio (title <60, description <160).
+- `/login` e `/cadastro` chamam diretamente `supabase.auth.signInWithPassword` / `signUp` do `client.ts`.
+- `/_authenticated/hub.$pais` chama `getCountryHubData()` via `useServerFn`.
+
+## Arquivos desta rodada (Lovable)
+
+- **Criar:** `COLLAB.md`
+- **Editar:** `.lovable/prd.md`, `ROADMAP.md`, `src/components/pro-content-lock.tsx`
+- **Habilitações:** Lovable Cloud (Supabase), Stripe Payments (seamless)
+
+## Fora do escopo desta rodada
+
+- Qualquer código de auth, schema, server function, webhook, checkout (é responsabilidade do Claude na próxima rodada).
+- Qualquer UI nova (`/login`, `/cadastro`, `/precos`, `/hub`) — depende do schema + server fns do Claude.
+- BYOK Stripe (decidido: seamless).
