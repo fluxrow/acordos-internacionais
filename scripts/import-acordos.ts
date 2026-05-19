@@ -78,21 +78,29 @@ interface Orgao {
 }
 
 function parseContactBoxes(html: string): Orgao[] {
+  // Localiza cada início de contact-box, slice até o próximo (ou até o fim
+  // da contact-section). Evita lidar com balanceamento de <div> aninhados.
   const out: Orgao[] = [];
-  const boxRe = /<div\s+class="contact-box">([\s\S]*?)<\/div>\s*<\/div>/g;
+  const positions: number[] = [];
+  const reBox = /<div\s+class="contact-box">/g;
   let m: RegExpExecArray | null;
-  while ((m = boxRe.exec(html)) !== null) {
-    const body = m[1];
+  while ((m = reBox.exec(html)) !== null) positions.push(m.index);
+  // sentinela: tudo depois do último box
+  positions.push(html.length);
+
+  for (let i = 0; i < positions.length - 1; i++) {
+    const body = html.slice(positions[i], positions[i + 1]);
     const titulo = cleanText(/<div\s+class="contact-title">([\s\S]*?)<\/div>/.exec(body)?.[1]);
     if (!titulo) continue;
+
     const fields: Record<string, string | undefined> = {};
-    const itemRe = /<div\s+class="contact-item">([\s\S]*?)<\/div>\s*<\/div>/g;
-    let im: RegExpExecArray | null;
-    while ((im = itemRe.exec(body)) !== null) {
-      const inner = im[1];
-      const label = cleanText(/<div\s+class="contact-label">([\s\S]*?)<\/div>/.exec(inner)?.[1]);
-      const value = cleanText(/<div\s+class="contact-value">([\s\S]*?)<\/div>/.exec(inner)?.[1]);
-      if (!label) continue;
+    // Para cada label, pega o próximo contact-value (em qualquer ordem).
+    const labelRe = /<div\s+class="contact-label">([\s\S]*?)<\/div>\s*<div\s+class="contact-value">([\s\S]*?)<\/div>/g;
+    let lm: RegExpExecArray | null;
+    while ((lm = labelRe.exec(body)) !== null) {
+      const label = cleanText(lm[1]);
+      const value = cleanText(lm[2]);
+      if (!label || !value) continue;
       if (/institui/i.test(label)) fields.instituicao = value;
       else if (/endere/i.test(label)) fields.endereco = value;
       else if (/telefone/i.test(label)) fields.telefone = value;
