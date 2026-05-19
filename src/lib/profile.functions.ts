@@ -13,6 +13,7 @@ export type AccountData = {
     cancelAtPeriodEnd: boolean;
     priceId: string | null;
     stripeCustomerId: string | null;
+    lifetimeAccess: boolean;
   } | null;
 };
 
@@ -30,7 +31,7 @@ export const getAccountData = createServerFn({ method: "GET" })
       supabaseAdmin
         .from("subscriptions")
         .select(
-          "status, current_period_end, cancel_at_period_end, price_id, stripe_customer_id",
+          "status, current_period_end, cancel_at_period_end, price_id, stripe_customer_id, lifetime_access",
         )
         .eq("user_id", userId)
         .maybeSingle(),
@@ -53,6 +54,7 @@ export const getAccountData = createServerFn({ method: "GET" })
             cancelAtPeriodEnd: sub.cancel_at_period_end,
             priceId: sub.price_id,
             stripeCustomerId: sub.stripe_customer_id,
+            lifetimeAccess: sub.lifetime_access ?? false,
           }
         : null,
     };

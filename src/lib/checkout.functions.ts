@@ -59,14 +59,19 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
     const origin =
       process.env.APP_URL ?? "https://acordosinternacionais.lovable.app";
 
+    // Fundadores usam pagamento único (one_time); demais planos são subscription
+    const isOneTime = stripePrice.type === "one_time";
+
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
       line_items: [{ price: stripePrice.id, quantity: 1 }],
-      mode: "subscription",
+      mode: isOneTime ? "payment" : "subscription",
       ui_mode: "embedded_page",
-      return_url: `${origin}/hub?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
-      metadata: { userId },
-      subscription_data: { metadata: { userId } },
+      return_url: `${origin}/hub?checkout=${isOneTime ? "founder" : "success"}&session_id={CHECKOUT_SESSION_ID}`,
+      metadata: { userId, ...(isOneTime ? { isFounder: "true" } : {}) },
+      ...(isOneTime
+        ? {}
+        : { subscription_data: { metadata: { userId } } }),
     });
 
     if (!session.client_secret) {
