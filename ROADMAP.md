@@ -50,32 +50,38 @@
 - ✅ `ROADMAP.md` (este arquivo)
 - ✅ `.lovable/prd.md` atualizado com status real
 
-## Fase 4 — Hub do Advogado MVP 📋 (próxima rodada)
+## Fase 3.5 — Provisionamento Cloud + Stripe ✅ (concluída)
 
-### 4.1 Auth e perfis 📋
+- ✅ Lovable Cloud (Supabase) provisionado de verdade — `src/integrations/supabase/*` e `supabase/migrations/` criados
+- ✅ Stripe Payments (seamless) habilitado — sandbox + webhook em `/api/public/payments/webhook?env=sandbox`
+- ✅ `COLLAB.md` na raiz com divisão Lovable ↔ Claude
+- ✅ Copy de `pro-content-lock.tsx` alinhado a assinatura recorrente
 
-- 📋 Habilitar Lovable Auth (e-mail/senha + Google sign-in)
-- 📋 Tabela `profiles` (1:1 com `auth.users`) — nome, OAB, telefone, foto, criada via trigger no signup
-- 📋 Tabela `user_roles` separada (enum `app_role`: `subscriber`, `admin`) + função `has_role(uuid, app_role)` `SECURITY DEFINER`
-- 📋 RLS em todas as tabelas
-- 📋 Rotas: `/login`, `/cadastro`, `/reset-password`, `/_authenticated/conta`
+## Fase 4 — Hub do Advogado MVP 🚧 (em andamento — Claude faz infra, Lovable faz UI)
 
-### 4.2 Pagamento Stripe 📋
+### 4.1 Auth e perfis 🚧
 
-- 📋 Habilitar Lovable Payments (Stripe)
-- 📋 Tabela `subscriptions` (`user_id`, `stripe_customer_id`, `status`, `price_id`, `current_period_end`)
-- 📋 Route pública `/precos` → checkout
-- 📋 Webhook `/api/public/stripe-webhook` com verificação HMAC obrigatória
-- 📋 Portal Stripe acessível em `/_authenticated/conta` para gestão/cancelamento
+- ✅ Lovable Auth pronto na plataforma (e-mail/senha + Google sign-in disponíveis)
+- 🚧 **Claude**: migration com `profiles` (1:1 + trigger), enum `app_role`, `user_roles` separada, `has_role()` `SECURITY DEFINER`, RLS em tudo
+- 🚧 **Claude**: `src/routes/_authenticated.tsx` (layout com `beforeLoad` + `redirect` + `<Outlet />`)
+- 📋 **Lovable**: UI de `/login`, `/cadastro`, `/reset-password`, `/_authenticated/conta`
 
-### 4.3 Hub privado 📋
+### 4.2 Pagamento Stripe 🚧
+
+- ✅ Stripe Payments (seamless) habilitado, sandbox ativo, webhook registrado
+- 🚧 **Claude**: migration com `subscriptions` (`user_id`, `stripe_customer_id`, `status`, `price_id`, `current_period_end`)
+- 🚧 **Claude**: `src/routes/api/public/payments/webhook.ts` (caminho fixo) — consome eventos `subscription.*` e `transaction.*`
+- 🚧 **Claude**: `src/lib/checkout.functions.ts` — cria Checkout Session
+- 📋 **Lovable**: UI de `/precos` (cards de plano) e portal Stripe em `/_authenticated/conta`
+
+### 4.3 Hub privado 🚧
 
 - 📋 Supabase Storage: bucket privado `hub-docs/{pais}/{tipo}/{arquivo}`
 - 📋 Upload manual inicial dos PDFs/docx do repo `Mapa-de-Acordos`
-- 📋 Server function `getCountryHubData(pais)` — valida assinatura ativa, devolve signed URLs com TTL curto
-- 📋 Rotas `/_authenticated/hub` (dashboard) e `/_authenticated/hub/$pais` (material por país)
-- 📋 Tabela `downloads_log` (auditoria + base p/ limites antiabuso)
-- 📋 Bloco "Material técnico para advogados" no fim de `/acordos/:pais` → CTA para `/precos`
+- 🚧 **Claude**: `src/lib/hub.functions.ts` — `getCountryHubData(pais)` com `requireSupabaseAuth`, valida assinatura ativa, devolve signed URLs com TTL curto
+- 🚧 **Claude**: migration com `downloads_log` (`user_id`, `country`, `file_path`, `downloaded_at`)
+- 📋 **Lovable**: UI de `/_authenticated/hub` (dashboard) e `/_authenticated/hub.$pais` (material por país)
+- 📋 **Lovable**: bloco "Material técnico para advogados" no fim de `/acordos/:pais` → CTA para `/precos`
 
 ### 4.4 Critérios de aceite do MVP 📋
 

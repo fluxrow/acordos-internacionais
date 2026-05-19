@@ -36,7 +36,7 @@ export function ProContentLock({
       <p className="mt-4 max-w-2xl text-sm text-muted-foreground">
         Esta é a vitrine do que está dentro do Hub Profissional. A profundidade
         técnica é reservada a advogados que conduzem casos sob o acordo,
-        com pagamento único e acesso vitalício.
+        via assinatura mensal ou anual.
       </p>
 
       <ul className="mt-6 grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2">
