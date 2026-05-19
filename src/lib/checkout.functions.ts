@@ -63,7 +63,7 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
       customer: customerId,
       line_items: [{ price: stripePrice.id, quantity: 1 }],
       mode: "subscription",
-      ui_mode: "embedded",
+      ui_mode: "embedded_page",
       return_url: `${origin}/hub?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
       metadata: { userId },
       subscription_data: { metadata: { userId } },
