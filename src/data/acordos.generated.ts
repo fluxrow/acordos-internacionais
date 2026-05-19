@@ -11,6 +11,18 @@ export const acordosImportados: Record<string, AcordoImportado> = {
     "decreto": "Decreto nº 8.000/2013",
     "vigorDesde": "01 de maio de 2013",
     "docsInfo": "13 documentos disponíveis",
+    "orgaoBR": {
+      "titulo": "APSAI / INSS (Brasil)",
+      "instituicao": "Agência da Previdência Social de Atendimento Acordos Internacionais - Florianópolis (SC)",
+      "endereco": "Rua Felipe Schmidt, nº 331, 4º Andar, Sala 19.002, Centro, Florianópolis (SC), CEP 88.010-000",
+      "telefone": "(48) 4042-7718 / 4042-7731",
+      "email": "apsai20001130@inss.gov.br"
+    },
+    "orgaoParceiro": {
+      "titulo": "Órgão de Ligação (Alemanha)",
+      "instituicao": "Deutsche Rentenversicherung Knappschaft-Bahn-See",
+      "endereco": "Piepserstraße 14-28, 44789 – Bochum, Alemanha"
+    },
     "beneficios": {
       "brasil": [
         "Aposentadoria por Idade",
@@ -127,6 +139,12 @@ export const acordosImportados: Record<string, AcordoImportado> = {
     "decreto": "Decreto nº 12.952/2026",
     "vigorDesde": "01 de março de 2026",
     "docsInfo": "3 documentos disponíveis",
+    "orgaoBR": {
+      "titulo": "Órgão de Ligação (Brasil)"
+    },
+    "orgaoParceiro": {
+      "titulo": "Órgão de Ligação (Áustria)"
+    },
     "beneficios": {
       "brasil": [
         "Aposentadoria por idade",
@@ -173,6 +191,19 @@ export const acordosImportados: Record<string, AcordoImportado> = {
     "decreto": "Decreto nº 8.405/2015",
     "vigorDesde": "01 de dezembro de 2014",
     "docsInfo": "16 documentos disponíveis",
+    "orgaoBR": {
+      "titulo": "APSAI / INSS (Brasil)",
+      "instituicao": "Agência da Previdência Social – Atendimento Acordos Internacionais Brasília (Código: 23.001.140)",
+      "endereco": "SAUS, Quadra 4, Bloco L, 7º Andar, sala 713, Asa Sul, Brasília (DF), CEP 70070-924",
+      "telefone": "Recepção: (61) 2017-7148 / Gerência: (61) 2017-8773",
+      "email": "apsai23001140@inss.gov.br"
+    },
+    "orgaoParceiro": {
+      "titulo": "ONSS / Bélgica",
+      "instituicao": "Office National de Sécurité Sociale (ONSS)",
+      "endereco": "Rue de Trèves, 61, B-1040 Bruxelas, Bélgica",
+      "telefone": "+32 (0)2 506 80 00"
+    },
     "beneficios": {
       "brasil": [
         "Aposentadoria por Idade",
@@ -193,6 +224,16 @@ export const acordosImportados: Record<string, AcordoImportado> = {
     "decreto": "Conferir ato de promulgação",
     "vigorDesde": "Conforme Art. 29 do Acordo",
     "docsInfo": "1 documento disponível",
+    "orgaoBR": {
+      "titulo": "APSAI / INSS (Brasil)",
+      "instituicao": "Agência da Previdência Social de Atendimento Acordos Internacionais - Florianópolis (SC)",
+      "endereco": "Rua Pedro Lessa nº 36, 5º andar, sala 519, Centro, Rio de Janeiro (RJ), CEP 20.030-030",
+      "telefone": "(21) 2272-3438 / 2272-3515",
+      "email": "apsai17001220@inss.gov.br"
+    },
+    "orgaoParceiro": {
+      "titulo": "Órgão de Ligação (Bulgária)"
+    },
     "beneficios": {
       "brasil": [
         "Aposentadoria por idade",
@@ -220,6 +261,16 @@ export const acordosImportados: Record<string, AcordoImportado> = {
     "decreto": "Decreto nº 8.000/2013",
     "vigorDesde": "01 de maio de 2013",
     "docsInfo": "13 documentos disponíveis",
+    "orgaoBR": {
+      "titulo": "APSAI / INSS (Brasil)",
+      "instituicao": "Agência da Previdência Social de Atendimento Acordos Internacionais - Florianópolis (SC)",
+      "endereco": "Rua Pedro Lessa nº 36, 5º andar, sala 519, Centro, Rio de Janeiro (RJ), CEP 20.030-030",
+      "telefone": "(21) 2272-3438 / 2272-3515",
+      "email": "apsai17001220@inss.gov.br"
+    },
+    "orgaoParceiro": {
+      "titulo": "Órgão de Ligação (Cabo Verde)"
+    },
     "beneficios": {
       "brasil": [
         "Aposentadoria por Idade",
@@ -260,6 +311,18 @@ export const acordosImportados: Record<string, AcordoImportado> = {
     "decreto": "Decreto nº 8.288/2014",
     "vigorDesde": "24 de julho de 2014",
     "docsInfo": "16 documentos disponíveis",
+    "orgaoBR": {
+      "titulo": "APSAI / INSS (Brasil)",
+      "instituicao": "APSAI Brasília",
+      "endereco": "SAUS, Quadra 4, Bloco L, 7º Andar, sala 713, Asa Sul, Brasília (DF), CEP 70070-924",
+      "telefone": "Recepção: (61) 2017-7148 | Gerente: (61) 2017-8773",
+      "email": "apsai23001140@inss.gov.br"
+    },
+    "orgaoParceiro": {
+      "titulo": "Órgão de Ligação (Canadá)",
+      "instituicao": "International Operations - NB Service Canada",
+      "endereco": "P.O. Box 250, Fredericton, New Brunswick, E3B 4Z6, Canadá"
+    },
     "beneficios": {
       "brasil": [
         "Aposentadoria por Idade",
@@ -392,6 +455,19 @@ export const acordosImportados: Record<string, AcordoImportado> = {
     "decreto": "Decreto nº 6.957/2009",
     "vigorDesde": "01 de setembro de 2009",
     "docsInfo": "9 documentos disponíveis",
+    "orgaoBR": {
+      "titulo": "APSAI / INSS (Brasil)",
+      "instituicao": "Agência da Previdência Social – Atendimento Acordos Internacionais Recife (Código: 15.001.120)",
+      "endereco": "Avenida Mário Melo, nº 343 - Sala 602, 6º andar, Santo Amaro, Recife (PE) - CEP 50.040-010",
+      "telefone": "(81) 3180-0370 / (81) 3180-0316",
+      "email": "apsai15001120@inss.gov.br"
+    },
+    "orgaoParceiro": {
+      "titulo": "Órgão de Ligação (Chile)",
+      "instituicao": "Superintendencia de Pensiones (SP)",
+      "endereco": "Avda. Libertador Bernardo O'Higgins 1449, piso 1, local 8, Santiago, Chile",
+      "telefone": "600-006-1013 | do exterior: +56 2 2707 4260"
+    },
     "beneficios": {
       "brasil": [
         "Aposentadoria por Idade",
@@ -478,6 +554,19 @@ export const acordosImportados: Record<string, AcordoImportado> = {
     "decreto": "Decreto nº 7.730/2012",
     "vigorDesde": "01 de setembro de 2012",
     "docsInfo": "13 documentos disponíveis",
+    "orgaoBR": {
+      "titulo": "APSAI / INSS (Brasil)",
+      "instituicao": "APSAI Curitiba",
+      "endereco": "Rua João Negrão, nº 11, 9º andar, sala 901, Centro, Curitiba (PR), CEP 80010-200",
+      "telefone": "(41) 3616-9385 / 3616-9382 / 98816-9374 / 98735-9954",
+      "email": "apsai14001030@inss.gov.br"
+    },
+    "orgaoParceiro": {
+      "titulo": "Órgão de Ligação (Coreia do Sul)",
+      "instituicao": "International Center of National Pension Service",
+      "endereco": "22nd Floor, 173 Toegyero (Namsan Square Bldg.), Jung-gu, Seoul 04554",
+      "email": "zion1982@nps.or.kr"
+    },
     "beneficios": {
       "brasil": [
         "Aposentadoria por Idade",
@@ -592,6 +681,12 @@ export const acordosImportados: Record<string, AcordoImportado> = {
     "decreto": "Não ratificado",
     "vigorDesde": "24 de julho de 2015",
     "docsInfo": "1 documento disponível",
+    "orgaoBR": {
+      "titulo": "APSAI — Brasil"
+    },
+    "orgaoParceiro": {
+      "titulo": "Órgão de Ligação"
+    },
     "beneficios": {
       "brasil": [
         "Aposentadoria por Idade",
@@ -621,6 +716,18 @@ export const acordosImportados: Record<string, AcordoImportado> = {
     "decreto": "Decreto nº 6.962/2009",
     "vigorDesde": "01 de julho de 2009",
     "docsInfo": "7 documentos disponíveis",
+    "orgaoBR": {
+      "titulo": "APSAI / INSS (Brasil)",
+      "instituicao": "APSAI Brasília",
+      "endereco": "SAUS, Quadra 4, Bloco L, 7º Andar, sala 713, Asa Sul, Brasília (DF), CEP 70070-924",
+      "telefone": "Recepção: (61) 2017-7148 | Gerente: (61) 2017-8773",
+      "email": "apsai23001140@inss.gov.br"
+    },
+    "orgaoParceiro": {
+      "titulo": "Órgão de Ligação (Espanha)",
+      "instituicao": "Instituto Nacional de la Seguridad Social",
+      "endereco": "Calle Padre Damion 4, Madrid 26036, Espanha"
+    },
     "beneficios": {
       "brasil": [
         "Assistência Médica, Farmacêutica e Odontológica",
@@ -700,6 +807,18 @@ export const acordosImportados: Record<string, AcordoImportado> = {
     "decreto": "Decreto nº 8.697/2016",
     "vigorDesde": "01 de outubro de 2015",
     "docsInfo": "8 documentos disponíveis",
+    "orgaoBR": {
+      "titulo": "APSAI / INSS (Brasil)",
+      "instituicao": "APSAI Belo Horizonte",
+      "endereco": "Rua Amazonas, nº 266, 9º Andar, Sala 901, Centro, Belo Horizonte (MG), CEP 30.180-001",
+      "telefone": "(31) 2180-3540 / 2180-3487 / 98404-8676",
+      "email": "apsai11001140@inss.gov.br"
+    },
+    "orgaoParceiro": {
+      "titulo": "Órgão de Ligação (Estados Unidos)",
+      "instituicao": "Social Security Administration (SSA) – Office of Earnings and International Operations",
+      "endereco": "P.O. Box 17741, Baltimore, MD 21235-7741, Estados Unidos"
+    },
     "beneficios": {
       "brasil": [
         "Aposentadoria por Idade",
@@ -779,6 +898,18 @@ export const acordosImportados: Record<string, AcordoImportado> = {
     "decreto": "Decreto nº 8.000/2013",
     "vigorDesde": "01 de maio de 2013",
     "docsInfo": "16 documentos disponíveis",
+    "orgaoBR": {
+      "titulo": "APSAI / INSS (Brasil)",
+      "instituicao": "Agência da Previdência Social de Atendimento Acordos Internacionais - Florianópolis (SC)",
+      "endereco": "Rua Pedro Lessa nº 36, 5º andar, sala 519, Centro, Rio de Janeiro (RJ), CEP 20.030-030",
+      "telefone": "(21) 2272-3438 / 2272-3515",
+      "email": "apsai17001220@inss.gov.br"
+    },
+    "orgaoParceiro": {
+      "titulo": "Órgão de Ligação (França)",
+      "instituicao": "CNAV – Direction des assurés de l'étranger",
+      "endereco": "15 Avenue Louis Jouhanneau, 37078 Tours Cedex 2"
+    },
     "beneficios": {
       "brasil": [
         "Aposentadoria por idade",
@@ -919,6 +1050,19 @@ export const acordosImportados: Record<string, AcordoImportado> = {
     "decreto": "Decreto nº 7.530/2011",
     "vigorDesde": "01 de setembro de 2011",
     "docsInfo": "5 documentos disponíveis",
+    "orgaoBR": {
+      "titulo": "APSAI / INSS (Brasil)",
+      "instituicao": "Agência da Previdência Social Atendimento Acordos Internacionais Brasília - DFCódigo: 23.001.140",
+      "endereco": "SAUS, Quadra 4, Bloco L, 7º Andar, sala 713, Asa Sul, Brasília (DF)CEP 70070-924",
+      "telefone": "Recepção: (61) 2017-7148Gerente: (61) 2017-8773",
+      "email": "apsai23001140@inss.gov.br"
+    },
+    "orgaoParceiro": {
+      "titulo": "Órgão de Ligação (Grécia)",
+      "instituicao": "L’Institution de Sécurite Sociale (IKA)",
+      "endereco": "Rue Aghiou Konstatinou 8, 10241 Atenas – Grécia",
+      "telefone": "00xx301 674-4824"
+    },
     "beneficios": {
       "brasil": [
         "Aposentadoria por idade",
@@ -983,6 +1127,16 @@ export const acordosImportados: Record<string, AcordoImportado> = {
     "instrumento": "Acordo Iberoamericano",
     "vigorDesde": "19/05/2011",
     "docsInfo": "9 documentos disponíveis",
+    "orgaoBR": {
+      "titulo": "Brasil — APSAI Curitiba",
+      "instituicao": "Agência da Previdência Social Atendimento Acordos Internacionais CuritibaCódigo: 14.001.030",
+      "endereco": "Rua João Negrão, nº 11, 9º andar – sala 901Centro, Curitiba (PR) – CEP 80010-200",
+      "telefone": "(41) 3616-9385 / 3616-9382",
+      "email": "apsai14001030@inss.gov.br"
+    },
+    "orgaoParceiro": {
+      "titulo": "Órgãos de Ligação"
+    },
     "beneficios": {
       "brasil": [],
       "parceiro": []
@@ -995,6 +1149,18 @@ export const acordosImportados: Record<string, AcordoImportado> = {
     "decreto": "Decreto nº 10.220/2020",
     "vigorDesde": "01 de janeiro de 2020",
     "docsInfo": "8 documentos disponíveis",
+    "orgaoBR": {
+      "titulo": "APSAI / INSS (Brasil)",
+      "instituicao": "APSAI Florianópolis",
+      "endereco": "Rua Felipe Schmidt, nº 331, 4º Andar, Sala 19.002, Centro, Florianópolis (SC), CEP 88.010-000",
+      "telefone": "(48) 4042-7718 / 4042-7731",
+      "email": "apsai20001130@inss.gov.br"
+    },
+    "orgaoParceiro": {
+      "titulo": "Órgão de Ligação (Índia)",
+      "instituicao": "Employees' Provident Fund Organisation (EPFO)",
+      "endereco": "Head Office, New Delhi, Índia"
+    },
     "beneficios": {
       "brasil": [
         "Aposentadoria por Idade",
@@ -1074,6 +1240,19 @@ export const acordosImportados: Record<string, AcordoImportado> = {
     "decreto": "Decreto nº 10.293/2020",
     "vigorDesde": "01 de março de 2020",
     "docsInfo": "1 documento disponível",
+    "orgaoBR": {
+      "titulo": "APSAI / INSS (Brasil)",
+      "instituicao": "Informação em atualização",
+      "endereco": "Informação em atualização",
+      "telefone": "Informação em atualização",
+      "email": "Informação em atualização"
+    },
+    "orgaoParceiro": {
+      "titulo": "Órgão de Ligação (Israel)",
+      "instituicao": "Informação em atualização",
+      "endereco": "Informação em atualização",
+      "telefone": "Informação em atualização"
+    },
     "beneficios": {
       "brasil": [
         "Aposentadoria por Idade",
@@ -1105,6 +1284,18 @@ export const acordosImportados: Record<string, AcordoImportado> = {
     "decreto": "Decreto nº 8.742/2016",
     "vigorDesde": "01 de setembro de 2016",
     "docsInfo": "8 documentos disponíveis",
+    "orgaoBR": {
+      "titulo": "APSAI / INSS (Brasil)",
+      "instituicao": "APSAI Belo Horizonte",
+      "endereco": "Rua Amazonas, nº 266, 9º Andar, Sala 901, Centro, Belo Horizonte (MG), CEP 30.180-001",
+      "telefone": "(31) 2180-3540 / 2180-3487 / 98404-8676",
+      "email": "apsai11001140@inss.gov.br"
+    },
+    "orgaoParceiro": {
+      "titulo": "Órgão de Ligação (Itália)",
+      "instituicao": "Servizio Rapporti Convezioni Internazionali (INPS Itália)",
+      "endereco": "Villa della Frezza, 17 - 00186 Roma, Itália"
+    },
     "beneficios": {
       "brasil": [
         "Assistência médica",
@@ -1191,6 +1382,18 @@ export const acordosImportados: Record<string, AcordoImportado> = {
     "decreto": "Decreto nº 8.443/2015",
     "vigorDesde": "01 de setembro de 2015",
     "docsInfo": "13 documentos disponíveis",
+    "orgaoBR": {
+      "titulo": "APSAI / INSS (Brasil)",
+      "instituicao": "APSAI São Paulo",
+      "endereco": "Rua Santa Cruz, 747, 1º Subsolo, Vila Mariana, São Paulo (SP), CEP 04.121-000",
+      "telefone": "(11) 3503-3617 (VOIP 3012-3617) / 3618 / 3607",
+      "email": "apsai21001150@inss.gov.br"
+    },
+    "orgaoParceiro": {
+      "titulo": "Órgão de Ligação (Japão)",
+      "instituicao": "Japan Pension Service (JPS)",
+      "endereco": "3-5-24 Takaido-Nishi, Suginami-ku, Tóquio 168-8505, Japão"
+    },
     "beneficios": {
       "brasil": [
         "Aposentadoria por idade",
@@ -1308,6 +1511,20 @@ export const acordosImportados: Record<string, AcordoImportado> = {
     "titulo": "Luxemburgo",
     "decreto": "8.109/2013",
     "vigorDesde": "01 de outubro de 2013",
+    "orgaoBR": {
+      "titulo": "🇧🇷 BRASIL",
+      "instituicao": "Agência da Previdência Social – Atendimento Acordos Internacionais",
+      "endereco": "Informação em atualização",
+      "telefone": "Informação em atualização",
+      "email": "Informação em atualização"
+    },
+    "orgaoParceiro": {
+      "titulo": "🇱🇺 LUXEMBURGO",
+      "instituicao": "Centre Commun de la Sécurité Sociale (CCSS)",
+      "endereco": "Rue de Trèves, 61, L-2629 Luxemburgo",
+      "telefone": "+352 40 12 12",
+      "email": "Informação em atualização"
+    },
     "beneficios": {
       "brasil": [
         "Aposentadoria por Idade",
@@ -1350,6 +1567,16 @@ export const acordosImportados: Record<string, AcordoImportado> = {
     "decreto": "Decreto Legislativo nº 451/2001",
     "vigorDesde": "01 de junho de 2005",
     "docsInfo": "9 documentos disponíveis",
+    "orgaoBR": {
+      "titulo": "APSAI / INSS (Brasil)",
+      "instituicao": "Agência da Previdência Social de Atendimento Acordos Internacionais – Florianópolis (SC)Código: 20.001.130",
+      "endereco": "Rua Felipe Schmidt, nº 331, 4º Andar, Sala 19.002, Centro, Florianópolis (SC) CEP 88.010-000",
+      "telefone": "(48) 3298-8125 / 3298-8142",
+      "email": "apsai20001130@inss.gov.br"
+    },
+    "orgaoParceiro": {
+      "titulo": "Órgãos de Ligação"
+    },
     "beneficios": {
       "brasil": [
         "Assistência médica (para trabalhador deslocado e dependentes autorizados)",
@@ -1437,6 +1664,20 @@ export const acordosImportados: Record<string, AcordoImportado> = {
     "titulo": "Moçambique",
     "decreto": "7.963/2013",
     "vigorDesde": "01 de julho de 2013",
+    "orgaoBR": {
+      "titulo": "🇧🇷 BRASIL",
+      "instituicao": "Agência da Previdência Social – Atendimento Acordos Internacionais Curitiba (Código: 14.001.030)",
+      "endereco": "Rua João Negrão, nº 11, 9º andar – sala 901, Centro, Curitiba (PR), CEP 80.010-200",
+      "telefone": "(41) 3616-9385 / 3616-9382",
+      "email": "apsai14001030@inss.gov.br"
+    },
+    "orgaoParceiro": {
+      "titulo": "🇲🇿 MOÇAMBIQUE",
+      "instituicao": "Instituto Nacional de Segurança Social (INSS) de Moçambique",
+      "endereco": "Avenida Julius Nyerere, 2500, Maputo, Moçambique",
+      "telefone": "+258 21 300 300",
+      "email": "Informação em atualização"
+    },
     "beneficios": {
       "brasil": [
         "Aposentadoria por Invalidez",
@@ -1508,6 +1749,20 @@ export const acordosImportados: Record<string, AcordoImportado> = {
     "decreto": "Decreto nº 8.000/2013",
     "vigorDesde": "15 de julho de 1992",
     "docsInfo": "15 documentos disponíveis",
+    "orgaoBR": {
+      "titulo": "APSAI / INSS (Brasil)",
+      "instituicao": "Agência da Previdência Social de Atendimento Acordos Internacionais – São Paulo",
+      "endereco": "Rua Santa Cruz, 747, 1º Subsolo, Vila Mariana – São Paulo (SP) - CEP 04.121-000",
+      "telefone": "(11) 3503-3617 (VOIP 3012-3617) / 3618 / 3607",
+      "email": "apsai21001150@inss.gov.br"
+    },
+    "orgaoParceiro": {
+      "titulo": "Órgão de Ligação (Portugal)",
+      "instituicao": "Centro Nacional de Pensões",
+      "endereco": "Rua Campo Grande 6, Lisboa. Código Postal 1749-001",
+      "telefone": "217 9003 700",
+      "email": "cnp-pensoes@seg-social.pt"
+    },
     "beneficios": {
       "brasil": [
         "Assistência médica",
@@ -1643,6 +1898,19 @@ export const acordosImportados: Record<string, AcordoImportado> = {
     "titulo": "Acordo Brasil-Quebec",
     "decreto": "Decreto nº 8.288/2014",
     "vigorDesde": "08 de agosto de 2011",
+    "orgaoBR": {
+      "titulo": "APSAI (Brasil)",
+      "instituicao": "Agência da Previdência Social de Atendimento Acordos Internacionais - Brasília (DF)",
+      "endereco": "SAUS, Quadra 4, Bloco L, 7º Andar, sala 713, Asa Sul, Brasília (DF), CEP 70070-924",
+      "telefone": "(61) 2017-7148 / 2017-8773",
+      "email": "apsai23001140@inss.gov.br"
+    },
+    "orgaoParceiro": {
+      "titulo": "Órgão de Ligação (Quebec)",
+      "instituicao": "Bureau des ententes de sécurité sociale, Retraite Québec",
+      "endereco": "1055 boulevard René-Lévesque Est, 9e étage, Montréal (Québec), H2L 4S5",
+      "telefone": "+1 (418) 646-4636"
+    },
     "beneficios": {
       "brasil": [
         "Aposentadoria por idade",
@@ -1662,6 +1930,19 @@ export const acordosImportados: Record<string, AcordoImportado> = {
     "titulo": "Acordo Brasil-República Tcheca",
     "decreto": "Decreto nº 10.615/2021",
     "vigorDesde": "09 de dezembro de 2020",
+    "orgaoBR": {
+      "titulo": "APSAI (Brasil)",
+      "instituicao": "Agência da Previdência Social de Atendimento Acordos Internacionais - Rio de Janeiro (RJ)",
+      "endereco": "Rua Pedro Lessa nº 36, 5º andar, sala 519, Centro, Rio de Janeiro (RJ), CEP 20.030-030",
+      "telefone": "(21) 2272-3438 / 2272-3515",
+      "email": "apsai17001220@inss.gov.br"
+    },
+    "orgaoParceiro": {
+      "titulo": "Órgão de Ligação (República Tcheca)",
+      "instituicao": "Czech Social Security Administration (ČSSZ/CSSA)",
+      "endereco": "Křížová 25, 225 08 Praha 5, República Tcheca",
+      "email": "posta@cssz.cz"
+    },
     "beneficios": {
       "brasil": [
         "Aposentadoria por idade",
