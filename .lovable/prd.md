@@ -1,6 +1,8 @@
 # PRD — Acordo Internacional
 
 > Documento vivo. **Toda mudança no projeto deve atualizar este PRD na mesma rodada.** Última revisão: 2026-05-19.
+>
+> Coordenação Lovable ↔ Claude (GitHub): ver [`COLLAB.md`](../COLLAB.md). Status cronológico: ver [`ROADMAP.md`](../ROADMAP.md). Convenções de código: ver [`README.md`](../README.md).
 
 ## 1. Visão
 
@@ -30,13 +32,16 @@ Dois públicos, um produto:
 | OG por país — 25 imagens, multilaterais com selo "MULTI" | ✅ |
 | CI: `check-brand` e `check-og` (falha build se sobrar slug antigo ou OG faltando) | ✅ |
 | Tipografia, tokens (`src/styles.css`), hover/focus/active consistentes | ✅ |
-| Lovable Cloud habilitado | ✅ |
+| Lovable Cloud (Supabase) provisionado — `src/integrations/supabase/*` e `supabase/migrations/` existem | ✅ |
+| Stripe Payments (seamless) habilitado — webhook sandbox registrado em `/api/public/payments/webhook?env=sandbox` | ✅ |
 | TanStack Start em Cloudflare Workers | ✅ |
 | **Migração de dados do repo `Mapa-de-Acordos`** — 24 HTMLs parseados → `src/data/acordos.generated.ts` | ✅ |
 | **Página `/acordos/:pais` reformatada** — Instrumento/Vigência, Órgãos de Ligação BR+parceiro, Benefícios em colunas, Documentos com badge "Hub PRO" | ✅ |
 | **Repositório GitHub conectado** (sync bidirecional) | ✅ |
 | **README.md na raiz** com convenções para humanos e IAs externas | ✅ |
 | **ROADMAP.md na raiz** com timeline e próximos passos | ✅ |
+| **COLLAB.md na raiz** com divisão Lovable ↔ Claude e regras de coordenação | ✅ |
+| Copy de `pro-content-lock.tsx` alinhado a modelo de assinatura (não mais "pagamento único") | ✅ |
 
 ## 4. Próxima rodada — Hub do Advogado (MVP pago)
 
@@ -64,7 +69,7 @@ Base **já importada** do repo externo `marcosespinola1379/Mapa-de-Acordos`:
 | `/_authenticated/hub/$pais` | Material técnico + downloads |
 | `/_authenticated/conta` | Perfil + portal Stripe |
 | `/precos` | Pricing público → checkout |
-| `/api/public/stripe-webhook` | Webhook Stripe (verificação HMAC obrigatória) |
+| `/api/public/payments/webhook` | Webhook Stripe — caminho **fixo** exigido pela plataforma; recebe `?env=sandbox\|live` |
 
 `/acordos/:pais` ganha bloco final "Material técnico para advogados" → CTA para `/precos`.
 
