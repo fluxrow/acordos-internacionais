@@ -72,7 +72,7 @@ function PrecosPage() {
     onSuccess: (result) => {
       if (!result) return;
       if ("error" in result) {
-        setCheckoutError(result.error);
+        setCheckoutError(result.error ?? "Erro ao iniciar checkout");
         return;
       }
       setClientSecret(result.clientSecret);
