@@ -68,6 +68,7 @@ export type Database = {
           created_at: string
           current_period_end: string | null
           id: string
+          lifetime_access: boolean
           price_id: string | null
           status: string
           stripe_customer_id: string | null
@@ -80,6 +81,7 @@ export type Database = {
           created_at?: string
           current_period_end?: string | null
           id?: string
+          lifetime_access?: boolean
           price_id?: string | null
           status?: string
           stripe_customer_id?: string | null
@@ -92,6 +94,7 @@ export type Database = {
           created_at?: string
           current_period_end?: string | null
           id?: string
+          lifetime_access?: boolean
           price_id?: string | null
           status?: string
           stripe_customer_id?: string | null
@@ -127,6 +130,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_founder_count: { Args: never; Returns: number }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
