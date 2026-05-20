@@ -10,20 +10,36 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ProfissionalRouteImport } from './routes/profissional'
+import { Route as PrecosRouteImport } from './routes/precos'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as GlossarioRouteImport } from './routes/glossario'
 import { Route as ContatoRouteImport } from './routes/contato'
 import { Route as BlogRouteImport } from './routes/blog'
+import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AcordosIndexRouteImport } from './routes/acordos.index'
 import { Route as SobreDrMarcosRouteImport } from './routes/sobre.dr-marcos'
 import { Route as JornadasJornadaRouteImport } from './routes/jornadas.$jornada'
 import { Route as GuiasSlugRouteImport } from './routes/guias.$slug'
 import { Route as AcordosPaisRouteImport } from './routes/acordos.$pais'
+import { Route as AuthenticatedHubRouteImport } from './routes/_authenticated/hub'
+import { Route as AuthenticatedContaRouteImport } from './routes/_authenticated/conta'
+import { Route as AuthenticatedHubPaisRouteImport } from './routes/_authenticated/hub.$pais'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 
 const ProfissionalRoute = ProfissionalRouteImport.update({
   id: '/profissional',
   path: '/profissional',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrecosRoute = PrecosRouteImport.update({
+  id: '/precos',
+  path: '/precos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GlossarioRoute = GlossarioRouteImport.update({
@@ -39,6 +55,10 @@ const ContatoRoute = ContatoRouteImport.update({
 const BlogRoute = BlogRouteImport.update({
   id: '/blog',
   path: '/blog',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRoute = AuthenticatedRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -71,6 +91,21 @@ const AcordosPaisRoute = AcordosPaisRouteImport.update({
   path: '/acordos/$pais',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedHubRoute = AuthenticatedHubRouteImport.update({
+  id: '/hub',
+  path: '/hub',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedContaRoute = AuthenticatedContaRouteImport.update({
+  id: '/conta',
+  path: '/conta',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedHubPaisRoute = AuthenticatedHubPaisRouteImport.update({
+  id: '/$pais',
+  path: '/$pais',
+  getParentRoute: () => AuthenticatedHubRoute,
+} as any)
 const ApiPublicPaymentsWebhookRoute =
   ApiPublicPaymentsWebhookRouteImport.update({
     id: '/api/public/payments/webhook',
@@ -83,12 +118,17 @@ export interface FileRoutesByFullPath {
   '/blog': typeof BlogRoute
   '/contato': typeof ContatoRoute
   '/glossario': typeof GlossarioRoute
+  '/login': typeof LoginRoute
+  '/precos': typeof PrecosRoute
   '/profissional': typeof ProfissionalRoute
+  '/conta': typeof AuthenticatedContaRoute
+  '/hub': typeof AuthenticatedHubRouteWithChildren
   '/acordos/$pais': typeof AcordosPaisRoute
   '/guias/$slug': typeof GuiasSlugRoute
   '/jornadas/$jornada': typeof JornadasJornadaRoute
   '/sobre/dr-marcos': typeof SobreDrMarcosRoute
   '/acordos/': typeof AcordosIndexRoute
+  '/hub/$pais': typeof AuthenticatedHubPaisRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesByTo {
@@ -96,26 +136,37 @@ export interface FileRoutesByTo {
   '/blog': typeof BlogRoute
   '/contato': typeof ContatoRoute
   '/glossario': typeof GlossarioRoute
+  '/login': typeof LoginRoute
+  '/precos': typeof PrecosRoute
   '/profissional': typeof ProfissionalRoute
+  '/conta': typeof AuthenticatedContaRoute
+  '/hub': typeof AuthenticatedHubRouteWithChildren
   '/acordos/$pais': typeof AcordosPaisRoute
   '/guias/$slug': typeof GuiasSlugRoute
   '/jornadas/$jornada': typeof JornadasJornadaRoute
   '/sobre/dr-marcos': typeof SobreDrMarcosRoute
   '/acordos': typeof AcordosIndexRoute
+  '/hub/$pais': typeof AuthenticatedHubPaisRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/blog': typeof BlogRoute
   '/contato': typeof ContatoRoute
   '/glossario': typeof GlossarioRoute
+  '/login': typeof LoginRoute
+  '/precos': typeof PrecosRoute
   '/profissional': typeof ProfissionalRoute
+  '/_authenticated/conta': typeof AuthenticatedContaRoute
+  '/_authenticated/hub': typeof AuthenticatedHubRouteWithChildren
   '/acordos/$pais': typeof AcordosPaisRoute
   '/guias/$slug': typeof GuiasSlugRoute
   '/jornadas/$jornada': typeof JornadasJornadaRoute
   '/sobre/dr-marcos': typeof SobreDrMarcosRoute
   '/acordos/': typeof AcordosIndexRoute
+  '/_authenticated/hub/$pais': typeof AuthenticatedHubPaisRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRouteTypes {
@@ -125,12 +176,17 @@ export interface FileRouteTypes {
     | '/blog'
     | '/contato'
     | '/glossario'
+    | '/login'
+    | '/precos'
     | '/profissional'
+    | '/conta'
+    | '/hub'
     | '/acordos/$pais'
     | '/guias/$slug'
     | '/jornadas/$jornada'
     | '/sobre/dr-marcos'
     | '/acordos/'
+    | '/hub/$pais'
     | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -138,33 +194,47 @@ export interface FileRouteTypes {
     | '/blog'
     | '/contato'
     | '/glossario'
+    | '/login'
+    | '/precos'
     | '/profissional'
+    | '/conta'
+    | '/hub'
     | '/acordos/$pais'
     | '/guias/$slug'
     | '/jornadas/$jornada'
     | '/sobre/dr-marcos'
     | '/acordos'
+    | '/hub/$pais'
     | '/api/public/payments/webhook'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/blog'
     | '/contato'
     | '/glossario'
+    | '/login'
+    | '/precos'
     | '/profissional'
+    | '/_authenticated/conta'
+    | '/_authenticated/hub'
     | '/acordos/$pais'
     | '/guias/$slug'
     | '/jornadas/$jornada'
     | '/sobre/dr-marcos'
     | '/acordos/'
+    | '/_authenticated/hub/$pais'
     | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   BlogRoute: typeof BlogRoute
   ContatoRoute: typeof ContatoRoute
   GlossarioRoute: typeof GlossarioRoute
+  LoginRoute: typeof LoginRoute
+  PrecosRoute: typeof PrecosRoute
   ProfissionalRoute: typeof ProfissionalRoute
   AcordosPaisRoute: typeof AcordosPaisRoute
   GuiasSlugRoute: typeof GuiasSlugRoute
@@ -181,6 +251,20 @@ declare module '@tanstack/react-router' {
       path: '/profissional'
       fullPath: '/profissional'
       preLoaderRoute: typeof ProfissionalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/precos': {
+      id: '/precos'
+      path: '/precos'
+      fullPath: '/precos'
+      preLoaderRoute: typeof PrecosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/glossario': {
@@ -202,6 +286,13 @@ declare module '@tanstack/react-router' {
       path: '/blog'
       fullPath: '/blog'
       preLoaderRoute: typeof BlogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -246,6 +337,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AcordosPaisRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/hub': {
+      id: '/_authenticated/hub'
+      path: '/hub'
+      fullPath: '/hub'
+      preLoaderRoute: typeof AuthenticatedHubRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/conta': {
+      id: '/_authenticated/conta'
+      path: '/conta'
+      fullPath: '/conta'
+      preLoaderRoute: typeof AuthenticatedContaRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/hub/$pais': {
+      id: '/_authenticated/hub/$pais'
+      path: '/$pais'
+      fullPath: '/hub/$pais'
+      preLoaderRoute: typeof AuthenticatedHubPaisRouteImport
+      parentRoute: typeof AuthenticatedHubRoute
+    }
     '/api/public/payments/webhook': {
       id: '/api/public/payments/webhook'
       path: '/api/public/payments/webhook'
@@ -256,11 +368,39 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedHubRouteChildren {
+  AuthenticatedHubPaisRoute: typeof AuthenticatedHubPaisRoute
+}
+
+const AuthenticatedHubRouteChildren: AuthenticatedHubRouteChildren = {
+  AuthenticatedHubPaisRoute: AuthenticatedHubPaisRoute,
+}
+
+const AuthenticatedHubRouteWithChildren =
+  AuthenticatedHubRoute._addFileChildren(AuthenticatedHubRouteChildren)
+
+interface AuthenticatedRouteChildren {
+  AuthenticatedContaRoute: typeof AuthenticatedContaRoute
+  AuthenticatedHubRoute: typeof AuthenticatedHubRouteWithChildren
+}
+
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedContaRoute: AuthenticatedContaRoute,
+  AuthenticatedHubRoute: AuthenticatedHubRouteWithChildren,
+}
+
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
   BlogRoute: BlogRoute,
   ContatoRoute: ContatoRoute,
   GlossarioRoute: GlossarioRoute,
+  LoginRoute: LoginRoute,
+  PrecosRoute: PrecosRoute,
   ProfissionalRoute: ProfissionalRoute,
   AcordosPaisRoute: AcordosPaisRoute,
   GuiasSlugRoute: GuiasSlugRoute,
