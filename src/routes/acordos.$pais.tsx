@@ -525,6 +525,26 @@ function CategoriaBadge({ cat }: { cat: string }) {
   );
 }
 
+const CATEGORIA_ORDEM = ["principal", "complementar", "roteiro", "formulario", "outro"] as const;
+
+function agruparDocumentos(docs: DocumentoImportado[]): Array<[string, DocumentoImportado[]]> {
+  const grupos = new Map<string, DocumentoImportado[]>();
+  for (const d of docs) {
+    const cat = d.cat ?? "outro";
+    if (!grupos.has(cat)) grupos.set(cat, []);
+    grupos.get(cat)!.push(d);
+  }
+  const ordenados: Array<[string, DocumentoImportado[]]> = [];
+  for (const cat of CATEGORIA_ORDEM) {
+    if (grupos.has(cat)) {
+      ordenados.push([cat, grupos.get(cat)!]);
+      grupos.delete(cat);
+    }
+  }
+  for (const [cat, items] of grupos) ordenados.push([cat, items]);
+  return ordenados;
+}
+
 function LockIcon() {
   return (
     <svg
