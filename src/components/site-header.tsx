@@ -44,7 +44,7 @@ export function SiteHeader() {
           </Link>
           <Link
             to="/profissional"
-            className="rounded-sm border border-foreground bg-foreground px-3 py-1.5 text-xs font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-background hover:text-foreground"
+            className="rounded-full border border-foreground bg-foreground px-4 py-1.5 text-xs font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-background hover:text-foreground"
           >
             Hub profissional
           </Link>
