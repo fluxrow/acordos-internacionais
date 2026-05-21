@@ -517,13 +517,50 @@ function AcordoPais() {
   );
 }
 
-function Bloco({ titulo, children }: { titulo: string; children: React.ReactNode }) {
+function Bloco({
+  id,
+  numero,
+  titulo,
+  lede,
+  children,
+}: {
+  id?: string;
+  numero?: number;
+  titulo: string;
+  lede?: string;
+  children: React.ReactNode;
+}) {
   return (
-    <section>
-      <h2 className="font-display text-2xl md:text-3xl">{titulo}</h2>
-      <hr className="rule mt-3" />
-      <div className="mt-4">{children}</div>
+    <section id={id} className="scroll-mt-24">
+      <header>
+        {numero ? (
+          <p className="eyebrow text-[var(--accent-ink)]">
+            <span className="font-mono text-foreground/40">
+              {String(numero).padStart(2, "0")}
+            </span>{" "}
+            <span aria-hidden className="mx-1 text-foreground/30">·</span>{" "}
+            {titulo}
+          </p>
+        ) : null}
+        <h2 className="mt-2 font-display text-2xl md:text-3xl">{titulo}</h2>
+        {lede && (
+          <p className="mt-2 max-w-2xl text-base text-muted-foreground">{lede}</p>
+        )}
+        <hr className="rule mt-4" />
+      </header>
+      <div className="mt-6">{children}</div>
     </section>
+  );
+}
+
+function StatItem({ valor, rotulo }: { valor: number | string; rotulo: string }) {
+  return (
+    <div>
+      <dt className="eyebrow text-muted-foreground">{rotulo}</dt>
+      <dd className="mt-1 font-display text-3xl leading-none text-[var(--accent-ink)]">
+        {valor}
+      </dd>
+    </div>
   );
 }
 
@@ -536,31 +573,34 @@ function FichaItem({ rotulo, valor }: { rotulo: string; valor: string }) {
   );
 }
 
-function OrgaoCard({ orgao }: { orgao: OrgaoLigacao }) {
+function OrgaoCard({ orgao, lado }: { orgao: OrgaoLigacao; lado?: string }) {
   const temDados =
     !!orgao.instituicao || !!orgao.endereco || !!orgao.telefone || !!orgao.email;
   return (
-    <article className="rounded-xl border border-border/60 bg-background/70 p-6 backdrop-blur-sm">
-      <h3 className="font-display text-lg leading-snug">{orgao.titulo}</h3>
+    <article className="rounded-xl border border-border/60 bg-background/70 p-6 backdrop-blur-sm transition-colors hover:border-[var(--accent-ink)]/40">
+      {lado && (
+        <p className="eyebrow text-[var(--accent-ink)]">Lado {lado}</p>
+      )}
+      <h3 className="mt-2 font-display text-lg leading-snug">{orgao.titulo}</h3>
       <hr className="rule mt-3" />
       {temDados ? (
-        <dl className="mt-4 space-y-3 text-sm">
+        <dl className="mt-4 space-y-3.5 text-sm">
           {orgao.instituicao && (
-            <div>
-              <dt className="eyebrow">Instituição</dt>
-              <dd className="mt-1 leading-snug">{orgao.instituicao}</dd>
+            <div className="flex items-start gap-2.5">
+              <Building2 size={14} className="mt-0.5 shrink-0 text-muted-foreground/70" aria-hidden />
+              <dd className="leading-snug">{orgao.instituicao}</dd>
             </div>
           )}
           {orgao.endereco && (
-            <div>
-              <dt className="eyebrow">Endereço</dt>
-              <dd className="mt-1 leading-snug text-muted-foreground">{orgao.endereco}</dd>
+            <div className="flex items-start gap-2.5">
+              <MapPin size={14} className="mt-0.5 shrink-0 text-muted-foreground/70" aria-hidden />
+              <dd className="leading-snug text-muted-foreground">{orgao.endereco}</dd>
             </div>
           )}
           {orgao.telefone && (
-            <div>
-              <dt className="eyebrow">Telefone</dt>
-              <dd className="mt-1 leading-snug">
+            <div className="flex items-start gap-2.5">
+              <Phone size={14} className="mt-0.5 shrink-0 text-muted-foreground/70" aria-hidden />
+              <dd className="leading-snug">
                 <a
                   href={`tel:${orgao.telefone.replace(/[^+\d]/g, "")}`}
                   className="ink-link"
@@ -571,9 +611,9 @@ function OrgaoCard({ orgao }: { orgao: OrgaoLigacao }) {
             </div>
           )}
           {orgao.email && (
-            <div>
-              <dt className="eyebrow">E-mail</dt>
-              <dd className="mt-1 leading-snug">
+            <div className="flex items-start gap-2.5">
+              <Mail size={14} className="mt-0.5 shrink-0 text-muted-foreground/70" aria-hidden />
+              <dd className="leading-snug">
                 <a href={`mailto:${orgao.email}`} className="ink-link break-all">
                   {orgao.email}
                 </a>
@@ -590,15 +630,49 @@ function OrgaoCard({ orgao }: { orgao: OrgaoLigacao }) {
   );
 }
 
-function ListaBeneficios({ titulo, itens }: { titulo: string; itens: string[] }) {
+function BeneficiosComparativo({
+  brasil,
+  parceiro,
+  paisParceiro,
+}: {
+  brasil: string[];
+  parceiro: string[];
+  paisParceiro: string;
+}) {
+  const linhas = Math.max(brasil.length, parceiro.length);
   return (
-    <div>
-      <p className="eyebrow">{titulo}</p>
-      <ul className="mt-3 space-y-2">
-        {itens.map((item) => (
-          <li key={item} className="flex items-start gap-3 text-sm leading-snug">
-            <span aria-hidden className="mt-0.5 text-foreground">✓</span>
-            <span>{item}</span>
+    <div className="overflow-hidden rounded-xl border border-border/60 bg-background/50">
+      <div className="grid grid-cols-2 border-b border-border/60 bg-[var(--accent-ink-soft)]/40">
+        <p className="border-r border-border/60 px-4 py-3 text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--accent-ink)]">
+          Lado Brasil
+        </p>
+        <p className="px-4 py-3 text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--accent-ink)]">
+          Lado {paisParceiro}
+        </p>
+      </div>
+      <ul className="divide-y divide-border/40">
+        {Array.from({ length: linhas }).map((_, i) => (
+          <li key={i} className="grid grid-cols-2">
+            <div className="border-r border-border/40 px-4 py-3 text-sm leading-snug">
+              {brasil[i] ? (
+                <span className="flex items-start gap-2.5">
+                  <span aria-hidden className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--accent-ink)]" />
+                  {brasil[i]}
+                </span>
+              ) : (
+                <span className="text-muted-foreground/40">—</span>
+              )}
+            </div>
+            <div className="px-4 py-3 text-sm leading-snug">
+              {parceiro[i] ? (
+                <span className="flex items-start gap-2.5">
+                  <span aria-hidden className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--accent-ink)]" />
+                  {parceiro[i]}
+                </span>
+              ) : (
+                <span className="text-muted-foreground/40">—</span>
+              )}
+            </div>
           </li>
         ))}
       </ul>
@@ -613,9 +687,6 @@ const CATEGORIA_LABEL: Record<string, string> = {
   roteiro: "Roteiro",
   outro: "Outro",
 };
-
-
-
 
 const CATEGORIA_ORDEM = ["principal", "complementar", "roteiro", "formulario", "outro"] as const;
 
@@ -637,19 +708,3 @@ function agruparDocumentos(docs: DocumentoImportado[]): Array<[string, Documento
   return ordenados;
 }
 
-function LockIcon() {
-  return (
-    <svg
-      width="10"
-      height="10"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      aria-hidden
-    >
-      <rect x="4" y="11" width="16" height="10" rx="1" />
-      <path d="M8 11V7a4 4 0 1 1 8 0v4" />
-    </svg>
-  );
-}
