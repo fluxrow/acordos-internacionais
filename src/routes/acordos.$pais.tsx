@@ -308,14 +308,14 @@ function AcordoPais() {
             <CTAMarcos
               contexto={`Tem um caso ligado ao acordo Brasil–${a.nome}? Fale com o Dr. Marcos Espínola.`}
             />
-            <div className="border border-border p-6">
+            <div className="rounded-xl border border-border/60 bg-background/70 p-6 backdrop-blur-sm">
               <p className="eyebrow">Próximos passos</p>
               <ul className="mt-4 space-y-3 text-sm">
                 <li>
                   <Link
                     to="/jornadas/$jornada"
                     params={{ jornada: "moro-fora" }}
-                    className="ink-link"
+                    className="ink-link hover:text-[var(--accent-ink)]"
                   >
                     Já moro no exterior →
                   </Link>
@@ -324,7 +324,7 @@ function AcordoPais() {
                   <Link
                     to="/jornadas/$jornada"
                     params={{ jornada: "estou-voltando" }}
-                    className="ink-link"
+                    className="ink-link hover:text-[var(--accent-ink)]"
                   >
                     Estou voltando ao Brasil →
                   </Link>
@@ -333,7 +333,7 @@ function AcordoPais() {
                   <Link
                     to="/guias/$slug"
                     params={{ slug: "prova-de-vida-no-exterior" }}
-                    className="ink-link"
+                    className="ink-link hover:text-[var(--accent-ink)]"
                   >
                     Prova de vida no exterior →
                   </Link>
