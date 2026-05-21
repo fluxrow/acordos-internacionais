@@ -103,7 +103,7 @@ export function Globe({
 
     let raf = 0;
     const globe = createGlobe(canvasRef.current, {
-      ...config,
+      ...resolvedConfig,
       width: widthRef.current * 2,
       height: widthRef.current * 2,
       phi: 0,
