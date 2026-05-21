@@ -25,7 +25,8 @@ function AcordosIndex() {
   const [filtro, setFiltro] = useState<Filtro>("todos");
 
   const lista = useMemo(() => {
-    return acordos
+    return [...acordos]
+      .sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"))
       .filter((a) => {
         if (filtro === "bilateral" && a.tipo !== "bilateral") return false;
         if (filtro === "multilateral" && a.tipo !== "multilateral") return false;
@@ -37,6 +38,12 @@ function AcordosIndex() {
         return a.nome.toLowerCase().includes(busca.toLowerCase().trim());
       });
   }, [busca, filtro]);
+
+  const filtrosAtivos = busca.trim() !== "" || filtro !== "todos";
+  const limpar = () => {
+    setBusca("");
+    setFiltro("todos");
+  };
 
   return (
     <>
@@ -97,9 +104,22 @@ function AcordosIndex() {
                 );
               })}
             </div>
-            <p className="eyebrow ml-auto text-muted-foreground">
-              {lista.length} resultado{lista.length === 1 ? "" : "s"}
-            </p>
+            <div className="ml-auto flex items-center gap-3">
+              <p className="eyebrow text-muted-foreground">
+                {filtrosAtivos
+                  ? `Mostrando ${lista.length} de ${acordos.length}`
+                  : `${lista.length} resultado${lista.length === 1 ? "" : "s"}`}
+              </p>
+              {filtrosAtivos && (
+                <button
+                  type="button"
+                  onClick={limpar}
+                  className="text-xs font-medium uppercase tracking-[0.14em] text-[var(--accent-ink)] underline underline-offset-4 hover:opacity-80"
+                >
+                  Limpar
+                </button>
+              )}
+            </div>
           </div>
 
           {/* GRADE */}
