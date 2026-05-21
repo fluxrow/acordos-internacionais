@@ -157,7 +157,7 @@ function Home() {
             </Link>
           </div>
 
-          <ul className="mt-10 grid grid-cols-1 gap-px overflow-hidden border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="mt-10 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-border bg-border shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_-12px_rgba(0,0,0,0.1)] sm:grid-cols-2 lg:grid-cols-3">
             {destaques.map((a) => (
               <li key={a.slug}>
                 <Link
