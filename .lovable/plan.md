@@ -1,104 +1,94 @@
-# Hero com globo ancorado à direita (estilo Ruixen)
+# CTAs com animação "circle reveal" (Motion Button)
 
 ## Referência
 
-Imagem enviada (Ruixen UI Globe Feature Section): globo grande à direita, parcialmente recortado pela borda da tela, texto à esquerda em coluna estreita. O globo é o "ambiente", não um item ao lado do texto — sensação de profundidade sem competir com o título.
+Componente Shatlyk1011/Motion Button (21st.dev): botão pill com círculo de cor contrastante no canto que se expande no hover, ocupando o botão todo, e revela um ícone de seta. Funciona em variante clara (botão escuro com círculo claro) e escura (botão claro com círculo escuro).
 
-## Cor do globo
+Vamos criar um componente `<CTAButton>` reutilizável que substitui os pares de `<Link>` com classes longas do hero (e dos outros CTAs primários/secundários do site).
 
-Voltar à paleta pálida (como estava antes do último ajuste):
-- `baseColor: [0.96, 0.95, 0.93]`
-- `glowColor: [0.94, 0.92, 0.88]`
-- `markerColor: [0.48, 0.12, 0.12]` (wine, pontos destacados)
-- `mapBrightness: 1.15`
+## Conceito visual
 
-Funciona porque agora o globo é grande e os marcadores wine pontuam o mundo como pequenos sinais — não precisa de contraste forte na esfera.
-
-## Layout — três formatos
-
-### Desktop (≥1024px)
-- Container `relative` ocupando toda a largura do hero.
-- Globo posicionado `absolute right-[-15%] top-1/2 -translate-y-1/2`, tamanho `~720px`. Cerca de 20–25% do globo fica fora da viewport à direita.
-- Texto numa coluna `max-w-[560px]` à esquerda, com `z-10`.
-- Altura do hero: ~640px (em vez dos ~720 atuais — ganha respiro).
-
+Estado em repouso:
 ```text
-+----------------------------------------+
-|                                        |
-| EYEBROW                  ()()()()()    |
-|                       ()()       ()()  |
-| O mapa definitivo    ()(  ·  ·  · )()  |
-| dos acordos          ()(  ·     · )()  |
-| previdenciários      ()(       ·  )()  |
-| do Brasil.           ()()       ()() __|
-|                       ()()()()()()     |  ← cortado
-| Lede curta...                       ↑globo
-|                                     fora
-| [CTA primário]  [secundário]        da tela
-|                                        |
-+----------------------------------------+
++----------------------------------+
+| (o) VER OS 25 PAÍSES             |
++----------------------------------+
+```
+- Círculo pequeno (~36px) no canto esquerdo do botão, com cor contrastante (no botão `dark`/foreground o círculo é `paper`; no botão `light`/outline o círculo é `foreground`).
+- Label centralizado/à direita do círculo.
+
+Estado hover:
+```text
++----------------------------------+
+| ████████████████████ VER...    → |
++----------------------------------+
+```
+- O círculo se expande horizontalmente cobrindo todo o botão (transição `0.5s ease-out`).
+- A label troca de cor (para o foreground da cor expandida).
+- Um ícone `ArrowRight` (lucide) aparece à direita com deslocamento sutil.
+
+## API do componente
+
+`src/components/cta-button.tsx`:
+
+```tsx
+interface CTAButtonProps {
+  label: string;
+  to?: string;          // se router Link
+  params?: Record<string,string>;
+  href?: string;        // se âncora externa
+  onClick?: () => void;
+  variant?: "dark" | "light";   // dark = bg-foreground (padrão), light = outline
+  size?: "md" | "lg";
+  className?: string;
+}
 ```
 
-### Tablet (768–1023px)
-- Mesmo princípio, globo `right-[-25%]`, tamanho ~560px.
-- Texto `max-w-[480px]`, mantém alinhamento à esquerda.
-- O recorte do globo é mais agressivo (mais fora da tela) porque a largura é menor.
+- `dark` (primário): fundo `foreground` (preto papel), label `background`, círculo `background`/`paper`; no hover o círculo expande virando "preenchimento total" e o label fica `foreground`. Resultado visual: botão escuro que "se ilumina" no hover.
+- `light` (secundário): borda `foreground`, fundo transparente, label `foreground`, círculo `foreground`; no hover o círculo expande, o botão inteiro fica preto e a label fica `background`. Inversão limpa.
 
-### Mobile (<768px)
-- Globo posicionado `absolute right-[-40%] top-[55%]`, tamanho ~360px (ainda recortado pela direita).
-- Texto ocupa a largura toda (sem max-width), mas o globo fica **atrás** do bloco de CTAs, criando o efeito de camada sem reduzir legibilidade do título.
-- Opacidade do globo reduzida pra `0.65` no mobile pra garantir que o texto sobre ele continue legível.
-- Altura do hero: ~580px (ganho de ~420px vs atual).
+Internamente: `Link` se `to`, `a` se `href`, `button` caso contrário (Slot pattern simples ou condicional direto — Slot é overkill aqui).
 
-```text
-+--------------------+
-| EYEBROW            |
-| O mapa             |
-| definitivo dos     |
-| acordos prev.      |
-| do Brasil.         |
-|                    |
-| Lede curta...      |
-|              ()()()|
-| [CTA primário] )()|
-|              ()(  |
-| [CTA secund.]()() |
-+--------------------+
-```
+## Estilo
 
-## Legibilidade
+- Pill: `rounded-full` (não `rounded-sm` como hoje — a animação circular pede borda redonda).
+- Padding: `pl-2 pr-6 py-2` (md) / `pl-2.5 pr-7 py-2.5` (lg).
+- Círculo: `h-9 w-9 lg:h-10 lg:w-10`, posicionado `absolute left-1.5 top-1/2 -translate-y-1/2`, com `rounded-full`.
+- Expansão: `transition-transform duration-500 ease-out` + `group-hover:scale-x-[20] group-hover:scale-y-[5]` (ou via `width`/`right` animado). Para manter performance, usar `transform: scale()` num pseudo-elemento que parte do círculo.
+- Label: `text-sm font-medium uppercase tracking-[0.14em] relative z-10 transition-colors duration-300`.
+- ArrowRight: `absolute right-3 opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0`.
 
-Em todos os formatos, adicionar um overlay sutil entre globo e texto:
-- `bg-[linear-gradient(to_right,_var(--paper)_0%,_var(--paper)_35%,_transparent_70%)]` no desktop/tablet (fade horizontal da esquerda).
-- No mobile, `bg-[radial-gradient(circle_at_top_left,_var(--paper)_0%,_var(--paper)_45%,_transparent_75%)]` (mancha de paper no canto sup. esq. protegendo o título).
+Tokens: tudo via `bg-foreground`, `text-background`, `border-foreground`, `bg-background`, `text-foreground`. Nada de hex.
 
-Resultado: texto sempre nítido, globo "respirando" atrás.
+## Acessibilidade
 
-## Tipografia / CTAs
+- Botão respeita `focus-visible:ring-2 ring-foreground ring-offset-2 ring-offset-background`.
+- `prefers-reduced-motion`: anular as transições do círculo e da seta (cair pro estado hover instantâneo ou só `bg-foreground/85`).
+- A seta tem `aria-hidden`.
 
-Manter como está hoje (título serif grande, lede, dois CTAs lado a lado). Sem mudanças de fonte ou tamanho.
+## Onde aplicar agora
+
+Escopo desta rodada: **apenas os 2 CTAs do hero da home** (`src/routes/index.tsx`).
+- "Ver os {totalAcordos} países" → `variant="dark"`
+- "Hub para advogados" → `variant="light"`
+
+Em rodadas futuras, podemos propagar para os outros CTAs do site (jornadas, precos, profissional, etc.) — não fazer agora pra evitar regressão em telas que não consigo verificar todas de uma vez.
 
 ## Mudanças concretas
 
-### `src/components/globe.tsx`
-- Reverter `BASE`, `GLOW`, `MARKER`, `mapBrightness` para os valores claros originais.
-- Remover `max-w-[280px] sm:max-w-[420px] lg:max-w-[640px]` — agora o container externo controla tamanho/posição via `className` prop. Manter só `aspect-square w-full` no canvas wrapper.
+### Novos arquivos
+- `src/components/cta-button.tsx` — o componente.
 
-### `src/routes/index.tsx`
-- Substituir o grid de 2 colunas por:
-  - Wrapper `relative` com altura responsiva (`min-h-[580px] md:min-h-[600px] lg:min-h-[640px]`).
-  - `<div className="absolute inset-0 pointer-events-auto">` envolvendo o `<Globe>` com classes responsivas de posição/tamanho.
-  - `<div className="absolute inset-0 -z-0 ...">` com o gradient overlay.
-  - `<div className="relative z-10 mx-auto max-w-6xl px-6 py-20 md:py-28">` com texto + CTAs em coluna estreita à esquerda.
-- Ajustar `pointer-events` do canvas para `auto` só no desktop/tablet (no mobile fica `none` pra não roubar toque dos CTAs).
+### Editados
+- `src/routes/index.tsx` — trocar os 2 `<Link>` longos do hero por `<CTAButton ... variant="dark"|"light" />`. Remover classes inline.
 
 ## Fora de escopo
 
-- Stats, "Dois públicos", países em destaque, jornadas, guias.
-- Fontes, paleta global.
-- Interatividade do globo continua igual (auto-rotação + arrastar onde aplicável).
+- Demais botões do site (header, footer, outras rotas).
+- Variantes destrutivas, ghost, ícone-only.
+- Substituir o `Button` do shadcn no projeto inteiro — esse continua pra dialogs/forms.
 
 ## Arquivos afetados
 
-- `src/components/globe.tsx`
+- `src/components/cta-button.tsx` (novo)
 - `src/routes/index.tsx`
