@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { ComponentProps, ReactNode } from "react";
 
-type Variant = "dark" | "light";
+type Variant = "dark" | "light" | "solid-light" | "ghost-light";
 type Size = "md" | "lg";
 
 interface CommonProps {
