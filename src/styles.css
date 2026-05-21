@@ -44,6 +44,15 @@
   --color-accent-ink: var(--accent-ink);
   --color-accent-ink-soft: var(--accent-ink-soft);
 
+  --color-state-warning: var(--state-warning);
+  --color-state-warning-soft: var(--state-warning-soft);
+  --color-state-error: var(--state-error);
+  --color-state-error-soft: var(--state-error-soft);
+  --color-state-info: var(--state-info);
+  --color-state-info-soft: var(--state-info-soft);
+  --color-state-success: var(--state-success);
+  --color-state-success-soft: var(--state-success-soft);
+
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -76,6 +85,16 @@
   --rule: oklch(0.84 0.012 80);            /* hairline */
   --accent-ink: oklch(0.40 0.13 28);       /* #7a1f1f wine */
   --accent-ink-soft: oklch(0.92 0.04 28);  /* wine wash claro */
+
+  /* State tokens (editorial muted palette) */
+  --state-warning: oklch(0.50 0.10 75);       /* amber ink */
+  --state-warning-soft: oklch(0.94 0.05 80);  /* amber wash */
+  --state-error: oklch(0.42 0.15 25);         /* deep red */
+  --state-error-soft: oklch(0.93 0.05 25);    /* red wash */
+  --state-info: oklch(0.42 0.10 290);         /* muted purple */
+  --state-info-soft: oklch(0.93 0.04 290);    /* purple wash */
+  --state-success: oklch(0.42 0.10 155);      /* forest */
+  --state-success-soft: oklch(0.93 0.05 155); /* green wash */
 
   /* Semantic tokens mapped to Paper & Ink */
   --background: var(--paper);
