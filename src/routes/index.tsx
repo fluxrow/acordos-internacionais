@@ -113,8 +113,8 @@ function Home() {
       </section>
 
       {/* DOIS PÚBLICOS */}
-      <section className="border-b border-border">
-        <div className="mx-auto grid max-w-6xl gap-px bg-border md:grid-cols-2">
+      <section className="border-b border-border bg-secondary/40">
+        <div className="mx-auto grid max-w-6xl gap-6 px-6 py-16 md:grid-cols-2 md:py-20">
           <PathCard
             number="01"
             eyebrow="Para o cidadão"
@@ -139,6 +139,7 @@ function Home() {
           />
         </div>
       </section>
+
 
       {/* PAÍSES EM DESTAQUE */}
       <section>
