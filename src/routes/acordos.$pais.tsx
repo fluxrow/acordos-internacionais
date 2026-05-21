@@ -247,36 +247,53 @@ function AcordoPais() {
               </>
             )}
 
-            {/* DOCUMENTOS (PRO — lista pública dos títulos, download trancado) */}
+            {/* DOCUMENTOS (PRO — agrupados por categoria, download trancado) */}
             {a.importado && a.importado.documentos.length > 0 && (
               <Bloco titulo={`Documentos e formulários (${a.importado.documentos.length})`}>
-                <p className="text-sm text-muted-foreground">
-                  Texto integral do acordo, ajuste administrativo e formulários
-                  oficiais para protocolar requerimentos. Download e versões
-                  editáveis ficam dentro do Hub Profissional.
-                </p>
-                <ul className="mt-6 divide-y divide-border border-y border-border">
-                  {a.importado.documentos.map((d: DocumentoImportado) => (
-                    <li
-                      key={d.nome}
-                      className="flex items-start gap-4 py-4"
-                    >
-                      <CategoriaBadge cat={d.cat} />
-                      <div className="min-w-0 flex-1">
-                        <p className="font-display text-base leading-snug">{d.nome}</p>
-                        {d.desc && (
-                          <p className="mt-1 text-sm text-muted-foreground">{d.desc}</p>
-                        )}
+                <div className="flex flex-wrap items-baseline justify-between gap-4">
+                  <p className="max-w-2xl text-sm text-muted-foreground">
+                    Texto integral do acordo, ajuste administrativo e formulários
+                    oficiais para protocolar requerimentos.
+                  </p>
+                  <Link
+                    to="/profissional"
+                    className="inline-flex shrink-0 items-center gap-1.5 text-[11px] uppercase tracking-[0.14em] text-[var(--accent-ink)] hover:underline underline-offset-4"
+                  >
+                    <LockIcon /> Download no Hub Profissional →
+                  </Link>
+                </div>
+                <div className="mt-8 space-y-8">
+                  {agruparDocumentos(a.importado.documentos).map(([cat, docs]) => (
+                    <div key={cat}>
+                      <div className="flex items-baseline justify-between gap-3 border-b border-border/60 pb-2">
+                        <h3 className="eyebrow text-[var(--accent-ink)]">
+                          {CATEGORIA_LABEL[cat] ?? "Outro"}
+                        </h3>
+                        <span className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
+                          {docs.length} {docs.length === 1 ? "item" : "itens"}
+                        </span>
                       </div>
-                      <span
-                        className="ml-auto flex shrink-0 items-center gap-1.5 self-center text-[10px] uppercase tracking-[0.14em] text-muted-foreground"
-                        aria-label="Acesso restrito ao Hub Profissional"
-                      >
-                        <LockIcon /> Hub PRO
-                      </span>
-                    </li>
+                      <ul className="mt-2 divide-y divide-border/60">
+                        {docs.map((d: DocumentoImportado) => (
+                          <li key={d.nome} className="flex items-start gap-4 py-4">
+                            <div className="min-w-0 flex-1">
+                              <p className="font-display text-base leading-snug">{d.nome}</p>
+                              {d.desc && (
+                                <p className="mt-1 text-sm text-muted-foreground">{d.desc}</p>
+                              )}
+                            </div>
+                            <span
+                              className="mt-1 shrink-0 text-muted-foreground/60"
+                              aria-label="Acesso restrito ao Hub Profissional"
+                            >
+                              <LockIcon />
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   ))}
-                </ul>
+                </div>
               </Bloco>
             )}
 
