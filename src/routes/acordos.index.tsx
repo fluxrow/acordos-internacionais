@@ -40,8 +40,13 @@ function AcordosIndex() {
 
   return (
     <>
-      <section className="border-b border-border">
-        <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
+      {/* HERO */}
+      <section className="relative overflow-hidden border-b border-border/60">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_85%_30%,_var(--accent-ink-soft)_0%,_transparent_55%)] opacity-70"
+        />
+        <div className="relative z-10 mx-auto max-w-6xl px-6 py-16 md:py-20">
           <p className="eyebrow">Mapa</p>
           <h1 className="mt-5 font-display text-4xl md:text-6xl">
             {totalAcordos} países, três multilaterais.
@@ -55,13 +60,14 @@ function AcordosIndex() {
 
       <section>
         <div className="mx-auto max-w-6xl px-6 pt-10">
-          <div className="flex flex-col gap-4 md:flex-row md:items-center">
+          {/* TOOLBAR */}
+          <div className="flex flex-col gap-4 rounded-xl border border-border/60 bg-background/70 p-4 backdrop-blur-sm md:flex-row md:items-center">
             <input
               type="search"
               value={busca}
               onChange={(e) => setBusca(e.target.value)}
               placeholder="Buscar país…"
-              className="w-full max-w-xs border-0 border-b border-border bg-transparent py-3 text-base font-serif placeholder:text-muted-foreground focus:border-foreground focus:outline-none"
+              className="w-full max-w-xs rounded-md border border-border/60 bg-secondary/40 px-3 py-2 text-base font-serif placeholder:text-muted-foreground focus:border-[var(--accent-ink)] focus:bg-background focus:outline-none"
               aria-label="Buscar país"
             />
             <div className="flex flex-wrap gap-1.5">
@@ -72,33 +78,38 @@ function AcordosIndex() {
                   ["multilateral", "Multilaterais"],
                   ["ratificacao", "Em ratificação"],
                 ] as [Filtro, string][]
-              ).map(([k, label]) => (
-                <button
-                  key={k}
-                  onClick={() => setFiltro(k)}
-                  className={
-                    "rounded-full border px-3 py-1.5 text-xs font-medium uppercase tracking-[0.14em] transition-colors " +
-                    (filtro === k
-                      ? "border-foreground bg-foreground text-background"
-                      : "border-border text-foreground hover:border-foreground")
-                  }
-                >
-                  {label}
-                </button>
-              ))}
+              ).map(([k, label]) => {
+                const ativo = filtro === k;
+                return (
+                  <button
+                    key={k}
+                    onClick={() => setFiltro(k)}
+                    aria-pressed={ativo}
+                    className={
+                      "rounded-full border px-3 py-1.5 text-xs font-medium uppercase tracking-[0.14em] transition-colors " +
+                      (ativo
+                        ? "border-[var(--accent-ink)] bg-[var(--accent-ink)] text-background"
+                        : "border-border/60 text-foreground hover:border-[var(--accent-ink)] hover:text-[var(--accent-ink)]")
+                    }
+                  >
+                    {label}
+                  </button>
+                );
+              })}
             </div>
-            <p className="ml-auto text-xs text-muted-foreground">
+            <p className="eyebrow ml-auto text-muted-foreground">
               {lista.length} resultado{lista.length === 1 ? "" : "s"}
             </p>
           </div>
 
-          <ul className="mt-10 grid grid-cols-1 gap-px overflow-hidden border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
+          {/* GRADE */}
+          <ul className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {lista.map((a) => (
               <li key={a.slug}>
                 <Link
                   to="/acordos/$pais"
                   params={{ pais: a.slug }}
-                  className="group flex h-full flex-col gap-4 bg-background p-6 transition-colors hover:bg-foreground hover:text-background"
+                  className="group flex h-full flex-col gap-4 rounded-xl border border-border/60 bg-background/70 p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04)] backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-[var(--accent-ink)] hover:bg-[var(--accent-ink-soft)] hover:shadow-[0_8px_24px_-12px_rgba(122,31,31,0.25)]"
                 >
                   <div className="flex items-center gap-4">
                     {a.iso ? (
@@ -108,16 +119,16 @@ function AcordosIndex() {
                         width={56}
                         height={42}
                         loading="lazy"
-                        className="h-[42px] w-[56px] flex-shrink-0 rounded-md border border-border object-cover transition-colors group-hover:border-background/30"
+                        className="h-[42px] w-[56px] flex-shrink-0 rounded-md border border-border object-cover"
                       />
                     ) : (
-                      <div className="flex h-[42px] w-[56px] flex-shrink-0 items-center justify-center rounded-md border border-border text-[9px] uppercase tracking-[0.14em] transition-colors group-hover:border-background/30">
+                      <div className="flex h-[42px] w-[56px] flex-shrink-0 items-center justify-center rounded-md border border-border text-[9px] uppercase tracking-[0.14em]">
                         Multi
                       </div>
                     )}
                     <div className="min-w-0 flex-1">
                       <h2 className="font-display text-xl leading-tight">{a.nome}</h2>
-                      <p className="mt-0.5 text-[10px] uppercase tracking-[0.14em] opacity-70">
+                      <p className="mt-0.5 text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
                         {a.tipo === "bilateral" ? "Bilateral" : "Multilateral"}
                         {a.vigencia && ` · desde ${a.vigencia}`}
                       </p>
@@ -125,19 +136,24 @@ function AcordosIndex() {
                     {a.status !== "vigente" && (
                       <span
                         className={
-                          "border px-1.5 py-0.5 text-[9px] uppercase tracking-[0.14em] transition-colors " +
+                          "rounded-full border px-2 py-0.5 text-[9px] uppercase tracking-[0.14em] " +
                           (a.status === "ratificacao"
-                            ? "border-current"
-                            : "border-current opacity-60")
+                            ? "border-[var(--accent-ink)] text-[var(--accent-ink)]"
+                            : "border-border/60 text-muted-foreground")
                         }
                       >
                         {a.status === "ratificacao" ? "Em ratificação" : "Incompleto"}
                       </span>
                     )}
                   </div>
-                  <p className="text-sm opacity-80">{a.resumo}</p>
-                  <div className="mt-auto flex items-center justify-end border-t border-border pt-3 text-xs opacity-70 transition-colors group-hover:border-background/30">
-                    <span aria-hidden className="transition-transform group-hover:translate-x-1">Ver país →</span>
+                  <p className="text-sm text-muted-foreground">{a.resumo}</p>
+                  <div className="mt-auto flex items-center justify-end border-t border-border/60 pt-3 text-xs">
+                    <span
+                      aria-hidden
+                      className="text-[var(--accent-ink)] transition-transform group-hover:translate-x-1"
+                    >
+                      Ver país →
+                    </span>
                   </div>
                 </Link>
               </li>
@@ -145,7 +161,7 @@ function AcordosIndex() {
           </ul>
 
           {lista.length === 0 && (
-            <div className="mt-16 border border-dashed border-border p-12 text-center">
+            <div className="mt-16 rounded-xl border border-border/60 bg-background/70 p-12 text-center backdrop-blur-sm">
               <p className="font-display text-2xl">Nenhum país encontrado</p>
               <p className="mt-2 text-sm text-muted-foreground">
                 Tente ajustar a busca ou o filtro.
