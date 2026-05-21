@@ -401,9 +401,33 @@ function AcordoPais() {
           </div>
 
           <aside className="space-y-6 md:sticky md:top-6 md:self-start">
+            {tocBlocos.length > 1 && (
+              <nav
+                aria-label="Nesta página"
+                className="hidden rounded-xl border border-border/60 bg-background/70 p-5 backdrop-blur-sm md:block"
+              >
+                <p className="eyebrow text-[var(--accent-ink)]">Nesta página</p>
+                <ol className="mt-4 space-y-2.5 text-sm">
+                  {tocBlocos.map((b, i) => (
+                    <li key={b.id}>
+                      <a
+                        href={`#${b.id}`}
+                        className="group flex items-baseline gap-3 text-muted-foreground transition-colors hover:text-[var(--accent-ink)]"
+                      >
+                        <span className="font-mono text-[10px] tabular-nums text-muted-foreground/60 group-hover:text-[var(--accent-ink)]">
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <span className="leading-snug">{b.label}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              </nav>
+            )}
             <CTAMarcos
               contexto={`Tem um caso ligado ao acordo Brasil–${a.nome}? Fale com o Dr. Marcos Espínola.`}
             />
+
             <div className="rounded-xl border border-border/60 bg-background/70 p-6 backdrop-blur-sm">
               <p className="eyebrow">Próximos passos</p>
               <ul className="mt-4 space-y-3 text-sm">
