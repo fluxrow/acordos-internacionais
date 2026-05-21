@@ -77,19 +77,18 @@ function Home() {
               </p>
 
               <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-                <Link
+                <CTAButton
                   to="/acordos"
-                  className="inline-flex items-center justify-center gap-2 rounded-sm bg-foreground px-6 py-3.5 text-sm font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-foreground/85"
-                >
-                  Ver os {totalAcordos} países
-                  <span aria-hidden>→</span>
-                </Link>
-                <Link
+                  variant="dark"
+                  size="lg"
+                  label={`Ver os ${totalAcordos} países`}
+                />
+                <CTAButton
                   to="/profissional"
-                  className="inline-flex items-center justify-center gap-2 rounded-sm border border-foreground bg-background/60 px-6 py-3.5 text-sm font-medium uppercase tracking-[0.14em] text-foreground backdrop-blur-sm transition-colors hover:bg-secondary"
-                >
-                  Hub para advogados
-                </Link>
+                  variant="light"
+                  size="lg"
+                  label="Hub para advogados"
+                />
               </div>
             </div>
           </div>
