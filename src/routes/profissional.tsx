@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { totalAcordos, totalDocs } from "@/data/acordos";
+import { CTAButton } from "@/components/cta-button";
 
 const TITLE = "Hub profissional para advogados | Acordos Internacionais";
 const DESC =
