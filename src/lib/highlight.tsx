@@ -29,7 +29,7 @@ export function Highlight({ text, terms, className }: HighlightProps) {
   return (
     <>
       {parts.map((part, i) =>
-        re.test(part) ? (
+        matchRe.test(part) ? (
           <mark
             key={i}
             className={
