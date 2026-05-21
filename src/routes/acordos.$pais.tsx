@@ -107,6 +107,38 @@ function AcordoPais() {
 
   const tipoLabel = a.tipo === "bilateral" ? "Acordo Bilateral" : "Acordo Multilateral";
 
+  // Stats do hero (a partir dos dados disponíveis)
+  const anosEmVigor = a.vigencia ? new Date().getFullYear() - parseInt(a.vigencia, 10) : null;
+  const numDocs = a.importado?.documentos.length ?? 0;
+  const numOrgaos = (a.importado?.orgaoBR ? 1 : 0) + (a.importado?.orgaoParceiro ? 1 : 0);
+
+  // Termos a destacar no lede / corpo
+  const termosChave = [
+    "totalização",
+    "pro-rata",
+    "prorata",
+    "tempo de contribuição",
+    "benefício",
+    "aposentadoria",
+    a.nome,
+    a.vigencia ? `desde ${a.vigencia}` : "",
+  ].filter(Boolean);
+
+  // Blocos para o TOC (só os que vão renderizar)
+  const tocBlocos: Array<{ id: string; label: string }> = [];
+  if (a.importado && (a.importado.decreto || a.importado.vigorDesde || a.importado.instrumento))
+    tocBlocos.push({ id: "instrumento", label: "Instrumento" });
+  if (a.importado && (a.importado.orgaoBR || a.importado.orgaoParceiro))
+    tocBlocos.push({ id: "orgaos", label: "Órgãos de ligação" });
+  if (
+    a.importado &&
+    (a.importado.beneficios.brasil.length > 0 || a.importado.beneficios.parceiro.length > 0)
+  )
+    tocBlocos.push({ id: "beneficios", label: "Benefícios cobertos" });
+  if (a.conteudo) tocBlocos.push({ id: "como-funciona", label: "Como funciona" });
+  if (a.importado && a.importado.documentos.length > 0)
+    tocBlocos.push({ id: "documentos", label: "Documentos" });
+
   return (
     <>
       <article>
