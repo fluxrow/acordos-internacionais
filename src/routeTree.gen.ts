@@ -14,6 +14,7 @@ import { Route as PrecosRouteImport } from './routes/precos'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as GlossarioRouteImport } from './routes/glossario'
 import { Route as ContatoRouteImport } from './routes/contato'
+import { Route as CalculadoraRouteImport } from './routes/calculadora'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
@@ -24,6 +25,7 @@ import { Route as GuiasSlugRouteImport } from './routes/guias.$slug'
 import { Route as AcordosPaisRouteImport } from './routes/acordos.$pais'
 import { Route as AuthenticatedHubRouteImport } from './routes/_authenticated/hub'
 import { Route as AuthenticatedContaRouteImport } from './routes/_authenticated/conta'
+import { Route as AuthenticatedHubCalculadoraRouteImport } from './routes/_authenticated/hub.calculadora'
 import { Route as AuthenticatedHubPaisRouteImport } from './routes/_authenticated/hub.$pais'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 
@@ -50,6 +52,11 @@ const GlossarioRoute = GlossarioRouteImport.update({
 const ContatoRoute = ContatoRouteImport.update({
   id: '/contato',
   path: '/contato',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CalculadoraRoute = CalculadoraRouteImport.update({
+  id: '/calculadora',
+  path: '/calculadora',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogRoute = BlogRouteImport.update({
@@ -101,6 +108,12 @@ const AuthenticatedContaRoute = AuthenticatedContaRouteImport.update({
   path: '/conta',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedHubCalculadoraRoute =
+  AuthenticatedHubCalculadoraRouteImport.update({
+    id: '/calculadora',
+    path: '/calculadora',
+    getParentRoute: () => AuthenticatedHubRoute,
+  } as any)
 const AuthenticatedHubPaisRoute = AuthenticatedHubPaisRouteImport.update({
   id: '/$pais',
   path: '/$pais',
@@ -116,6 +129,7 @@ const ApiPublicPaymentsWebhookRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/blog': typeof BlogRoute
+  '/calculadora': typeof CalculadoraRoute
   '/contato': typeof ContatoRoute
   '/glossario': typeof GlossarioRoute
   '/login': typeof LoginRoute
@@ -129,11 +143,13 @@ export interface FileRoutesByFullPath {
   '/sobre/dr-marcos': typeof SobreDrMarcosRoute
   '/acordos/': typeof AcordosIndexRoute
   '/hub/$pais': typeof AuthenticatedHubPaisRoute
+  '/hub/calculadora': typeof AuthenticatedHubCalculadoraRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/blog': typeof BlogRoute
+  '/calculadora': typeof CalculadoraRoute
   '/contato': typeof ContatoRoute
   '/glossario': typeof GlossarioRoute
   '/login': typeof LoginRoute
@@ -147,6 +163,7 @@ export interface FileRoutesByTo {
   '/sobre/dr-marcos': typeof SobreDrMarcosRoute
   '/acordos': typeof AcordosIndexRoute
   '/hub/$pais': typeof AuthenticatedHubPaisRoute
+  '/hub/calculadora': typeof AuthenticatedHubCalculadoraRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesById {
@@ -154,6 +171,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/blog': typeof BlogRoute
+  '/calculadora': typeof CalculadoraRoute
   '/contato': typeof ContatoRoute
   '/glossario': typeof GlossarioRoute
   '/login': typeof LoginRoute
@@ -167,6 +185,7 @@ export interface FileRoutesById {
   '/sobre/dr-marcos': typeof SobreDrMarcosRoute
   '/acordos/': typeof AcordosIndexRoute
   '/_authenticated/hub/$pais': typeof AuthenticatedHubPaisRoute
+  '/_authenticated/hub/calculadora': typeof AuthenticatedHubCalculadoraRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRouteTypes {
@@ -174,6 +193,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/blog'
+    | '/calculadora'
     | '/contato'
     | '/glossario'
     | '/login'
@@ -187,11 +207,13 @@ export interface FileRouteTypes {
     | '/sobre/dr-marcos'
     | '/acordos/'
     | '/hub/$pais'
+    | '/hub/calculadora'
     | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/blog'
+    | '/calculadora'
     | '/contato'
     | '/glossario'
     | '/login'
@@ -205,12 +227,14 @@ export interface FileRouteTypes {
     | '/sobre/dr-marcos'
     | '/acordos'
     | '/hub/$pais'
+    | '/hub/calculadora'
     | '/api/public/payments/webhook'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/blog'
+    | '/calculadora'
     | '/contato'
     | '/glossario'
     | '/login'
@@ -224,6 +248,7 @@ export interface FileRouteTypes {
     | '/sobre/dr-marcos'
     | '/acordos/'
     | '/_authenticated/hub/$pais'
+    | '/_authenticated/hub/calculadora'
     | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
 }
@@ -231,6 +256,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   BlogRoute: typeof BlogRoute
+  CalculadoraRoute: typeof CalculadoraRoute
   ContatoRoute: typeof ContatoRoute
   GlossarioRoute: typeof GlossarioRoute
   LoginRoute: typeof LoginRoute
@@ -279,6 +305,13 @@ declare module '@tanstack/react-router' {
       path: '/contato'
       fullPath: '/contato'
       preLoaderRoute: typeof ContatoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/calculadora': {
+      id: '/calculadora'
+      path: '/calculadora'
+      fullPath: '/calculadora'
+      preLoaderRoute: typeof CalculadoraRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blog': {
@@ -351,6 +384,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedContaRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/hub/calculadora': {
+      id: '/_authenticated/hub/calculadora'
+      path: '/calculadora'
+      fullPath: '/hub/calculadora'
+      preLoaderRoute: typeof AuthenticatedHubCalculadoraRouteImport
+      parentRoute: typeof AuthenticatedHubRoute
+    }
     '/_authenticated/hub/$pais': {
       id: '/_authenticated/hub/$pais'
       path: '/$pais'
@@ -370,10 +410,12 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedHubRouteChildren {
   AuthenticatedHubPaisRoute: typeof AuthenticatedHubPaisRoute
+  AuthenticatedHubCalculadoraRoute: typeof AuthenticatedHubCalculadoraRoute
 }
 
 const AuthenticatedHubRouteChildren: AuthenticatedHubRouteChildren = {
   AuthenticatedHubPaisRoute: AuthenticatedHubPaisRoute,
+  AuthenticatedHubCalculadoraRoute: AuthenticatedHubCalculadoraRoute,
 }
 
 const AuthenticatedHubRouteWithChildren =
@@ -397,6 +439,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
   BlogRoute: BlogRoute,
+  CalculadoraRoute: CalculadoraRoute,
   ContatoRoute: ContatoRoute,
   GlossarioRoute: GlossarioRoute,
   LoginRoute: LoginRoute,
@@ -412,3 +455,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
