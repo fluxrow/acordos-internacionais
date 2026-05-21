@@ -146,12 +146,12 @@ function Home() {
         {/* Wash radial wine soft */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_70%_50%,_var(--accent-ink-soft)_0%,_transparent_60%)] opacity-70"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_30%_50%,_var(--accent-ink-soft)_0%,_transparent_60%)] opacity-70"
         />
         {/* Globo de fundo */}
         <div
           aria-hidden
-          className="pointer-events-none absolute right-[-35%] top-1/2 hidden w-[680px] -translate-y-1/2 opacity-60 md:block lg:right-[-20%] lg:w-[820px]"
+          className="animate-globe-enter-left pointer-events-none absolute left-[-35%] top-1/2 hidden w-[680px] -translate-y-1/2 opacity-60 md:block lg:left-[-20%] lg:w-[820px]"
         >
           <Globe tint="wine" mapSamples={10000} />
         </div>

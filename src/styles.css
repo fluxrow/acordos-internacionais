@@ -235,3 +235,20 @@
     color: var(--color-destructive);
   }
 }
+
+@keyframes globe-enter-left {
+  from {
+    opacity: 0;
+    transform: translate3d(-40px, -50%, 0);
+  }
+  to {
+    opacity: 0.6;
+    transform: translate3d(0, -50%, 0);
+  }
+}
+
+@layer utilities {
+  .animate-globe-enter-left {
+    animation: globe-enter-left 2.2s ease-out both;
+  }
+}
