@@ -1,8 +1,10 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { Lock, Mail, Phone, MapPin, Building2 } from "lucide-react";
 import { acordos, getAcordo } from "@/data/acordos";
 import type { DocumentoImportado, OrgaoLigacao } from "@/data/acordos.types";
 import { CTAMarcos } from "@/components/cta-marcos";
 import { ProContentLock } from "@/components/pro-content-lock";
+import { Highlight } from "@/lib/highlight";
 
 export const Route = createFileRoute("/acordos/$pais")({
   head: ({ params }) => {
