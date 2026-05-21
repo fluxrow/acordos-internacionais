@@ -108,10 +108,10 @@ function AcordosIndex() {
                         width={56}
                         height={42}
                         loading="lazy"
-                        className="h-[42px] w-[56px] flex-shrink-0 border border-border object-cover transition-colors group-hover:border-background/30"
+                        className="h-[42px] w-[56px] flex-shrink-0 rounded-md border border-border object-cover transition-colors group-hover:border-background/30"
                       />
                     ) : (
-                      <div className="flex h-[42px] w-[56px] flex-shrink-0 items-center justify-center border border-border text-[9px] uppercase tracking-[0.14em] transition-colors group-hover:border-background/30">
+                      <div className="flex h-[42px] w-[56px] flex-shrink-0 items-center justify-center rounded-md border border-border text-[9px] uppercase tracking-[0.14em] transition-colors group-hover:border-background/30">
                         Multi
                       </div>
                     )}
