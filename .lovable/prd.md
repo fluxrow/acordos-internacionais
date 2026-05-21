@@ -37,6 +37,7 @@ Dois públicos, um produto:
 | TanStack Start em Cloudflare Workers | ✅ |
 | **Migração de dados do repo `Mapa-de-Acordos`** — 24 HTMLs parseados → `src/data/acordos.generated.ts` | ✅ |
 | **Página `/acordos/:pais` reformatada** — Instrumento/Vigência, Órgãos de Ligação BR+parceiro, Benefícios em colunas, Documentos com badge "Hub PRO" | ✅ |
+| **Refino visual `/acordos/:pais`** — wash wine no hero, moldura na bandeira, aside com backdrop-blur, fallback gracioso em órgãos vazios, nav Anterior/Próximo com mini-bandeiras e hover wine | ✅ |
 | **Repositório GitHub conectado** (sync bidirecional) | ✅ |
 | **README.md na raiz** com convenções para humanos e IAs externas | ✅ |
 | **ROADMAP.md na raiz** com timeline e próximos passos | ✅ |
