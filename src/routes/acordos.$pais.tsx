@@ -345,23 +345,51 @@ function AcordoPais() {
       </article>
 
       {/* NAV ENTRE PAÍSES */}
-      <nav className="border-y border-border">
-        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-px bg-border">
+      <nav className="border-y border-border/60">
+        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-px bg-border/60">
           <Link
             to={prev ? "/acordos/$pais" : "/acordos"}
             params={prev ? { pais: prev.slug } : undefined}
-            className="bg-background px-6 py-8 transition-colors hover:bg-secondary"
+            className="group flex items-center gap-4 bg-background px-6 py-8 transition-colors hover:bg-[var(--accent-ink-soft)]"
           >
-            <p className="eyebrow">← Anterior</p>
-            <p className="mt-2 font-display text-lg">{prev ? prev.nome : "Todos os países"}</p>
+            {prev?.iso && (
+              <img
+                src={`https://flagcdn.com/w80/${prev.iso}.png`}
+                alt=""
+                width={40}
+                height={30}
+                loading="lazy"
+                className="h-[30px] w-[40px] flex-shrink-0 rounded border border-border/60 object-cover"
+              />
+            )}
+            <div className="min-w-0">
+              <p className="eyebrow">← Anterior</p>
+              <p className="mt-2 truncate font-display text-lg transition-colors group-hover:text-[var(--accent-ink)]">
+                {prev ? prev.nome : "Todos os países"}
+              </p>
+            </div>
           </Link>
           <Link
             to={next ? "/acordos/$pais" : "/acordos"}
             params={next ? { pais: next.slug } : undefined}
-            className="bg-background px-6 py-8 text-right transition-colors hover:bg-secondary"
+            className="group flex items-center justify-end gap-4 bg-background px-6 py-8 text-right transition-colors hover:bg-[var(--accent-ink-soft)]"
           >
-            <p className="eyebrow">Próximo →</p>
-            <p className="mt-2 font-display text-lg">{next ? next.nome : "Todos os países"}</p>
+            <div className="min-w-0">
+              <p className="eyebrow">Próximo →</p>
+              <p className="mt-2 truncate font-display text-lg transition-colors group-hover:text-[var(--accent-ink)]">
+                {next ? next.nome : "Todos os países"}
+              </p>
+            </div>
+            {next?.iso && (
+              <img
+                src={`https://flagcdn.com/w80/${next.iso}.png`}
+                alt=""
+                width={40}
+                height={30}
+                loading="lazy"
+                className="h-[30px] w-[40px] flex-shrink-0 rounded border border-border/60 object-cover"
+              />
+            )}
           </Link>
         </div>
       </nav>
