@@ -125,7 +125,7 @@ function Contato() {
                     key={v}
                     onClick={() => setForm({ ...form, urgencia: v })}
                     className={
-                      "rounded-sm border px-3 py-1.5 text-xs font-medium uppercase tracking-[0.14em] transition-colors " +
+                      "rounded-full border px-3 py-1.5 text-xs font-medium uppercase tracking-[0.14em] transition-colors " +
                       (form.urgencia === v
                         ? "border-foreground bg-foreground text-background"
                         : "border-border hover:border-foreground")
@@ -150,7 +150,7 @@ function Contato() {
 
             <button
               type="submit"
-              className="inline-flex items-center gap-2 rounded-sm bg-foreground px-6 py-3 text-sm font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-foreground/85"
+              className="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-foreground/85"
             >
               Enviar mensagem <span aria-hidden>→</span>
             </button>

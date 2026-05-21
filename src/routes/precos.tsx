@@ -146,13 +146,13 @@ function PrecosPage() {
             <Link
               to="/login"
               search={{ redirect: "/precos" }}
-              className="rounded-sm bg-foreground px-4 py-2 text-sm font-medium uppercase tracking-[0.12em] text-background hover:bg-foreground/85"
+              className="rounded-full bg-foreground px-4 py-2 text-sm font-medium uppercase tracking-[0.12em] text-background hover:bg-foreground/85"
             >
               Entrar
             </Link>
             <Link
               to="/cadastro"
-              className="rounded-sm border border-foreground px-4 py-2 text-sm font-medium uppercase tracking-[0.12em] hover:bg-secondary"
+              className="rounded-full border border-foreground px-4 py-2 text-sm font-medium uppercase tracking-[0.12em] hover:bg-secondary"
             >
               Criar conta
             </Link>
@@ -222,7 +222,7 @@ function PrecosPage() {
                   isFoundersUnavailable ||
                   (checkoutMutation.isPending && selectedPlan === plan.id)
                 }
-                className={`mt-6 w-full rounded-sm px-5 py-2.5 text-sm font-medium uppercase tracking-[0.14em] transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
+                className={`mt-6 w-full rounded-full px-5 py-2.5 text-sm font-medium uppercase tracking-[0.14em] transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
                   plan.destaque || plan.isFounder
                     ? "bg-foreground text-background hover:bg-foreground/85"
                     : "border border-foreground hover:bg-secondary"

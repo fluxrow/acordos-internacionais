@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { totalAcordos, totalDocs } from "@/data/acordos";
+import { CTAButton } from "@/components/cta-button";
 
 const TITLE = "Hub profissional para advogados | Acordos Internacionais";
 const DESC =
@@ -45,12 +46,7 @@ function Profissional() {
             acordantes do Brasil.
           </p>
           <div className="mt-10 flex flex-wrap items-center gap-4">
-            <a
-              href="#waitlist"
-              className="inline-flex items-center gap-2 rounded-sm bg-background px-6 py-3 text-sm font-medium uppercase tracking-[0.14em] text-foreground transition-colors hover:bg-secondary"
-            >
-              Entrar na lista de espera <span aria-hidden>→</span>
-            </a>
+            <CTAButton href="#waitlist" variant="solid-light" size="lg" label="Entrar na lista de espera" />
             <span className="text-xs uppercase tracking-[0.14em] opacity-70">
               Pagamento único · Acesso vitalício
             </span>
@@ -135,7 +131,7 @@ function Profissional() {
               />
               <button
                 type="submit"
-                className="rounded-sm bg-foreground px-6 py-3 text-sm font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-foreground/85"
+                className="rounded-full bg-foreground px-6 py-3 text-sm font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-foreground/85"
               >
                 Quero ser avisado
               </button>

@@ -77,7 +77,7 @@ function AcordosIndex() {
                   key={k}
                   onClick={() => setFiltro(k)}
                   className={
-                    "rounded-sm border px-3 py-1.5 text-xs font-medium uppercase tracking-[0.14em] transition-colors " +
+                    "rounded-full border px-3 py-1.5 text-xs font-medium uppercase tracking-[0.14em] transition-colors " +
                     (filtro === k
                       ? "border-foreground bg-foreground text-background"
                       : "border-border text-foreground hover:border-foreground")
