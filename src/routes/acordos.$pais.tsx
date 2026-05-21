@@ -230,7 +230,12 @@ function AcordoPais() {
           <div className="space-y-14">
             {/* INSTRUMENTO E DECRETO (público) */}
             {a.importado && (a.importado.decreto || a.importado.vigorDesde || a.importado.instrumento) && (
-              <Bloco titulo="Instrumento e vigência">
+              <Bloco
+                id="instrumento"
+                numero={tocBlocos.findIndex((b) => b.id === "instrumento") + 1}
+                titulo="Instrumento e vigência"
+                lede="O que foi assinado, quando entrou em vigor e qual decreto o promulgou no Brasil."
+              >
                 <dl className="grid gap-4 sm:grid-cols-3">
                   {a.importado.instrumento && (
                     <FichaItem rotulo="Instrumento" valor={a.importado.instrumento} />
@@ -247,15 +252,17 @@ function AcordoPais() {
 
             {/* ÓRGÃOS DE LIGAÇÃO (público) */}
             {a.importado && (a.importado.orgaoBR || a.importado.orgaoParceiro) && (
-              <Bloco titulo="Órgãos de ligação">
-                <p className="text-sm text-muted-foreground">
-                  Quem operacionaliza o acordo de cada lado. Use estes contatos
-                  para protocolar requerimentos ou esclarecer pendências
-                  administrativas.
-                </p>
-                <div className="mt-6 grid gap-6 md:grid-cols-2">
-                  {a.importado.orgaoBR && <OrgaoCard orgao={a.importado.orgaoBR} />}
-                  {a.importado.orgaoParceiro && <OrgaoCard orgao={a.importado.orgaoParceiro} />}
+              <Bloco
+                id="orgaos"
+                numero={tocBlocos.findIndex((b) => b.id === "orgaos") + 1}
+                titulo="Órgãos de ligação"
+                lede="Quem operacionaliza o acordo de cada lado — use para protocolar requerimentos ou esclarecer pendências administrativas."
+              >
+                <div className="mt-2 grid gap-6 md:grid-cols-2">
+                  {a.importado.orgaoBR && <OrgaoCard orgao={a.importado.orgaoBR} lado="Brasil" />}
+                  {a.importado.orgaoParceiro && (
+                    <OrgaoCard orgao={a.importado.orgaoParceiro} lado={a.nome} />
+                  )}
                 </div>
               </Bloco>
             )}
@@ -264,26 +271,32 @@ function AcordoPais() {
             {a.importado &&
               (a.importado.beneficios.brasil.length > 0 ||
                 a.importado.beneficios.parceiro.length > 0) && (
-                <Bloco titulo="Benefícios cobertos pelo acordo">
-                  <div className="mt-2 grid gap-8 md:grid-cols-2">
-                    {a.importado.beneficios.brasil.length > 0 && (
-                      <ListaBeneficios titulo="Lado Brasil" itens={a.importado.beneficios.brasil} />
-                    )}
-                    {a.importado.beneficios.parceiro.length > 0 && (
-                      <ListaBeneficios
-                        titulo={`Lado ${a.nome}`}
-                        itens={a.importado.beneficios.parceiro}
-                      />
-                    )}
-                  </div>
+                <Bloco
+                  id="beneficios"
+                  numero={tocBlocos.findIndex((b) => b.id === "beneficios") + 1}
+                  titulo="Benefícios cobertos"
+                  lede={`O que cada país reconhece sob o acordo Brasil–${a.nome}.`}
+                >
+                  <BeneficiosComparativo
+                    brasil={a.importado.beneficios.brasil}
+                    parceiro={a.importado.beneficios.parceiro}
+                    paisParceiro={a.nome}
+                  />
                 </Bloco>
               )}
 
             {/* COMO FUNCIONA (editorial, só para prioritários) */}
             {a.conteudo && (
               <>
-                <Bloco titulo="Como funciona, em linhas gerais">
-                  <p className="text-lg leading-relaxed">{a.conteudo.totalizacao}</p>
+                <Bloco
+                  id="como-funciona"
+                  numero={tocBlocos.findIndex((b) => b.id === "como-funciona") + 1}
+                  titulo="Como funciona, em linhas gerais"
+                  lede="A mecânica de totalização aplicada a este acordo."
+                >
+                  <p className="text-lg leading-relaxed">
+                    <Highlight text={a.conteudo.totalizacao} terms={termosChave} />
+                  </p>
                   <p className="mt-4 text-sm text-muted-foreground">
                     Conceito geral no guia{" "}
                     <Link
@@ -298,10 +311,10 @@ function AcordoPais() {
                 </Bloco>
 
                 {a.conteudo.curiosidade && (
-                  <aside className="border-l-2 border-foreground bg-secondary p-6">
-                    <p className="eyebrow">Para o registro</p>
+                  <aside className="relative border-l-2 border-[var(--accent-ink)] bg-secondary p-6">
+                    <p className="eyebrow text-[var(--accent-ink)]">Para o registro</p>
                     <p className="mt-3 font-display text-xl leading-snug italic">
-                      {a.conteudo.curiosidade}
+                      <Highlight text={a.conteudo.curiosidade} terms={termosChave} />
                     </p>
                   </aside>
                 )}
@@ -310,50 +323,50 @@ function AcordoPais() {
 
             {/* DOCUMENTOS (PRO — agrupados por categoria, download trancado) */}
             {a.importado && a.importado.documentos.length > 0 && (
-              <Bloco titulo={`Documentos e formulários (${a.importado.documentos.length})`}>
+              <Bloco
+                id="documentos"
+                numero={tocBlocos.findIndex((b) => b.id === "documentos") + 1}
+                titulo="Documentos e formulários"
+                lede="Texto integral do acordo, ajuste administrativo e formulários oficiais para protocolar requerimentos."
+              >
                 <div className="flex flex-wrap items-baseline justify-between gap-4">
-                  <p className="max-w-2xl text-sm text-muted-foreground">
-                    Texto integral do acordo, ajuste administrativo e formulários
-                    oficiais para protocolar requerimentos.
+                  <p className="text-sm text-muted-foreground">
+                    <span className="font-display text-foreground">
+                      {a.importado.documentos.length}
+                    </span>{" "}
+                    arquivos catalogados, agrupados por uso processual.
                   </p>
                   <Link
                     to="/profissional"
                     className="inline-flex shrink-0 items-center gap-1.5 text-[11px] uppercase tracking-[0.14em] text-[var(--accent-ink)] hover:underline underline-offset-4"
                   >
-                    <LockIcon /> Download no Hub Profissional →
+                    <Lock size={11} aria-hidden /> Download no Hub Profissional →
                   </Link>
                 </div>
-                <div className="mt-8 space-y-8">
-                  {agruparDocumentos(a.importado.documentos).map(([cat, docs]) => (
-                    <div key={cat}>
-                      <div className="flex items-baseline justify-between gap-3 border-b border-border/60 pb-2">
-                        <h3 className="eyebrow text-[var(--accent-ink)]">
+                <div className="mt-8 space-y-2">
+                  {agruparDocumentos(a.importado.documentos).map(([cat, docs]) =>
+                    docs.map((d: DocumentoImportado) => (
+                      <div
+                        key={d.nome}
+                        className="group flex items-start gap-4 rounded-lg border border-border/40 bg-background/50 p-4 transition-colors hover:border-[var(--accent-ink)]/40 hover:bg-[var(--accent-ink-soft)]/40"
+                      >
+                        <span className="mt-0.5 shrink-0 rounded-full bg-[var(--accent-ink-soft)] px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-[var(--accent-ink)]">
                           {CATEGORIA_LABEL[cat] ?? "Outro"}
-                        </h3>
-                        <span className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
-                          {docs.length} {docs.length === 1 ? "item" : "itens"}
                         </span>
+                        <div className="min-w-0 flex-1">
+                          <p className="font-display text-base leading-snug">{d.nome}</p>
+                          {d.desc && (
+                            <p className="mt-1 text-sm text-muted-foreground">{d.desc}</p>
+                          )}
+                        </div>
+                        <Lock
+                          size={14}
+                          className="mt-1 shrink-0 text-muted-foreground/50 transition-colors group-hover:text-[var(--accent-ink)]"
+                          aria-label="Acesso restrito ao Hub Profissional"
+                        />
                       </div>
-                      <ul className="mt-2 divide-y divide-border/60">
-                        {docs.map((d: DocumentoImportado) => (
-                          <li key={d.nome} className="flex items-start gap-4 py-4">
-                            <div className="min-w-0 flex-1">
-                              <p className="font-display text-base leading-snug">{d.nome}</p>
-                              {d.desc && (
-                                <p className="mt-1 text-sm text-muted-foreground">{d.desc}</p>
-                              )}
-                            </div>
-                            <span
-                              className="mt-1 shrink-0 text-muted-foreground/60"
-                              aria-label="Acesso restrito ao Hub Profissional"
-                            >
-                              <LockIcon />
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
+                    )),
+                  )}
                 </div>
               </Bloco>
             )}
