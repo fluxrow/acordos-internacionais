@@ -6,6 +6,7 @@ import {
   totalDocs,
   totalMultilaterais,
 } from "@/data/acordos";
+import { Globe } from "@/components/globe";
 
 const TITLE = "Acordos Internacionais — Acordos previdenciários para brasileiros no exterior";
 const DESC =
@@ -41,41 +42,50 @@ function Home() {
   return (
     <>
       {/* HERO */}
-      <section className="border-b border-border">
-        <div className="mx-auto max-w-6xl px-6 pt-20 pb-24 md:pt-28 md:pb-32">
-          <p className="eyebrow">Brasil · Previdência Social Internacional</p>
-          <h1 className="mt-6 max-w-4xl font-display text-[2.75rem] leading-[1.05] tracking-tight md:text-[4.25rem]">
-            O mapa definitivo dos{" "}
-            <em className="font-normal italic text-destructive">acordos previdenciários</em>{" "}
-            do Brasil.
-          </h1>
-          <p className="lede mt-8 max-w-2xl">
-            Para o brasileiro no exterior que precisa entender seus direitos.
-            Para o advogado que trabalha com totalização, prova de vida,
-            certificados e benefícios internacionais.
-          </p>
+      <section className="relative overflow-hidden border-b border-border">
+        <div className="mx-auto grid max-w-6xl gap-12 px-6 pt-16 pb-20 md:pt-24 md:pb-28 lg:grid-cols-[1.05fr_1fr] lg:items-center lg:gap-8">
+          <div className="relative z-10">
+            <p className="eyebrow">Brasil · Previdência Social Internacional</p>
+            <h1 className="mt-6 max-w-2xl font-display text-[2.5rem] leading-[1.02] tracking-tight md:text-[3.75rem] lg:text-[4.25rem]">
+              O mapa definitivo dos{" "}
+              <em className="font-normal italic text-destructive">
+                acordos previdenciários
+              </em>{" "}
+              do Brasil.
+            </h1>
+            <p className="lede mt-8 max-w-xl">
+              Para o brasileiro no exterior que precisa entender seus direitos.
+              Para o advogado que trabalha com totalização, prova de vida,
+              certificados e benefícios internacionais.
+            </p>
 
-          <div className="mt-12 flex flex-col gap-3 sm:flex-row">
-            <Link
-              to="/acordos"
-              className="inline-flex items-center justify-center gap-2 rounded-sm bg-foreground px-6 py-3.5 text-sm font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-foreground/85"
-            >
-              Ver os {totalAcordos} países
-              <span aria-hidden>→</span>
-            </Link>
-            <Link
-              to="/profissional"
-              className="inline-flex items-center justify-center gap-2 rounded-sm border border-foreground px-6 py-3.5 text-sm font-medium uppercase tracking-[0.14em] text-foreground transition-colors hover:bg-secondary"
-            >
-              Hub para advogados
-            </Link>
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+              <Link
+                to="/acordos"
+                className="inline-flex items-center justify-center gap-2 rounded-sm bg-foreground px-6 py-3.5 text-sm font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-foreground/85"
+              >
+                Ver os {totalAcordos} países
+                <span aria-hidden>→</span>
+              </Link>
+              <Link
+                to="/profissional"
+                className="inline-flex items-center justify-center gap-2 rounded-sm border border-foreground px-6 py-3.5 text-sm font-medium uppercase tracking-[0.14em] text-foreground transition-colors hover:bg-secondary"
+              >
+                Hub para advogados
+              </Link>
+            </div>
+          </div>
+
+          <div className="relative">
+            <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_center,_var(--paper-soft)_0%,_transparent_70%)]" />
+            <Globe className="lg:max-w-[560px]" />
           </div>
         </div>
       </section>
 
       {/* STATS */}
-      <section className="border-b border-border bg-secondary">
-        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-8 px-6 py-14 md:grid-cols-4">
+      <section className="border-b border-border">
+        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-8 px-6 py-10 md:grid-cols-4 md:py-12">
           {[
             { n: totalAcordos, l: "Acordos vigentes" },
             { n: totalBilaterais, l: "Bilaterais" },
@@ -83,7 +93,7 @@ function Home() {
             { n: `${totalDocs}+`, l: "Documentos organizados" },
           ].map((s) => (
             <div key={s.l}>
-              <p className="font-display text-4xl tracking-tight md:text-5xl">{s.n}</p>
+              <p className="font-display text-3xl tracking-tight md:text-4xl">{s.n}</p>
               <p className="eyebrow mt-2">{s.l}</p>
             </div>
           ))}
