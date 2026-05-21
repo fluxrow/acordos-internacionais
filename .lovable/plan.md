@@ -9,23 +9,28 @@ Vamos criar um componente `<CTAButton>` reutilizável que substitui os pares de 
 ## Conceito visual
 
 Estado em repouso:
+
 ```text
 +----------------------------------+
 | (o) VER OS 25 PAÍSES             |
 +----------------------------------+
 ```
+
 - Círculo pequeno (~36px) no canto esquerdo do botão, com cor contrastante (no botão `dark`/foreground o círculo é `paper`; no botão `light`/outline o círculo é `foreground`).
 - Label centralizado/à direita do círculo.
 
 Estado hover:
+
 ```text
 +----------------------------------+
 | ████████████████████ VER...    → |
 +----------------------------------+
 ```
+
 - O círculo se expande horizontalmente cobrindo todo o botão (transição `0.5s ease-out`).
 - A label troca de cor (para o foreground da cor expandida).
-- Um ícone `ArrowRight` (lucide) aparece à direita com deslocamento sutil.
+- Um ícone `ArrowRight` (lucide) aparece à direita com deslocamento sutil.  
+o texto deve trocar de cor pra continuar sendo legivel.
 
 ## API do componente
 
@@ -69,6 +74,7 @@ Tokens: tudo via `bg-foreground`, `text-background`, `border-foreground`, `bg-ba
 ## Onde aplicar agora
 
 Escopo desta rodada: **apenas os 2 CTAs do hero da home** (`src/routes/index.tsx`).
+
 - "Ver os {totalAcordos} países" → `variant="dark"`
 - "Hub para advogados" → `variant="light"`
 
@@ -77,9 +83,11 @@ Em rodadas futuras, podemos propagar para os outros CTAs do site (jornadas, prec
 ## Mudanças concretas
 
 ### Novos arquivos
+
 - `src/components/cta-button.tsx` — o componente.
 
 ### Editados
+
 - `src/routes/index.tsx` — trocar os 2 `<Link>` longos do hero por `<CTAButton ... variant="dark"|"light" />`. Remover classes inline.
 
 ## Fora de escopo
