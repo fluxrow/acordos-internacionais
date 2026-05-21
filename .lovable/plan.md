@@ -1,77 +1,52 @@
-## Contexto
+# Hero com globo interativo + refresh visual
 
-Claude (via GitHub) revisou minha proposta de divisão e fez 2 descobertas corretas que mudam o sequenciamento:
+Trazer um ar mais contemporâneo para a home sem perder a alma editorial "Paper & Ink". O núcleo da mudança é um hero novo com um **globo 3D** que destaca os países com acordo com o Brasil, e pequenos ajustes de respiro/escala no resto do site para conversar com esse novo hero.
 
-1. **`src/integrations/supabase/` e `supabase/migrations/` não existem** — Lovable Cloud nunca foi provisionado de verdade (PRD estava errado). Sem isso, nenhum dos 5 arquivos de infra do Claude compila.
-2. **`pro-content-lock.tsx` tem copy errado**: "pagamento único e acesso vitalício" — incompatível com modelo de assinatura recorrente do hub.
+## O que muda
 
-Ajuste no plano original: **Lovable provisiona infra primeiro, depois Claude faz PR de schema + server functions, depois Lovable faz UI.**
+### 1. Hero novo (home)
+- Layout em duas colunas no desktop, empilhado no mobile:
+  - Esquerda: eyebrow + título grande + lede + dois CTAs (mantém os existentes "Ver os 24 países" / "Hub para advogados").
+  - Direita: **globo interativo** marcando os países dos acordos.
+- Copy mantém a voz atual ("O mapa definitivo dos acordos previdenciários do Brasil."). Só ganha hierarquia visual nova.
+- Estatísticas (24 acordos, bilaterais, multilaterais, 600+ docs) viram uma faixa fina logo abaixo do hero — mais discreta, sem o bloco cinza atual.
 
-## Nesta rodada (Lovable, agora)
+### 2. Globo
+- Componente `Globe` baseado em **cobe** (canvas WebGL leve, ~10kb).
+- Cores casadas com o tema Paper & Ink: base off-white, marcadores no `accent-ink` (wine), brilho neutro. Nada de laranja genérico.
+- Marcadores:
+  - **Brasil** como ponto âncora, tamanho maior.
+  - **24 países com acordo** com Brasil (todos os bilaterais + capitais dos blocos multilaterais), tamanho menor.
+  - Os 5 "destaques" da home (Portugal, Japão, EUA, Itália, Alemanha, Espanha) ganham marcador médio para hierarquia visual.
+- Auto-rotação suave, arrastável com mouse/touch. Sem interação cliclável por ponto (escopo desta entrega).
 
-### 1. Habilitar Lovable Cloud (Supabase)
-Chamar `supabase--enable`. Isso cria:
-- `src/integrations/supabase/client.ts` (browser)
-- `src/integrations/supabase/client.server.ts` (admin)
-- `src/integrations/supabase/auth-middleware.ts` (requireSupabaseAuth)
-- `src/integrations/supabase/auth-attacher.ts` (attachSupabaseAuth)
-- `supabase/migrations/` (diretório)
-- `src/start.ts` precisa registrar `attachSupabaseAuth` em `functionMiddleware` (validar após enable)
+### 3. Refresh do resto da home
+- Aumenta respiro vertical entre seções, alinhando à nova escala do hero.
+- "Países em destaque": cards ganham hover mais sutil (sem inversão preto-total, vira destaque com borda).
+- "Jornadas / Guias": mantém estrutura, só ajusta tipografia para o novo ritmo.
 
-### 2. Habilitar Stripe Payments (seamless)
-- Rodar `payments--recommend_payment_provider` para validar elegibilidade
-- Chamar `payments--enable_stripe_payments` (modo seamless, sem BYOK)
-- Após enable, anotar nos secrets: `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`
+### 4. Tokens / estilo
+- Sem trocar paleta nem fontes. Só novos utilitários de espaçamento e um leve ajuste no peso do `h1` para parear com o globo.
 
-### 3. Criar `COLLAB.md` na raiz
-Tabela revisada de divisão Lovable ↔ Claude, regras de coordenação (1 arquivo = 1 dono por rodada, mudanças cross-side via PR), sequência obrigatória de provisionamento. Claude lê esse arquivo ao abrir o repo.
+## Detalhes técnicos
 
-Conteúdo da tabela:
+- **Dependência nova**: `cobe` (npm). `lucide-react` e `@radix-ui/react-slot` já existem no projeto.
+- **Componente**: `src/components/globe.tsx` — versão tipada (TS estrito), sem `any`, sem `let` no escopo do componente (refs internas), com cleanup correto em `useEffect`. Não vamos copiar o snippet `originui/button` — o projeto já tem `src/components/ui/button.tsx`.
+- **Dados dos marcadores**: nova lista `src/data/paises-coords.ts` com `{ slug, lat, lng }` para os 24 países do `acordos.ts`. Brasil incluído como âncora separada.
+- **SSR**: `cobe` toca `window`/`canvas`, então o `Globe` é renderizado client-side (efeito + `if (typeof window === 'undefined') return null` no caminho do `createGlobe`). Sem `"use client"` (TanStack Start não usa essa diretiva).
+- **Acessibilidade**: globo é decorativo; `<canvas aria-hidden="true">`. CTAs e hierarquia do hero seguem semânticos.
+- **Performance**: canvas a `devicePixelRatio: 2`, `mapSamples: 16000`. Lazy import opcional se medirmos impacto no LCP.
 
-| Lovable (UI + setup) | Claude (infra + lógica) |
-|---|---|
-| 1. ✅ Habilitar Supabase + Stripe (esta rodada) | 1. `supabase/migrations/{ts}_hub_schema.sql` |
-| 2. UI completa `/login` e `/cadastro` | 2. `src/routes/_authenticated.tsx` (beforeLoad + redirect + `<Outlet />`) |
-| 3. UI `/_authenticated/hub` (dashboard) | 3. `src/lib/hub.functions.ts` (`getCountryHubData`) |
-| 4. UI `/_authenticated/hub.$pais` | 4. `src/routes/api/public/stripe-webhook.ts` (HMAC) |
-| 5. UI `/precos` (cards de plano) | 5. `src/lib/checkout.functions.ts` (Stripe checkout session) |
+## Fora de escopo
 
-### 4. Corrigir `pro-content-lock.tsx`
-- Trocar `"com pagamento único e acesso vitalício"` por `"com assinatura mensal ou anual"`.
-- Conservar resto da estrutura/estilo (sem refactor além do copy).
+- Clicar num marcador para navegar até a página do país (pode vir depois).
+- Modo escuro do globo.
+- Mudança de fontes ou paleta.
 
-### 5. Atualizar `.lovable/prd.md`
-- Corrigir status: "Lovable Cloud habilitado" passa de ✅ (incorreto) para ✅ (real, após enable).
-- Adicionar linha: "Stripe Payments habilitado (seamless)".
-- Seção 8 ganha referência ao `COLLAB.md` como leitura obrigatória.
+## Arquivos tocados
 
-### 6. Atualizar `ROADMAP.md`
-- Adicionar Fase 3.5 "Provisionamento Cloud + Stripe" marcada como ✅ ao final.
-- Mover sub-itens da Fase 4 que dependem só de Supabase/Stripe de `📋` para `🚧` quando Claude começar.
-
-## Para Claude (próxima rodada, via GitHub PR)
-
-Após o sync da habilitação chegar no repo:
-
-- PR único com 5 arquivos: migration SQL + `_authenticated.tsx` + `hub.functions.ts` + `stripe-webhook.ts` + `checkout.functions.ts`
-- Schema da migration (mínimo): `profiles` + trigger auto-create, enum `app_role`, `user_roles` + função `has_role(uuid, app_role)` SECURITY DEFINER, `subscriptions`, `downloads_log`, RLS habilitado em todas com policies por `auth.uid()` e `has_role()`.
-- Após merge, Claude atualiza `ROADMAP.md` e `.lovable/prd.md` no mesmo PR.
-
-## Pós-Claude (rodada seguinte, Lovable)
-
-- Criar UIs: `/login`, `/cadastro`, `/precos`, `/_authenticated/hub`, `/_authenticated/hub.$pais`, `/_authenticated/conta`.
-- Cada uma com `head()` próprio (title <60, description <160).
-- `/login` e `/cadastro` chamam diretamente `supabase.auth.signInWithPassword` / `signUp` do `client.ts`.
-- `/_authenticated/hub.$pais` chama `getCountryHubData()` via `useServerFn`.
-
-## Arquivos desta rodada (Lovable)
-
-- **Criar:** `COLLAB.md`
-- **Editar:** `.lovable/prd.md`, `ROADMAP.md`, `src/components/pro-content-lock.tsx`
-- **Habilitações:** Lovable Cloud (Supabase), Stripe Payments (seamless)
-
-## Fora do escopo desta rodada
-
-- Qualquer código de auth, schema, server function, webhook, checkout (é responsabilidade do Claude na próxima rodada).
-- Qualquer UI nova (`/login`, `/cadastro`, `/precos`, `/hub`) — depende do schema + server fns do Claude.
-- BYOK Stripe (decidido: seamless).
+- `package.json` — adicionar `cobe`.
+- `src/components/globe.tsx` — novo.
+- `src/data/paises-coords.ts` — novo.
+- `src/routes/index.tsx` — hero reescrito, stats compactadas, refinamento de seções.
+- `src/styles.css` — eventuais utilitários de respiro (se necessário).
