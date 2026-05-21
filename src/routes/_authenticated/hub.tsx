@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { getAccountData } from "@/lib/profile.functions";
+import { CTAButton } from "@/components/cta-button";
 
 const PAISES = [
   { slug: "alemanha", nome: "Alemanha", flag: "de" },
@@ -59,17 +60,14 @@ function HubDashboard() {
       </header>
 
       {!active && !isPending && (
-        <div className="mb-8 rounded-sm border border-border bg-secondary px-6 py-5">
+        <div className="mb-8 rounded-2xl border border-border bg-secondary px-6 py-5 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_-12px_rgba(0,0,0,0.08)]">
           <p className="font-medium">Acesso bloqueado</p>
           <p className="mt-1 text-sm text-muted-foreground">
             Assine o Hub Profissional para acessar os materiais técnicos de todos os acordos.
           </p>
-          <Link
-            to="/precos"
-            className="mt-4 inline-flex items-center rounded-sm bg-foreground px-5 py-2.5 text-sm font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-foreground/85"
-          >
-            Ver planos
-          </Link>
+          <div className="mt-4">
+            <CTAButton to="/precos" variant="dark" label="Ver planos" />
+          </div>
         </div>
       )}
 
@@ -83,7 +81,7 @@ function HubDashboard() {
               <Link
                 to="/hub/$pais"
                 params={{ pais: slug }}
-                className="group flex flex-col items-center gap-2 rounded-sm border border-border p-4 transition-colors hover:border-foreground hover:bg-secondary"
+                className="group flex flex-col items-center gap-2 rounded-xl border border-border bg-background p-4 shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-all hover:-translate-y-0.5 hover:border-foreground hover:shadow-[0_4px_16px_-6px_rgba(0,0,0,0.12)]"
               >
                 {flag ? (
                   <img

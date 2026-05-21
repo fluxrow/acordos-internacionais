@@ -15,7 +15,7 @@ interface CommonProps {
 
 type LinkProps = CommonProps & {
   to: ComponentProps<typeof Link>["to"];
-  params?: ComponentProps<typeof Link>["params"];
+  params?: Record<string, string>;
   href?: never;
   onClick?: never;
 };
@@ -113,7 +113,7 @@ export function CTAButton(props: CTAButtonProps) {
 
   if ("to" in props && props.to) {
     return (
-      <Link to={props.to} params={props.params} className={base}>
+      <Link to={props.to} params={props.params as never} className={base}>
         {content}
       </Link>
     );
