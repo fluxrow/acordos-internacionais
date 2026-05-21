@@ -5,9 +5,9 @@ import { BRASIL, PAISES_ACORDO, DESTAQUES_SLUGS } from "@/data/paises-coords";
 
 // Paleta casada com tokens Paper & Ink
 // base paper ~ #f5f3ee, accent-ink (wine) ~ #7a1f1f
-const BASE: [number, number, number] = [0.72, 0.68, 0.62];
-const MARKER: [number, number, number] = [0.55, 0.1, 0.1];
-const GLOW: [number, number, number] = [0.78, 0.74, 0.68];
+const BASE: [number, number, number] = [0.96, 0.95, 0.93];
+const MARKER: [number, number, number] = [0.48, 0.12, 0.12];
+const GLOW: [number, number, number] = [0.94, 0.92, 0.88];
 
 const MARKERS: COBEOptions["markers"] = [
   // Brasil — âncora
@@ -27,7 +27,7 @@ const GLOBE_CONFIG: COBEOptions = {
   dark: 0,
   diffuse: 0.5,
   mapSamples: 16000,
-  mapBrightness: 1.6,
+  mapBrightness: 1.15,
   baseColor: BASE,
   markerColor: MARKER,
   glowColor: GLOW,
@@ -107,7 +107,7 @@ export function Globe({
   return (
     <div
       className={cn(
-        "relative mx-auto aspect-square w-full max-w-[280px] sm:max-w-[420px] lg:max-w-[640px]",
+        "relative aspect-square w-full",
         className,
       )}
     >

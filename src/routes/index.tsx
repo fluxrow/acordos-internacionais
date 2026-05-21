@@ -43,42 +43,54 @@ function Home() {
     <>
       {/* HERO */}
       <section className="relative overflow-hidden border-b border-border">
-        <div className="mx-auto grid max-w-6xl gap-6 px-6 pt-16 pb-12 md:gap-10 md:pt-24 md:pb-20 lg:grid-cols-[1.05fr_1fr] lg:items-center lg:gap-8 lg:pb-28">
-          <div className="relative z-10">
-            <p className="eyebrow">Brasil · Previdência Social Internacional</p>
-            <h1 className="mt-6 max-w-2xl font-display text-[2.5rem] leading-[1.02] tracking-tight md:text-[3.75rem] lg:text-[4.25rem]">
-              O mapa definitivo dos{" "}
-              <em className="font-normal italic text-destructive">
-                acordos previdenciários
-              </em>{" "}
-              do Brasil.
-            </h1>
-            <p className="lede mt-8 max-w-xl">
-              Para o brasileiro no exterior que precisa entender seus direitos.
-              Para o advogado que trabalha com totalização, prova de vida,
-              certificados e benefícios internacionais.
-            </p>
-
-            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-              <Link
-                to="/acordos"
-                className="inline-flex items-center justify-center gap-2 rounded-sm bg-foreground px-6 py-3.5 text-sm font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-foreground/85"
-              >
-                Ver os {totalAcordos} países
-                <span aria-hidden>→</span>
-              </Link>
-              <Link
-                to="/profissional"
-                className="inline-flex items-center justify-center gap-2 rounded-sm border border-foreground px-6 py-3.5 text-sm font-medium uppercase tracking-[0.14em] text-foreground transition-colors hover:bg-secondary"
-              >
-                Hub para advogados
-              </Link>
-            </div>
+        <div className="relative min-h-[580px] md:min-h-[600px] lg:min-h-[640px]">
+          {/* Camada globo — absoluto, ancorado à direita, parcialmente fora */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -right-[40%] top-[48%] w-[360px] -translate-y-1/2 opacity-65 md:pointer-events-auto md:-right-[25%] md:top-1/2 md:w-[560px] md:opacity-100 lg:-right-[15%] lg:w-[720px]"
+          >
+            <Globe />
           </div>
 
-          <div className="relative">
-            <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_center,_var(--paper-soft)_0%,_transparent_70%)]" />
-            <Globe className="lg:max-w-[560px]" />
+          {/* Overlay paper para legibilidade */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,_var(--paper)_0%,_var(--paper)_45%,_transparent_75%)] md:bg-[linear-gradient(to_right,_var(--paper)_0%,_var(--paper)_35%,_transparent_70%)]"
+          />
+
+          {/* Conteúdo */}
+          <div className="relative z-10 mx-auto max-w-6xl px-6 pt-16 pb-20 md:pt-24 md:pb-28">
+            <div className="max-w-full md:max-w-[480px] lg:max-w-[560px]">
+              <p className="eyebrow">Brasil · Previdência Social Internacional</p>
+              <h1 className="mt-6 font-display text-[2.5rem] leading-[1.02] tracking-tight md:text-[3.5rem] lg:text-[4.25rem]">
+                O mapa definitivo dos{" "}
+                <em className="font-normal italic text-destructive">
+                  acordos previdenciários
+                </em>{" "}
+                do Brasil.
+              </h1>
+              <p className="lede mt-8 max-w-xl">
+                Para o brasileiro no exterior que precisa entender seus direitos.
+                Para o advogado que trabalha com totalização, prova de vida,
+                certificados e benefícios internacionais.
+              </p>
+
+              <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  to="/acordos"
+                  className="inline-flex items-center justify-center gap-2 rounded-sm bg-foreground px-6 py-3.5 text-sm font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-foreground/85"
+                >
+                  Ver os {totalAcordos} países
+                  <span aria-hidden>→</span>
+                </Link>
+                <Link
+                  to="/profissional"
+                  className="inline-flex items-center justify-center gap-2 rounded-sm border border-foreground bg-background/60 px-6 py-3.5 text-sm font-medium uppercase tracking-[0.14em] text-foreground backdrop-blur-sm transition-colors hover:bg-secondary"
+                >
+                  Hub para advogados
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>
