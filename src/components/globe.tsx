@@ -5,9 +5,9 @@ import { BRASIL, PAISES_ACORDO, DESTAQUES_SLUGS } from "@/data/paises-coords";
 
 // Paleta casada com tokens Paper & Ink
 // base paper ~ #f5f3ee, accent-ink (wine) ~ #7a1f1f
-const BASE: [number, number, number] = [0.88, 0.85, 0.8];
-const MARKER: [number, number, number] = [0.48, 0.12, 0.12];
-const GLOW: [number, number, number] = [0.85, 0.82, 0.76];
+const BASE: [number, number, number] = [0.72, 0.68, 0.62];
+const MARKER: [number, number, number] = [0.55, 0.1, 0.1];
+const GLOW: [number, number, number] = [0.78, 0.74, 0.68];
 
 const MARKERS: COBEOptions["markers"] = [
   // Brasil — âncora
