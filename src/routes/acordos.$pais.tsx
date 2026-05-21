@@ -171,8 +171,35 @@ function AcordoPais() {
               </p>
               <h1 className="mt-4 font-display text-5xl md:text-7xl">{a.nome}</h1>
               <p className="lede mt-6 max-w-2xl">
-                {a.conteudo?.destaque ?? a.resumo}
+                <Highlight
+                  text={a.conteudo?.destaque ?? a.resumo}
+                  terms={termosChave}
+                />
               </p>
+
+              {/* Stats line — sem caixa, tipografia editorial */}
+              {(anosEmVigor !== null || numOrgaos > 0 || numDocs > 0) && (
+                <dl className="mt-8 flex flex-wrap gap-x-10 gap-y-4">
+                  {anosEmVigor !== null && anosEmVigor > 0 && (
+                    <StatItem
+                      valor={anosEmVigor}
+                      rotulo={anosEmVigor === 1 ? "ano em vigor" : "anos em vigor"}
+                    />
+                  )}
+                  {numOrgaos > 0 && (
+                    <StatItem
+                      valor={numOrgaos}
+                      rotulo={numOrgaos === 1 ? "órgão de ligação" : "órgãos de ligação"}
+                    />
+                  )}
+                  {numDocs > 0 && (
+                    <StatItem
+                      valor={numDocs}
+                      rotulo={numDocs === 1 ? "documento oficial" : "documentos oficiais"}
+                    />
+                  )}
+                </dl>
+              )}
 
               {a.status !== "vigente" && (
                 <p className="mt-6 inline-block rounded-full border border-[var(--accent-ink)] px-3 py-1.5 text-[11px] uppercase tracking-[0.14em] text-[var(--accent-ink)]">
