@@ -15,8 +15,10 @@ interface CommonProps {
 
 type LinkProps = CommonProps & {
   to: ComponentProps<typeof Link>["to"];
-  params?: ComponentProps<typeof Link>["params"];
+  params?: Record<string, string>;
   href?: never;
+  onClick?: never;
+};
   onClick?: never;
 };
 
