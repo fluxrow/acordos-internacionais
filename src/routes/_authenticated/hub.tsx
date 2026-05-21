@@ -90,11 +90,11 @@ function HubDashboard() {
                     alt={nome}
                     width={40}
                     height={30}
-                    className="rounded-[2px] object-cover"
+                    className="rounded-md object-cover"
                     loading="lazy"
                   />
                 ) : (
-                  <span className="flex h-[30px] w-[40px] items-center justify-center rounded-[2px] bg-secondary text-xs text-muted-foreground">
+                  <span className="flex h-[30px] w-[40px] items-center justify-center rounded-md bg-secondary text-xs text-muted-foreground">
                     MULTI
                   </span>
                 )}

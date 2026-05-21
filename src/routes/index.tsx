@@ -172,7 +172,7 @@ function Home() {
                       width={56}
                       height={42}
                       loading="lazy"
-                      className="h-[42px] w-[56px] flex-shrink-0 border border-border object-cover"
+                      className="h-[42px] w-[56px] flex-shrink-0 rounded-md border border-border object-cover"
                     />
                   )}
                   <div className="min-w-0">

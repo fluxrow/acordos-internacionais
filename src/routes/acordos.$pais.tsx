@@ -143,7 +143,7 @@ function AcordoPais() {
                   alt={`Bandeira de ${a.nome}`}
                   width={240}
                   height={160}
-                  className="h-auto w-[200px] border border-border md:w-[260px]"
+                  className="h-auto w-[200px] rounded-lg border border-border md:w-[260px]"
                 />
               </div>
             )}
