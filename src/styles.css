@@ -44,6 +44,15 @@
   --color-accent-ink: var(--accent-ink);
   --color-accent-ink-soft: var(--accent-ink-soft);
 
+  --color-state-warning: var(--state-warning);
+  --color-state-warning-soft: var(--state-warning-soft);
+  --color-state-error: var(--state-error);
+  --color-state-error-soft: var(--state-error-soft);
+  --color-state-info: var(--state-info);
+  --color-state-info-soft: var(--state-info-soft);
+  --color-state-success: var(--state-success);
+  --color-state-success-soft: var(--state-success-soft);
+
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
