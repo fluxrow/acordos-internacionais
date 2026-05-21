@@ -43,6 +43,7 @@
 - ✅ Página `/acordos/:pais` reformatada: hero, cards de Órgãos de Ligação, colunas de Benefícios, tabs Acordo/Ajuste, Documentos com badge "Hub PRO" (gate visual)
 - ✅ **Refino visual `/acordos/:pais`**: wash wine no hero, bandeira com moldura, aside com `backdrop-blur`, fallback gracioso em órgãos sem dados, nav contextual Anterior/Próximo com mini-bandeiras e hover wine
 - ✅ **Refino visual v2 `/acordos/:pais`**: duplo radial wine no hero + linha gradiente no bottom, ficha Instrumento/Decreto/Vigência em cards `backdrop-blur` com hover wine, documentos agrupados por categoria (Principal/Complementar/Roteiro/Formulário) com header eyebrow wine + contador, "Hub PRO" promovido a CTA único no topo do bloco, `ProContentLock` redesenhado (radial wine duplo, headline `font-display`, CTA pill `--accent-ink`)
+- ✅ **Refino UX editorial v3 `/acordos/:pais`**: stats line no hero (anos em vigor, órgãos, documentos), `<Highlight>` destacando palavras-chave em wine no lede e em "Como funciona", TOC sticky "Nesta página" no aside com numeração mono e scroll suave, blocos com kicker numerado `01 ·` + lede curto, OrgaoCard com ícones Lucide (Building2/MapPin/Phone/Mail) e rótulo "Lado X" em wine, BeneficiosComparativo em tabela 2-col com divisória wine, documentos em flat-list com pill de categoria wine-soft e cadeado Lucide com hover
 - ✅ 3 acordos multilaterais (CPLP, Mercosul, Ibero-Americano) reaproveitam a rota dinâmica
 
 ## Fase 3 — Documentação e colaboração ✅ (concluída)

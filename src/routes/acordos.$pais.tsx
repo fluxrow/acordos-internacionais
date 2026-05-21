@@ -1,8 +1,10 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { Lock, Mail, Phone, MapPin, Building2 } from "lucide-react";
 import { acordos, getAcordo } from "@/data/acordos";
 import type { DocumentoImportado, OrgaoLigacao } from "@/data/acordos.types";
 import { CTAMarcos } from "@/components/cta-marcos";
 import { ProContentLock } from "@/components/pro-content-lock";
+import { Highlight } from "@/lib/highlight";
 
 export const Route = createFileRoute("/acordos/$pais")({
   head: ({ params }) => {
@@ -105,6 +107,38 @@ function AcordoPais() {
 
   const tipoLabel = a.tipo === "bilateral" ? "Acordo Bilateral" : "Acordo Multilateral";
 
+  // Stats do hero (a partir dos dados disponíveis)
+  const anosEmVigor = a.vigencia ? new Date().getFullYear() - parseInt(a.vigencia, 10) : null;
+  const numDocs = a.importado?.documentos.length ?? 0;
+  const numOrgaos = (a.importado?.orgaoBR ? 1 : 0) + (a.importado?.orgaoParceiro ? 1 : 0);
+
+  // Termos a destacar no lede / corpo
+  const termosChave = [
+    "totalização",
+    "pro-rata",
+    "prorata",
+    "tempo de contribuição",
+    "benefício",
+    "aposentadoria",
+    a.nome,
+    a.vigencia ? `desde ${a.vigencia}` : "",
+  ].filter(Boolean);
+
+  // Blocos para o TOC (só os que vão renderizar)
+  const tocBlocos: Array<{ id: string; label: string }> = [];
+  if (a.importado && (a.importado.decreto || a.importado.vigorDesde || a.importado.instrumento))
+    tocBlocos.push({ id: "instrumento", label: "Instrumento" });
+  if (a.importado && (a.importado.orgaoBR || a.importado.orgaoParceiro))
+    tocBlocos.push({ id: "orgaos", label: "Órgãos de ligação" });
+  if (
+    a.importado &&
+    (a.importado.beneficios.brasil.length > 0 || a.importado.beneficios.parceiro.length > 0)
+  )
+    tocBlocos.push({ id: "beneficios", label: "Benefícios cobertos" });
+  if (a.conteudo) tocBlocos.push({ id: "como-funciona", label: "Como funciona" });
+  if (a.importado && a.importado.documentos.length > 0)
+    tocBlocos.push({ id: "documentos", label: "Documentos" });
+
   return (
     <>
       <article>
@@ -137,8 +171,35 @@ function AcordoPais() {
               </p>
               <h1 className="mt-4 font-display text-5xl md:text-7xl">{a.nome}</h1>
               <p className="lede mt-6 max-w-2xl">
-                {a.conteudo?.destaque ?? a.resumo}
+                <Highlight
+                  text={a.conteudo?.destaque ?? a.resumo}
+                  terms={termosChave}
+                />
               </p>
+
+              {/* Stats line — sem caixa, tipografia editorial */}
+              {(anosEmVigor !== null || numOrgaos > 0 || numDocs > 0) && (
+                <dl className="mt-8 flex flex-wrap gap-x-10 gap-y-4">
+                  {anosEmVigor !== null && anosEmVigor > 0 && (
+                    <StatItem
+                      valor={anosEmVigor}
+                      rotulo={anosEmVigor === 1 ? "ano em vigor" : "anos em vigor"}
+                    />
+                  )}
+                  {numOrgaos > 0 && (
+                    <StatItem
+                      valor={numOrgaos}
+                      rotulo={numOrgaos === 1 ? "órgão de ligação" : "órgãos de ligação"}
+                    />
+                  )}
+                  {numDocs > 0 && (
+                    <StatItem
+                      valor={numDocs}
+                      rotulo={numDocs === 1 ? "documento oficial" : "documentos oficiais"}
+                    />
+                  )}
+                </dl>
+              )}
 
               {a.status !== "vigente" && (
                 <p className="mt-6 inline-block rounded-full border border-[var(--accent-ink)] px-3 py-1.5 text-[11px] uppercase tracking-[0.14em] text-[var(--accent-ink)]">
@@ -169,7 +230,12 @@ function AcordoPais() {
           <div className="space-y-14">
             {/* INSTRUMENTO E DECRETO (público) */}
             {a.importado && (a.importado.decreto || a.importado.vigorDesde || a.importado.instrumento) && (
-              <Bloco titulo="Instrumento e vigência">
+              <Bloco
+                id="instrumento"
+                numero={tocBlocos.findIndex((b) => b.id === "instrumento") + 1}
+                titulo="Instrumento e vigência"
+                lede="O que foi assinado, quando entrou em vigor e qual decreto o promulgou no Brasil."
+              >
                 <dl className="grid gap-4 sm:grid-cols-3">
                   {a.importado.instrumento && (
                     <FichaItem rotulo="Instrumento" valor={a.importado.instrumento} />
@@ -186,15 +252,17 @@ function AcordoPais() {
 
             {/* ÓRGÃOS DE LIGAÇÃO (público) */}
             {a.importado && (a.importado.orgaoBR || a.importado.orgaoParceiro) && (
-              <Bloco titulo="Órgãos de ligação">
-                <p className="text-sm text-muted-foreground">
-                  Quem operacionaliza o acordo de cada lado. Use estes contatos
-                  para protocolar requerimentos ou esclarecer pendências
-                  administrativas.
-                </p>
-                <div className="mt-6 grid gap-6 md:grid-cols-2">
-                  {a.importado.orgaoBR && <OrgaoCard orgao={a.importado.orgaoBR} />}
-                  {a.importado.orgaoParceiro && <OrgaoCard orgao={a.importado.orgaoParceiro} />}
+              <Bloco
+                id="orgaos"
+                numero={tocBlocos.findIndex((b) => b.id === "orgaos") + 1}
+                titulo="Órgãos de ligação"
+                lede="Quem operacionaliza o acordo de cada lado — use para protocolar requerimentos ou esclarecer pendências administrativas."
+              >
+                <div className="mt-2 grid gap-6 md:grid-cols-2">
+                  {a.importado.orgaoBR && <OrgaoCard orgao={a.importado.orgaoBR} lado="Brasil" />}
+                  {a.importado.orgaoParceiro && (
+                    <OrgaoCard orgao={a.importado.orgaoParceiro} lado={a.nome} />
+                  )}
                 </div>
               </Bloco>
             )}
@@ -203,26 +271,32 @@ function AcordoPais() {
             {a.importado &&
               (a.importado.beneficios.brasil.length > 0 ||
                 a.importado.beneficios.parceiro.length > 0) && (
-                <Bloco titulo="Benefícios cobertos pelo acordo">
-                  <div className="mt-2 grid gap-8 md:grid-cols-2">
-                    {a.importado.beneficios.brasil.length > 0 && (
-                      <ListaBeneficios titulo="Lado Brasil" itens={a.importado.beneficios.brasil} />
-                    )}
-                    {a.importado.beneficios.parceiro.length > 0 && (
-                      <ListaBeneficios
-                        titulo={`Lado ${a.nome}`}
-                        itens={a.importado.beneficios.parceiro}
-                      />
-                    )}
-                  </div>
+                <Bloco
+                  id="beneficios"
+                  numero={tocBlocos.findIndex((b) => b.id === "beneficios") + 1}
+                  titulo="Benefícios cobertos"
+                  lede={`O que cada país reconhece sob o acordo Brasil–${a.nome}.`}
+                >
+                  <BeneficiosComparativo
+                    brasil={a.importado.beneficios.brasil}
+                    parceiro={a.importado.beneficios.parceiro}
+                    paisParceiro={a.nome}
+                  />
                 </Bloco>
               )}
 
             {/* COMO FUNCIONA (editorial, só para prioritários) */}
             {a.conteudo && (
               <>
-                <Bloco titulo="Como funciona, em linhas gerais">
-                  <p className="text-lg leading-relaxed">{a.conteudo.totalizacao}</p>
+                <Bloco
+                  id="como-funciona"
+                  numero={tocBlocos.findIndex((b) => b.id === "como-funciona") + 1}
+                  titulo="Como funciona, em linhas gerais"
+                  lede="A mecânica de totalização aplicada a este acordo."
+                >
+                  <p className="text-lg leading-relaxed">
+                    <Highlight text={a.conteudo.totalizacao} terms={termosChave} />
+                  </p>
                   <p className="mt-4 text-sm text-muted-foreground">
                     Conceito geral no guia{" "}
                     <Link
@@ -237,10 +311,10 @@ function AcordoPais() {
                 </Bloco>
 
                 {a.conteudo.curiosidade && (
-                  <aside className="border-l-2 border-foreground bg-secondary p-6">
-                    <p className="eyebrow">Para o registro</p>
+                  <aside className="relative border-l-2 border-[var(--accent-ink)] bg-secondary p-6">
+                    <p className="eyebrow text-[var(--accent-ink)]">Para o registro</p>
                     <p className="mt-3 font-display text-xl leading-snug italic">
-                      {a.conteudo.curiosidade}
+                      <Highlight text={a.conteudo.curiosidade} terms={termosChave} />
                     </p>
                   </aside>
                 )}
@@ -249,50 +323,50 @@ function AcordoPais() {
 
             {/* DOCUMENTOS (PRO — agrupados por categoria, download trancado) */}
             {a.importado && a.importado.documentos.length > 0 && (
-              <Bloco titulo={`Documentos e formulários (${a.importado.documentos.length})`}>
+              <Bloco
+                id="documentos"
+                numero={tocBlocos.findIndex((b) => b.id === "documentos") + 1}
+                titulo="Documentos e formulários"
+                lede="Texto integral do acordo, ajuste administrativo e formulários oficiais para protocolar requerimentos."
+              >
                 <div className="flex flex-wrap items-baseline justify-between gap-4">
-                  <p className="max-w-2xl text-sm text-muted-foreground">
-                    Texto integral do acordo, ajuste administrativo e formulários
-                    oficiais para protocolar requerimentos.
+                  <p className="text-sm text-muted-foreground">
+                    <span className="font-display text-foreground">
+                      {a.importado.documentos.length}
+                    </span>{" "}
+                    arquivos catalogados, agrupados por uso processual.
                   </p>
                   <Link
                     to="/profissional"
                     className="inline-flex shrink-0 items-center gap-1.5 text-[11px] uppercase tracking-[0.14em] text-[var(--accent-ink)] hover:underline underline-offset-4"
                   >
-                    <LockIcon /> Download no Hub Profissional →
+                    <Lock size={11} aria-hidden /> Download no Hub Profissional →
                   </Link>
                 </div>
-                <div className="mt-8 space-y-8">
-                  {agruparDocumentos(a.importado.documentos).map(([cat, docs]) => (
-                    <div key={cat}>
-                      <div className="flex items-baseline justify-between gap-3 border-b border-border/60 pb-2">
-                        <h3 className="eyebrow text-[var(--accent-ink)]">
+                <div className="mt-8 space-y-2">
+                  {agruparDocumentos(a.importado.documentos).map(([cat, docs]) =>
+                    docs.map((d: DocumentoImportado) => (
+                      <div
+                        key={d.nome}
+                        className="group flex items-start gap-4 rounded-lg border border-border/40 bg-background/50 p-4 transition-colors hover:border-[var(--accent-ink)]/40 hover:bg-[var(--accent-ink-soft)]/40"
+                      >
+                        <span className="mt-0.5 shrink-0 rounded-full bg-[var(--accent-ink-soft)] px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-[var(--accent-ink)]">
                           {CATEGORIA_LABEL[cat] ?? "Outro"}
-                        </h3>
-                        <span className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
-                          {docs.length} {docs.length === 1 ? "item" : "itens"}
                         </span>
+                        <div className="min-w-0 flex-1">
+                          <p className="font-display text-base leading-snug">{d.nome}</p>
+                          {d.desc && (
+                            <p className="mt-1 text-sm text-muted-foreground">{d.desc}</p>
+                          )}
+                        </div>
+                        <Lock
+                          size={14}
+                          className="mt-1 shrink-0 text-muted-foreground/50 transition-colors group-hover:text-[var(--accent-ink)]"
+                          aria-label="Acesso restrito ao Hub Profissional"
+                        />
                       </div>
-                      <ul className="mt-2 divide-y divide-border/60">
-                        {docs.map((d: DocumentoImportado) => (
-                          <li key={d.nome} className="flex items-start gap-4 py-4">
-                            <div className="min-w-0 flex-1">
-                              <p className="font-display text-base leading-snug">{d.nome}</p>
-                              {d.desc && (
-                                <p className="mt-1 text-sm text-muted-foreground">{d.desc}</p>
-                              )}
-                            </div>
-                            <span
-                              className="mt-1 shrink-0 text-muted-foreground/60"
-                              aria-label="Acesso restrito ao Hub Profissional"
-                            >
-                              <LockIcon />
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
+                    )),
+                  )}
                 </div>
               </Bloco>
             )}
@@ -327,9 +401,33 @@ function AcordoPais() {
           </div>
 
           <aside className="space-y-6 md:sticky md:top-6 md:self-start">
+            {tocBlocos.length > 1 && (
+              <nav
+                aria-label="Nesta página"
+                className="hidden rounded-xl border border-border/60 bg-background/70 p-5 backdrop-blur-sm md:block"
+              >
+                <p className="eyebrow text-[var(--accent-ink)]">Nesta página</p>
+                <ol className="mt-4 space-y-2.5 text-sm">
+                  {tocBlocos.map((b, i) => (
+                    <li key={b.id}>
+                      <a
+                        href={`#${b.id}`}
+                        className="group flex items-baseline gap-3 text-muted-foreground transition-colors hover:text-[var(--accent-ink)]"
+                      >
+                        <span className="font-mono text-[10px] tabular-nums text-muted-foreground/60 group-hover:text-[var(--accent-ink)]">
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <span className="leading-snug">{b.label}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              </nav>
+            )}
             <CTAMarcos
               contexto={`Tem um caso ligado ao acordo Brasil–${a.nome}? Fale com o Dr. Marcos Espínola.`}
             />
+
             <div className="rounded-xl border border-border/60 bg-background/70 p-6 backdrop-blur-sm">
               <p className="eyebrow">Próximos passos</p>
               <ul className="mt-4 space-y-3 text-sm">
@@ -419,13 +517,50 @@ function AcordoPais() {
   );
 }
 
-function Bloco({ titulo, children }: { titulo: string; children: React.ReactNode }) {
+function Bloco({
+  id,
+  numero,
+  titulo,
+  lede,
+  children,
+}: {
+  id?: string;
+  numero?: number;
+  titulo: string;
+  lede?: string;
+  children: React.ReactNode;
+}) {
   return (
-    <section>
-      <h2 className="font-display text-2xl md:text-3xl">{titulo}</h2>
-      <hr className="rule mt-3" />
-      <div className="mt-4">{children}</div>
+    <section id={id} className="scroll-mt-24">
+      <header>
+        {numero ? (
+          <p className="eyebrow text-[var(--accent-ink)]">
+            <span className="font-mono text-foreground/40">
+              {String(numero).padStart(2, "0")}
+            </span>{" "}
+            <span aria-hidden className="mx-1 text-foreground/30">·</span>{" "}
+            {titulo}
+          </p>
+        ) : null}
+        <h2 className="mt-2 font-display text-2xl md:text-3xl">{titulo}</h2>
+        {lede && (
+          <p className="mt-2 max-w-2xl text-base text-muted-foreground">{lede}</p>
+        )}
+        <hr className="rule mt-4" />
+      </header>
+      <div className="mt-6">{children}</div>
     </section>
+  );
+}
+
+function StatItem({ valor, rotulo }: { valor: number | string; rotulo: string }) {
+  return (
+    <div>
+      <dt className="eyebrow text-muted-foreground">{rotulo}</dt>
+      <dd className="mt-1 font-display text-3xl leading-none text-[var(--accent-ink)]">
+        {valor}
+      </dd>
+    </div>
   );
 }
 
@@ -438,31 +573,34 @@ function FichaItem({ rotulo, valor }: { rotulo: string; valor: string }) {
   );
 }
 
-function OrgaoCard({ orgao }: { orgao: OrgaoLigacao }) {
+function OrgaoCard({ orgao, lado }: { orgao: OrgaoLigacao; lado?: string }) {
   const temDados =
     !!orgao.instituicao || !!orgao.endereco || !!orgao.telefone || !!orgao.email;
   return (
-    <article className="rounded-xl border border-border/60 bg-background/70 p-6 backdrop-blur-sm">
-      <h3 className="font-display text-lg leading-snug">{orgao.titulo}</h3>
+    <article className="rounded-xl border border-border/60 bg-background/70 p-6 backdrop-blur-sm transition-colors hover:border-[var(--accent-ink)]/40">
+      {lado && (
+        <p className="eyebrow text-[var(--accent-ink)]">Lado {lado}</p>
+      )}
+      <h3 className="mt-2 font-display text-lg leading-snug">{orgao.titulo}</h3>
       <hr className="rule mt-3" />
       {temDados ? (
-        <dl className="mt-4 space-y-3 text-sm">
+        <dl className="mt-4 space-y-3.5 text-sm">
           {orgao.instituicao && (
-            <div>
-              <dt className="eyebrow">Instituição</dt>
-              <dd className="mt-1 leading-snug">{orgao.instituicao}</dd>
+            <div className="flex items-start gap-2.5">
+              <Building2 size={14} className="mt-0.5 shrink-0 text-muted-foreground/70" aria-hidden />
+              <dd className="leading-snug">{orgao.instituicao}</dd>
             </div>
           )}
           {orgao.endereco && (
-            <div>
-              <dt className="eyebrow">Endereço</dt>
-              <dd className="mt-1 leading-snug text-muted-foreground">{orgao.endereco}</dd>
+            <div className="flex items-start gap-2.5">
+              <MapPin size={14} className="mt-0.5 shrink-0 text-muted-foreground/70" aria-hidden />
+              <dd className="leading-snug text-muted-foreground">{orgao.endereco}</dd>
             </div>
           )}
           {orgao.telefone && (
-            <div>
-              <dt className="eyebrow">Telefone</dt>
-              <dd className="mt-1 leading-snug">
+            <div className="flex items-start gap-2.5">
+              <Phone size={14} className="mt-0.5 shrink-0 text-muted-foreground/70" aria-hidden />
+              <dd className="leading-snug">
                 <a
                   href={`tel:${orgao.telefone.replace(/[^+\d]/g, "")}`}
                   className="ink-link"
@@ -473,9 +611,9 @@ function OrgaoCard({ orgao }: { orgao: OrgaoLigacao }) {
             </div>
           )}
           {orgao.email && (
-            <div>
-              <dt className="eyebrow">E-mail</dt>
-              <dd className="mt-1 leading-snug">
+            <div className="flex items-start gap-2.5">
+              <Mail size={14} className="mt-0.5 shrink-0 text-muted-foreground/70" aria-hidden />
+              <dd className="leading-snug">
                 <a href={`mailto:${orgao.email}`} className="ink-link break-all">
                   {orgao.email}
                 </a>
@@ -492,15 +630,49 @@ function OrgaoCard({ orgao }: { orgao: OrgaoLigacao }) {
   );
 }
 
-function ListaBeneficios({ titulo, itens }: { titulo: string; itens: string[] }) {
+function BeneficiosComparativo({
+  brasil,
+  parceiro,
+  paisParceiro,
+}: {
+  brasil: string[];
+  parceiro: string[];
+  paisParceiro: string;
+}) {
+  const linhas = Math.max(brasil.length, parceiro.length);
   return (
-    <div>
-      <p className="eyebrow">{titulo}</p>
-      <ul className="mt-3 space-y-2">
-        {itens.map((item) => (
-          <li key={item} className="flex items-start gap-3 text-sm leading-snug">
-            <span aria-hidden className="mt-0.5 text-foreground">✓</span>
-            <span>{item}</span>
+    <div className="overflow-hidden rounded-xl border border-border/60 bg-background/50">
+      <div className="grid grid-cols-2 border-b border-border/60 bg-[var(--accent-ink-soft)]/40">
+        <p className="border-r border-border/60 px-4 py-3 text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--accent-ink)]">
+          Lado Brasil
+        </p>
+        <p className="px-4 py-3 text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--accent-ink)]">
+          Lado {paisParceiro}
+        </p>
+      </div>
+      <ul className="divide-y divide-border/40">
+        {Array.from({ length: linhas }).map((_, i) => (
+          <li key={i} className="grid grid-cols-2">
+            <div className="border-r border-border/40 px-4 py-3 text-sm leading-snug">
+              {brasil[i] ? (
+                <span className="flex items-start gap-2.5">
+                  <span aria-hidden className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--accent-ink)]" />
+                  {brasil[i]}
+                </span>
+              ) : (
+                <span className="text-muted-foreground/40">—</span>
+              )}
+            </div>
+            <div className="px-4 py-3 text-sm leading-snug">
+              {parceiro[i] ? (
+                <span className="flex items-start gap-2.5">
+                  <span aria-hidden className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--accent-ink)]" />
+                  {parceiro[i]}
+                </span>
+              ) : (
+                <span className="text-muted-foreground/40">—</span>
+              )}
+            </div>
           </li>
         ))}
       </ul>
@@ -515,9 +687,6 @@ const CATEGORIA_LABEL: Record<string, string> = {
   roteiro: "Roteiro",
   outro: "Outro",
 };
-
-
-
 
 const CATEGORIA_ORDEM = ["principal", "complementar", "roteiro", "formulario", "outro"] as const;
 
@@ -539,19 +708,3 @@ function agruparDocumentos(docs: DocumentoImportado[]): Array<[string, Documento
   return ordenados;
 }
 
-function LockIcon() {
-  return (
-    <svg
-      width="10"
-      height="10"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      aria-hidden
-    >
-      <rect x="4" y="11" width="16" height="10" rx="1" />
-      <path d="M8 11V7a4 4 0 1 1 8 0v4" />
-    </svg>
-  );
-}
