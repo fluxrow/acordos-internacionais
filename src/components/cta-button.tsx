@@ -19,8 +19,6 @@ type LinkProps = CommonProps & {
   href?: never;
   onClick?: never;
 };
-  onClick?: never;
-};
 
 type AnchorProps = CommonProps & {
   href: string;
@@ -115,7 +113,7 @@ export function CTAButton(props: CTAButtonProps) {
 
   if ("to" in props && props.to) {
     return (
-      <Link to={props.to} params={props.params} className={base}>
+      <Link to={props.to} params={props.params as never} className={base}>
         {content}
       </Link>
     );
