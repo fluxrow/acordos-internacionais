@@ -109,11 +109,18 @@ function AcordoPais() {
     <>
       <article>
         {/* HERO PAÍS */}
-        <header className="border-b border-border">
-          <div className="mx-auto grid max-w-6xl gap-10 px-6 py-16 md:grid-cols-[1fr_auto] md:py-20">
+        <header className="relative overflow-hidden border-b border-border/60">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_15%_30%,_var(--accent-ink-soft)_0%,_transparent_55%)] opacity-70"
+          />
+          <div className="relative z-10 mx-auto grid max-w-6xl gap-10 px-6 py-16 md:grid-cols-[1fr_auto] md:items-end md:py-20">
             <div>
               <nav className="flex items-center gap-2 text-xs text-muted-foreground">
-                <Link to="/acordos" className="hover:underline underline-offset-4">
+                <Link
+                  to="/acordos"
+                  className="hover:text-[var(--accent-ink)] hover:underline underline-offset-4"
+                >
                   Países
                 </Link>
                 <span aria-hidden>/</span>
@@ -129,7 +136,7 @@ function AcordoPais() {
               </p>
 
               {a.status !== "vigente" && (
-                <p className="mt-6 inline-block border border-foreground px-3 py-1.5 text-[11px] uppercase tracking-[0.14em]">
+                <p className="mt-6 inline-block rounded-full border border-[var(--accent-ink)] px-3 py-1.5 text-[11px] uppercase tracking-[0.14em] text-[var(--accent-ink)]">
                   {a.status === "ratificacao"
                     ? "Acordo assinado · em ratificação"
                     : "Documentação em organização"}
@@ -138,13 +145,15 @@ function AcordoPais() {
             </div>
             {a.iso && (
               <div className="md:self-end">
-                <img
-                  src={`https://flagcdn.com/w320/${a.iso}.png`}
-                  alt={`Bandeira de ${a.nome}`}
-                  width={240}
-                  height={160}
-                  className="h-auto w-[200px] rounded-lg border border-border md:w-[260px]"
-                />
+                <div className="flex aspect-[3/2] w-[200px] items-center justify-center overflow-hidden rounded-lg border border-border/60 bg-background/70 shadow-[0_8px_24px_-12px_rgba(122,31,31,0.18)] backdrop-blur-sm md:w-[260px]">
+                  <img
+                    src={`https://flagcdn.com/w320/${a.iso}.png`}
+                    alt={`Bandeira de ${a.nome}`}
+                    width={260}
+                    height={173}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
               </div>
             )}
           </div>
@@ -299,14 +308,14 @@ function AcordoPais() {
             <CTAMarcos
               contexto={`Tem um caso ligado ao acordo Brasil–${a.nome}? Fale com o Dr. Marcos Espínola.`}
             />
-            <div className="border border-border p-6">
+            <div className="rounded-xl border border-border/60 bg-background/70 p-6 backdrop-blur-sm">
               <p className="eyebrow">Próximos passos</p>
               <ul className="mt-4 space-y-3 text-sm">
                 <li>
                   <Link
                     to="/jornadas/$jornada"
                     params={{ jornada: "moro-fora" }}
-                    className="ink-link"
+                    className="ink-link hover:text-[var(--accent-ink)]"
                   >
                     Já moro no exterior →
                   </Link>
@@ -315,7 +324,7 @@ function AcordoPais() {
                   <Link
                     to="/jornadas/$jornada"
                     params={{ jornada: "estou-voltando" }}
-                    className="ink-link"
+                    className="ink-link hover:text-[var(--accent-ink)]"
                   >
                     Estou voltando ao Brasil →
                   </Link>
@@ -324,7 +333,7 @@ function AcordoPais() {
                   <Link
                     to="/guias/$slug"
                     params={{ slug: "prova-de-vida-no-exterior" }}
-                    className="ink-link"
+                    className="ink-link hover:text-[var(--accent-ink)]"
                   >
                     Prova de vida no exterior →
                   </Link>
@@ -336,23 +345,51 @@ function AcordoPais() {
       </article>
 
       {/* NAV ENTRE PAÍSES */}
-      <nav className="border-y border-border">
-        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-px bg-border">
+      <nav className="border-y border-border/60">
+        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-px bg-border/60">
           <Link
             to={prev ? "/acordos/$pais" : "/acordos"}
             params={prev ? { pais: prev.slug } : undefined}
-            className="bg-background px-6 py-8 transition-colors hover:bg-secondary"
+            className="group flex items-center gap-4 bg-background px-6 py-8 transition-colors hover:bg-[var(--accent-ink-soft)]"
           >
-            <p className="eyebrow">← Anterior</p>
-            <p className="mt-2 font-display text-lg">{prev ? prev.nome : "Todos os países"}</p>
+            {prev?.iso && (
+              <img
+                src={`https://flagcdn.com/w80/${prev.iso}.png`}
+                alt=""
+                width={40}
+                height={30}
+                loading="lazy"
+                className="h-[30px] w-[40px] flex-shrink-0 rounded border border-border/60 object-cover"
+              />
+            )}
+            <div className="min-w-0">
+              <p className="eyebrow">← Anterior</p>
+              <p className="mt-2 truncate font-display text-lg transition-colors group-hover:text-[var(--accent-ink)]">
+                {prev ? prev.nome : "Todos os países"}
+              </p>
+            </div>
           </Link>
           <Link
             to={next ? "/acordos/$pais" : "/acordos"}
             params={next ? { pais: next.slug } : undefined}
-            className="bg-background px-6 py-8 text-right transition-colors hover:bg-secondary"
+            className="group flex items-center justify-end gap-4 bg-background px-6 py-8 text-right transition-colors hover:bg-[var(--accent-ink-soft)]"
           >
-            <p className="eyebrow">Próximo →</p>
-            <p className="mt-2 font-display text-lg">{next ? next.nome : "Todos os países"}</p>
+            <div className="min-w-0">
+              <p className="eyebrow">Próximo →</p>
+              <p className="mt-2 truncate font-display text-lg transition-colors group-hover:text-[var(--accent-ink)]">
+                {next ? next.nome : "Todos os países"}
+              </p>
+            </div>
+            {next?.iso && (
+              <img
+                src={`https://flagcdn.com/w80/${next.iso}.png`}
+                alt=""
+                width={40}
+                height={30}
+                loading="lazy"
+                className="h-[30px] w-[40px] flex-shrink-0 rounded border border-border/60 object-cover"
+              />
+            )}
           </Link>
         </div>
       </nav>
@@ -380,47 +417,55 @@ function FichaItem({ rotulo, valor }: { rotulo: string; valor: string }) {
 }
 
 function OrgaoCard({ orgao }: { orgao: OrgaoLigacao }) {
+  const temDados =
+    !!orgao.instituicao || !!orgao.endereco || !!orgao.telefone || !!orgao.email;
   return (
-    <article className="border border-border p-6">
+    <article className="rounded-xl border border-border/60 bg-background/70 p-6 backdrop-blur-sm">
       <h3 className="font-display text-lg leading-snug">{orgao.titulo}</h3>
       <hr className="rule mt-3" />
-      <dl className="mt-4 space-y-3 text-sm">
-        {orgao.instituicao && (
-          <div>
-            <dt className="eyebrow">Instituição</dt>
-            <dd className="mt-1 leading-snug">{orgao.instituicao}</dd>
-          </div>
-        )}
-        {orgao.endereco && (
-          <div>
-            <dt className="eyebrow">Endereço</dt>
-            <dd className="mt-1 leading-snug text-muted-foreground">{orgao.endereco}</dd>
-          </div>
-        )}
-        {orgao.telefone && (
-          <div>
-            <dt className="eyebrow">Telefone</dt>
-            <dd className="mt-1 leading-snug">
-              <a
-                href={`tel:${orgao.telefone.replace(/[^+\d]/g, "")}`}
-                className="ink-link"
-              >
-                {orgao.telefone}
-              </a>
-            </dd>
-          </div>
-        )}
-        {orgao.email && (
-          <div>
-            <dt className="eyebrow">E-mail</dt>
-            <dd className="mt-1 leading-snug">
-              <a href={`mailto:${orgao.email}`} className="ink-link break-all">
-                {orgao.email}
-              </a>
-            </dd>
-          </div>
-        )}
-      </dl>
+      {temDados ? (
+        <dl className="mt-4 space-y-3 text-sm">
+          {orgao.instituicao && (
+            <div>
+              <dt className="eyebrow">Instituição</dt>
+              <dd className="mt-1 leading-snug">{orgao.instituicao}</dd>
+            </div>
+          )}
+          {orgao.endereco && (
+            <div>
+              <dt className="eyebrow">Endereço</dt>
+              <dd className="mt-1 leading-snug text-muted-foreground">{orgao.endereco}</dd>
+            </div>
+          )}
+          {orgao.telefone && (
+            <div>
+              <dt className="eyebrow">Telefone</dt>
+              <dd className="mt-1 leading-snug">
+                <a
+                  href={`tel:${orgao.telefone.replace(/[^+\d]/g, "")}`}
+                  className="ink-link"
+                >
+                  {orgao.telefone}
+                </a>
+              </dd>
+            </div>
+          )}
+          {orgao.email && (
+            <div>
+              <dt className="eyebrow">E-mail</dt>
+              <dd className="mt-1 leading-snug">
+                <a href={`mailto:${orgao.email}`} className="ink-link break-all">
+                  {orgao.email}
+                </a>
+              </dd>
+            </div>
+          )}
+        </dl>
+      ) : (
+        <p className="mt-4 text-sm italic text-muted-foreground">
+          Dados de contato em organização.
+        </p>
+      )}
     </article>
   );
 }

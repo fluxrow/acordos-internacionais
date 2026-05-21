@@ -41,6 +41,7 @@
 - ✅ Saída estruturada em `src/data/acordos.generated.ts` + tipos em `src/data/acordos.types.ts`
 - ✅ Catálogo curado (`src/data/acordos.ts`) faz **merge** com dados importados
 - ✅ Página `/acordos/:pais` reformatada: hero, cards de Órgãos de Ligação, colunas de Benefícios, tabs Acordo/Ajuste, Documentos com badge "Hub PRO" (gate visual)
+- ✅ **Refino visual `/acordos/:pais`**: wash wine no hero, bandeira com moldura, aside com `backdrop-blur`, fallback gracioso em órgãos sem dados, nav contextual Anterior/Próximo com mini-bandeiras e hover wine
 - ✅ 3 acordos multilaterais (CPLP, Mercosul, Ibero-Americano) reaproveitam a rota dinâmica
 
 ## Fase 3 — Documentação e colaboração ✅ (concluída)
