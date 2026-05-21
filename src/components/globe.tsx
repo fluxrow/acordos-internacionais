@@ -52,11 +52,24 @@ const BASE_CONFIG: COBEOptions = {
 
 export function Globe({
   className,
-  config = GLOBE_CONFIG,
+  config,
+  tint = "paper",
+  mapSamples,
 }: {
   className?: string;
   config?: COBEOptions;
+  tint?: "paper" | "wine";
+  mapSamples?: number;
 }) {
+  const palette = tint === "wine" ? WINE : PAPER;
+  const resolvedConfig: COBEOptions = config ?? {
+    ...BASE_CONFIG,
+    baseColor: palette.base,
+    markerColor: palette.marker,
+    glowColor: palette.glow,
+    mapBrightness: palette.brightness,
+    ...(mapSamples ? { mapSamples } : {}),
+  };
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const pointerInteracting = useRef<number | null>(null);
   const pointerInteractionMovement = useRef(0);
