@@ -516,14 +516,8 @@ const CATEGORIA_LABEL: Record<string, string> = {
   outro: "Outro",
 };
 
-function CategoriaBadge({ cat }: { cat: string }) {
-  const label = CATEGORIA_LABEL[cat] ?? "Outro";
-  return (
-    <span className="mt-1 inline-block shrink-0 border border-border px-2 py-1 text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
-      {label}
-    </span>
-  );
-}
+
+
 
 const CATEGORIA_ORDEM = ["principal", "complementar", "roteiro", "formulario", "outro"] as const;
 
