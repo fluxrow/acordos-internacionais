@@ -1,52 +1,42 @@
-# Hero com globo interativo + refresh visual
+# Ajuste do hero no mobile
 
-Trazer um ar mais contemporâneo para a home sem perder a alma editorial "Paper & Ink". O núcleo da mudança é um hero novo com um **globo 3D** que destaca os países com acordo com o Brasil, e pequenos ajustes de respiro/escala no resto do site para conversar com esse novo hero.
+## O que está acontecendo
 
-## O que muda
+No mobile (390px), o hero ficou com problemas claros:
 
-### 1. Hero novo (home)
-- Layout em duas colunas no desktop, empilhado no mobile:
-  - Esquerda: eyebrow + título grande + lede + dois CTAs (mantém os existentes "Ver os 24 países" / "Hub para advogados").
-  - Direita: **globo interativo** marcando os países dos acordos.
-- Copy mantém a voz atual ("O mapa definitivo dos acordos previdenciários do Brasil."). Só ganha hierarquia visual nova.
-- Estatísticas (24 acordos, bilaterais, multilaterais, 600+ docs) viram uma faixa fina logo abaixo do hero — mais discreta, sem o bloco cinza atual.
+1. **Globo quase invisível** — a paleta wine sobre paper ficou muito clara: `baseColor [0.96, 0.95, 0.93]` + `glowColor [0.94, 0.92, 0.88]` praticamente somem contra o fundo paper da página. Aparece só uma silhueta fantasma. No desktop passou despercebido porque está num grid lado a lado com mais contexto visual; no mobile o globo fica isolado no centro, então a falta de contraste salta aos olhos.
+2. **Espaço vertical enorme** — o globo ocupa um quadrado de ~375×375px logo depois dos CTAs, criando uma "zona morta" gigante antes das estatísticas. O hero mobile fica com ~1000px de altura, e mais da metade é o globo pálido.
+3. **Sem hierarquia** — no mobile o globo virou o primeiro grande bloco visual, mas ele é decorativo. O foco deveria continuar sendo o título + CTAs.
 
-### 2. Globo
-- Componente `Globe` baseado em **cobe** (canvas WebGL leve, ~10kb).
-- Cores casadas com o tema Paper & Ink: base off-white, marcadores no `accent-ink` (wine), brilho neutro. Nada de laranja genérico.
-- Marcadores:
-  - **Brasil** como ponto âncora, tamanho maior.
-  - **24 países com acordo** com Brasil (todos os bilaterais + capitais dos blocos multilaterais), tamanho menor.
-  - Os 5 "destaques" da home (Portugal, Japão, EUA, Itália, Alemanha, Espanha) ganham marcador médio para hierarquia visual.
-- Auto-rotação suave, arrastável com mouse/touch. Sem interação cliclável por ponto (escopo desta entrega).
+## O que mudar
 
-### 3. Refresh do resto da home
-- Aumenta respiro vertical entre seções, alinhando à nova escala do hero.
-- "Países em destaque": cards ganham hover mais sutil (sem inversão preto-total, vira destaque com borda).
-- "Jornadas / Guias": mantém estrutura, só ajusta tipografia para o novo ritmo.
+### 1. Paleta do globo com mais contraste
+Escurecer levemente o `baseColor` (esfera) e o `glowColor` (halo) para o globo ter presença sem destoar da paleta Paper & Ink. Manter o `markerColor` wine.
 
-### 4. Tokens / estilo
-- Sem trocar paleta nem fontes. Só novos utilitários de espaçamento e um leve ajuste no peso do `h1` para parear com o globo.
+- `baseColor`: `[0.88, 0.85, 0.80]` (cinza-areia, claramente distinguível do paper `#f5f3ee`)
+- `glowColor`: `[0.85, 0.82, 0.76]` (halo discreto mas visível)
+- `mapBrightness`: subir de `1.15` para `1.3` para os continentes ficarem mais nítidos
 
-## Detalhes técnicos
+### 2. Tamanho responsivo do globo
+No mobile, reduzir o container para ~280px (em vez de ocupar toda a largura). No tablet/desktop continua igual.
 
-- **Dependência nova**: `cobe` (npm). `lucide-react` e `@radix-ui/react-slot` já existem no projeto.
-- **Componente**: `src/components/globe.tsx` — versão tipada (TS estrito), sem `any`, sem `let` no escopo do componente (refs internas), com cleanup correto em `useEffect`. Não vamos copiar o snippet `originui/button` — o projeto já tem `src/components/ui/button.tsx`.
-- **Dados dos marcadores**: nova lista `src/data/paises-coords.ts` com `{ slug, lat, lng }` para os 24 países do `acordos.ts`. Brasil incluído como âncora separada.
-- **SSR**: `cobe` toca `window`/`canvas`, então o `Globe` é renderizado client-side (efeito + `if (typeof window === 'undefined') return null` no caminho do `createGlobe`). Sem `"use client"` (TanStack Start não usa essa diretiva).
-- **Acessibilidade**: globo é decorativo; `<canvas aria-hidden="true">`. CTAs e hierarquia do hero seguem semânticos.
-- **Performance**: canvas a `devicePixelRatio: 2`, `mapSamples: 16000`. Lazy import opcional se medirmos impacto no LCP.
+Mudança em `src/components/globe.tsx`:
+- `max-w-[640px]` → `max-w-[280px] sm:max-w-[420px] lg:max-w-[640px]`
+
+### 3. Ordem visual no mobile
+Manter o globo **depois** do bloco de texto (já está assim no flow de grid), mas reduzir o `gap` do grid no mobile pra colar mais o globo no resto do conteúdo:
+- `gap-12` → `gap-6 md:gap-10 lg:gap-8`
+
+E reduzir o padding-bottom do hero no mobile, já que o globo agora é menor:
+- `pb-20 md:pb-28` → `pb-12 md:pb-20 lg:pb-28`
 
 ## Fora de escopo
 
-- Clicar num marcador para navegar até a página do país (pode vir depois).
-- Modo escuro do globo.
-- Mudança de fontes ou paleta.
+- Mudanças no resto do site (cards, jornadas, guias) — usuário pediu pra checar o hero mobile especificamente.
+- Bandeiras dos países em destaque aparecem em branco no screenshot — provavelmente bloqueio de `flagcdn.com` no preview; tratar separado se for problema real.
+- Fontes, paleta global, conteúdo do título — está OK conforme feedback anterior.
 
-## Arquivos tocados
+## Arquivos afetados
 
-- `package.json` — adicionar `cobe`.
-- `src/components/globe.tsx` — novo.
-- `src/data/paises-coords.ts` — novo.
-- `src/routes/index.tsx` — hero reescrito, stats compactadas, refinamento de seções.
-- `src/styles.css` — eventuais utilitários de respiro (se necessário).
+- `src/components/globe.tsx` — ajustar cores e `max-w-*`
+- `src/routes/index.tsx` — ajustar `gap` e `pb` do grid do hero
