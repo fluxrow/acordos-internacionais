@@ -7,6 +7,7 @@ import {
   totalMultilaterais,
 } from "@/data/acordos";
 import { Globe } from "@/components/globe";
+import { CTAButton } from "@/components/cta-button";
 
 const TITLE = "Acordos Internacionais — Acordos previdenciários para brasileiros no exterior";
 const DESC =
