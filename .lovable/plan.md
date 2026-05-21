@@ -1,55 +1,50 @@
-# Plano — UX editorial da página `/acordos/$pais`
+# Plano — Acesso admin ao Hub
 
-## Objetivo
+## Contexto
 
-Sair do "padrãozão" sem destoar da ID visual (serif wine + paper, tokens oklch). Foco em **leitura guiada**, **hierarquia editorial** e **destaque tipográfico de palavras-chave**, mantendo todos os tokens semânticos atuais.
+Hoje o Hub (`/_authenticated/hub` e `/_authenticated/hub/$pais`) libera conteúdo só se a `subscriptions.status = 'active'` ou `lifetime_access = true`. O enum `app_role` já existe com valores `subscriber | admin` e a tabela `user_roles` está pronta com a função `has_role(uuid, app_role)`. Mas ninguém está cadastrado ainda como admin e o backend não consulta `has_role` ao decidir liberar o Hub.
 
-## O que muda (escopo: só essa página)
+Este plano cobre **só o acesso de leitura ao Hub como admin**. O painel para administrar assinaturas (gerenciar usuários, conceder lifetime, cancelar etc.) fica para uma próxima rodada conforme você pediu.
 
-### 1. Hero com "lede destacado"
-- Mantém o título serif e a bandeira atual.
-- Substitui o parágrafo `lede` por uma versão com **palavras-chave em wine** (`text-[var(--accent-ink)]`) e peso médio — usando um helper `<Highlight>` que recebe array de termos a marcar (ex.: *totalização*, *pro-rata*, *vigente desde 1995*).
-- Adiciona uma **linha de stats** logo abaixo (chips minimal, sem caixa): `25 anos em vigor · 3 órgãos de ligação · 12 documentos oficiais`. Números em serif, label em eyebrow.
+## O que muda
 
-### 2. Sumário lateral (TOC sticky)
-- O aside hoje só tem CTA Marcos + "Próximos passos". Adiciona acima um **"Nesta página"** — lista de âncoras (Instrumento, Órgãos, Benefícios, Como funciona, Documentos), item ativo em wine, scroll suave.
-- Cada `<Bloco>` recebe `id` para âncora.
+### 1. Backend — admin é tratado como acesso liberado
 
-### 3. Blocos com "kicker + lede"
-- Cada `<Bloco>` ganha um *kicker* (eyebrow numerado: `01 · Instrumento`) e um **lede curto de 1 linha** explicando o porquê do bloco. Reduz a sensação de "lista de FAQ".
+No `src/lib/hub.functions.ts` e `src/lib/profile.functions.ts`, adicionar uma checagem `OR has_role(userId, 'admin')` na decisão de `hasAccess`. Implementação: chamar `supabaseAdmin.from("user_roles").select("role").eq("user_id", userId).eq("role", "admin").maybeSingle()` em paralelo com a leitura de `subscriptions`. Se for admin, o handler segue o fluxo "unlocked" como se fosse assinante vitalício.
 
-### 4. "Como funciona" mais escaneável
-- Quebra o parágrafo único em **3 passos numerados** (serif grande para o número, texto ao lado). Palavras-chave em wine via `<Highlight>`.
-- Mantém o link para o guia de Totalização.
+`AccountData` ganha um campo opcional `isAdmin: boolean` para a UI poder mostrar um selo "Modo admin" e não mostrar a barra "Acesso bloqueado · Ver planos" para quem é admin.
 
-### 5. Benefícios em par comparativo
-- Hoje são duas listas com `✓`. Vira uma **tabela visual 2-col com divisória central wine**, header "Brasil" / "{País}" em eyebrow wine, itens em linhas alternadas com hover sutil. Mais "comparativo" que "checklist".
+### 2. Frontend — Hub mostra estado admin
 
-### 6. Órgãos de ligação — cards com dica de uso
-- Adiciona uma micro-linha "Use para: protocolar B1/BR-DE 1, esclarecer pendências" em cada card. Telefone e e-mail ganham ícone Lucide (Phone, Mail) ao invés de só underline.
+- `/_authenticated/hub` (dashboard): se `isAdmin && !active`, esconde o aviso "Acesso bloqueado" e mostra um chip discreto `MODO ADMIN` em wine no topo. Lista de países renderiza como sempre.
+- `/_authenticated/hub/$pais`: nada a mudar — o backend já vai retornar `locked: false` para admin, então a página renderiza igual a um assinante.
 
-### 7. Documentos — preview do conteúdo
-- Para cada documento, mostra um **trecho/descrição de 1 linha** quando existe. Categoria vira "tag pill" wine soft (`bg-[var(--accent-ink-soft)]`) em vez de header de grupo grosso (mantém o agrupamento mas mais leve).
-- Cadeado vira `Lock` do Lucide, e o item inteiro ganha hover wine soft para sinalizar "afford­ance de download".
+### 3. Conceder admin para você
 
-### 8. Helper de highlight
-- Novo util `src/lib/highlight.tsx` exportando `<Highlight text={...} terms={[...]} />` que envolve termos casados em `<mark className="bg-transparent text-[var(--accent-ink)] font-medium">`. Usado no hero, "como funciona" e "para o registro".
+Como ainda não existe nenhum usuário em `profiles` (você ainda não criou conta), o caminho é:
 
-## Não-objetivos
+1. Você se cadastra normalmente em `/login` com email + senha (ou Google).
+2. Me passa o email que você usou no cadastro.
+3. Rodo uma migração one-shot que insere `(user_id, 'admin')` em `user_roles` usando esse email para resolver o `user_id` via `auth.users`.
 
-- Sem novos tokens em `src/styles.css` (usa os existentes: `--accent-ink`, `--accent-ink-soft`, `--border`, `--muted-foreground`).
-- Sem novas libs.
-- Não mexer em `/acordos` (listagem) nem no Hub.
-- Não mexer em copy de fundo — só estrutura/destaque.
+Alternativa, se você preferir já me passar o email agora antes de cadastrar: o INSERT pode ficar guardado num arquivo `supabase/seed-admin.sql` e roda automaticamente quando você criar a conta — mas o caminho 1-2-3 acima é mais simples e auditável.
+
+## Não-objetivos (ficam para depois)
+
+- Painel `/_authenticated/admin/*` para listar usuários, ver assinaturas, conceder lifetime manual, ver logs de download, etc.
+- Permissão para escrever em `subscriptions` direto pela UI.
+- Granularidade de roles (ex.: `editor` que só edita conteúdo de país).
+
+Quando você quiser atacar isso, fazemos um plano separado — provavelmente envolvendo um layout `_authenticated/_admin.tsx` gated por `has_role`, server functions de admin (`listUsers`, `grantLifetime`, `revokeAccess`, `listDownloads`), e UI shadcn (`Table`, `Sheet`, `Dialog`).
 
 ## Arquivos tocados
 
-- `src/routes/acordos.$pais.tsx` — hero, blocos, aside TOC, "como funciona", benefícios comparativo, documentos.
-- `src/lib/highlight.tsx` — novo helper.
-- `.lovable/prd.md` + `ROADMAP.md` — registrar "Refino UX editorial v3" (regra do projeto).
+- `src/lib/hub.functions.ts` — adicionar checagem de `has_role` no `getCountryHubData`.
+- `src/lib/profile.functions.ts` — adicionar `isAdmin` em `AccountData`.
+- `src/routes/_authenticated/hub.tsx` — chip "MODO ADMIN", esconder "Acesso bloqueado" se admin.
+- Migração SQL (manual após você me passar o email) inserindo em `user_roles`.
+- `.lovable/prd.md` + `ROADMAP.md` — registrar "Acesso admin ao Hub".
 
-## Validação
+## O que preciso de você
 
-- Screenshot de `/acordos/alemanha` antes/depois (Alemanha tem dados ricos: instrumento, decreto, 2 órgãos, benefícios dos dois lados, ~13 docs).
-- Spot-check em um país sem `importado` (ex.: `/acordos/canada` se aplicável) para garantir que os blocos opcionais ainda escondem corretamente.
-- Verificar mobile (viewport atual 1021px → também testar ~390px): aside TOC vira accordion no mobile.
+**Qual email você quer que vire admin?** (e me confirme se já criou conta ou se vai criar agora)
