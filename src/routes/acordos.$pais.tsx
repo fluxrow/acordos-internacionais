@@ -109,11 +109,18 @@ function AcordoPais() {
     <>
       <article>
         {/* HERO PAÍS */}
-        <header className="border-b border-border">
-          <div className="mx-auto grid max-w-6xl gap-10 px-6 py-16 md:grid-cols-[1fr_auto] md:py-20">
+        <header className="relative overflow-hidden border-b border-border/60">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_15%_30%,_var(--accent-ink-soft)_0%,_transparent_55%)] opacity-70"
+          />
+          <div className="relative z-10 mx-auto grid max-w-6xl gap-10 px-6 py-16 md:grid-cols-[1fr_auto] md:items-end md:py-20">
             <div>
               <nav className="flex items-center gap-2 text-xs text-muted-foreground">
-                <Link to="/acordos" className="hover:underline underline-offset-4">
+                <Link
+                  to="/acordos"
+                  className="hover:text-[var(--accent-ink)] hover:underline underline-offset-4"
+                >
                   Países
                 </Link>
                 <span aria-hidden>/</span>
@@ -129,7 +136,7 @@ function AcordoPais() {
               </p>
 
               {a.status !== "vigente" && (
-                <p className="mt-6 inline-block border border-foreground px-3 py-1.5 text-[11px] uppercase tracking-[0.14em]">
+                <p className="mt-6 inline-block rounded-full border border-[var(--accent-ink)] px-3 py-1.5 text-[11px] uppercase tracking-[0.14em] text-[var(--accent-ink)]">
                   {a.status === "ratificacao"
                     ? "Acordo assinado · em ratificação"
                     : "Documentação em organização"}
@@ -138,13 +145,15 @@ function AcordoPais() {
             </div>
             {a.iso && (
               <div className="md:self-end">
-                <img
-                  src={`https://flagcdn.com/w320/${a.iso}.png`}
-                  alt={`Bandeira de ${a.nome}`}
-                  width={240}
-                  height={160}
-                  className="h-auto w-[200px] rounded-lg border border-border md:w-[260px]"
-                />
+                <div className="flex aspect-[3/2] w-[200px] items-center justify-center overflow-hidden rounded-lg border border-border/60 bg-background/70 shadow-[0_8px_24px_-12px_rgba(122,31,31,0.18)] backdrop-blur-sm md:w-[260px]">
+                  <img
+                    src={`https://flagcdn.com/w320/${a.iso}.png`}
+                    alt={`Bandeira de ${a.nome}`}
+                    width={260}
+                    height={173}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
               </div>
             )}
           </div>
