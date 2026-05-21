@@ -417,47 +417,55 @@ function FichaItem({ rotulo, valor }: { rotulo: string; valor: string }) {
 }
 
 function OrgaoCard({ orgao }: { orgao: OrgaoLigacao }) {
+  const temDados =
+    !!orgao.instituicao || !!orgao.endereco || !!orgao.telefone || !!orgao.email;
   return (
-    <article className="border border-border p-6">
+    <article className="rounded-xl border border-border/60 bg-background/70 p-6 backdrop-blur-sm">
       <h3 className="font-display text-lg leading-snug">{orgao.titulo}</h3>
       <hr className="rule mt-3" />
-      <dl className="mt-4 space-y-3 text-sm">
-        {orgao.instituicao && (
-          <div>
-            <dt className="eyebrow">Instituição</dt>
-            <dd className="mt-1 leading-snug">{orgao.instituicao}</dd>
-          </div>
-        )}
-        {orgao.endereco && (
-          <div>
-            <dt className="eyebrow">Endereço</dt>
-            <dd className="mt-1 leading-snug text-muted-foreground">{orgao.endereco}</dd>
-          </div>
-        )}
-        {orgao.telefone && (
-          <div>
-            <dt className="eyebrow">Telefone</dt>
-            <dd className="mt-1 leading-snug">
-              <a
-                href={`tel:${orgao.telefone.replace(/[^+\d]/g, "")}`}
-                className="ink-link"
-              >
-                {orgao.telefone}
-              </a>
-            </dd>
-          </div>
-        )}
-        {orgao.email && (
-          <div>
-            <dt className="eyebrow">E-mail</dt>
-            <dd className="mt-1 leading-snug">
-              <a href={`mailto:${orgao.email}`} className="ink-link break-all">
-                {orgao.email}
-              </a>
-            </dd>
-          </div>
-        )}
-      </dl>
+      {temDados ? (
+        <dl className="mt-4 space-y-3 text-sm">
+          {orgao.instituicao && (
+            <div>
+              <dt className="eyebrow">Instituição</dt>
+              <dd className="mt-1 leading-snug">{orgao.instituicao}</dd>
+            </div>
+          )}
+          {orgao.endereco && (
+            <div>
+              <dt className="eyebrow">Endereço</dt>
+              <dd className="mt-1 leading-snug text-muted-foreground">{orgao.endereco}</dd>
+            </div>
+          )}
+          {orgao.telefone && (
+            <div>
+              <dt className="eyebrow">Telefone</dt>
+              <dd className="mt-1 leading-snug">
+                <a
+                  href={`tel:${orgao.telefone.replace(/[^+\d]/g, "")}`}
+                  className="ink-link"
+                >
+                  {orgao.telefone}
+                </a>
+              </dd>
+            </div>
+          )}
+          {orgao.email && (
+            <div>
+              <dt className="eyebrow">E-mail</dt>
+              <dd className="mt-1 leading-snug">
+                <a href={`mailto:${orgao.email}`} className="ink-link break-all">
+                  {orgao.email}
+                </a>
+              </dd>
+            </div>
+          )}
+        </dl>
+      ) : (
+        <p className="mt-4 text-sm italic text-muted-foreground">
+          Dados de contato em organização.
+        </p>
+      )}
     </article>
   );
 }
