@@ -414,9 +414,9 @@ function Bloco({ titulo, children }: { titulo: string; children: React.ReactNode
 
 function FichaItem({ rotulo, valor }: { rotulo: string; valor: string }) {
   return (
-    <div className="border border-border p-4">
+    <div className="rounded-xl border border-border/60 bg-background/70 p-5 backdrop-blur-sm transition-colors hover:border-[var(--accent-ink)]/40">
       <dt className="eyebrow">{rotulo}</dt>
-      <dd className="mt-2 text-sm leading-snug">{valor}</dd>
+      <dd className="mt-3 font-display text-base leading-snug">{valor}</dd>
     </div>
   );
 }
