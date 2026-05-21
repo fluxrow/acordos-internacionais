@@ -23,6 +23,7 @@ export function Highlight({ text, terms, className }: HighlightProps) {
   if (!escaped.length) return <>{text}</>;
 
   const re = new RegExp(`(${escaped.join("|")})`, "gi");
+  const matchRe = new RegExp(`^(?:${escaped.join("|")})$`, "i");
   const parts = text.split(re);
 
   return (
