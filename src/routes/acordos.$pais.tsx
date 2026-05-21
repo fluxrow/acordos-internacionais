@@ -112,8 +112,13 @@ function AcordoPais() {
         <header className="relative overflow-hidden border-b border-border/60">
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_15%_30%,_var(--accent-ink-soft)_0%,_transparent_55%)] opacity-70"
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_12%_28%,_var(--accent-ink-soft)_0%,_transparent_52%),radial-gradient(ellipse_at_92%_85%,_var(--accent-ink-soft)_0%,_transparent_45%)] opacity-80"
           />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[var(--accent-ink)]/30 to-transparent"
+          />
+          
           <div className="relative z-10 mx-auto grid max-w-6xl gap-10 px-6 py-16 md:grid-cols-[1fr_auto] md:items-end md:py-20">
             <div>
               <nav className="flex items-center gap-2 text-xs text-muted-foreground">
