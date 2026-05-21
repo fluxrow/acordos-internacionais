@@ -5,9 +5,25 @@ import { BRASIL, PAISES_ACORDO, DESTAQUES_SLUGS } from "@/data/paises-coords";
 
 // Paleta casada com tokens Paper & Ink
 // base paper ~ #f5f3ee, accent-ink (wine) ~ #7a1f1f
-const BASE: [number, number, number] = [0.96, 0.95, 0.93];
-const MARKER: [number, number, number] = [0.48, 0.12, 0.12];
-const GLOW: [number, number, number] = [0.94, 0.92, 0.88];
+const PAPER: {
+  base: [number, number, number];
+  marker: [number, number, number];
+  glow: [number, number, number];
+  brightness: number;
+} = {
+  base: [0.96, 0.95, 0.93],
+  marker: [0.48, 0.12, 0.12],
+  glow: [0.94, 0.92, 0.88],
+  brightness: 1.15,
+};
+
+// Wine — base wine claro/dessaturado, markers wine puro, glow rosado
+const WINE: typeof PAPER = {
+  base: [0.66, 0.35, 0.32],
+  marker: [0.48, 0.12, 0.12],
+  glow: [0.96, 0.86, 0.83],
+  brightness: 1.4,
+};
 
 const MARKERS: COBEOptions["markers"] = [
   // Brasil — âncora
@@ -18,7 +34,7 @@ const MARKERS: COBEOptions["markers"] = [
   })),
 ];
 
-const GLOBE_CONFIG: COBEOptions = {
+const BASE_CONFIG: COBEOptions = {
   width: 800,
   height: 800,
   devicePixelRatio: 2,
@@ -28,19 +44,32 @@ const GLOBE_CONFIG: COBEOptions = {
   diffuse: 0.5,
   mapSamples: 16000,
   mapBrightness: 1.15,
-  baseColor: BASE,
-  markerColor: MARKER,
-  glowColor: GLOW,
+  baseColor: PAPER.base,
+  markerColor: PAPER.marker,
+  glowColor: PAPER.glow,
   markers: MARKERS,
 };
 
 export function Globe({
   className,
-  config = GLOBE_CONFIG,
+  config,
+  tint = "paper",
+  mapSamples,
 }: {
   className?: string;
   config?: COBEOptions;
+  tint?: "paper" | "wine";
+  mapSamples?: number;
 }) {
+  const palette = tint === "wine" ? WINE : PAPER;
+  const resolvedConfig: COBEOptions = config ?? {
+    ...BASE_CONFIG,
+    baseColor: palette.base,
+    markerColor: palette.marker,
+    glowColor: palette.glow,
+    mapBrightness: palette.brightness,
+    ...(mapSamples ? { mapSamples } : {}),
+  };
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const pointerInteracting = useRef<number | null>(null);
   const pointerInteractionMovement = useRef(0);
@@ -74,7 +103,7 @@ export function Globe({
 
     let raf = 0;
     const globe = createGlobe(canvasRef.current, {
-      ...config,
+      ...resolvedConfig,
       width: widthRef.current * 2,
       height: widthRef.current * 2,
       phi: 0,

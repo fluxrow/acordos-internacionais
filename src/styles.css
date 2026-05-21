@@ -42,6 +42,7 @@
   --color-paper-soft: var(--paper-soft);
   --color-rule: var(--rule);
   --color-accent-ink: var(--accent-ink);
+  --color-accent-ink-soft: var(--accent-ink-soft);
 
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
@@ -74,6 +75,7 @@
   --ink-soft: oklch(0.30 0 0);             /* #2d2d2d */
   --rule: oklch(0.84 0.012 80);            /* hairline */
   --accent-ink: oklch(0.40 0.13 28);       /* #7a1f1f wine */
+  --accent-ink-soft: oklch(0.92 0.04 28);  /* wine wash claro */
 
   /* Semantic tokens mapped to Paper & Ink */
   --background: var(--paper);
