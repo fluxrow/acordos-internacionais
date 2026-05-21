@@ -142,8 +142,30 @@ function Home() {
 
 
       {/* PAÍSES EM DESTAQUE */}
-      <section>
-        <div className="mx-auto max-w-6xl px-6 py-20">
+      <section className="relative overflow-hidden border-y border-border bg-background">
+        {/* Wash radial wine soft */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_70%_50%,_var(--accent-ink-soft)_0%,_transparent_60%)] opacity-70"
+        />
+        {/* Globo de fundo */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute right-[-35%] top-1/2 hidden w-[680px] -translate-y-1/2 opacity-60 md:block lg:right-[-20%] lg:w-[820px]"
+        >
+          <Globe tint="wine" mapSamples={10000} />
+        </div>
+        {/* Fade nas bordas verticais para não vazar */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-background to-transparent"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background to-transparent"
+        />
+
+        <div className="relative z-10 mx-auto max-w-6xl px-6 py-20">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
               <p className="eyebrow">Mais procurados</p>
@@ -157,13 +179,13 @@ function Home() {
             </Link>
           </div>
 
-          <ul className="mt-10 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-border bg-border shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_-12px_rgba(0,0,0,0.1)] sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {destaques.map((a) => (
               <li key={a.slug}>
                 <Link
                   to="/acordos/$pais"
                   params={{ pais: a.slug }}
-                  className="group flex h-full items-center gap-5 bg-background p-6 transition-colors hover:bg-foreground hover:text-background"
+                  className="group flex h-full items-center gap-5 rounded-xl border border-border/60 bg-background/70 p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04)] backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-[var(--accent-ink)] hover:bg-[var(--accent-ink-soft)] hover:shadow-[0_8px_24px_-12px_rgba(122,31,31,0.25)]"
                 >
                   {a.iso && (
                     <img
@@ -184,7 +206,7 @@ function Home() {
                   </div>
                   <span
                     aria-hidden
-                    className="ml-auto text-lg transition-transform group-hover:translate-x-1"
+                    className="ml-auto text-lg text-[var(--accent-ink)] transition-transform group-hover:translate-x-1"
                   >
                     →
                   </span>
@@ -193,7 +215,7 @@ function Home() {
             ))}
           </ul>
 
-          <div className="mt-10 flex flex-col gap-3 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
+          <div className="mt-10 flex flex-col gap-3 border-t border-border/60 pt-6 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="eyebrow">Para advogados</p>
               <p className="mt-2 max-w-xl text-sm text-muted-foreground">
