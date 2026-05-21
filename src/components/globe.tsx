@@ -63,16 +63,6 @@ export function Globe({
     }
   };
 
-  const onRender = useCallback(
-    (state: Record<string, number>) => {
-      if (pointerInteracting.current === null) phiRef.current += 0.0035;
-      state.phi = phiRef.current + r;
-      state.width = widthRef.current * 2;
-      state.height = widthRef.current * 2;
-    },
-    [r],
-  );
-
   useEffect(() => {
     if (typeof window === "undefined" || !canvasRef.current) return;
 
@@ -82,12 +72,24 @@ export function Globe({
     window.addEventListener("resize", onResize);
     onResize();
 
+    let raf = 0;
     const globe = createGlobe(canvasRef.current, {
       ...config,
       width: widthRef.current * 2,
       height: widthRef.current * 2,
-      onRender,
+      phi: 0,
     });
+
+    const tick = () => {
+      if (pointerInteracting.current === null) phiRef.current += 0.0035;
+      globe.update({
+        phi: phiRef.current + r,
+        width: widthRef.current * 2,
+        height: widthRef.current * 2,
+      });
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
 
     const el = canvasRef.current;
     setTimeout(() => {
@@ -95,11 +97,12 @@ export function Globe({
     }, 0);
 
     return () => {
+      cancelAnimationFrame(raf);
       globe.destroy();
       window.removeEventListener("resize", onResize);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [r]);
 
   return (
     <div
