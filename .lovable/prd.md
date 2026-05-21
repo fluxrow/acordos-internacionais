@@ -39,6 +39,7 @@ Dois públicos, um produto:
 | **Página `/acordos/:pais` reformatada** — Instrumento/Vigência, Órgãos de Ligação BR+parceiro, Benefícios em colunas, Documentos com badge "Hub PRO" | ✅ |
 | **Refino visual `/acordos/:pais`** — wash wine no hero, moldura na bandeira, aside com backdrop-blur, fallback gracioso em órgãos vazios, nav Anterior/Próximo com mini-bandeiras e hover wine | ✅ |
 | **Refino visual v2 `/acordos/:pais`** — duplo radial wine + linha gradiente no hero, FichaItem em cards backdrop-blur com hover wine, documentos agrupados por categoria com eyebrow wine + contador, CTA "Download no Hub" unificado no topo (em vez de poluir cada linha), ProContentLock redesenhado com duplo radial wine, headline display e CTA pill accent-ink | ✅ |
+| **Refino UX editorial v3 `/acordos/:pais`** — stats line no hero (anos em vigor, órgãos, documentos), helper `<Highlight>` destacando palavras-chave em wine no lede e em "Como funciona", TOC sticky "Nesta página" no aside com numeração mono e scroll suave, blocos com kicker `01 ·` + lede curto, OrgaoCard com ícones Lucide e rótulo "Lado X" em wine, BeneficiosComparativo em tabela 2-col com divisória wine, documentos em flat-list com pill de categoria wine-soft e cadeado Lucide com hover wine-soft | ✅ |
 | **Repositório GitHub conectado** (sync bidirecional) | ✅ |
 | **README.md na raiz** com convenções para humanos e IAs externas | ✅ |
 | **ROADMAP.md na raiz** com timeline e próximos passos | ✅ |
