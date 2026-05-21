@@ -1,42 +1,86 @@
-# Ajuste do hero no mobile
+# Globo como camada de fundo do hero
 
-## O que está acontecendo
+## Ideia
 
-No mobile (390px), o hero ficou com problemas claros:
+Em vez do globo ocupar uma coluna ao lado do texto, ele vira uma **camada decorativa** atrás do título, lede e CTAs. Isso libera muito espaço vertical (especialmente no mobile, onde hoje há um quadrado de ~280px só pro globo) e dá ao hero uma presença visual mais cinematográfica — o leitor "lê o conteúdo sobre o mundo".
 
-1. **Globo quase invisível** — a paleta wine sobre paper ficou muito clara: `baseColor [0.96, 0.95, 0.93]` + `glowColor [0.94, 0.92, 0.88]` praticamente somem contra o fundo paper da página. Aparece só uma silhueta fantasma. No desktop passou despercebido porque está num grid lado a lado com mais contexto visual; no mobile o globo fica isolado no centro, então a falta de contraste salta aos olhos.
-2. **Espaço vertical enorme** — o globo ocupa um quadrado de ~375×375px logo depois dos CTAs, criando uma "zona morta" gigante antes das estatísticas. O hero mobile fica com ~1000px de altura, e mais da metade é o globo pálido.
-3. **Sem hierarquia** — no mobile o globo virou o primeiro grande bloco visual, mas ele é decorativo. O foco deveria continuar sendo o título + CTAs.
+Vale em todos os formatos (mobile, tablet, desktop), com posicionamento e tamanho diferentes em cada um.
 
-## O que mudar
+## Cor do globo
 
-### 1. Paleta do globo com mais contraste
-Escurecer levemente o `baseColor` (esfera) e o `glowColor` (halo) para o globo ter presença sem destoar da paleta Paper & Ink. Manter o `markerColor` wine.
+Voltar à paleta clara anterior:
+- `baseColor: [0.96, 0.95, 0.93]`
+- `glowColor: [0.94, 0.92, 0.88]`
+- `markerColor: [0.48, 0.12, 0.12]` (wine, marcadores continuam destacados)
+- `mapBrightness: 1.15`
 
-- `baseColor`: `[0.88, 0.85, 0.80]` (cinza-areia, claramente distinguível do paper `#f5f3ee`)
-- `glowColor`: `[0.85, 0.82, 0.76]` (halo discreto mas visível)
-- `mapBrightness`: subir de `1.15` para `1.3` para os continentes ficarem mais nítidos
+Como agora ele fica como camada de fundo (e não elemento focal), a paleta pálida faz sentido: continentes visíveis, marcadores wine sutilmente pontuando o mundo, sem competir com o título.
 
-### 2. Tamanho responsivo do globo
-No mobile, reduzir o container para ~280px (em vez de ocupar toda a largura). No tablet/desktop continua igual.
+## Layout do hero
 
-Mudança em `src/components/globe.tsx`:
-- `max-w-[640px]` → `max-w-[280px] sm:max-w-[420px] lg:max-w-[640px]`
+### Mobile (até 768px)
+- Globo posicionado **absoluto à direita**, recortado pela borda da tela (~60% para fora), tamanho ~420px.
+- Texto continua à esquerda, ocupando ~75% da largura. Título mantém prioridade visual.
+- Um leve mask/gradient da esquerda garante legibilidade do texto sobre o globo.
 
-### 3. Ordem visual no mobile
-Manter o globo **depois** do bloco de texto (já está assim no flow de grid), mas reduzir o `gap` do grid no mobile pra colar mais o globo no resto do conteúdo:
-- `gap-12` → `gap-6 md:gap-10 lg:gap-8`
+```text
++----------------------+
+| EYEBROW              |
+| O mapa            ()() <-- globo grande, parcialmente
+| definitivo dos    ()()    para fora da tela à direita
+| acordos previd... ()()
+|                      |
+| Lede...              |
+|                      |
+| [CTA primário]       |
+| [CTA secundário]     |
++----------------------+
+```
 
-E reduzir o padding-bottom do hero no mobile, já que o globo agora é menor:
-- `pb-20 md:pb-28` → `pb-12 md:pb-20 lg:pb-28`
+### Desktop / tablet (≥768px)
+- Globo centralizado horizontalmente, **atrás** do conteúdo, tamanho ~700px no desktop.
+- Texto centralizado na coluna principal, com largura limitada (~640px) para o globo sobrar dos dois lados.
+- Z-index: globo `-z-10`, conteúdo `z-10`.
+- Gradient radial muito leve do `--paper` no centro pra dar respiro ao texto (radial-gradient(circle at center, var(--paper) 0%, transparent 60%)).
+
+```text
++----------------------------------+
+|         ··· EYEBROW ···          |
+|     ()()()()()()()()()()()       |
+|    ()()  O mapa definitivo  ()() |
+|    ()()  dos acordos prev   ()() |
+|    ()()  do Brasil.         ()() |
+|     ()()()()()()()()()()()       |
+|         Lede centralizada        |
+|       [CTA 1]   [CTA 2]          |
++----------------------------------+
+```
+
+### Altura do hero
+- Mobile: ~600px (vs ~1000px atual)
+- Desktop: mantém ~720px, mas agora o conteúdo respira mais
+
+## Mudanças concretas
+
+### `src/components/globe.tsx`
+- Reverter `BASE`, `GLOW`, `mapBrightness` para os valores claros originais.
+- Trocar `max-w-[280px] sm:max-w-[420px] lg:max-w-[640px]` por algo flexível via prop, mantendo só `w-full aspect-square` no container. O posicionamento (tamanho/offset) fica responsabilidade do hero.
+- Remover `mx-auto` padrão (deixar o pai controlar).
+
+### `src/routes/index.tsx` — hero
+- Trocar o grid `lg:grid-cols-[1.05fr_1fr]` por um único container `relative` com:
+  - `<div className="absolute ...">` envolvendo o `<Globe>` (posicionamento diferente por breakpoint).
+  - `<div className="relative z-10 text-center md:text-center ...">` com eyebrow, h1, lede, CTAs centralizados a partir de md, alinhados à esquerda no mobile.
+- Adicionar overlay gradient radial sutil (`bg-[radial-gradient(circle_at_center,_var(--paper)_0%,_transparent_65%)]`) entre globo e conteúdo pra garantir contraste de leitura.
+- Centralizar o bloco de texto e os CTAs (`justify-center`) no desktop; manter alinhamento à esquerda no mobile (CTA empilhado).
 
 ## Fora de escopo
 
-- Mudanças no resto do site (cards, jornadas, guias) — usuário pediu pra checar o hero mobile especificamente.
-- Bandeiras dos países em destaque aparecem em branco no screenshot — provavelmente bloqueio de `flagcdn.com` no preview; tratar separado se for problema real.
-- Fontes, paleta global, conteúdo do título — está OK conforme feedback anterior.
+- Stats, "Dois públicos", países em destaque, jornadas, guias — sem mudança.
+- Cores globais, tipografia, paleta.
+- Interatividade do globo (continua arrastável + auto-rotação).
 
 ## Arquivos afetados
 
-- `src/components/globe.tsx` — ajustar cores e `max-w-*`
-- `src/routes/index.tsx` — ajustar `gap` e `pb` do grid do hero
+- `src/components/globe.tsx`
+- `src/routes/index.tsx`
