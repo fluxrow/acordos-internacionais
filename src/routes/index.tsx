@@ -113,8 +113,8 @@ function Home() {
       </section>
 
       {/* DOIS PÚBLICOS */}
-      <section className="border-b border-border">
-        <div className="mx-auto grid max-w-6xl gap-px bg-border md:grid-cols-2">
+      <section className="border-b border-border bg-secondary/40">
+        <div className="mx-auto grid max-w-6xl gap-6 px-6 py-16 md:grid-cols-2 md:py-20">
           <PathCard
             number="01"
             eyebrow="Para o cidadão"
@@ -140,6 +140,7 @@ function Home() {
         </div>
       </section>
 
+
       {/* PAÍSES EM DESTAQUE */}
       <section>
         <div className="mx-auto max-w-6xl px-6 py-20">
@@ -156,7 +157,7 @@ function Home() {
             </Link>
           </div>
 
-          <ul className="mt-10 grid grid-cols-1 gap-px overflow-hidden border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="mt-10 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-border bg-border shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_-12px_rgba(0,0,0,0.1)] sm:grid-cols-2 lg:grid-cols-3">
             {destaques.map((a) => (
               <li key={a.slug}>
                 <Link
@@ -286,10 +287,12 @@ function PathCard(props: {
   inverso?: boolean;
 }) {
   const wrap = props.inverso
-    ? "bg-foreground text-background"
-    : "bg-background text-foreground";
+    ? "bg-foreground text-background border-foreground"
+    : "bg-background text-foreground border-border";
   return (
-    <div className={`${wrap} flex flex-col gap-6 p-10 md:p-14`}>
+    <div
+      className={`${wrap} flex flex-col gap-6 rounded-2xl border p-10 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_-12px_rgba(0,0,0,0.12)] md:p-14`}
+    >
       <div className="flex items-baseline gap-4">
         <span className="font-display text-3xl opacity-50">{props.number}</span>
         <span className="text-[10px] uppercase tracking-[0.18em] opacity-70">
@@ -299,17 +302,13 @@ function PathCard(props: {
       <h3 className="font-display text-3xl leading-tight md:text-4xl">{props.titulo}</h3>
       <p className="text-base opacity-80 md:text-lg">{props.descricao}</p>
       <div className="mt-auto flex flex-wrap items-center gap-5 pt-4">
-        <Link
+        <CTAButton
           to={props.ctaTo as any}
           params={props.ctaParams as any}
-          className={
-            props.inverso
-              ? "inline-flex items-center gap-2 rounded-sm bg-background px-5 py-2.5 text-sm font-medium uppercase tracking-[0.14em] text-foreground transition-colors hover:bg-secondary"
-              : "inline-flex items-center gap-2 rounded-sm bg-foreground px-5 py-2.5 text-sm font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-foreground/85"
-          }
-        >
-          {props.ctaLabel} <span aria-hidden>→</span>
-        </Link>
+          variant={props.inverso ? "solid-light" : "dark"}
+          size="md"
+          label={props.ctaLabel}
+        />
         <Link
           to={props.secondaryTo as any}
           className="text-sm underline underline-offset-4 opacity-90 hover:opacity-100"
