@@ -1,102 +1,75 @@
-# CTAs com animação "circle reveal" (Motion Button)
+# Globo na seção "Países em destaque" + quebra de cor
 
-## Referência
-
-Componente Shatlyk1011/Motion Button (21st.dev): botão pill com círculo de cor contrastante no canto que se expande no hover, ocupando o botão todo, e revela um ícone de seta. Funciona em variante clara (botão escuro com círculo claro) e escura (botão claro com círculo escuro).
-
-Vamos criar um componente `<CTAButton>` reutilizável que substitui os pares de `<Link>` com classes longas do hero (e dos outros CTAs primários/secundários do site).
+Aplicar o globo interativo (já existe em `src/components/globe.tsx`, baseado em `cobe` — a mesma lib do componente do 21st.dev) como **camada de fundo** da seção "Países em destaque" na home, tingido com o vinho do destaque do hero. Cards ficam translúcidos para o globo respirar atrás.
 
 ## Conceito visual
 
-Estado em repouso:
+A seção hoje é um grid sólido sobre fundo paper. Vamos:
+
+- Colocar o globo girando atrás do grid, ancorado ao centro-direita, parcialmente sangrando para fora da viewport (mesma linguagem do hero, mas em escala maior e mais sutil).
+- Tingir o globo na cor `--accent-ink` (mesmo wine do "acordos previdenciários" no H1). Hoje o globo usa wine só nos markers; vamos levar o wine também para `baseColor` e `glowColor` em versões dessaturadas/claras, mantendo legibilidade.
+- Cards passam de `bg-background` opaco para `bg-background/70` + `backdrop-blur-sm`, com hairline `border-border/60`. A grade some — vira cards individuais com gap real, em vez de "tabela colada".
+- Um leve gradiente radial paper nas bordas da seção evita que o globo "vaze" para o texto da próxima seção.
+
+## Quebra de cor no resto do site (sutil, controlada)
+
+Hoje quase tudo é paper + ink + um único wine. Para dar vida sem destruir a identidade editorial:
+
+- Introduzir 1 token novo: `--accent-ink-soft` (versão clara/translúcida do wine, usada como wash de fundo). Sem novas hues.
+- Aplicar esse wash em 2–3 momentos respiráveis: fundo da seção "Países em destaque" (wash radial atrás do globo), hover state dos cards de países (em vez de virar foreground preto, vira wine), e divisores eyebrow chave.
+- Não trocar a paleta global. Não mexer em header, footer, formulários, hub autenticado.
+
+## Escopo de arquivos
+
+| Arquivo | Mudança |
+|---|---|
+| `src/styles.css` | Adicionar `--accent-ink-soft` (wine claro translúcido) + mapear em `@theme inline` |
+| `src/components/globe.tsx` | Aceitar prop `tint` opcional → reconfigurar `baseColor` / `markerColor` / `glowColor` em variante "wine". Manter default Paper & Ink atual. |
+| `src/routes/index.tsx` | Reescrever a seção "Países em destaque": wrapper relativo, globo absoluto atrás, grid de cards com transparência + blur, hover state em wine soft. |
+
+Nada fora disso. Nenhuma rota nova, nenhum dado, nenhum backend.
+
+## Detalhes técnicos
+
+**Globo tingido (`globe.tsx`):**
 
 ```text
-+----------------------------------+
-| (o) VER OS 25 PAÍSES             |
-+----------------------------------+
+variant "wine":
+  baseColor:   oklch ~0.55 0.09 28   → wine dessaturado/claro
+  markerColor: oklch ~0.40 0.13 28   → accent-ink puro
+  glowColor:   oklch ~0.92 0.04 28   → paper levemente rosado
+  mapBrightness: 1.4 (mais alto para o tint não escurecer demais)
 ```
 
-- Círculo pequeno (~36px) no canto esquerdo do botão, com cor contrastante (no botão `dark`/foreground o círculo é `paper`; no botão `light`/outline o círculo é `foreground`).
-- Label centralizado/à direita do círculo.
+Converter para tupla RGB normalizada `[r,g,b]` que `cobe` exige, dentro do componente.
 
-Estado hover:
+**Seção (`index.tsx`):**
 
 ```text
-+----------------------------------+
-| ████████████████████ VER...    → |
-+----------------------------------+
+<section className="relative overflow-hidden border-y border-border bg-[var(--paper)]">
+  {/* wash radial accent-ink-soft */}
+  <div aria-hidden className="absolute inset-0 bg-[radial-gradient(...)]" />
+  {/* globo */}
+  <div aria-hidden className="absolute right-[-20%] top-1/2 -translate-y-1/2 w-[820px] opacity-[0.55] pointer-events-none">
+    <Globe tint="wine" />
+  </div>
+  {/* conteúdo */}
+  <div className="relative z-10 ...">
+    <ul className="grid ... gap-4">  // gap real, sem grid-de-1px
+      <li><a className="rounded-xl border border-border/60 bg-background/70 backdrop-blur-sm hover:bg-[var(--accent-ink-soft)] hover:border-accent-ink ...">
 ```
 
-- O círculo se expande horizontalmente cobrindo todo o botão (transição `0.5s ease-out`).
-- A label troca de cor (para o foreground da cor expandida).
-- Um ícone `ArrowRight` (lucide) aparece à direita com deslocamento sutil.  
-o texto deve trocar de cor pra continuar sendo legivel.
-
-## API do componente
-
-`src/components/cta-button.tsx`:
-
-```tsx
-interface CTAButtonProps {
-  label: string;
-  to?: string;          // se router Link
-  params?: Record<string,string>;
-  href?: string;        // se âncora externa
-  onClick?: () => void;
-  variant?: "dark" | "light";   // dark = bg-foreground (padrão), light = outline
-  size?: "md" | "lg";
-  className?: string;
-}
-```
-
-- `dark` (primário): fundo `foreground` (preto papel), label `background`, círculo `background`/`paper`; no hover o círculo expande virando "preenchimento total" e o label fica `foreground`. Resultado visual: botão escuro que "se ilumina" no hover.
-- `light` (secundário): borda `foreground`, fundo transparente, label `foreground`, círculo `foreground`; no hover o círculo expande, o botão inteiro fica preto e a label fica `background`. Inversão limpa.
-
-Internamente: `Link` se `to`, `a` se `href`, `button` caso contrário (Slot pattern simples ou condicional direto — Slot é overkill aqui).
-
-## Estilo
-
-- Pill: `rounded-full` (não `rounded-sm` como hoje — a animação circular pede borda redonda).
-- Padding: `pl-2 pr-6 py-2` (md) / `pl-2.5 pr-7 py-2.5` (lg).
-- Círculo: `h-9 w-9 lg:h-10 lg:w-10`, posicionado `absolute left-1.5 top-1/2 -translate-y-1/2`, com `rounded-full`.
-- Expansão: `transition-transform duration-500 ease-out` + `group-hover:scale-x-[20] group-hover:scale-y-[5]` (ou via `width`/`right` animado). Para manter performance, usar `transform: scale()` num pseudo-elemento que parte do círculo.
-- Label: `text-sm font-medium uppercase tracking-[0.14em] relative z-10 transition-colors duration-300`.
-- ArrowRight: `absolute right-3 opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0`.
-
-Tokens: tudo via `bg-foreground`, `text-background`, `border-foreground`, `bg-background`, `text-foreground`. Nada de hex.
-
-## Acessibilidade
-
-- Botão respeita `focus-visible:ring-2 ring-foreground ring-offset-2 ring-offset-background`.
-- `prefers-reduced-motion`: anular as transições do círculo e da seta (cair pro estado hover instantâneo ou só `bg-foreground/85`).
-- A seta tem `aria-hidden`.
-
-## Onde aplicar agora
-
-Escopo desta rodada: **apenas os 2 CTAs do hero da home** (`src/routes/index.tsx`).
-
-- "Ver os {totalAcordos} países" → `variant="dark"`
-- "Hub para advogados" → `variant="light"`
-
-Em rodadas futuras, podemos propagar para os outros CTAs do site (jornadas, precos, profissional, etc.) — não fazer agora pra evitar regressão em telas que não consigo verificar todas de uma vez.
-
-## Mudanças concretas
-
-### Novos arquivos
-
-- `src/components/cta-button.tsx` — o componente.
-
-### Editados
-
-- `src/routes/index.tsx` — trocar os 2 `<Link>` longos do hero por `<CTAButton ... variant="dark"|"light" />`. Remover classes inline.
+Cards perdem o efeito "hover preto sólido" — passa a hover em wine soft (continua legível, dá vida).
 
 ## Fora de escopo
 
-- Demais botões do site (header, footer, outras rotas).
-- Variantes destrutivas, ghost, ícone-only.
-- Substituir o `Button` do shadcn no projeto inteiro — esse continua pra dialogs/forms.
+- Não trocar o globo do hero (continua com a paleta atual).
+- Não aplicar transparência em cards de outras seções (PathCard, hub, preços).
+- Não mexer em tipografia ou em outros tokens semânticos.
+- Sem animação extra além do giro nativo do `cobe`.
 
-## Arquivos afetados
+## QA
 
-- `src/components/cta-button.tsx` (novo)
-- `src/routes/index.tsx`
+- Conferir contraste do nome do país sobre card translúcido com globo atrás (mobile e desktop).
+- Conferir que o globo não invade visualmente a seção "Jornadas/Guias" abaixo.
+- Conferir performance: o globo já roda no hero — segundo canvas pode pesar. Se necessário, baixar `mapSamples` da instância de fundo.
