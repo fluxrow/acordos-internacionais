@@ -5,7 +5,7 @@ const TITLE = "Calculadora RMI Pro-rata · Hub do Advogado";
 const DESC =
   "Ferramenta profissional para cálculo de RMI pro-rata em acordos internacionais. Exclusivo para assinantes.";
 
-export const Route = createFileRoute("/_authenticated/calculadora")({
+export const Route = createFileRoute("/_authenticated/hub/calculadora")({
   head: () => ({
     meta: [
       { title: TITLE },
