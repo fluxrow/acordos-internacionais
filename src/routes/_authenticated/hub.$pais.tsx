@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { getCountryHubData, type HubData } from "@/lib/hub.functions";
+import { CTAButton } from "@/components/cta-button";
 
 export const Route = createFileRoute("/_authenticated/hub/$pais")({
   component: HubPaisPage,
@@ -76,25 +77,19 @@ function LockedContent({
 }) {
   return (
     <div className="mt-8 space-y-6">
-      <div className="rounded-sm border border-border bg-secondary px-6 py-5">
+      <div className="rounded-2xl border border-border bg-secondary px-6 py-5 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_-12px_rgba(0,0,0,0.08)]">
         <p className="font-medium">Material técnico disponível para assinantes</p>
         <p className="mt-1 text-sm text-muted-foreground">
           Assine o Hub Profissional e acesse o texto do acordo, decretos, formulários e modelos.
         </p>
-        <div className="mt-4 flex gap-3">
-          <Link
-            to="/precos"
-            className="inline-flex items-center rounded-sm bg-foreground px-5 py-2.5 text-sm font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-foreground/85"
-          >
-            Ver planos
-          </Link>
-          <Link
+        <div className="mt-5 flex flex-wrap gap-3">
+          <CTAButton to="/precos" variant="dark" label="Ver planos" />
+          <CTAButton
             to="/acordos/$pais"
             params={{ pais }}
-            className="inline-flex items-center rounded-sm border border-foreground px-5 py-2.5 text-sm font-medium uppercase tracking-[0.14em] transition-colors hover:bg-secondary"
-          >
-            Página pública
-          </Link>
+            variant="light"
+            label="Página pública"
+          />
         </div>
       </div>
 
@@ -105,9 +100,9 @@ function LockedContent({
             {documentosPreview.map((doc) => (
               <li
                 key={doc.nome}
-                className="flex items-center gap-3 rounded-sm border border-border px-4 py-3 text-sm text-muted-foreground"
+                className="flex items-center gap-3 rounded-xl border border-border bg-background px-4 py-3 text-sm text-muted-foreground shadow-[0_1px_2px_rgba(0,0,0,0.03)]"
               >
-                <span className="inline-flex h-5 w-5 items-center justify-center rounded-[2px] bg-border text-[10px] font-medium uppercase">
+                <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-border text-[10px] font-medium uppercase">
                   {doc.cat.slice(0, 1)}
                 </span>
                 <span>{doc.nome}</span>
@@ -157,9 +152,9 @@ function UnlockedContent({ data }: { data: Extract<HubData, { locked: false }> }
             {data.documentos.map((doc) => (
               <li
                 key={doc.arquivo || doc.nome}
-                className="flex items-center gap-3 rounded-sm border border-border px-4 py-3 text-sm"
+                className="flex items-center gap-3 rounded-xl border border-border bg-background px-4 py-3 text-sm shadow-[0_1px_2px_rgba(0,0,0,0.03)] transition-shadow hover:shadow-[0_4px_16px_-6px_rgba(0,0,0,0.1)]"
               >
-                <span className="inline-flex h-5 min-w-[20px] items-center justify-center rounded-[2px] bg-secondary text-[10px] font-medium uppercase">
+                <span className="inline-flex h-5 min-w-[20px] items-center justify-center rounded-full bg-secondary px-1.5 text-[10px] font-medium uppercase">
                   {doc.cat.slice(0, 3)}
                 </span>
                 <span className="flex-1 truncate">{doc.nome}</span>
@@ -171,7 +166,7 @@ function UnlockedContent({ data }: { data: Extract<HubData, { locked: false }> }
                     href={doc.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="ml-2 shrink-0 rounded-sm border border-foreground px-3 py-1 text-xs font-medium uppercase tracking-[0.1em] transition-colors hover:bg-secondary"
+                    className="ml-2 shrink-0 rounded-full border border-foreground px-3 py-1 text-xs font-medium uppercase tracking-[0.1em] transition-colors hover:bg-foreground hover:text-background"
                   >
                     Baixar
                   </a>
@@ -195,7 +190,7 @@ function OrgaoCard({
   orgao: { titulo?: string; instituicao?: string; endereco?: string; telefone?: string; email?: string };
 }) {
   return (
-    <div className="rounded-sm border border-border p-4 text-sm">
+    <div className="rounded-xl border border-border bg-background p-4 text-sm shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
       <p className="eyebrow mb-2">{titulo}</p>
       {orgao.titulo && <p className="font-medium">{orgao.titulo}</p>}
       {orgao.instituicao && <p className="mt-1 text-muted-foreground">{orgao.instituicao}</p>}
