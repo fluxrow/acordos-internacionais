@@ -1,31 +1,48 @@
-# Globo à esquerda + entrada suave
+# Unificar UI da página /acordos com a identidade do Home
 
-Teste de variação visual da seção "Países em destaque" na home.
+A página `/acordos` (acessada via "Países" no header) ainda usa um layout antigo: grid sem respiro (`gap-px` com fundo cinza simulando linhas), cards retangulares com hover invertendo para preto sólido, filtros pílula preto-no-branco e busca como input minimalista solto. O Home estabeleceu outra linguagem: cards arredondados translúcidos, hover suave em wine soft, CTAButton consistente, eyebrows, e uso do globo/wine como tinta de marca. Vamos trazer `/acordos` para a mesma família.
 
-## Mudanças
+## Objetivos
 
-1. **Posição do globo** — mover de `right-[-20%]` para `left-[-20%]` (e `left-[-35%]` no breakpoint md). O wash radial acompanha: centro em `30% 50%` em vez de `70% 50%`. Sensação de movimento: globo "entrando" pela esquerda enquanto o olhar do usuário corre da esquerda (texto) para a direita (cards).
+1. Mesma linguagem visual do Home (cards arredondados, hover wine soft, sombras suaves).
+2. Hero da listagem alinhado ao Hero do Home (eyebrow + display + lede), com um toque do globo wine como ambientação — sutil, não competindo com a grade.
+3. Toolbar (busca + filtros + contador) com hierarquia clara, filtros como chips coerentes com os botões do site.
+4. Estado vazio com o mesmo tom dos cards (rounded, border soft) em vez de borda tracejada solta.
 
-2. **Entrada suave e lenta** — adicionar animação one-shot ao wrapper do globo:
-   - `opacity: 0 → 0.6`
-   - `transform: translateX(-40px) → translateX(0)` (somado ao `-translate-y-1/2` já existente, via composição)
-   - `duration: 2200ms`, `ease-out`, sem delay extra além do fade nativo do canvas (700ms)
-   - dispara só uma vez no mount (não em scroll)
+## Mudanças propostas
 
-## Arquivos
+### Hero da listagem
+- Manter `eyebrow` ("Mapa") + h1 display + lede.
+- Adicionar wash radial wine soft no canto (à direita, espelhando o Home que joga à esquerda) — só wash, sem globo aqui, para não duplicar o efeito do Home.
+- Trocar `border-b` por divisor mais leve (`border-border/60`) para acompanhar o resto.
 
-| Arquivo | Mudança |
-|---|---|
-| `src/styles.css` | Adicionar keyframe `globe-enter-left` (opacity + translateX) e utilitária `.animate-globe-enter-left` com `2.2s ease-out both` |
-| `src/routes/index.tsx` | Trocar `right-[-20%]`/`lg:right-[-20%]` por `left-[-35%]`/`lg:left-[-20%]`; trocar gradiente radial para `at 30% 50%`; aplicar `animate-globe-enter-left` no wrapper do globo |
+### Toolbar (busca + filtros)
+- Encapsular busca + chips + contador num bloco com `rounded-xl border border-border/60 bg-background/70 backdrop-blur-sm p-4` (mesmo material dos cards do Home).
+- Input de busca: manter `font-serif`, mas com leve background (`bg-secondary/40`) e `rounded-md` em vez de underline solto, alinhando com a estética dos PathCards.
+- Chips de filtro: substituir o preto sólido por **wine** quando ativo (`bg-[var(--accent-ink)] text-background border-[var(--accent-ink)]`); inativos com `border-border/60 hover:border-[var(--accent-ink)] hover:text-[var(--accent-ink)]`. Mesmas dimensões.
+- Contador "N resultados" com `eyebrow` minúscula à direita.
 
-## Fora de escopo
+### Grade de países
+- Sair do padrão `gap-px` com fundo cinza (cria sensação de tabela densa) e adotar `gap-4` com cards individuais, espelhando exatamente a estética dos "Países em destaque" do Home:
+  - `rounded-xl border border-border/60 bg-background/70 backdrop-blur-sm`
+  - Hover: `-translate-y-0.5`, `hover:border-[var(--accent-ink)]`, `hover:bg-[var(--accent-ink-soft)]`, `hover:shadow-[0_8px_24px_-12px_rgba(122,31,31,0.25)]`
+  - Seta `→` em wine no canto, com `translate-x-1` no hover.
+- Bandeira mantém `rounded-md border` (já alinhado).
+- Badge de status ("Em ratificação" / "Incompleto"): trocar o preto sólido invertido por chip wine outline (`border-[var(--accent-ink)] text-[var(--accent-ink)]`) para se manter coerente mesmo com o card claro (não invertemos mais o card inteiro no hover).
+- Manter resumo curto e o "Ver país →" no rodapé do card.
 
-- Não mexer no globo do hero.
-- Não trocar paleta nem tokens.
-- Sem animação em scroll, sem parallax, sem IntersectionObserver — entrada simples no mount.
+### Estado vazio
+- Trocar `border-dashed` por `rounded-xl border border-border/60 bg-background/70` com padding consistente.
 
-## QA
+## Fora de escopo (próximos passos)
 
-- Conferir que o globo não cobre o texto "Países em destaque" no breakpoint md (1021px atual).
-- Conferir que a animação não causa layout shift (translateX em wrapper `absolute`, então seguro).
+- `/acordos/$pais` (página individual): será o próximo "caminho" da auditoria.
+- Header / botão "Países": só o destino vai mudar de cara; o link em si está ok.
+- Tokens novos: nenhum — reaproveitamos `--accent-ink` e `--accent-ink-soft` já criados.
+
+## Detalhes técnicos
+
+- Arquivo único: `src/routes/acordos.index.tsx`.
+- Sem novas dependências, sem novos tokens em `src/styles.css`.
+- Acessibilidade preservada: `aria-label` na busca, `aria-pressed` nos chips de filtro (adicionar — hoje não tem).
+- Sem mudança de dados, rotas ou comportamento de filtro/busca.
