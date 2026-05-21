@@ -25,7 +25,8 @@ function AcordosIndex() {
   const [filtro, setFiltro] = useState<Filtro>("todos");
 
   const lista = useMemo(() => {
-    return acordos
+    return [...acordos]
+      .sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"))
       .filter((a) => {
         if (filtro === "bilateral" && a.tipo !== "bilateral") return false;
         if (filtro === "multilateral" && a.tipo !== "multilateral") return false;
@@ -37,6 +38,12 @@ function AcordosIndex() {
         return a.nome.toLowerCase().includes(busca.toLowerCase().trim());
       });
   }, [busca, filtro]);
+
+  const filtrosAtivos = busca.trim() !== "" || filtro !== "todos";
+  const limpar = () => {
+    setBusca("");
+    setFiltro("todos");
+  };
 
   return (
     <>
