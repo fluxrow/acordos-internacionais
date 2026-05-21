@@ -43,7 +43,7 @@ function Home() {
     <>
       {/* HERO */}
       <section className="relative overflow-hidden border-b border-border">
-        <div className="mx-auto grid max-w-6xl gap-12 px-6 pt-16 pb-20 md:pt-24 md:pb-28 lg:grid-cols-[1.05fr_1fr] lg:items-center lg:gap-8">
+        <div className="mx-auto grid max-w-6xl gap-6 px-6 pt-16 pb-12 md:gap-10 md:pt-24 md:pb-20 lg:grid-cols-[1.05fr_1fr] lg:items-center lg:gap-8 lg:pb-28">
           <div className="relative z-10">
             <p className="eyebrow">Brasil · Previdência Social Internacional</p>
             <h1 className="mt-6 max-w-2xl font-display text-[2.5rem] leading-[1.02] tracking-tight md:text-[3.75rem] lg:text-[4.25rem]">
