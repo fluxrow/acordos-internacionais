@@ -104,9 +104,22 @@ function AcordosIndex() {
                 );
               })}
             </div>
-            <p className="eyebrow ml-auto text-muted-foreground">
-              {lista.length} resultado{lista.length === 1 ? "" : "s"}
-            </p>
+            <div className="ml-auto flex items-center gap-3">
+              <p className="eyebrow text-muted-foreground">
+                {filtrosAtivos
+                  ? `Mostrando ${lista.length} de ${acordos.length}`
+                  : `${lista.length} resultado${lista.length === 1 ? "" : "s"}`}
+              </p>
+              {filtrosAtivos && (
+                <button
+                  type="button"
+                  onClick={limpar}
+                  className="text-xs font-medium uppercase tracking-[0.14em] text-[var(--accent-ink)] underline underline-offset-4 hover:opacity-80"
+                >
+                  Limpar
+                </button>
+              )}
+            </div>
           </div>
 
           {/* GRADE */}
