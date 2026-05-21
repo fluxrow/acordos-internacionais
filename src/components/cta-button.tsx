@@ -53,23 +53,40 @@ export function CTAButton(props: CTAButtonProps) {
   const { label, variant = "dark", size = "md", className } = props;
   const s = sizes[size];
 
-  // Variant tokens
-  // dark = solid foreground bg, label background; circle = background; hover -> entire fills background, label foreground
-  // light = transparent w/ foreground border, label foreground; circle = foreground; hover -> entire fills foreground, label background
-  const isDark = variant === "dark";
+  // Variant tokens — define background context + colors
+  // dark         : solid foreground on light bg. Circle = background. Hover label -> foreground.
+  // light        : outline foreground on light bg. Circle = foreground. Hover label -> background.
+  // solid-light  : solid background on dark bg (inverse of dark). Circle = foreground. Hover label -> background.
+  // ghost-light  : outline background on dark bg. Circle = background. Hover label -> foreground.
+  const styles: Record<Variant, { wrap: string; circle: string }> = {
+    dark: {
+      wrap: "border-foreground bg-foreground text-background hover:text-foreground",
+      circle: "bg-background",
+    },
+    light: {
+      wrap: "border-foreground bg-transparent text-foreground hover:text-background",
+      circle: "bg-foreground",
+    },
+    "solid-light": {
+      wrap: "border-background bg-background text-foreground hover:text-background",
+      circle: "bg-foreground",
+    },
+    "ghost-light": {
+      wrap: "border-background bg-transparent text-background hover:text-foreground",
+      circle: "bg-background",
+    },
+  };
 
   const base = cn(
     "group relative inline-flex items-center overflow-hidden rounded-full border transition-colors duration-300 ease-out motion-reduce:transition-none",
     s.wrap,
     s.pad,
-    isDark
-      ? "border-foreground bg-foreground text-background hover:text-foreground"
-      : "border-foreground bg-transparent text-foreground hover:text-background",
+    styles[variant].wrap,
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-background",
     className,
   );
 
-  const circleColor = isDark ? "bg-background" : "bg-foreground";
+  const circleColor = styles[variant].circle;
 
   const content = (
     <>
