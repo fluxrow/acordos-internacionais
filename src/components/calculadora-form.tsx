@@ -1,18 +1,19 @@
-import { useEffect, useRef, useState } from "react";
-import { FileUp, Calculator, Printer, AlertTriangle, XCircle, Clock, CheckCircle2 } from "lucide-react";
+import { useState } from "react";
+import { FileUp, Calculator, AlertTriangle, XCircle, Clock, CheckCircle2, Loader2 } from "lucide-react";
 import {
   PAISES_ACORDO,
+  CARENCIAS,
+  COEFICIENTES,
+  SMmin,
   calcularResultado,
   formatarMoeda,
   formatarTempo,
-  lerTextoPDF,
-  parseadorCNIS,
-  carregarPdfJs,
-  type CnisData,
   type ResultadoCalculo,
   type Sexo,
   type TipoBeneficio,
 } from "@/lib/calculadora";
+import { extrairTextoPdf } from "@/lib/pdfjs-loader";
+import { parsearCNIS } from "@/lib/cnis-parser";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -24,512 +25,482 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const WHATSAPP_URL = "https://wa.me/55XXXXXXXXXX"; // TODO: substituir pelo número real
-
 type Modo = "pdf" | "manual";
 
-interface CalcFormProps {
+interface ProInfo {
+  nomeCliente: string;
+  cpfCliente: string;
+  processo: string;
+}
+
+interface Props {
   variant: "public" | "pro";
 }
 
-interface DadosCliente {
-  nomeCliente: string;
-  cpfCliente: string;
-  dataAnalise: string;
-  responsavel: string;
-}
+const formatarCpf = (raw: string) =>
+  raw
+    .replace(/\D/g, "")
+    .slice(0, 11)
+    .replace(/(\d{3})(\d)/, "$1.$2")
+    .replace(/(\d{3})(\d)/, "$1.$2")
+    .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
 
-export function CalculadoraForm({ variant }: CalcFormProps) {
-  // Pré-carrega PDF.js (não bloqueia render)
-  useEffect(() => { carregarPdfJs().catch(() => undefined); }, []);
+export function CalculadoraForm({ variant }: Props) {
+  const isPro = variant === "pro";
 
-  // ===== estado: dados cliente (apenas pro) =====
-  const [cliente, setCliente] = useState<DadosCliente>({
-    nomeCliente: "",
-    cpfCliente: "",
-    dataAnalise: new Date().toISOString().slice(0, 10),
-    responsavel: "",
-  });
+  const [modo, setModo] = useState<Modo>("pdf");
+  const [carregandoPdf, setCarregandoPdf] = useState(false);
+  const [erroPdf, setErroPdf] = useState<string | null>(null);
 
-  // ===== estado: brasil =====
-  const [modo, setModo] = useState<Modo>("manual");
-  const [salarioMedio, setSalarioMedio] = useState<string>("1412");
-  const [anosBR, setAnosBR] = useState<string>("");
-  const [mesesBR, setMesesBR] = useState<string>("");
-  const [cnis, setCnis] = useState<CnisData | null>(null);
-  const [pdfStatus, setPdfStatus] = useState<string>("");
-  const inputFileRef = useRef<HTMLInputElement>(null);
+  const [pro, setPro] = useState<ProInfo>({ nomeCliente: "", cpfCliente: "", processo: "" });
 
-  // ===== estado: dados pessoais =====
-  const [dataNasc, setDataNasc] = useState<string>("");
+  const [nome, setNome] = useState("");
+  const [dataNasc, setDataNasc] = useState("");
   const [sexo, setSexo] = useState<Sexo>("F");
+  const [tempoBrasil, setTempoBrasil] = useState<string>("");
+  const [pais, setPais] = useState<string>("");
   const [tipo, setTipo] = useState<TipoBeneficio>("aposentadoria_idade");
+  const [tempoPais, setTempoPais] = useState<string>("");
+  const [salarioMedio, setSalarioMedio] = useState<string>("");
 
-  // ===== estado: exterior =====
-  const [nomePais, setNomePais] = useState<string>(PAISES_ACORDO[0]);
-  const [modoExt, setModoExt] = useState<"datas" | "meses">("meses");
-  const [iniExt, setIniExt] = useState<string>("");
-  const [fimExt, setFimExt] = useState<string>("");
-  const [mesesExt, setMesesExt] = useState<string>("");
-
-  // ===== resultado =====
   const [resultado, setResultado] = useState<ResultadoCalculo | null>(null);
-  const [erro, setErro] = useState<string>("");
+  const [erroForm, setErroForm] = useState<string | null>(null);
 
-  async function handlePDF(file: File) {
-    setPdfStatus("Lendo PDF…");
+  async function onPdfUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setCarregandoPdf(true);
+    setErroPdf(null);
     try {
-      const texto = await lerTextoPDF(file);
-      const dados = parseadorCNIS(texto);
-      setCnis(dados);
-      if (dados.dataNasc) {
-        const [d, m, a] = dados.dataNasc.split("/");
-        setDataNasc(`${a}-${m}-${d}`);
-      }
-      if (dados.qtdSalarios > 0) {
-        const media = dados.somaSalarios / dados.qtdSalarios;
-        setSalarioMedio(media.toFixed(2));
-      }
-      if (dados.totalMeses > 0) {
-        setAnosBR(String(Math.floor(dados.totalMeses / 12)));
-        setMesesBR(String(dados.totalMeses % 12));
-      }
-      setPdfStatus(`PDF lido: ${dados.qtdSalarios} salários, ${dados.vinculos.length} vínculos`);
-      if (variant === "pro" && dados.nome) {
-        setCliente((c) => ({
-          ...c,
-          nomeCliente: c.nomeCliente || dados.nome!,
-          cpfCliente: c.cpfCliente || (dados.cpf ?? ""),
+      const texto = await extrairTextoPdf(file);
+      const dados = parsearCNIS(texto);
+      if (dados.nome) setNome(dados.nome);
+      if (dados.dataNasc) setDataNasc(dados.dataNasc);
+      if (dados.totalMeses > 0) setTempoBrasil(String(dados.totalMeses));
+      if (dados.mediasSalarial > 0) setSalarioMedio(dados.mediasSalarial.toFixed(2));
+      if (isPro) {
+        setPro((p) => ({
+          ...p,
+          nomeCliente: p.nomeCliente || dados.nome,
+          cpfCliente: p.cpfCliente || dados.cpf,
         }));
       }
-    } catch {
-      setPdfStatus("Falha ao ler o PDF. Tente o modo manual.");
+    } catch (err) {
+      setErroPdf("Não foi possível ler este PDF. Tente preencher manualmente.");
+      console.error(err);
+    } finally {
+      setCarregandoPdf(false);
     }
   }
 
-  function calcular() {
-    setErro("");
+  function onCalcular(e: React.FormEvent) {
+    e.preventDefault();
+    setErroForm(null);
     setResultado(null);
 
-    let tempoBrasilMeses = 0;
-    if (modo === "pdf" && cnis && cnis.totalMeses > 0) {
-      tempoBrasilMeses = cnis.totalMeses;
-    } else {
-      const a = parseInt(anosBR || "0", 10);
-      const m = parseInt(mesesBR || "0", 10);
-      tempoBrasilMeses = a * 12 + m;
+    if (!dataNasc.match(/^\d{2}\/\d{2}\/\d{4}$/)) {
+      setErroForm("Informe a data de nascimento no formato DD/MM/AAAA.");
+      return;
     }
-
-    let tempoPaisMeses = 0;
-    if (modoExt === "datas" && iniExt && fimExt) {
-      const ini = new Date(iniExt + "T12:00:00");
-      const fim = new Date(fimExt + "T12:00:00");
-      tempoPaisMeses = Math.max(0, Math.round((fim.getTime() - ini.getTime()) / (1000 * 60 * 60 * 24 * 30.44)));
-    } else {
-      tempoPaisMeses = parseInt(mesesExt || "0", 10);
+    const tb = parseInt(tempoBrasil, 10);
+    const tp = parseInt(tempoPais, 10);
+    const sb = parseFloat(salarioMedio.replace(",", "."));
+    if (!pais) {
+      setErroForm("Selecione o país do acordo.");
+      return;
     }
-
-    const sb = Math.max(1412, parseFloat(salarioMedio || "1412"));
-
-    if (!dataNasc) { setErro("Informe a data de nascimento."); return; }
-    if (tempoBrasilMeses === 0 && tempoPaisMeses === 0) {
-      setErro("Informe pelo menos um período de contribuição.");
+    if (Number.isNaN(tb) || tb < 0) {
+      setErroForm("Informe o tempo de contribuição no Brasil (em meses).");
+      return;
+    }
+    if (Number.isNaN(tp) || tp < 0) {
+      setErroForm("Informe o tempo de contribuição no exterior (em meses).");
+      return;
+    }
+    if (Number.isNaN(sb) || sb <= 0) {
+      setErroForm("Informe o salário médio de contribuição (R$).");
       return;
     }
 
-    setResultado(calcularResultado({
-      tempoBrasilMeses, tempoPaisMeses, sbFinal: sb,
-      tipo, nascInput: dataNasc, sexo, nomePais,
-    }));
+    const r = calcularResultado({
+      tempoBrasilMeses: tb,
+      tempoPaisMeses: tp,
+      sbFinal: sb,
+      tipo,
+      nascInput: dataNasc,
+      sexo,
+      nomePais: pais,
+    });
+    setResultado(r);
   }
 
-  const isPro = variant === "pro";
-
   return (
-    <div className="space-y-12">
-      {/* ===== Pro: ficha do cliente ===== */}
+    <form onSubmit={onCalcular} className="space-y-10">
       {isPro && (
-        <section className="rounded-xl border border-border/60 bg-background/70 p-6 backdrop-blur-sm print:bg-background">
-          <p className="eyebrow">Ficha técnica</p>
-          <h2 className="mt-2 font-display text-2xl">Dados da análise</h2>
-          <hr className="rule mt-3" />
-          <div className="mt-6 grid gap-4 md:grid-cols-2">
-            <Field label="Nome do cliente">
-              <Input value={cliente.nomeCliente} onChange={(e) => setCliente({ ...cliente, nomeCliente: e.target.value })} placeholder="João da Silva" />
-            </Field>
-            <Field label="CPF">
-              <Input value={cliente.cpfCliente} onChange={(e) => setCliente({ ...cliente, cpfCliente: e.target.value })} placeholder="000.000.000-00" />
-            </Field>
-            <Field label="Data da análise">
-              <Input type="date" value={cliente.dataAnalise} onChange={(e) => setCliente({ ...cliente, dataAnalise: e.target.value })} />
-            </Field>
-            <Field label="Responsável técnico">
-              <Input value={cliente.responsavel} onChange={(e) => setCliente({ ...cliente, responsavel: e.target.value })} placeholder="Dr(a). Nome — OAB/UF" />
-            </Field>
+        <section className="rounded-xl border border-border/60 bg-background/70 p-6 backdrop-blur-sm">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+            Ficha do cliente
+          </h2>
+          <div className="mt-4 grid gap-4 md:grid-cols-3">
+            <div className="space-y-1.5">
+              <Label htmlFor="pro-nome">Nome do cliente</Label>
+              <Input
+                id="pro-nome"
+                value={pro.nomeCliente}
+                onChange={(e) => setPro({ ...pro, nomeCliente: e.target.value })}
+              />
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="pro-cpf">CPF</Label>
+              <Input
+                id="pro-cpf"
+                value={pro.cpfCliente}
+                onChange={(e) => setPro({ ...pro, cpfCliente: formatarCpf(e.target.value) })}
+                placeholder="000.000.000-00"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="pro-proc">Processo / requerimento</Label>
+              <Input
+                id="pro-proc"
+                value={pro.processo}
+                onChange={(e) => setPro({ ...pro, processo: e.target.value })}
+                placeholder="opcional"
+              />
+            </div>
           </div>
         </section>
       )}
 
-      {/* ===== Seção 1: dados brasileiros ===== */}
-      <section className="rounded-xl border border-border/60 bg-background/70 p-6 backdrop-blur-sm print:hidden">
-        <p className="eyebrow">01 · Brasil</p>
-        <h2 className="mt-2 font-display text-2xl">Contribuições no INSS</h2>
-        <hr className="rule mt-3" />
-
-        <div className="mt-6 flex flex-wrap gap-2">
-          <ToggleChip ativo={modo === "pdf"} onClick={() => setModo("pdf")}>Com extrato CNIS (PDF)</ToggleChip>
-          <ToggleChip ativo={modo === "manual"} onClick={() => setModo("manual")}>Entrada manual</ToggleChip>
-        </div>
-
-        {modo === "pdf" ? (
-          <div className="mt-6">
-            <label
-              htmlFor="cnis-pdf"
-              className="flex cursor-pointer flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed border-border bg-secondary/40 px-6 py-10 text-center transition-colors hover:border-[var(--accent-ink)] hover:bg-[var(--accent-ink-soft)]"
+      <section className="space-y-4">
+        <header className="flex flex-wrap items-center justify-between gap-3">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+            1. Dados do segurado
+          </h2>
+          <div className="inline-flex rounded-lg border border-border/60 bg-background/70 p-1 text-xs">
+            <button
+              type="button"
+              onClick={() => setModo("pdf")}
+              className={`rounded-md px-3 py-1.5 transition ${
+                modo === "pdf"
+                  ? "bg-[var(--accent-ink)] text-[var(--accent-ink-foreground,white)]"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
             >
-              <FileUp className="h-8 w-8 text-muted-foreground" />
-              <span className="font-display text-lg">Envie seu CNIS em PDF</span>
-              <span className="text-sm text-muted-foreground">
-                O arquivo é processado no seu navegador — nada é enviado a servidores.
-              </span>
+              Importar CNIS (PDF)
+            </button>
+            <button
+              type="button"
+              onClick={() => setModo("manual")}
+              className={`rounded-md px-3 py-1.5 transition ${
+                modo === "manual"
+                  ? "bg-[var(--accent-ink)] text-[var(--accent-ink-foreground,white)]"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Preencher manualmente
+            </button>
+          </div>
+        </header>
+
+        {modo === "pdf" && (
+          <div className="rounded-xl border border-dashed border-border/70 bg-background/40 p-6 text-center">
+            <FileUp className="mx-auto h-7 w-7 text-muted-foreground" aria-hidden />
+            <p className="mt-2 text-sm text-muted-foreground">
+              Envie o extrato CNIS em PDF — os campos serão preenchidos automaticamente.
+            </p>
+            <label className="mt-4 inline-flex cursor-pointer items-center gap-2 rounded-md border border-border/60 bg-background px-4 py-2 text-sm font-medium hover:bg-[var(--accent-ink-soft)]">
+              {carregandoPdf ? (
+                <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+              ) : (
+                <FileUp className="h-4 w-4" aria-hidden />
+              )}
+              {carregandoPdf ? "Lendo PDF..." : "Selecionar arquivo CNIS.pdf"}
               <input
-                ref={inputFileRef}
-                id="cnis-pdf"
                 type="file"
-                accept="application/pdf"
-                className="hidden"
-                onChange={(e) => { const f = e.target.files?.[0]; if (f) handlePDF(f); }}
+                accept=".pdf,application/pdf"
+                onChange={onPdfUpload}
+                className="sr-only"
               />
             </label>
-            {pdfStatus && (
-              <p className="mt-3 text-sm text-muted-foreground">{pdfStatus}</p>
+            {erroPdf && (
+              <p className="mt-3 text-xs text-[var(--state-error,oklch(0.42_0.15_25))]">{erroPdf}</p>
             )}
-            {cnis && (
-              <dl className="mt-4 grid gap-3 sm:grid-cols-3">
-                <FichaItem rotulo="Nome" valor={cnis.nome ?? "—"} />
-                <FichaItem rotulo="CPF" valor={cnis.cpf ?? "—"} />
-                <FichaItem rotulo="Tempo total" valor={formatarTempo(cnis.totalMeses)} />
-              </dl>
-            )}
-          </div>
-        ) : (
-          <div className="mt-6 grid gap-4 md:grid-cols-3">
-            <Field label="Salário de benefício médio (R$)">
-              <Input type="number" min="1412" step="0.01" value={salarioMedio} onChange={(e) => setSalarioMedio(e.target.value)} />
-            </Field>
-            <Field label="Anos no Brasil">
-              <Input type="number" min="0" value={anosBR} onChange={(e) => setAnosBR(e.target.value)} placeholder="Ex.: 10" />
-            </Field>
-            <Field label="Meses adicionais">
-              <Input type="number" min="0" max="11" value={mesesBR} onChange={(e) => setMesesBR(e.target.value)} placeholder="Ex.: 6" />
-            </Field>
           </div>
         )}
 
-        <hr className="rule mt-8" />
-
-        <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Field label="Data de nascimento">
-            <Input type="date" value={dataNasc} onChange={(e) => setDataNasc(e.target.value)} />
-          </Field>
-          <Field label="Sexo">
+        <div className="grid gap-4 md:grid-cols-2">
+          <div className="space-y-1.5">
+            <Label htmlFor="nome">Nome</Label>
+            <Input id="nome" value={nome} onChange={(e) => setNome(e.target.value)} />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="nasc">Data de nascimento</Label>
+            <Input
+              id="nasc"
+              value={dataNasc}
+              onChange={(e) => setDataNasc(e.target.value)}
+              placeholder="DD/MM/AAAA"
+              inputMode="numeric"
+            />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="sexo">Sexo</Label>
             <Select value={sexo} onValueChange={(v) => setSexo(v as Sexo)}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectTrigger id="sexo"><SelectValue /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="F">Feminino</SelectItem>
                 <SelectItem value="M">Masculino</SelectItem>
               </SelectContent>
             </Select>
-          </Field>
-          <Field label="Tipo de benefício">
-            <Select value={tipo} onValueChange={(v) => setTipo(v as TipoBeneficio)}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="aposentadoria_idade">Aposentadoria por idade</SelectItem>
-                <SelectItem value="pensao_morte">Pensão por morte</SelectItem>
-              </SelectContent>
-            </Select>
-          </Field>
-          <Field label="País do exterior">
-            <Select value={nomePais} onValueChange={setNomePais}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="tb">Tempo no Brasil (meses)</Label>
+            <Input
+              id="tb"
+              type="number"
+              min={0}
+              value={tempoBrasil}
+              onChange={(e) => setTempoBrasil(e.target.value)}
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+          2. Acordo internacional
+        </h2>
+        <div className="grid gap-4 md:grid-cols-2">
+          <div className="space-y-1.5">
+            <Label htmlFor="pais">País do acordo</Label>
+            <Select value={pais} onValueChange={setPais}>
+              <SelectTrigger id="pais"><SelectValue placeholder="Selecione…" /></SelectTrigger>
               <SelectContent>
                 {PAISES_ACORDO.map((p) => (
                   <SelectItem key={p} value={p}>{p}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
-          </Field>
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="tipo">Tipo de benefício</Label>
+            <Select value={tipo} onValueChange={(v) => setTipo(v as TipoBeneficio)}>
+              <SelectTrigger id="tipo"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="aposentadoria_idade">Aposentadoria por Idade</SelectItem>
+                <SelectItem value="pensao_morte">Pensão por Morte</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="tp">Tempo no exterior (meses)</Label>
+            <Input
+              id="tp"
+              type="number"
+              min={0}
+              value={tempoPais}
+              onChange={(e) => setTempoPais(e.target.value)}
+            />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="sb">Salário médio de contribuição (R$)</Label>
+            <Input
+              id="sb"
+              type="number"
+              min={0}
+              step="0.01"
+              value={salarioMedio}
+              onChange={(e) => setSalarioMedio(e.target.value)}
+            />
+          </div>
         </div>
       </section>
 
-      {/* ===== Seção 2: exterior ===== */}
-      <section className="rounded-xl border border-border/60 bg-background/70 p-6 backdrop-blur-sm print:hidden">
-        <p className="eyebrow">02 · Exterior</p>
-        <h2 className="mt-2 font-display text-2xl">Período em {nomePais}</h2>
-        <hr className="rule mt-3" />
-
-        <div className="mt-6 flex flex-wrap gap-2">
-          <ToggleChip ativo={modoExt === "meses"} onClick={() => setModoExt("meses")}>Total em meses</ToggleChip>
-          <ToggleChip ativo={modoExt === "datas"} onClick={() => setModoExt("datas")}>Datas início / fim</ToggleChip>
-        </div>
-
-        {modoExt === "meses" ? (
-          <div className="mt-6 max-w-xs">
-            <Field label="Total de meses contribuídos no exterior">
-              <Input type="number" min="0" value={mesesExt} onChange={(e) => setMesesExt(e.target.value)} placeholder="Ex.: 96" />
-            </Field>
-          </div>
-        ) : (
-          <div className="mt-6 grid gap-4 md:grid-cols-2 max-w-xl">
-            <Field label="Início"><Input type="date" value={iniExt} onChange={(e) => setIniExt(e.target.value)} /></Field>
-            <Field label="Fim"><Input type="date" value={fimExt} onChange={(e) => setFimExt(e.target.value)} /></Field>
-          </div>
-        )}
-      </section>
-
-      {/* ===== CTA calcular ===== */}
-      <div className="flex flex-wrap items-center gap-4 print:hidden">
-        <Button onClick={calcular} size="lg" className="gap-2 rounded-full">
-          <Calculator className="h-4 w-4" /> Calcular
-        </Button>
-        {erro && <p className="text-sm text-[var(--state-error)]">{erro}</p>}
-      </div>
-
-      {/* ===== Resultado ===== */}
-      {resultado && (
-        <Resultado resultado={resultado} variant={variant} nomePais={nomePais} cliente={cliente} />
+      {erroForm && (
+        <p className="rounded-md border border-[var(--state-error-soft)] bg-[var(--state-error-soft)] px-4 py-3 text-sm text-[var(--state-error)]">
+          {erroForm}
+        </p>
       )}
-    </div>
-  );
-}
 
-// ============================================================
-// Subcomponentes
-// ============================================================
-
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div className="space-y-1.5">
-      <Label className="eyebrow">{label}</Label>
-      {children}
-    </div>
-  );
-}
-
-function ToggleChip({
-  ativo, onClick, children,
-}: { ativo: boolean; onClick: () => void; children: React.ReactNode }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-pressed={ativo}
-      className={
-        "rounded-full border px-3 py-1.5 text-xs font-medium uppercase tracking-[0.14em] transition-colors " +
-        (ativo
-          ? "border-[var(--accent-ink)] bg-[var(--accent-ink)] text-background"
-          : "border-border text-foreground hover:border-[var(--accent-ink)] hover:text-[var(--accent-ink)]")
-      }
-    >
-      {children}
-    </button>
-  );
-}
-
-function FichaItem({ rotulo, valor }: { rotulo: string; valor: string }) {
-  return (
-    <div className="rounded-md border border-border/60 p-3">
-      <dt className="eyebrow">{rotulo}</dt>
-      <dd className="mt-1 text-sm">{valor}</dd>
-    </div>
-  );
-}
-
-// ====== Cards de resultado por caso ======
-
-type Estado = "warning" | "error" | "info" | "success";
-
-const ESTADO_CLASSES: Record<Estado, { bg: string; border: string; ink: string; Icon: typeof AlertTriangle }> = {
-  warning: { bg: "bg-[var(--state-warning-soft)]", border: "border-[var(--state-warning)]", ink: "text-[var(--state-warning)]", Icon: AlertTriangle },
-  error:   { bg: "bg-[var(--state-error-soft)]",   border: "border-[var(--state-error)]",   ink: "text-[var(--state-error)]",   Icon: XCircle },
-  info:    { bg: "bg-[var(--state-info-soft)]",    border: "border-[var(--state-info)]",    ink: "text-[var(--state-info)]",    Icon: Clock },
-  success: { bg: "bg-[var(--state-success-soft)]", border: "border-[var(--state-success)]", ink: "text-[var(--state-success)]", Icon: CheckCircle2 },
-};
-
-function CardEstado({
-  estado, titulo, children,
-}: { estado: Estado; titulo: string; children: React.ReactNode }) {
-  const s = ESTADO_CLASSES[estado];
-  return (
-    <div className={`rounded-xl border-l-4 ${s.border} border-y border-r border-border/60 ${s.bg} p-6`}>
-      <div className="flex items-start gap-3">
-        <s.Icon className={`mt-1 h-5 w-5 flex-shrink-0 ${s.ink}`} />
-        <div className="min-w-0 flex-1">
-          <h3 className={`font-display text-xl ${s.ink}`}>{titulo}</h3>
-          <div className="mt-3 space-y-2 text-sm leading-relaxed">{children}</div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function CTAWhatsapp() {
-  return (
-    <div className="rounded-xl border border-border/60 bg-background/70 p-6 text-center backdrop-blur-sm print:hidden">
-      <p className="eyebrow">Próximo passo</p>
-      <h3 className="mt-2 font-display text-2xl">Quer dar entrada no benefício?</h3>
-      <p className="mt-3 text-sm text-muted-foreground">
-        Fale com um especialista do escritório do Dr. Marcos Espínola pelo WhatsApp.
-      </p>
-      <a
-        href={WHATSAPP_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="mt-4 inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-90"
-      >
-        Falar pelo WhatsApp
-      </a>
-    </div>
-  );
-}
-
-function Resultado({
-  resultado, variant, nomePais, cliente,
-}: {
-  resultado: ResultadoCalculo;
-  variant: "public" | "pro";
-  nomePais: string;
-  cliente: DadosCliente;
-}) {
-  const isPro = variant === "pro";
-
-  return (
-    <section className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3 print:hidden">
-        <p className="eyebrow">Resultado</p>
-        {isPro && (
-          <Button variant="outline" size="sm" onClick={() => window.print()} className="gap-2">
-            <Printer className="h-4 w-4" /> Imprimir / PDF
+      <div className="flex flex-wrap items-center gap-3 print:hidden">
+        <Button type="submit" size="lg" className="gap-2">
+          <Calculator className="h-4 w-4" aria-hidden />
+          Calcular {isPro ? "RMI pro-rata" : "meu benefício"}
+        </Button>
+        {isPro && resultado && (
+          <Button type="button" variant="outline" onClick={() => window.print()}>
+            Imprimir / Salvar PDF
           </Button>
         )}
       </div>
 
-      {isPro && (
-        <div className="hidden print:block">
-          <p className="eyebrow">Análise técnica · Acordos Internacionais by AtlasPrev</p>
-          <h2 className="mt-2 font-display text-2xl">Parecer de cálculo — totalização internacional</h2>
-          <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
-            <FichaItem rotulo="Cliente" valor={cliente.nomeCliente || "—"} />
-            <FichaItem rotulo="CPF" valor={cliente.cpfCliente || "—"} />
-            <FichaItem rotulo="Data da análise" valor={cliente.dataAnalise} />
-            <FichaItem rotulo="Responsável" valor={cliente.responsavel || "—"} />
-            <FichaItem rotulo="País do acordo" valor={nomePais} />
-          </dl>
+      {resultado && (
+        <ResultadoView resultado={resultado} variant={variant} pro={pro} pais={pais} tipo={tipo} />
+      )}
+    </form>
+  );
+}
+
+function ResultadoView({
+  resultado,
+  variant,
+  pro,
+  pais,
+  tipo,
+}: {
+  resultado: ResultadoCalculo;
+  variant: "public" | "pro";
+  pro: ProInfo;
+  pais: string;
+  tipo: TipoBeneficio;
+}) {
+  const tone = toneFor(resultado.caso);
+  const Icon = tone.icon;
+  const carencia = CARENCIAS[tipo];
+  const coef = COEFICIENTES[tipo];
+
+  return (
+    <section
+      className="rounded-2xl border p-6 print:border-foreground print:bg-white"
+      style={{
+        borderColor: `var(${tone.border})`,
+        backgroundColor: `var(${tone.bg})`,
+      }}
+    >
+      <header className="flex items-start gap-3">
+        <Icon className="mt-0.5 h-6 w-6 shrink-0" style={{ color: `var(${tone.ink})` }} aria-hidden />
+        <div>
+          <h3 className="text-lg font-semibold" style={{ color: `var(${tone.ink})` }}>
+            {resultado.titulo}
+          </h3>
+          <p className="mt-1 text-sm text-foreground/85">{resultado.descricao}</p>
+        </div>
+      </header>
+
+      {resultado.caso === 3 && resultado.rmiProrata != null && resultado.rmiTeorica != null && (
+        <div className="mt-5 grid gap-4 md:grid-cols-2">
+          <Stat label="RMI Pro-rata" value={formatarMoeda(resultado.rmiProrata)} tone={tone} highlight />
+          <Stat label="RMI Teórica" value={formatarMoeda(resultado.rmiTeorica)} tone={tone} />
+          <Stat label="Período Brasil" value={formatarTempo(resultado.tempoBrasil)} tone={tone} />
+          <Stat label="Tempo total" value={formatarTempo(resultado.tempoTotal)} tone={tone} />
         </div>
       )}
 
-      {resultado.caso === 1 && (
-        <CardEstado estado="warning" titulo="Você já tem direito no Brasil">
-          <p>
-            Suas contribuições no Brasil ({formatarTempo(resultado.tempoBrasilMeses)})
-            já cumprem a carência de {resultado.carencia} meses. A <strong>totalização é desnecessária</strong> —
-            e prejudicial, pois reduziria o benefício pro-rata.
-          </p>
-          <p>
-            RMI estimada (integral): <strong>{formatarMoeda(resultado.rmiIntegral)}</strong>
-          </p>
-        </CardEstado>
+      {resultado.caso === 1 && resultado.rmiTeorica != null && (
+        <div className="mt-5 grid gap-4 md:grid-cols-2">
+          <Stat label="RMI estimada (Brasil isolado)" value={formatarMoeda(resultado.rmiTeorica)} tone={tone} highlight />
+          <Stat label="Tempo no Brasil" value={formatarTempo(resultado.tempoBrasil)} tone={tone} />
+        </div>
       )}
 
-      {resultado.caso === 2 && (
-        <CardEstado estado="error" titulo="Ainda não é possível">
-          <p>
-            Mesmo somando Brasil ({formatarTempo(resultado.tempoBrasilMeses)}) e
-            exterior ({formatarTempo(resultado.tempoPaisMeses)}),
-            faltam <strong>{formatarTempo(resultado.faltam)}</strong> para atingir
-            a carência de {resultado.carencia} meses.
-          </p>
-        </CardEstado>
-      )}
+      {variant === "pro" && (
+        <div className="mt-6 space-y-4 print:mt-4">
+          <table className="w-full text-sm">
+            <tbody className="[&_tr]:border-b [&_tr]:border-border/40 [&_td]:py-2 [&_td:first-child]:pr-4 [&_td:first-child]:text-muted-foreground">
+              <tr><td>Período Brasil</td><td>{formatarTempo(resultado.tempoBrasil)}</td></tr>
+              <tr><td>Período Exterior</td><td>{formatarTempo(resultado.tempoPais)}</td></tr>
+              <tr><td>Total</td><td>{formatarTempo(resultado.tempoTotal)}</td></tr>
+              <tr><td>Carência exigida</td><td>{carencia} meses</td></tr>
+              <tr><td>Status carência</td><td>{resultado.tempoTotal >= carencia ? "atingida" : `faltam ${carencia - resultado.tempoTotal} meses`}</td></tr>
+              <tr><td>RMI Teórica</td><td>{resultado.rmiTeorica != null ? formatarMoeda(resultado.rmiTeorica) : "—"}</td></tr>
+              <tr><td>Fator Pro-rata</td><td>{resultado.tempoTotal > 0 ? (resultado.tempoBrasil / resultado.tempoTotal).toFixed(4) : "—"}</td></tr>
+              <tr><td>RMI Pro-rata</td><td>{resultado.rmiProrata != null ? formatarMoeda(resultado.rmiProrata) : "—"}</td></tr>
+              <tr><td>Piso (SMmin)</td><td>{formatarMoeda(SMmin)}</td></tr>
+            </tbody>
+          </table>
 
-      {resultado.caso === "2b" && (
-        <CardEstado estado="info" titulo="Você tem o tempo, falta a idade">
-          <p>
-            Carência cumprida via totalização, mas a idade mínima para aposentadoria por idade
-            ({resultado.idadeMin} anos) ainda não foi atingida. Hoje você tem <strong>{resultado.idadeAtual} anos</strong>;
-            faltam <strong>{formatarTempo(resultado.mesesRestantes)}</strong>.
-          </p>
-          <p>
-            Projeção da RMI pro-rata na elegibilidade: <strong>{formatarMoeda(resultado.rmiProrataProjetada)}</strong>
-            {" "}({(resultado.indiceProrrata * 100).toFixed(2)}% da RMI teórica).
-          </p>
-        </CardEstado>
-      )}
-
-      {resultado.caso === 3 && (
-        <>
-          <CardEstado
-            estado="success"
-            titulo={`Direito por totalização — Brasil ↔ ${nomePais}`}
-          >
-            <div className="mt-2">
-              <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground">RMI estimada (pro-rata)</p>
-              <p className="mt-1 font-display text-4xl md:text-5xl">
-                {formatarMoeda(resultado.rmiProrrata)}
-              </p>
-              <p className="mt-2 text-sm">
-                {(resultado.indiceProrrata * 100).toFixed(2)}% da RMI teórica de {formatarMoeda(resultado.rmiTeorica)}
-              </p>
-            </div>
-          </CardEstado>
-
-          {isPro && (
-            <div className="space-y-6">
-              <div className="rounded-xl border border-border/60 bg-background/70 p-6 backdrop-blur-sm print:bg-background">
-                <p className="eyebrow">Tabela técnica</p>
-                <h3 className="mt-2 font-display text-xl">Parâmetros do cálculo</h3>
-                <hr className="rule mt-3" />
-                <table className="mt-4 w-full text-sm">
-                  <tbody className="divide-y divide-border/60">
-                    <Linha rotulo="Tempo Brasil" valor={formatarTempo(resultado.tempoBrasilMeses)} />
-                    <Linha rotulo={`Tempo ${nomePais}`} valor={formatarTempo(resultado.tempoPaisMeses)} />
-                    <Linha rotulo="Tempo total" valor={formatarTempo(resultado.tempoTotal)} />
-                    <Linha rotulo="Carência exigida" valor={`${resultado.carencia} meses`} />
-                    <Linha rotulo="Salário de benefício (SB)" valor={formatarMoeda(resultado.sbFinal)} />
-                    <Linha rotulo="Coeficiente" valor={`${(resultado.coef * 100).toFixed(0)}%`} />
-                    <Linha rotulo="RMI teórica" valor={formatarMoeda(resultado.rmiTeorica)} />
-                    <Linha rotulo="Índice pro-rata" valor={`${(resultado.indiceProrrata * 100).toFixed(4)}%`} />
-                    <Linha rotulo="RMI pro-rata final" valor={formatarMoeda(resultado.rmiProrrata)} destaque />
-                  </tbody>
-                </table>
-              </div>
-
-              <div className="rounded-xl border border-border/60 bg-secondary/40 p-6 print:bg-background">
-                <p className="eyebrow">Fórmula e fundamento</p>
-                <pre className="mt-3 overflow-x-auto whitespace-pre-wrap font-mono text-xs leading-relaxed">
-{`RMI teórica  = SB × coef = ${formatarMoeda(resultado.sbFinal)} × ${(resultado.coef * 100).toFixed(0)}% = ${formatarMoeda(resultado.rmiTeorica)}
-Índice prorr = meses_BR ÷ total = ${resultado.tempoBrasilMeses} ÷ ${resultado.tempoTotal} = ${(resultado.indiceProrrata * 100).toFixed(4)}%
-RMI pro-rata = ${formatarMoeda(resultado.rmiTeorica)} × ${(resultado.indiceProrrata * 100).toFixed(4)}% = ${formatarMoeda(resultado.rmiProrrata)}
-
-Fundamento: art. 4º do Decreto 3.048/99 c/c acordos bilaterais de previdência social.`}
-                </pre>
+          {resultado.caso === 3 && resultado.rmiTeorica != null && resultado.rmiProrata != null && (
+            <div className="rounded-lg border border-border/60 bg-background/70 p-4 font-mono text-xs leading-relaxed">
+              <div>RMI teórica = SB × coef = {formatarMoeda(resultado.rmiTeorica / coef)} × {coef} = {formatarMoeda(resultado.rmiTeorica)}</div>
+              <div className="mt-1">
+                RMI pro-rata = RMI teórica × (meses_BR ÷ total) ={" "}
+                {formatarMoeda(resultado.rmiTeorica)} × ({resultado.tempoBrasil} ÷ {resultado.tempoTotal}) ={" "}
+                {formatarMoeda(resultado.rmiProrata)}
               </div>
             </div>
           )}
-        </>
+
+          <footer className="border-t border-border/60 pt-3 text-xs text-muted-foreground">
+            <div className="flex flex-wrap justify-between gap-2">
+              <span>www.acordosinternacionais.com</span>
+              <span>Gerado em {new Date().toLocaleDateString("pt-BR")}</span>
+            </div>
+            {(pro.nomeCliente || pro.cpfCliente || pro.processo) && (
+              <div className="mt-1">
+                {pro.nomeCliente && <>Cliente: {pro.nomeCliente} · </>}
+                {pro.cpfCliente && <>CPF: {pro.cpfCliente} · </>}
+                {pro.processo && <>Proc.: {pro.processo} · </>}
+                País: {pais}
+              </div>
+            )}
+          </footer>
+        </div>
       )}
 
-      {!isPro && <CTAWhatsapp />}
+      {variant === "public" && (resultado.caso === 3 || resultado.caso === "2B") && (
+        <div className="mt-6 rounded-xl border border-border/60 bg-background/80 p-5 backdrop-blur-sm">
+          <p className="text-sm font-medium text-foreground">
+            Quer um laudo técnico completo, com fundamentação e fórmulas?
+          </p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Assine o Hub do Advogado e tenha acesso à calculadora profissional, modelos e jurisprudência.
+          </p>
+          <a
+            href="/login"
+            className="mt-3 inline-flex items-center gap-2 rounded-md bg-[var(--accent-ink)] px-4 py-2 text-sm font-medium text-[var(--accent-ink-foreground,white)] hover:opacity-90"
+          >
+            Conhecer o Hub do Advogado
+          </a>
+        </div>
+      )}
     </section>
   );
 }
 
-function Linha({ rotulo, valor, destaque }: { rotulo: string; valor: string; destaque?: boolean }) {
+function Stat({
+  label,
+  value,
+  tone,
+  highlight,
+}: {
+  label: string;
+  value: string;
+  tone: Tone;
+  highlight?: boolean;
+}) {
   return (
-    <tr className={destaque ? "font-display" : ""}>
-      <td className="py-2 pr-4 text-muted-foreground">{rotulo}</td>
-      <td className={"py-2 text-right " + (destaque ? "text-base text-[var(--accent-ink)]" : "")}>{valor}</td>
-    </tr>
+    <div
+      className="rounded-lg border bg-background/70 p-4 backdrop-blur-sm"
+      style={{ borderColor: highlight ? `var(${tone.ink})` : "var(--border)" }}
+    >
+      <div className="text-xs uppercase tracking-wider text-muted-foreground">{label}</div>
+      <div
+        className="mt-1 text-xl font-semibold"
+        style={{ color: highlight ? `var(${tone.ink})` : undefined }}
+      >
+        {value}
+      </div>
+    </div>
   );
+}
+
+type Tone = {
+  ink: string;
+  bg: string;
+  border: string;
+  icon: typeof AlertTriangle;
+};
+
+function toneFor(caso: ResultadoCalculo["caso"]): Tone {
+  switch (caso) {
+    case 1:
+      return { ink: "--state-warning", bg: "--state-warning-soft", border: "--state-warning", icon: AlertTriangle };
+    case 2:
+      return { ink: "--state-error", bg: "--state-error-soft", border: "--state-error", icon: XCircle };
+    case "2B":
+      return { ink: "--state-info", bg: "--state-info-soft", border: "--state-info", icon: Clock };
+    case 3:
+      return { ink: "--state-success", bg: "--state-success-soft", border: "--state-success", icon: CheckCircle2 };
+  }
 }
