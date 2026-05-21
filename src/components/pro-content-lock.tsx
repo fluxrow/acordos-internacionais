@@ -22,45 +22,56 @@ export function ProContentLock({
   return (
     <section
       aria-label="Conteúdo restrito ao hub profissional"
-      className="border border-border bg-secondary/60 p-8"
+      className="relative overflow-hidden rounded-xl border border-border/60 bg-background/70 p-8 md:p-10 backdrop-blur-sm"
     >
-      <div className="flex items-baseline justify-between gap-4">
-        <p className="eyebrow flex items-center gap-2">
-          <LockIcon /> {contexto}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_85%_15%,_var(--accent-ink-soft)_0%,_transparent_55%),radial-gradient(ellipse_at_10%_95%,_var(--accent-ink-soft)_0%,_transparent_50%)] opacity-90"
+      />
+
+      <div className="relative">
+        <div className="flex items-center justify-between gap-4">
+          <p className="eyebrow flex items-center gap-2 text-[var(--accent-ink)]">
+            <LockIcon /> Hub Profissional
+          </p>
+          <span className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
+            Acesso vitalício
+          </span>
+        </div>
+
+        <h3 className="mt-4 max-w-2xl font-display text-2xl leading-tight md:text-3xl">
+          {contexto}
+        </h3>
+
+        <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
+          A profundidade técnica — texto integral, portarias comentadas, modelos
+          editáveis e calculadora — fica reservada a advogados que conduzem casos
+          sob o acordo.
         </p>
-        <span className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
-          Hub profissional
-        </span>
-      </div>
 
-      <p className="mt-4 max-w-2xl text-sm text-muted-foreground">
-        Esta é a vitrine do que está dentro do Hub Profissional. A profundidade
-        técnica é reservada a advogados que conduzem casos sob o acordo,
-        via assinatura mensal ou anual.
-      </p>
+        <ul className="mt-7 grid gap-px overflow-hidden rounded-lg border border-border/60 bg-border/60 sm:grid-cols-2">
+          {itens.map((item) => (
+            <li
+              key={item}
+              className="flex items-start gap-3 bg-background/85 p-4 text-sm text-foreground/80"
+            >
+              <LockIcon className="mt-0.5 shrink-0 text-[var(--accent-ink)]/70" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
 
-      <ul className="mt-6 grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2">
-        {itens.map((item) => (
-          <li
-            key={item}
-            className="flex items-start gap-3 bg-background/70 p-4 text-sm text-muted-foreground"
+        <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3">
+          <Link
+            to="/profissional"
+            className="inline-flex items-center gap-2 rounded-full bg-[var(--accent-ink)] px-5 py-2.5 text-xs font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-foreground"
           >
-            <LockIcon className="mt-0.5 shrink-0 opacity-60" />
-            <span>{item}</span>
-          </li>
-        ))}
-      </ul>
-
-      <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2">
-        <Link
-          to="/profissional"
-          className="inline-flex items-center gap-2 rounded-sm border border-foreground bg-foreground px-4 py-2 text-xs font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-background hover:text-foreground"
-        >
-          Acessar o hub <span aria-hidden>→</span>
-        </Link>
-        <span className="text-xs text-muted-foreground">
-          Pagamento único · acesso vitalício
-        </span>
+            Acessar o hub <span aria-hidden>→</span>
+          </Link>
+          <span className="text-xs text-muted-foreground">
+            Pagamento único · acesso vitalício
+          </span>
+        </div>
       </div>
     </section>
   );

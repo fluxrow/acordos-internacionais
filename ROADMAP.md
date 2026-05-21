@@ -42,6 +42,7 @@
 - ✅ Catálogo curado (`src/data/acordos.ts`) faz **merge** com dados importados
 - ✅ Página `/acordos/:pais` reformatada: hero, cards de Órgãos de Ligação, colunas de Benefícios, tabs Acordo/Ajuste, Documentos com badge "Hub PRO" (gate visual)
 - ✅ **Refino visual `/acordos/:pais`**: wash wine no hero, bandeira com moldura, aside com `backdrop-blur`, fallback gracioso em órgãos sem dados, nav contextual Anterior/Próximo com mini-bandeiras e hover wine
+- ✅ **Refino visual v2 `/acordos/:pais`**: duplo radial wine no hero + linha gradiente no bottom, ficha Instrumento/Decreto/Vigência em cards `backdrop-blur` com hover wine, documentos agrupados por categoria (Principal/Complementar/Roteiro/Formulário) com header eyebrow wine + contador, "Hub PRO" promovido a CTA único no topo do bloco, `ProContentLock` redesenhado (radial wine duplo, headline `font-display`, CTA pill `--accent-ink`)
 - ✅ 3 acordos multilaterais (CPLP, Mercosul, Ibero-Americano) reaproveitam a rota dinâmica
 
 ## Fase 3 — Documentação e colaboração ✅ (concluída)

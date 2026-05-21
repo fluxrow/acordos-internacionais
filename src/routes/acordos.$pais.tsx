@@ -112,8 +112,13 @@ function AcordoPais() {
         <header className="relative overflow-hidden border-b border-border/60">
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_15%_30%,_var(--accent-ink-soft)_0%,_transparent_55%)] opacity-70"
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_12%_28%,_var(--accent-ink-soft)_0%,_transparent_52%),radial-gradient(ellipse_at_92%_85%,_var(--accent-ink-soft)_0%,_transparent_45%)] opacity-80"
           />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[var(--accent-ink)]/30 to-transparent"
+          />
+          
           <div className="relative z-10 mx-auto grid max-w-6xl gap-10 px-6 py-16 md:grid-cols-[1fr_auto] md:items-end md:py-20">
             <div>
               <nav className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -242,36 +247,53 @@ function AcordoPais() {
               </>
             )}
 
-            {/* DOCUMENTOS (PRO — lista pública dos títulos, download trancado) */}
+            {/* DOCUMENTOS (PRO — agrupados por categoria, download trancado) */}
             {a.importado && a.importado.documentos.length > 0 && (
               <Bloco titulo={`Documentos e formulários (${a.importado.documentos.length})`}>
-                <p className="text-sm text-muted-foreground">
-                  Texto integral do acordo, ajuste administrativo e formulários
-                  oficiais para protocolar requerimentos. Download e versões
-                  editáveis ficam dentro do Hub Profissional.
-                </p>
-                <ul className="mt-6 divide-y divide-border border-y border-border">
-                  {a.importado.documentos.map((d: DocumentoImportado) => (
-                    <li
-                      key={d.nome}
-                      className="flex items-start gap-4 py-4"
-                    >
-                      <CategoriaBadge cat={d.cat} />
-                      <div className="min-w-0 flex-1">
-                        <p className="font-display text-base leading-snug">{d.nome}</p>
-                        {d.desc && (
-                          <p className="mt-1 text-sm text-muted-foreground">{d.desc}</p>
-                        )}
+                <div className="flex flex-wrap items-baseline justify-between gap-4">
+                  <p className="max-w-2xl text-sm text-muted-foreground">
+                    Texto integral do acordo, ajuste administrativo e formulários
+                    oficiais para protocolar requerimentos.
+                  </p>
+                  <Link
+                    to="/profissional"
+                    className="inline-flex shrink-0 items-center gap-1.5 text-[11px] uppercase tracking-[0.14em] text-[var(--accent-ink)] hover:underline underline-offset-4"
+                  >
+                    <LockIcon /> Download no Hub Profissional →
+                  </Link>
+                </div>
+                <div className="mt-8 space-y-8">
+                  {agruparDocumentos(a.importado.documentos).map(([cat, docs]) => (
+                    <div key={cat}>
+                      <div className="flex items-baseline justify-between gap-3 border-b border-border/60 pb-2">
+                        <h3 className="eyebrow text-[var(--accent-ink)]">
+                          {CATEGORIA_LABEL[cat] ?? "Outro"}
+                        </h3>
+                        <span className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
+                          {docs.length} {docs.length === 1 ? "item" : "itens"}
+                        </span>
                       </div>
-                      <span
-                        className="ml-auto flex shrink-0 items-center gap-1.5 self-center text-[10px] uppercase tracking-[0.14em] text-muted-foreground"
-                        aria-label="Acesso restrito ao Hub Profissional"
-                      >
-                        <LockIcon /> Hub PRO
-                      </span>
-                    </li>
+                      <ul className="mt-2 divide-y divide-border/60">
+                        {docs.map((d: DocumentoImportado) => (
+                          <li key={d.nome} className="flex items-start gap-4 py-4">
+                            <div className="min-w-0 flex-1">
+                              <p className="font-display text-base leading-snug">{d.nome}</p>
+                              {d.desc && (
+                                <p className="mt-1 text-sm text-muted-foreground">{d.desc}</p>
+                              )}
+                            </div>
+                            <span
+                              className="mt-1 shrink-0 text-muted-foreground/60"
+                              aria-label="Acesso restrito ao Hub Profissional"
+                            >
+                              <LockIcon />
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   ))}
-                </ul>
+                </div>
               </Bloco>
             )}
 
@@ -409,9 +431,9 @@ function Bloco({ titulo, children }: { titulo: string; children: React.ReactNode
 
 function FichaItem({ rotulo, valor }: { rotulo: string; valor: string }) {
   return (
-    <div className="border border-border p-4">
+    <div className="rounded-xl border border-border/60 bg-background/70 p-5 backdrop-blur-sm transition-colors hover:border-[var(--accent-ink)]/40">
       <dt className="eyebrow">{rotulo}</dt>
-      <dd className="mt-2 text-sm leading-snug">{valor}</dd>
+      <dd className="mt-3 font-display text-base leading-snug">{valor}</dd>
     </div>
   );
 }
@@ -494,13 +516,27 @@ const CATEGORIA_LABEL: Record<string, string> = {
   outro: "Outro",
 };
 
-function CategoriaBadge({ cat }: { cat: string }) {
-  const label = CATEGORIA_LABEL[cat] ?? "Outro";
-  return (
-    <span className="mt-1 inline-block shrink-0 border border-border px-2 py-1 text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
-      {label}
-    </span>
-  );
+
+
+
+const CATEGORIA_ORDEM = ["principal", "complementar", "roteiro", "formulario", "outro"] as const;
+
+function agruparDocumentos(docs: DocumentoImportado[]): Array<[string, DocumentoImportado[]]> {
+  const grupos = new Map<string, DocumentoImportado[]>();
+  for (const d of docs) {
+    const cat = d.cat ?? "outro";
+    if (!grupos.has(cat)) grupos.set(cat, []);
+    grupos.get(cat)!.push(d);
+  }
+  const ordenados: Array<[string, DocumentoImportado[]]> = [];
+  for (const cat of CATEGORIA_ORDEM) {
+    if (grupos.has(cat)) {
+      ordenados.push([cat, grupos.get(cat)!]);
+      grupos.delete(cat);
+    }
+  }
+  for (const [cat, items] of grupos) ordenados.push([cat, items]);
+  return ordenados;
 }
 
 function LockIcon() {
