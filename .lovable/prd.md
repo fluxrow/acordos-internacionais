@@ -58,7 +58,7 @@ Base **já importada** do repo externo `marcosespinola1379/Mapa-de-Acordos`:
 
 ### 4.2 Acesso e autenticação
 
-- **Login**: e-mail + senha (Lovable Cloud auth) + Google sign-in.
+- **Login / Cadastro / Reset**: `/login`, `/cadastro`, `/reset-password` vivos com email+senha (`supabase.auth.signUp` / `signInWithPassword` / `resetPasswordForEmail` + `updateUser`) e botão "Continuar com Google" via `lovable.auth.signInWithOAuth` (broker Lovable Cloud, provider `google` habilitado). `/cadastro` mostra estado "verifique seu e-mail" quando `auto_confirm_email` está off.
 - **Perfis**: `profiles` (1:1 com `auth.users`) — apenas `full_name` e `email` (sem OAB, sem telefone, sem foto). Exibição: "Bom dia, Marcos."
 - **Roles**: `user_roles` separada (`app_role` enum: `subscriber`, `admin`). Nunca na `profiles`.
 - **Assinatura**: Stripe via Lovable Payments. Plano único mensal/anual no MVP.

@@ -9,12 +9,14 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ProfissionalRouteImport } from './routes/profissional'
 import { Route as PrecosRouteImport } from './routes/precos'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as GlossarioRouteImport } from './routes/glossario'
 import { Route as ContatoRouteImport } from './routes/contato'
 import { Route as CalculadoraRouteImport } from './routes/calculadora'
+import { Route as CadastroRouteImport } from './routes/cadastro'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
@@ -29,6 +31,11 @@ import { Route as AuthenticatedHubCalculadoraRouteImport } from './routes/_authe
 import { Route as AuthenticatedHubPaisRouteImport } from './routes/_authenticated/hub.$pais'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProfissionalRoute = ProfissionalRouteImport.update({
   id: '/profissional',
   path: '/profissional',
@@ -57,6 +64,11 @@ const ContatoRoute = ContatoRouteImport.update({
 const CalculadoraRoute = CalculadoraRouteImport.update({
   id: '/calculadora',
   path: '/calculadora',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CadastroRoute = CadastroRouteImport.update({
+  id: '/cadastro',
+  path: '/cadastro',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogRoute = BlogRouteImport.update({
@@ -129,12 +141,14 @@ const ApiPublicPaymentsWebhookRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/blog': typeof BlogRoute
+  '/cadastro': typeof CadastroRoute
   '/calculadora': typeof CalculadoraRoute
   '/contato': typeof ContatoRoute
   '/glossario': typeof GlossarioRoute
   '/login': typeof LoginRoute
   '/precos': typeof PrecosRoute
   '/profissional': typeof ProfissionalRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/conta': typeof AuthenticatedContaRoute
   '/hub': typeof AuthenticatedHubRouteWithChildren
   '/acordos/$pais': typeof AcordosPaisRoute
@@ -149,12 +163,14 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/blog': typeof BlogRoute
+  '/cadastro': typeof CadastroRoute
   '/calculadora': typeof CalculadoraRoute
   '/contato': typeof ContatoRoute
   '/glossario': typeof GlossarioRoute
   '/login': typeof LoginRoute
   '/precos': typeof PrecosRoute
   '/profissional': typeof ProfissionalRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/conta': typeof AuthenticatedContaRoute
   '/hub': typeof AuthenticatedHubRouteWithChildren
   '/acordos/$pais': typeof AcordosPaisRoute
@@ -171,12 +187,14 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/blog': typeof BlogRoute
+  '/cadastro': typeof CadastroRoute
   '/calculadora': typeof CalculadoraRoute
   '/contato': typeof ContatoRoute
   '/glossario': typeof GlossarioRoute
   '/login': typeof LoginRoute
   '/precos': typeof PrecosRoute
   '/profissional': typeof ProfissionalRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/conta': typeof AuthenticatedContaRoute
   '/_authenticated/hub': typeof AuthenticatedHubRouteWithChildren
   '/acordos/$pais': typeof AcordosPaisRoute
@@ -193,12 +211,14 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/blog'
+    | '/cadastro'
     | '/calculadora'
     | '/contato'
     | '/glossario'
     | '/login'
     | '/precos'
     | '/profissional'
+    | '/reset-password'
     | '/conta'
     | '/hub'
     | '/acordos/$pais'
@@ -213,12 +233,14 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/blog'
+    | '/cadastro'
     | '/calculadora'
     | '/contato'
     | '/glossario'
     | '/login'
     | '/precos'
     | '/profissional'
+    | '/reset-password'
     | '/conta'
     | '/hub'
     | '/acordos/$pais'
@@ -234,12 +256,14 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/blog'
+    | '/cadastro'
     | '/calculadora'
     | '/contato'
     | '/glossario'
     | '/login'
     | '/precos'
     | '/profissional'
+    | '/reset-password'
     | '/_authenticated/conta'
     | '/_authenticated/hub'
     | '/acordos/$pais'
@@ -256,12 +280,14 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   BlogRoute: typeof BlogRoute
+  CadastroRoute: typeof CadastroRoute
   CalculadoraRoute: typeof CalculadoraRoute
   ContatoRoute: typeof ContatoRoute
   GlossarioRoute: typeof GlossarioRoute
   LoginRoute: typeof LoginRoute
   PrecosRoute: typeof PrecosRoute
   ProfissionalRoute: typeof ProfissionalRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   AcordosPaisRoute: typeof AcordosPaisRoute
   GuiasSlugRoute: typeof GuiasSlugRoute
   JornadasJornadaRoute: typeof JornadasJornadaRoute
@@ -272,6 +298,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/profissional': {
       id: '/profissional'
       path: '/profissional'
@@ -312,6 +345,13 @@ declare module '@tanstack/react-router' {
       path: '/calculadora'
       fullPath: '/calculadora'
       preLoaderRoute: typeof CalculadoraRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cadastro': {
+      id: '/cadastro'
+      path: '/cadastro'
+      fullPath: '/cadastro'
+      preLoaderRoute: typeof CadastroRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blog': {
@@ -439,12 +479,14 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
   BlogRoute: BlogRoute,
+  CadastroRoute: CadastroRoute,
   CalculadoraRoute: CalculadoraRoute,
   ContatoRoute: ContatoRoute,
   GlossarioRoute: GlossarioRoute,
   LoginRoute: LoginRoute,
   PrecosRoute: PrecosRoute,
   ProfissionalRoute: ProfissionalRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   AcordosPaisRoute: AcordosPaisRoute,
   GuiasSlugRoute: GuiasSlugRoute,
   JornadasJornadaRoute: JornadasJornadaRoute,
