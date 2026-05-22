@@ -43,10 +43,17 @@ export function SiteHeader() {
             Dr. Marcos Espínola
           </Link>
           <Link
-            to="/profissional"
+            to="/login"
+            className="text-foreground/80 transition-colors hover:text-foreground"
+            activeProps={{ className: "text-foreground underline underline-offset-8" }}
+          >
+            Entrar
+          </Link>
+          <Link
+            to="/cadastro"
             className="rounded-full border border-foreground bg-foreground px-4 py-1.5 text-xs font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-background hover:text-foreground"
           >
-            Hub profissional
+            Criar conta
           </Link>
         </nav>
 
