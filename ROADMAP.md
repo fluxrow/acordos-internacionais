@@ -67,7 +67,7 @@
 - ✅ Lovable Auth pronto na plataforma (e-mail/senha + Google sign-in disponíveis)
 - ✅ **Claude**: migration com `profiles` (1:1 + trigger), enum `app_role`, `user_roles` separada, `has_role()` `SECURITY DEFINER`, RLS em tudo
 - ✅ **Claude**: `src/routes/_authenticated.tsx` (layout com `beforeLoad` + `redirect` + `<Outlet />`)
-- ✅ **Lovable**: UI de `/login`, `/cadastro`, `/reset-password` com email+senha e botão "Continuar com Google" via `lovable.auth.signInWithOAuth` (broker Lovable Cloud). Google provider habilitado via `configure_social_auth`.
+- ✅ **Lovable**: UI de `/login`, `/cadastro`, `/reset-password` com email+senha e botão "Continuar com Google" via `lovable.auth.signInWithOAuth` (broker Lovable Cloud). Google provider habilitado via `configure_social_auth`. Smoke test validou `/login` → `/hub` com sessão preservada via navegação interna do TanStack Router.
 
 ### 4.2 Pagamento Stripe 🚧
 
