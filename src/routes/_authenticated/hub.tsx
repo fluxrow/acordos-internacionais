@@ -48,6 +48,8 @@ function HubDashboard() {
   });
 
   const active = data?.subscription?.status === "active";
+  const isAdmin = data?.isAdmin === true;
+  const hasAccess = active || isAdmin || data?.subscription?.lifetimeAccess === true;
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-10">
