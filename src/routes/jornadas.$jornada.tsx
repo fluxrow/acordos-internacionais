@@ -45,12 +45,6 @@ function JornadaPage() {
           aria-hidden
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_85%_30%,_var(--accent-ink-soft)_0%,_transparent_55%)] opacity-70"
         />
-        <span
-          aria-hidden
-          className="pointer-events-none absolute -right-6 top-6 select-none font-display text-[12rem] leading-none text-[var(--accent-ink)] opacity-[0.06] md:text-[18rem]"
-        >
-          00
-        </span>
         <div className="relative z-10 mx-auto max-w-4xl px-6 py-16 md:py-20">
           <nav className="text-xs text-muted-foreground">
             <Link to="/" className="hover:underline underline-offset-4">
