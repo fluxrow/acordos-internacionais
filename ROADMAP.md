@@ -35,6 +35,7 @@
 - ✅ CI: `check-brand` (impede vazamento de marca antiga) e `check-og` (garante cobertura)
 - ✅ Hover/focus/active states consistentes em botões, links e cards (sem texto invisível)
 - ✅ **Refino editorial Jornadas**: novo índice `/jornadas` com cards numerados, detalhe com hero wash wine + número fantasma, TOC sticky, bloco "Relacionado" (países + guia + calculadora), `CTAMarcos` block global em wash wine
+- ✅ **Refino editorial `/sobre/dr-marcos`**: copy oficial (sócio Pagliuca/Espínola/Lessnau, OAB/PR 49.038), novo componente `InteractiveImageAccordion` (hover-expand horizontal com imagem de fundo + overlay wine) apresentando 7 áreas de atuação internacional (totalização, aposentadoria, pensão por morte, prova de vida, CDT, CSDP, planejamento), 7 imagens editoriais geradas em `src/assets/atuacao/`
 
 ## Fase 2 — Migração de dados técnicos ✅ (concluída)
 

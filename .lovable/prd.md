@@ -31,6 +31,7 @@ Dois públicos, um produto:
 | Refino editorial Jornadas (índice + detalhe com TOC + bloco Relacionado) | ✅ |
 | Refino editorial Guias (índice + detalhe com TOC + bloco Relacionado) | ✅ |
 | Refino editorial Glossário (hero wash wine, índice alfabético, lista 12-col, bloco Relacionado, CTAMarcos) | ✅ |
+| Refino editorial `/sobre/dr-marcos` (copy oficial OAB/PR 49.038, novo componente `InteractiveImageAccordion` com 7 áreas de atuação internacional + imagens editoriais geradas) | ✅ |
 | Reposicionamento de marca (favicon, og-image, header, footer, metadados) | ✅ |
 | OG por país — 25 imagens, multilaterais com selo "MULTI" | ✅ |
 | CI: `check-brand` e `check-og` (falha build se sobrar slug antigo ou OG faltando) | ✅ |
