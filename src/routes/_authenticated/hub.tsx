@@ -106,7 +106,7 @@ function HubDashboard() {
                   </span>
                 )}
                 <span className="text-center text-xs leading-tight">{nome}</span>
-                {!active && (
+                {!hasAccess && (
                   <span className="text-[10px] text-muted-foreground">🔒</span>
                 )}
               </Link>
