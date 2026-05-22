@@ -7,6 +7,7 @@ export type AccountData = {
   firstName: string;
   fullName: string | null;
   email: string | null;
+  isAdmin: boolean;
   subscription: {
     status: string;
     periodEnd: string | null;
@@ -22,20 +23,27 @@ export const getAccountData = createServerFn({ method: "GET" })
   .handler(async ({ context }): Promise<AccountData> => {
     const { userId, claims } = context;
 
-    const [{ data: profile }, { data: sub }] = await Promise.all([
-      supabaseAdmin
-        .from("profiles")
-        .select("full_name, email")
-        .eq("id", userId)
-        .maybeSingle(),
-      supabaseAdmin
-        .from("subscriptions")
-        .select(
-          "status, current_period_end, cancel_at_period_end, price_id, stripe_customer_id, lifetime_access",
-        )
-        .eq("user_id", userId)
-        .maybeSingle(),
-    ]);
+    const [{ data: profile }, { data: sub }, { data: adminRole }] =
+      await Promise.all([
+        supabaseAdmin
+          .from("profiles")
+          .select("full_name, email")
+          .eq("id", userId)
+          .maybeSingle(),
+        supabaseAdmin
+          .from("subscriptions")
+          .select(
+            "status, current_period_end, cancel_at_period_end, price_id, stripe_customer_id, lifetime_access",
+          )
+          .eq("user_id", userId)
+          .maybeSingle(),
+        supabaseAdmin
+          .from("user_roles")
+          .select("role")
+          .eq("user_id", userId)
+          .eq("role", "admin")
+          .maybeSingle(),
+      ]);
 
     const fullName = profile?.full_name ?? null;
     const email =
@@ -47,6 +55,7 @@ export const getAccountData = createServerFn({ method: "GET" })
       firstName,
       fullName,
       email,
+      isAdmin: !!adminRole,
       subscription: sub
         ? {
             status: sub.status,

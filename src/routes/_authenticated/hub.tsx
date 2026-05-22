@@ -48,6 +48,8 @@ function HubDashboard() {
   });
 
   const active = data?.subscription?.status === "active";
+  const isAdmin = data?.isAdmin === true;
+  const hasAccess = active || isAdmin || data?.subscription?.lifetimeAccess === true;
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-10">
@@ -57,9 +59,14 @@ function HubDashboard() {
           {isPending ? " " : (data?.firstName ?? "você")}
         </h1>
         <p className="mt-1 text-muted-foreground">Hub Profissional — Acordos Previdenciários</p>
+        {isAdmin && (
+          <span className="mt-3 inline-flex items-center rounded-full border border-[var(--accent-ink)]/30 bg-[var(--accent-ink)]/5 px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.14em] text-[var(--accent-ink)]">
+            Modo admin
+          </span>
+        )}
       </header>
 
-      {!active && !isPending && (
+      {!hasAccess && !isPending && (
         <div className="mb-8 rounded-2xl border border-border bg-secondary px-6 py-5 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_-12px_rgba(0,0,0,0.08)]">
           <p className="font-medium">Acesso bloqueado</p>
           <p className="mt-1 text-sm text-muted-foreground">
