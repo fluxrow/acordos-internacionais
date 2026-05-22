@@ -155,3 +155,15 @@
 - 📋 Smoke test end-to-end de checkout sandbox (`4242 4242 4242 4242`) em ambos os planos + validar que webhook grava `subscriptions` corretamente.
 - 📋 Popular ou esconder `/blog` (link já saiu do footer).
 - ✅ `/sobre/dr-marcos`: bordas arredondadas, accordion com overlay neutro+gradiente, Atuação em 2 cards + stats, Manifesto editorial, "Como falar" como dois caminhos (cidadão / advogado).
+
+## Onda 1 Hub — concluída (22/05/2026)
+- 192 documentos importados do repo Mapa-de-Acordos para bucket `hub-docs` via `scripts/sync-hub-docs.ts`.
+- Dataset reconciliado (`scripts/reconcile-hub-docs.ts`): 25 países (Suíça adicionada).
+- `getCountryHubData` passa `download: <nome humano>` no signed URL — Content-Disposition garante filename humano.
+- Dashboard `/hub`: card destacado da Calculadora RMI no topo, selo de cobertura ("N documentos" ou "Em curadoria") em cada país.
+- 3 países sem material no repo: Cabo Verde, França, Iberoamericano — exibem badge "Em curadoria".
+
+## Próximas ondas Hub
+- Onda 2: redesign do dashboard (filtro por região, busca, atividade), página `/hub/$pais` em tabs.
+- Onda 3: histórico da calculadora, favoritos, ⌘K, notas privadas.
+- Onda 4: curadoria de metadados da Suíça, monitorar repo do Marcos para França.
