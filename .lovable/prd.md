@@ -142,3 +142,14 @@ Base **já importada** do repo externo `marcosespinola1379/Mapa-de-Acordos`:
 - Marketplace de advogados (lista pública de profissionais).
 - IA generativa dentro do hub (chatbot, geração de petições) — pós-MVP pago.
 - Suporte multi-idioma (por enquanto).
+
+## 10. Atualização — UI sweep & oferta unificada (2026-05-22)
+
+Oferta comercial decidida: **híbrido Anual R$ 797/ano + Fundadores R$ 1.297 vitalício (100 vagas)**. Plano "Mensal" descartado.
+
+Mudanças:
+- `/profissional` deixou de ser página de "lista de espera". Agora é a página oficial da oferta, com os 2 planos (Anual e Fundadores), contador de vagas Fundadores ao vivo via `getFoundersCount`, CTAs para `/precos` (checkout).
+- `/precos` passou de 3 para 2 planos (removido Mensal), Fundadores corrigido de R$ 797 → R$ 1.297. Continua sendo o ponto único de checkout via Stripe embedded.
+- `SiteHeader` agora é reativo a `supabase.auth.onAuthStateChange`: deslogado mostra "Entrar/Criar conta", logado mostra "Meu Hub" + "Sair".
+- `SiteFooter`: link "Blog" removido (em construção); adicionado "Planos e preços".
+- Home `/` mantém CTA "Hub para advogados" → `/profissional` (agora coerente).

@@ -13,29 +13,20 @@ const STRIPE_ENV = "sandbox" as const;
 
 const PLANS = [
   {
-    id: "hub_mensal",
-    nome: "Mensal",
-    preco: "R$ 97",
-    periodo: "/mês",
-    desc: "Acesso completo ao Hub Profissional. Cancele quando quiser.",
-    destaque: false,
-    isFounder: false,
-  },
-  {
     id: "hub_anual",
     nome: "Anual",
     preco: "R$ 797",
     periodo: "/ano",
-    desc: "Equivale a R$ 66,40/mês. Economize 32% em relação ao plano mensal.",
+    desc: "Acesso completo ao Hub por 12 meses. Equivale a R$ 66,40/mês. Renovação opcional.",
     destaque: true,
     isFounder: false,
   },
   {
     id: "hub_fundadores",
     nome: "Fundadores",
-    preco: "R$ 797",
+    preco: "R$ 1.297",
     periodo: "único",
-    desc: "Acesso vitalício para os 100 primeiros. Pague uma vez, acesse para sempre.",
+    desc: "Acesso vitalício para os 100 primeiros. Pague uma vez, acesse para sempre, com todas as atualizações futuras incluídas.",
     destaque: false,
     isFounder: true,
   },
@@ -164,7 +155,7 @@ function PrecosPage() {
         <p className="mb-6 text-center text-sm text-destructive">{checkoutError}</p>
       )}
 
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-2">
         {PLANS.map((plan) => {
           const isFoundersUnavailable = plan.isFounder && foundersFull;
 
