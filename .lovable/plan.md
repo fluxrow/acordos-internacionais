@@ -1,61 +1,44 @@
-# Refino editorial das Jornadas
+# Aplicar UI editorial a "Relacionado" e "Outras jornadas"
 
-Alinhar a aba Jornadas ao padrão editorial do resto do site (Acordos, Guias, Sobre) e criar um índice próprio.
+Você tem razão: as duas seções do final da página de jornada (na imagem) estão "neutras" — fundo bege chapado, três cartões idênticos com borda fininha, e a lista de "Outras jornadas" parecendo botões. Não conversam com o resto do site (hero com wash wine, eyebrow + rule, números display em wine, hierarquia editorial).
 
-## 1. Novo `/jornadas` (índice)
+A proposta é refazer essas duas seções usando exatamente os mesmos tokens já aplicados no hero e na lista de passos.
 
-Arquivo: `src/routes/jornadas.index.tsx`
+## Mudanças (apenas `src/routes/jornadas.$jornada.tsx`)
 
-- Hero editorial: eyebrow "Jornadas" + `h1` em `font-display 4xl/6xl` + lede.
-- Grid 2 col com 4 cards numerados (`01–04`) — título, público, resumo, "Ver jornada →".
-- Bloco secundário: "Procurando algo específico?" com 3 links (Acordos por país, Guias práticos, Calculadora).
-- `head()` com title/description/og próprios.
+### 1. Seção "Relacionado" — virar editorial, não cartões iguais
 
-## 2. Refino de `/jornadas/$jornada`
+Hoje: 3 cartões idênticos com `border + bg-background` sobre `bg-secondary/40`. Fica chato e simétrico demais.
 
-Arquivo: `src/routes/jornadas.$jornada.tsx`
+Novo:
+- **Fundo da seção**: trocar `bg-secondary/40` por um wash sutil `bg-[var(--accent-ink-soft)]/40` para criar continuidade com o hero.
+- **Eyebrow "Relacionado"**: adicionar rule wine curta (`h-px w-10 bg-[var(--accent-ink)]`) ao lado do texto, igual ao padrão editorial.
+- **Heading**: manter `font-display text-3xl`, mas adicionar variante `md:text-4xl` para ganhar peso.
+- **Grid**: 12 colunas com pesos diferentes (não 3 iguais):
+  - **Países relevantes** (`md:col-span-5`): sem cartão branco — vira lista editorial direto no wash, com numeração `01/02/03` em wine pequena e links `ink-link` grandes (`font-display text-xl`).
+  - **Guia recomendado** (`md:col-span-4`): único bloco "destacado" com `bg-background border-l-2 border-[var(--accent-ink)]` (regra vertical wine em vez de borda completa). Título em `font-display text-2xl`.
+  - **Calculadora** (`md:col-span-3`): tratamento de "ferramenta" — fundo `bg-foreground text-background` invertido, com `font-display` claro. Cria contraste e quebra a simetria.
 
-- Hero: adicionar wash radial `--accent-ink-soft` e número fantasma `00` em `font-display` atrás do título (mesmo padrão de `acordos.$pais`).
-- Breadcrumb: passar a apontar para `/jornadas` (índice novo).
-- Stepper lateral sticky: lista numerada com âncoras para cada passo (TOC), substituindo o bloco "Outras jornadas" do topo.
-- Passos: usar `text-[var(--accent-ink)]` no número, separadores mais sutis.
-- Novo bloco "Relacionado" (3 col antes do CTA final):
-  - **Países relevantes** (mapa estático slug→países no `jornadas.ts`).
-  - **Guia recomendado** (slug do guia).
-  - **Calculadora** (link fixo).
-- Footer da página: "Outras jornadas" como linha horizontal com 3 links.
+### 2. Seção "Outras jornadas" — virar índice editorial
 
-## 3. Dados
+Hoje: 3 retângulos lado a lado com bordas, parecendo botões CTA.
 
-Arquivo: `src/data/jornadas.ts`
+Novo:
+- Remover a malha de bordas (`grid gap-px bg-border`).
+- Substituir por uma **lista vertical** com hairlines (`divide-y divide-border`), cada item com:
+  - número `01/02/03` em `font-display` wine à esquerda
+  - título da jornada em `font-display text-2xl`
+  - micro-label do público à direita (ex: "Para quem mora fora") em `text-xs text-muted-foreground uppercase tracking-wider`
+  - seta `→` em wine que translada no hover, com `hover:bg-[var(--accent-ink-soft)]/30` em toda a linha
+- Eyebrow "Outras jornadas" com rule wine, igual ao "Relacionado".
+- Em md+: layout em 2 colunas (lista ocupa `md:col-span-8`, coluna direita `md:col-span-4` vazia respira — padrão editorial assimétrico já usado em outras páginas).
 
-Adicionar campos opcionais por jornada:
-- `paisesRelacionados: string[]` (slugs de `acordos`)
-- `guiaRelacionado?: string` (slug de `guias`)
+## O que NÃO muda
+- Hero, lista de passos, TOC sticky e CTA Marcos final permanecem como estão (já estão alinhados ao editorial).
+- Nenhuma mudança de dados, rotas ou componentes globais.
+- Sem mudanças em outras páginas — escopo restrito a estas duas seções.
 
-Sugestão de mapeamento:
-- `vou-me-mudar` → países top (portugal, estados-unidos, alemanha) · guia: cdt
-- `moro-fora` → portugal, japao, estados-unidos · guia: prova-de-vida
-- `estou-voltando` → portugal, alemanha · guia: totalizacao
-- `quero-me-aposentar` → portugal, italia, japao · guia: prorata
+## Arquivos
+- `src/routes/jornadas.$jornada.tsx` — apenas os dois blocos `{/* RELACIONADO */}` e `{/* OUTRAS JORNADAS */}`.
 
-## 4. CTA-Marcos global (ajuste pequeno)
-
-Arquivo: `src/components/cta-marcos.tsx`
-
-`variant="block"`: trocar `bg-secondary` por wash `--accent-ink-soft` + borda superior `--accent-ink/20`, mantendo tipografia. Aplica em todas as páginas que já usam o bloco (home, acordos, guias, jornadas, sobre).
-
-## 5. Navegação
-
-- `src/components/site-header.tsx`: link "Jornadas" passa a apontar para `/jornadas` (não mais para `moro-fora` hardcoded).
-- `src/routes/index.tsx`: cards de jornada na home apontam para `/jornadas/$jornada` (já fazem) + um link "Ver todas as jornadas →" para `/jornadas`.
-
-## 6. PRD + Roadmap
-
-Atualizar `.lovable/prd.md` (seção de IA/conteúdo: índice de Jornadas) e `ROADMAP.md` (marcar refino editorial das Jornadas como feito).
-
-## Detalhes técnicos
-
-- Tudo via tokens em `src/styles.css` (`--accent-ink`, `--accent-ink-soft`, `font-display`, `eyebrow`, `lede`, `ink-link`). Sem hex novo.
-- TOC sticky usa `<a href="#passo-N">` + `scroll-mt-24` nos `<li>` dos passos.
-- Sem mudanças de rota legadas: `/jornadas/moro-fora` etc. continuam funcionando.
+Posso seguir?

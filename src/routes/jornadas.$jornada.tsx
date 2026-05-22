@@ -110,60 +110,75 @@ function JornadaPage() {
 
       {/* RELACIONADO */}
       {(paises.length > 0 || guia) && (
-        <section className="border-t border-border bg-secondary/40">
-          <div className="mx-auto max-w-6xl px-6 py-16">
-            <p className="eyebrow">Relacionado</p>
-            <h2 className="mt-3 font-display text-3xl">
+        <section className="border-t border-border bg-[var(--accent-ink-soft)]/40">
+          <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
+            <div className="flex items-center gap-3">
+              <span aria-hidden className="h-px w-10 bg-[var(--accent-ink)]" />
+              <p className="eyebrow">Relacionado</p>
+            </div>
+            <h2 className="mt-4 max-w-2xl font-display text-3xl md:text-4xl leading-tight">
               Aprofunde no que importa para o seu caso
             </h2>
-            <div className="mt-8 grid gap-6 md:grid-cols-3">
+
+            <div className="mt-10 grid gap-6 md:grid-cols-12">
               {paises.length > 0 && (
-                <div className="border border-border bg-background p-6">
-                  <p className="eyebrow">Países relevantes</p>
-                  <ul className="mt-4 space-y-3 text-sm">
-                    {paises.map((a: NonNullable<ReturnType<typeof acordos.find>>) => (
-                      <li key={a.slug}>
+                <div className="md:col-span-5">
+                  <p className="eyebrow text-[var(--accent-ink)]">Países relevantes</p>
+                  <ol className="mt-5 divide-y divide-border/70">
+                    {paises.map((a: NonNullable<ReturnType<typeof acordos.find>>, i: number) => (
+                      <li key={a.slug} className="py-3">
                         <Link
                           to="/acordos/$pais"
                           params={{ pais: a.slug }}
-                          className="ink-link"
+                          className="group flex items-baseline gap-4"
                         >
-                          {a.nome} →
+                          <span className="font-display text-sm text-[var(--accent-ink)]">
+                            {String(i + 1).padStart(2, "0")}
+                          </span>
+                          <span className="font-display text-xl underline-offset-4 group-hover:underline">
+                            {a.nome}
+                          </span>
+                          <span
+                            aria-hidden
+                            className="ml-auto text-[var(--accent-ink)] transition-transform group-hover:translate-x-1"
+                          >
+                            →
+                          </span>
                         </Link>
                       </li>
                     ))}
-                  </ul>
+                  </ol>
                 </div>
               )}
+
               {guia && (
-                <div className="border border-border bg-background p-6">
+                <div className="md:col-span-4 border-l-2 border-[var(--accent-ink)] bg-background p-6">
                   <p className="eyebrow">Guia recomendado</p>
-                  <p className="mt-3 font-display text-xl leading-tight">
+                  <p className="mt-3 font-display text-2xl leading-tight">
                     {guia.titulo}
                   </p>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    {guia.resumo}
-                  </p>
+                  <p className="mt-2 text-sm text-muted-foreground">{guia.resumo}</p>
                   <Link
                     to="/guias/$slug"
                     params={{ slug: guia.slug }}
-                    className="mt-4 inline-block text-sm underline underline-offset-4 hover:text-destructive"
+                    className="mt-5 inline-block text-sm underline underline-offset-4 hover:text-destructive"
                   >
                     Abrir guia →
                   </Link>
                 </div>
               )}
-              <div className="border border-border bg-background p-6">
-                <p className="eyebrow">Ferramenta</p>
-                <p className="mt-3 font-display text-xl leading-tight">
+
+              <div className="md:col-span-3 bg-foreground text-background p-6">
+                <p className="eyebrow text-background/70">Ferramenta</p>
+                <p className="mt-3 font-display text-2xl leading-tight">
                   Calculadora prorata
                 </p>
-                <p className="mt-2 text-sm text-muted-foreground">
+                <p className="mt-2 text-sm text-background/70">
                   Estime sua parte proporcional em cada país acordante.
                 </p>
                 <Link
                   to="/calculadora"
-                  className="mt-4 inline-block text-sm underline underline-offset-4 hover:text-destructive"
+                  className="mt-5 inline-block text-sm underline underline-offset-4 text-background hover:text-[var(--accent-ink-soft)]"
                 >
                   Abrir calculadora →
                 </Link>
@@ -175,31 +190,44 @@ function JornadaPage() {
 
       {/* OUTRAS JORNADAS */}
       <section className="border-t border-border">
-        <div className="mx-auto max-w-6xl px-6 py-12">
-          <p className="eyebrow">Outras jornadas</p>
-          <ul className="mt-4 grid gap-px border border-border bg-border md:grid-cols-3">
-            {jornadas
-              .filter((x) => x.slug !== j.slug)
-              .map((x) => (
-                <li key={x.slug} className="bg-background">
-                  <Link
-                    to="/jornadas/$jornada"
-                    params={{ jornada: x.slug }}
-                    className="group flex h-full items-center justify-between gap-4 p-6 transition-colors hover:bg-[var(--accent-ink-soft)]"
-                  >
-                    <span className="font-display text-lg leading-tight">
-                      {x.titulo}
-                    </span>
-                    <span
-                      aria-hidden
-                      className="text-[var(--accent-ink)] transition-transform group-hover:translate-x-1"
+        <div className="mx-auto max-w-6xl px-6 py-16 md:grid md:grid-cols-12 md:gap-8">
+          <div className="md:col-span-8">
+            <div className="flex items-center gap-3">
+              <span aria-hidden className="h-px w-10 bg-[var(--accent-ink)]" />
+              <p className="eyebrow">Outras jornadas</p>
+            </div>
+            <ul className="mt-6 divide-y divide-border border-y border-border">
+              {jornadas
+                .filter((x) => x.slug !== j.slug)
+                .map((x, i) => (
+                  <li key={x.slug}>
+                    <Link
+                      to="/jornadas/$jornada"
+                      params={{ jornada: x.slug }}
+                      className="group grid grid-cols-[auto_1fr_auto] items-baseline gap-6 px-2 py-6 transition-colors hover:bg-[var(--accent-ink-soft)]/40"
                     >
-                      →
-                    </span>
-                  </Link>
-                </li>
-              ))}
-          </ul>
+                      <span className="font-display text-2xl text-[var(--accent-ink)]">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span className="font-display text-2xl leading-tight">
+                        {x.titulo}
+                      </span>
+                      <span className="flex items-center gap-4">
+                        <span className="hidden md:inline text-xs uppercase tracking-wider text-muted-foreground">
+                          {x.publico}
+                        </span>
+                        <span
+                          aria-hidden
+                          className="text-[var(--accent-ink)] transition-transform group-hover:translate-x-1"
+                        >
+                          →
+                        </span>
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+            </ul>
+          </div>
         </div>
       </section>
 
