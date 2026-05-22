@@ -1,92 +1,70 @@
-# Plano — Cadastro funcional para criar conta admin
 
-## Problema
+# Análise geral da UI — estado atual
 
-A rota `/cadastro` não existe. O `/login.tsx` linka para ela, mas o arquivo nunca foi criado — bate em 404. A única coisa que se parece com "cadastro" hoje é o waitlist em `/profissional`, que só guarda email num formulário fake.
+Varri as principais rotas e cruzei com o que arrumamos no login/cadastro/hub. Abaixo o que está coerente, o que está conflitando e o que recomendo ajustar a seguir. **Esta é só a análise — nada foi alterado.**
 
-Sem `/cadastro` você não consegue criar a conta `fbcfarias@icloud.com` para eu conceder admin.
+## 1) O que está consistente e bem alinhado
 
-## O que construir
+- **Identidade visual editorial** (serifa display, fundo creme `#f6f1e8`, vermelho/vinho de acento, tabelas e cards minimalistas) está aplicada de forma coesa em:
+  - `/` (home)
+  - `/acordos` (lista dos 25 países)
+  - `/acordos/$pais` (ex.: `/acordos/alemanha`)
+  - `/jornadas/$jornada` (ex.: `moro-fora`)
+  - `/sobre/dr-marcos`
+  - `/calculadora` (pública)
+  - `/contato`, `/glossario`, `/guias/$slug`
+  - `/login`, `/cadastro`, `/reset-password` (header + footer corretos)
+- **Header novo** (com "Entrar" + "Criar conta") está aparecendo em todas as rotas públicas.
+- **Footer** consistente, com "Acordos Internacionais by AtlasPrev" no canto.
+- **Rota `/acordos/alemanha`** está exemplar: hero com bandeira, sumário lateral "Nesta página", próximos passos, lista de documentos com cadeado e CTA "Hub Profissional" no rodapé do conteúdo. É o padrão a manter.
 
-### 1. `/cadastro` — `src/routes/cadastro.tsx`
+## 2) Problemas e inconsistências detectadas
 
-Página pública de signup. Espelha visualmente o `/login.tsx` atual (mesmo layout centrado, mesma tipografia, mesmos tokens).
+### 2.1 `/profissional` ainda é "lista de espera"
+A página continua com `ENTRAR NA LISTA DE ESPERA` e bloco "Disponível em breve · Entre na lista de espera". Isso contradiz o estado atual: cadastro já funciona, `/hub` já existe e o usuário admin já entrou.
+- A CTA da home **"HUB PARA ADVOGADOS"** aponta para `/profissional`, então o visitante novo cai numa página que diz "em breve" em vez de seguir para `/cadastro` ou `/precos`.
 
-Campos:
-- Nome completo
-- E-mail
-- Senha (mínimo 8 caracteres)
+### 2.2 Conflito de preços entre `/profissional` e `/precos`
+- `/profissional`: **R$ 1.297 (early bird)** → depois R$ 1.997, pagamento único vitalício, "primeiros 100".
+- `/precos`: **R$ 97/mês**, **R$ 797/ano**, **R$ 797 fundadores** (3 planos com "ASSINAR").
+- São duas histórias comerciais diferentes na mesma marca. Precisamos decidir qual é a oferta real e unificar.
 
-Ação principal: `supabase.auth.signUp({ email, password, options: { data: { full_name }, emailRedirectTo: window.location.origin + "/hub" } })`. O trigger `handle_new_user` já existe e popula `profiles` automaticamente.
+### 2.3 `/precos` está fora do design system
+A página usa cards simples shadcn com bordas finas, sem o tom editorial do resto (sem eyebrow, sem serifa display nos preços do mesmo jeito, sem o tratamento do "Hub Profissional"). E ela **não está linkada no header nem no footer** — só dá pra chegar digitando a URL.
 
-Tratamento dos casos:
-- Sucesso com confirmação por email: mostra "Te enviamos um link de confirmação para `<email>`. Abra para ativar a conta."
-- Sucesso já logado (auto-confirm): redireciona para `/hub`.
-- Erro `User already registered`: mostra "Esse e-mail já tem conta. Entre em vez de cadastrar." com link para `/login`.
-- Outros erros: mostra a mensagem.
+### 2.4 Header não reflete estado de login
+- Mesmo logado, o header mostra "Entrar" + "Criar conta" e não mostra link para `/hub` nem botão "Sair".
+- Sem link visível para `/precos`.
+- Não há link para `/calculadora` (pública) nem `/blog` no header.
 
-Botão secundário "Continuar com Google" via broker:
-```ts
-import { lovable } from "@/integrations/lovable";
-await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin + "/hub" });
-```
+### 2.5 Botões "ASSINAR" sem destino
+Em `/precos`, os três botões "ASSINAR" não estão ligados a nada (sem Stripe, sem fluxo de checkout). Idem CTAs comerciais em `/profissional` (a "lista de espera" gravava no Lovable Cloud, então tecnicamente funciona, mas a oferta está incoerente).
 
-Link no rodapé: "Já tem conta? Entrar".
+### 2.6 Blog vazio
+`/blog` mostra "Em construção · Em breve…". Tudo bem como placeholder, mas o link do footer "Blog" leva o leitor a uma página vazia. Vale esconder do footer até ter ao menos 1 post, ou trocar por um "Newsletter".
 
-### 2. `/login.tsx` — adicionar Google
+### 2.7 Hub autenticado (rotas `_authenticated/*`)
+Não revisei a UI do hub neste passe (a sessão do browser de teste expirou no `/hub/alemanha` e caiu pro login). Próximo passo: logar de novo e auditar `/hub`, `/hub/$pais`, `/hub/calculadora`, `/conta` com o mesmo critério.
 
-Mesmo botão "Continuar com Google" via broker. Mantém email+senha existente.
+## 3) Plano sugerido (ordem proposta para os próximos passes)
 
-### 3. `/reset-password` — `src/routes/reset-password.tsx`
+1. **Decidir a oferta comercial única** (1 pergunta pra você): vitalício único R$ 1.297→1.997 **ou** mensal/anual R$ 97 / R$ 797. Eu já trago a recomendação quando você responder.
+2. **Unificar `/profissional` e `/precos`**: uma só página de oferta com o design editorial do resto do site. Remover o discurso de "lista de espera". CTA principal → `/cadastro` (ou checkout, quando o Stripe entrar).
+3. **Atualizar header**:
+   - Quando deslogado: manter "Entrar" + "Criar conta" e incluir "Preços".
+   - Quando logado: trocar por "Hub" + menu da conta (e-mail, "Sair").
+4. **Atualizar a CTA "HUB PARA ADVOGADOS" da home** para apontar para `/precos` (ou `/cadastro`) em vez de `/profissional` antigo.
+5. **Auditar UI do hub logado** (`/hub`, `/hub/$pais`, `/hub/calculadora`, `/conta`) no próximo passe, com o admin logado.
+6. **Esconder ou popular `/blog`** (decisão sua) e revisar `/glossario` no mesmo passe.
+7. **Checkout (Stripe)** entra só depois que a oferta estiver decidida.
 
-Pequena página obrigatória pelo nosso fluxo de recuperação (link em `/login.tsx` já aponta pra ela). Dois modos:
+## Detalhe técnico (referência)
 
-- Sem hash `type=recovery` na URL: formulário "Esqueci minha senha" — input email + `supabase.auth.resetPasswordForEmail(email, { redirectTo: origin + "/reset-password" })`.
-- Com `type=recovery`: formulário "Nova senha" — `supabase.auth.updateUser({ password })` e redireciona para `/hub`.
+- Rotas públicas: `src/routes/{index, acordos.index, acordos.$pais, jornadas.$jornada, guias.$slug, sobre.dr-marcos, profissional, precos, calculadora, contato, glossario, blog, login, cadastro, reset-password}.tsx`.
+- Rotas autenticadas (sob `_authenticated.tsx` com guard): `src/routes/_authenticated/{hub, hub.$pais, hub.calculadora, conta}.tsx`.
+- Header/footer: `src/components/site-header.tsx`, `src/components/site-footer.tsx`.
+- Estado do header não consulta `supabase.auth.getSession()` hoje — daí ele não muda quando logado.
 
-### 4. Habilitar Google no Supabase
+---
 
-Chamar `supabase--configure_social_auth` com `providers: ["google"]` na mesma rodada. Sem isso, o botão Google falha com "Unsupported provider".
-
-### 5. Confirmação de email
-
-Hoje `auto_confirm_email` está desligado por padrão (e deve continuar). Isso significa: você vai receber um email do Lovable Cloud com link de ativação. Clica no link, abre `/hub`, vira admin assim que eu rodar a migração.
-
-Alternativa se você não quiser receber email: posso ligar `auto_confirm_email` só pra você terminar o setup e desligar depois. **Pergunta abaixo.**
-
-### 6. Conceder admin (após cadastro)
-
-Assim que você confirmar conta criada:
-
-```sql
-INSERT INTO public.user_roles (user_id, role)
-SELECT id, 'admin'::app_role FROM auth.users
-WHERE email = 'fbcfarias@icloud.com'
-ON CONFLICT (user_id, role) DO NOTHING;
-```
-
-### 7. Documentação
-
-- `ROADMAP.md`: marcar `/cadastro`, `/reset-password` e Google sign-in como ✅.
-- `.lovable/prd.md`: nota de que `/cadastro` está vivo e Google OAuth ligado.
-
-## Arquivos tocados
-
-- `src/routes/cadastro.tsx` (novo)
-- `src/routes/reset-password.tsx` (novo)
-- `src/routes/login.tsx` (adiciona botão Google)
-- `supabase--configure_social_auth` (config, sem código)
-- `ROADMAP.md`, `.lovable/prd.md`
-
-## Não-objetivos
-
-- Não mexer no waitlist do `/profissional` — esse fica como funil de pré-lançamento.
-- Não criar painel admin de gestão de assinaturas (próxima rodada).
-- Não trocar copy nem layout do `/login` além de adicionar o botão Google.
-
-## Pergunta para você
-
-Quer que eu **ligue `auto_confirm_email`** para pular o passo de confirmar o link no email? É o caminho mais rápido para você cadastrar e já virar admin. Posso desligar depois se preferir manter confirmação em produção.
-
-- **Sim, liga** → cadastro fica instantâneo, sem email.
-- **Não, mantém confirmação** → você cadastra, recebe email do Lovable Cloud, clica no link, aí me avisa.
+Posso seguir e implementar os pontos 1–4 no próximo passe assim que você confirmar a oferta comercial. Quer que eu já te traga 2 opções de oferta unificada para escolher?
