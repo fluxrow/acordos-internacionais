@@ -47,6 +47,16 @@ function LoginPage() {
     window.location.href = redirectTo ?? "/hub";
   }
 
+  async function handleGoogle() {
+    setError(null);
+    const result = await lovable.auth.signInWithOAuth("google", {
+      redirect_uri: window.location.origin + (redirectTo ?? "/hub"),
+    });
+    if (result.error) {
+      setError("Não foi possível iniciar o login com Google.");
+    }
+  }
+
   return (
     <div className="flex min-h-[calc(100vh-8rem)] items-center justify-center px-6">
       <div className="w-full max-w-sm">
@@ -55,7 +65,21 @@ function LoginPage() {
           Acesse o Hub Profissional de Acordos Previdenciários
         </p>
 
-        <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+        <button
+          type="button"
+          onClick={handleGoogle}
+          className="mt-8 w-full rounded-sm border border-border bg-background px-5 py-2.5 text-sm font-medium transition-colors hover:bg-muted"
+        >
+          Continuar com Google
+        </button>
+
+        <div className="my-6 flex items-center gap-3 text-xs uppercase tracking-[0.14em] text-muted-foreground">
+          <span className="h-px flex-1 bg-border" />
+          ou
+          <span className="h-px flex-1 bg-border" />
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="email" className="block text-sm font-medium">
               E-mail
