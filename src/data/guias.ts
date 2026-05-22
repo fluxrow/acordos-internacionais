@@ -63,6 +63,7 @@ export const guias: Guia[] = [
         ],
       },
     ],
+    paisRelacionado: "portugal",
   },
   {
     slug: "certificado-deslocamento-temporario",
@@ -90,6 +91,7 @@ export const guias: Guia[] = [
         ],
       },
     ],
+    paisRelacionado: "estados-unidos",
   },
   {
     slug: "aposentadoria-morando-fora",
@@ -116,8 +118,8 @@ export const guias: Guia[] = [
         ],
       },
     ],
+    paisRelacionado: "portugal",
   },
-];
 
 export function getGuia(slug: string) {
   return guias.find((g) => g.slug === slug);
