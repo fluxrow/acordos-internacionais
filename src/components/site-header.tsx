@@ -47,9 +47,9 @@ export function SiteHeader() {
             Jornadas
           </Link>
           <Link
-            to="/guias/$slug"
-            params={{ slug: "totalizacao" }}
+            to="/guias"
             className="text-foreground/80 transition-colors hover:text-foreground"
+            activeProps={{ className: "text-foreground underline underline-offset-8" }}
           >
             Guias
           </Link>

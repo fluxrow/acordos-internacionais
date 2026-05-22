@@ -295,6 +295,12 @@ function Home() {
                 </li>
               ))}
             </ul>
+            <Link
+              to="/guias"
+              className="mt-6 inline-block text-sm underline underline-offset-4 hover:text-destructive"
+            >
+              Ver todos os guias →
+            </Link>
           </div>
         </div>
       </section>
