@@ -85,6 +85,8 @@
 - 🚧 **Claude**: migration com `downloads_log` (`user_id`, `country`, `file_path`, `downloaded_at`)
 - 📋 **Lovable**: UI de `/_authenticated/hub` (dashboard) e `/_authenticated/hub.$pais` (material por país)
 - 📋 **Lovable**: bloco "Material técnico para advogados" no fim de `/acordos/:pais` → CTA para `/precos`
+- ✅ **Acesso admin de leitura**: role `admin` em `user_roles` libera Hub como vitalício. `getCountryHubData` e `getAccountData` consultam `user_roles`; dashboard mostra chip "Modo admin" em wine e oculta paywall.
+- 💡 **Painel admin de assinaturas** (`/_authenticated/admin/*`): listar usuários, conceder `lifetime_access` manual, revogar acesso, ver `downloads_log`. Plano separado quando atacar.
 
 ### 4.4 Critérios de aceite do MVP 📋
 

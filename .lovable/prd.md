@@ -63,6 +63,7 @@ Base **já importada** do repo externo `marcosespinola1379/Mapa-de-Acordos`:
 - **Roles**: `user_roles` separada (`app_role` enum: `subscriber`, `admin`). Nunca na `profiles`.
 - **Assinatura**: Stripe via Lovable Payments. Plano único mensal/anual no MVP.
 - **Gate**: server function `getCountryHubData(pais)` valida `subscriptions.status='active'` antes de devolver signed URLs com TTL curto.
+- **Acesso admin**: usuários com role `admin` em `user_roles` são tratados como vitalícios em `getCountryHubData` e `getAccountData` (`AccountData.isAdmin: boolean`). UI do `/_authenticated/hub` mostra chip "Modo admin" em wine e oculta o paywall. Concessão manual via `INSERT INTO user_roles` após cadastro. Painel admin de gestão de assinaturas fica para rodada futura.
 
 ### 4.3 Rotas novas
 
