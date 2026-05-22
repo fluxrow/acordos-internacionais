@@ -29,7 +29,7 @@
 - ✅ Reposicionamento "Acordo Internacional **by AtlasPrev**" (Dr. Marcos como rosto, não como marca)
 - ✅ Favicon, OG-image global, header, footer, metadados
 - ✅ Rotas públicas: `/`, `/acordos`, `/acordos/:pais`, `/jornadas`, `/jornadas/:jornada`, `/guias`, `/guias/:slug`, `/blog`, `/glossario`, `/contato`, `/profissional`, `/sobre/dr-marcos`
-- ✅ UI editorial aplicada em Jornadas e Guias (hero wash wine, numeração display, TOC sticky, bloco "Relacionado" assimétrico, rodapé com lista editorial, CTA-Marcos final)
+- ✅ UI editorial aplicada em Jornadas, Guias e Glossário (hero wash wine, numeração display, TOC/índice alfabético, bloco "Relacionado" assimétrico, rodapé com lista editorial, CTA-Marcos final)
 - ✅ Conteúdo editorial em `src/data/{acordos,guias,jornadas}.ts`
 - ✅ 25 OG images por acordo (`public/og/*.jpg`), multilaterais com selo "MULTI"
 - ✅ CI: `check-brand` (impede vazamento de marca antiga) e `check-og` (garante cobertura)
