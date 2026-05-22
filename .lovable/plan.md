@@ -1,61 +1,61 @@
+# Refino editorial das Jornadas
 
-# Plano — próxima rodada pós-oferta unificada
+Alinhar a aba Jornadas ao padrão editorial do resto do site (Acordos, Guias, Sobre) e criar um índice próprio.
 
-Oferta já decidida: **Anual R$ 797/ano + Fundadores R$ 1.297 vitalício (100 vagas)**. Agora seguimos com: (1) auditoria da UI do hub logado, (2) checkout Stripe ligado de verdade, (3) limpeza de docs e blog.
+## 1. Novo `/jornadas` (índice)
 
-## 1. Auditoria UI do hub logado (Lovable)
+Arquivo: `src/routes/jornadas.index.tsx`
 
-Logar como admin e revisar com o mesmo critério editorial do site público:
-- `/hub` (dashboard): saudação, contador de vagas Fundadores (se logado deslogado de plano), atalhos para países, estado "admin" claro.
-- `/hub/$pais`: layout dos documentos liberados, signed URLs, log de download visível.
-- `/hub/calculadora`: paridade visual com `/calculadora` pública.
-- `/conta`: perfil + botão "Gerenciar assinatura" (portal Stripe).
+- Hero editorial: eyebrow "Jornadas" + `h1` em `font-display 4xl/6xl` + lede.
+- Grid 2 col com 4 cards numerados (`01–04`) — título, público, resumo, "Ver jornada →".
+- Bloco secundário: "Procurando algo específico?" com 3 links (Acordos por país, Guias práticos, Calculadora).
+- `head()` com title/description/og próprios.
 
-Entregáveis: lista de ajustes finos por rota + correções de copy/cores/espaço. Sem mudar lógica de negócio.
+## 2. Refino de `/jornadas/$jornada`
 
-## 2. Checkout Stripe ligado (Lovable + Claude)
+Arquivo: `src/routes/jornadas.$jornada.tsx`
 
-Estado atual: `createCheckoutSession` em `src/lib/checkout.functions.ts` já resolve `priceId` via `lookup_keys` e separa one-time (Fundadores) de subscription (Anual). Falta:
+- Hero: adicionar wash radial `--accent-ink-soft` e número fantasma `00` em `font-display` atrás do título (mesmo padrão de `acordos.$pais`).
+- Breadcrumb: passar a apontar para `/jornadas` (índice novo).
+- Stepper lateral sticky: lista numerada com âncoras para cada passo (TOC), substituindo o bloco "Outras jornadas" do topo.
+- Passos: usar `text-[var(--accent-ink)]` no número, separadores mais sutis.
+- Novo bloco "Relacionado" (3 col antes do CTA final):
+  - **Países relevantes** (mapa estático slug→países no `jornadas.ts`).
+  - **Guia recomendado** (slug do guia).
+  - **Calculadora** (link fixo).
+- Footer da página: "Outras jornadas" como linha horizontal com 3 links.
 
-**Lovable:**
-- Em `/precos`, ligar cada botão "ASSINAR" a `createCheckoutSession({ priceId: "hub_anual" | "hub_fundadores", env })` + montar Stripe embedded checkout (return em `/hub?checkout=success`).
-- Tratar estados loading/erro/sucesso. Exibir mensagem do contador de vagas no card Fundadores.
-- Em `/conta`, botão "Gerenciar assinatura" → `createPortalSession` (criar a server fn ao lado de `createCheckoutSession`, padrão do knowledge `stripe-subscriptions`).
+## 3. Dados
 
-**Claude (peço pra ele rodar via repo):**
-- Criar produtos/prices no Stripe via `payments--batch_create_product` com `lookup_key` = `hub_anual` (recurring/year, R$ 797) e `hub_fundadores` (one_time, R$ 1.297).
-- Conferir/ajustar `src/routes/api/public/payments/webhook.ts` pra: (a) marcar `subscriptions.status='active'` + `price_id='hub_fundadores'` em `checkout.session.completed` de modo `payment` (lifetime), (b) tratar `customer.subscription.*` normal pro plano anual.
-- Garantir filtro por `environment` (sandbox vs live) em todas as leituras de `subscriptions`, conforme `stripe-subscriptions`.
+Arquivo: `src/data/jornadas.ts`
 
-## 3. Limpeza de conteúdo
+Adicionar campos opcionais por jornada:
+- `paisesRelacionados: string[]` (slugs de `acordos`)
+- `guiaRelacionado?: string` (slug de `guias`)
 
-- `/blog`: já saiu do footer. Manter rota pública só com placeholder; quando tiver 1 post real, voltar pro footer.
-- `/glossario`: revisar visual (mesmo passe da auditoria de hub).
-- Home: confirmar que CTA "Hub para advogados" leva pra `/profissional` (a página da oferta), não pra `/precos` direto — já está coerente.
+Sugestão de mapeamento:
+- `vou-me-mudar` → países top (portugal, estados-unidos, alemanha) · guia: cdt
+- `moro-fora` → portugal, japao, estados-unidos · guia: prova-de-vida
+- `estou-voltando` → portugal, alemanha · guia: totalizacao
+- `quero-me-aposentar` → portugal, italia, japao · guia: prorata
 
-## 4. Sincronizar PRD + Roadmap
+## 4. CTA-Marcos global (ajuste pequeno)
 
-- `.lovable/prd.md` §6 ("Decisões pendentes"): mover preço/plano/nome pra "resolvidas" (oferta híbrida, "Hub Profissional"). Adicionar linha na §3 marcando `/profissional` e `/precos` como oferta unificada ✅. Adicionar `/precos` à tabela §4.3.
-- `ROADMAP.md`: atualizar Fase 4.2 — marcar UI de `/precos` ✅ (cards prontos), criação de produtos Stripe como 📋 (Claude), wiring de checkout como 📋 (Lovable).
-- README: sem mudança de stack/convenções nesta rodada.
+Arquivo: `src/components/cta-marcos.tsx`
 
-## 5. O que peço pro Claude (resumo pra colar no chat dele)
+`variant="block"`: trocar `bg-secondary` por wash `--accent-ink-soft` + borda superior `--accent-ink/20`, mantendo tipografia. Aplica em todas as páginas que já usam o bloco (home, acordos, guias, jornadas, sobre).
 
-> 1. Criar produtos Stripe via `payments--batch_create_product`:
->    - `hub_anual` — recurring `year`, BRL 797,00.
->    - `hub_fundadores` — one_time, BRL 1.297,00.
->    Usar `lookup_key` igual ao nome (já é o que `checkout.functions.ts` espera).
-> 2. Auditar `src/routes/api/public/payments/webhook.ts` cobrir:
->    - `checkout.session.completed` com `mode='payment'` e `metadata.isFounder='true'` → upsert em `subscriptions` com `status='active'`, `price_id='hub_fundadores'`, `current_period_end=null` (vitalício).
->    - `customer.subscription.created/updated/deleted` para o plano anual (padrão do knowledge `stripe-webhooks`).
->    - Sempre setar `environment` explicitamente (sandbox/live) na linha gravada.
-> 3. Confirmar que `subscriptions` tem coluna `environment` (default `sandbox`). Se faltar, migration adicionando.
-> 4. Adicionar `createPortalSession` em `src/lib/checkout.functions.ts` (ou arquivo irmão) com `requireSupabaseAuth`, filtro por `environment`, conforme knowledge `stripe-subscriptions`.
+## 5. Navegação
 
-## Ordem de execução
+- `src/components/site-header.tsx`: link "Jornadas" passa a apontar para `/jornadas` (não mais para `moro-fora` hardcoded).
+- `src/routes/index.tsx`: cards de jornada na home apontam para `/jornadas/$jornada` (já fazem) + um link "Ver todas as jornadas →" para `/jornadas`.
 
-1. Auditoria visual do hub (passo 1) — relatório curto.
-2. Disparar tarefas pro Claude (passo 5).
-3. Enquanto Claude trabalha: wiring de `/precos` e `/conta` no front (passo 2 — Lovable).
-4. Atualizar PRD + Roadmap (passo 4) na mesma rodada.
+## 6. PRD + Roadmap
 
+Atualizar `.lovable/prd.md` (seção de IA/conteúdo: índice de Jornadas) e `ROADMAP.md` (marcar refino editorial das Jornadas como feito).
+
+## Detalhes técnicos
+
+- Tudo via tokens em `src/styles.css` (`--accent-ink`, `--accent-ink-soft`, `font-display`, `eyebrow`, `lede`, `ink-link`). Sem hex novo.
+- TOC sticky usa `<a href="#passo-N">` + `scroll-mt-24` nos `<li>` dos passos.
+- Sem mudanças de rota legadas: `/jornadas/moro-fora` etc. continuam funcionando.
