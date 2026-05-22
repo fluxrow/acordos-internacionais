@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { Calculator, ArrowRight } from "lucide-react";
 import { getAccountData } from "@/lib/profile.functions";
 import { CTAButton } from "@/components/cta-button";
+import { acordosImportados } from "@/data/acordos.generated";
 
 const PAISES = [
   { slug: "alemanha", nome: "Alemanha", flag: "de" },
@@ -28,6 +30,7 @@ const PAISES = [
   { slug: "portugal", nome: "Portugal", flag: "pt" },
   { slug: "quebec", nome: "Québec", flag: "ca" },
   { slug: "republica-tcheca", nome: "Rep. Tcheca", flag: "cz" },
+  { slug: "suica", nome: "Suíça", flag: "ch" },
 ] as const;
 
 function getGreeting() {
@@ -35,6 +38,13 @@ function getGreeting() {
   if (h < 12) return "Bom dia";
   if (h < 18) return "Boa tarde";
   return "Boa noite";
+}
+
+function cobertura(slug: string) {
+  const d = acordosImportados[slug];
+  if (!d) return { docs: 0, emCuradoria: true };
+  const docs = d.documentos.filter((x) => x.arquivo).length;
+  return { docs, emCuradoria: docs === 0 };
 }
 
 export const Route = createFileRoute("/_authenticated/hub")({
@@ -56,7 +66,7 @@ function HubDashboard() {
       <header className="mb-8">
         <p className="eyebrow mb-1">{getGreeting()}</p>
         <h1 className="font-display text-4xl">
-          {isPending ? " " : (data?.firstName ?? "você")}
+          {isPending ? " " : (data?.firstName ?? "você")}
         </h1>
         <p className="mt-1 text-muted-foreground">Hub Profissional — Acordos Previdenciários</p>
         {isAdmin && (
@@ -70,7 +80,7 @@ function HubDashboard() {
         <div className="mb-8 rounded-2xl border border-border bg-secondary px-6 py-5 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_-12px_rgba(0,0,0,0.08)]">
           <p className="font-medium">Acesso bloqueado</p>
           <p className="mt-1 text-sm text-muted-foreground">
-            Assine o Hub Profissional para acessar os materiais técnicos de todos os acordos.
+            Assine o Hub Profissional para acessar os materiais técnicos de todos os acordos e a calculadora RMI.
           </p>
           <div className="mt-4">
             <CTAButton to="/precos" variant="dark" label="Ver planos" />
@@ -78,40 +88,68 @@ function HubDashboard() {
         </div>
       )}
 
+      {/* Card destacado: Calculadora RMI */}
+      <Link
+        to="/hub/calculadora"
+        className="group mb-8 flex items-center gap-5 rounded-2xl border border-border bg-secondary px-6 py-5 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_-12px_rgba(0,0,0,0.08)] transition-all hover:-translate-y-0.5 hover:border-foreground hover:shadow-[0_8px_24px_-8px_rgba(0,0,0,0.16)]"
+      >
+        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[var(--accent-ink)] text-[var(--paper)]">
+          <Calculator className="h-5 w-5" />
+        </span>
+        <div className="flex-1">
+          <p className="eyebrow mb-1">Ferramenta inclusa</p>
+          <p className="font-display text-lg">Calculadora RMI Pro-rata</p>
+          <p className="mt-0.5 text-sm text-muted-foreground">
+            Laudo técnico com tabela detalhada, fórmulas e rodapé identificável — pronto para anexar ao processo.
+          </p>
+        </div>
+        <ArrowRight className="h-5 w-5 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-foreground" />
+      </Link>
+
       <section>
         <h2 className="mb-4 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
           {PAISES.length} acordos disponíveis
         </h2>
-        <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-          {PAISES.map(({ slug, nome, flag }) => (
-            <li key={slug}>
-              <Link
-                to="/hub/$pais"
-                params={{ pais: slug }}
-                className="group flex flex-col items-center gap-2 rounded-xl border border-border bg-background p-4 shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-all hover:-translate-y-0.5 hover:border-foreground hover:shadow-[0_4px_16px_-6px_rgba(0,0,0,0.12)]"
-              >
-                {flag ? (
-                  <img
-                    src={`https://flagcdn.com/w40/${flag}.png`}
-                    srcSet={`https://flagcdn.com/w80/${flag}.png 2x`}
-                    alt={nome}
-                    width={40}
-                    height={30}
-                    className="rounded-md object-cover"
-                    loading="lazy"
-                  />
-                ) : (
-                  <span className="flex h-[30px] w-[40px] items-center justify-center rounded-md bg-secondary text-xs text-muted-foreground">
-                    MULTI
-                  </span>
-                )}
-                <span className="text-center text-xs leading-tight">{nome}</span>
-                {!hasAccess && (
-                  <span className="text-[10px] text-muted-foreground">🔒</span>
-                )}
-              </Link>
-            </li>
-          ))}
+        <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+          {PAISES.map(({ slug, nome, flag }) => {
+            const c = cobertura(slug);
+            return (
+              <li key={slug}>
+                <Link
+                  to="/hub/$pais"
+                  params={{ pais: slug }}
+                  className="group flex flex-col items-center gap-2 rounded-xl border border-border bg-background p-4 shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-all hover:-translate-y-0.5 hover:border-foreground hover:shadow-[0_4px_16px_-6px_rgba(0,0,0,0.12)]"
+                >
+                  {flag ? (
+                    <img
+                      src={`https://flagcdn.com/w40/${flag}.png`}
+                      srcSet={`https://flagcdn.com/w80/${flag}.png 2x`}
+                      alt={nome}
+                      width={40}
+                      height={30}
+                      className="rounded-md object-cover"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <span className="flex h-[30px] w-[40px] items-center justify-center rounded-md bg-secondary text-xs text-muted-foreground">
+                      MULTI
+                    </span>
+                  )}
+                  <span className="text-center text-xs leading-tight">{nome}</span>
+                  {c.emCuradoria ? (
+                    <span className="inline-flex items-center rounded-full bg-[var(--accent-ink)]/10 px-2 py-0.5 text-[10px] font-medium text-[var(--accent-ink)]">
+                      Em curadoria
+                    </span>
+                  ) : (
+                    <span className="text-[10px] text-muted-foreground">
+                      {c.docs} {c.docs === 1 ? "documento" : "documentos"}
+                      {!hasAccess && " · 🔒"}
+                    </span>
+                  )}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </section>
 
