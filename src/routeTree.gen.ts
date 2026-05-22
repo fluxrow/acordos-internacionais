@@ -15,6 +15,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as GlossarioRouteImport } from './routes/glossario'
 import { Route as ContatoRouteImport } from './routes/contato'
 import { Route as CalculadoraRouteImport } from './routes/calculadora'
+import { Route as CadastroRouteImport } from './routes/cadastro'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
@@ -57,6 +58,11 @@ const ContatoRoute = ContatoRouteImport.update({
 const CalculadoraRoute = CalculadoraRouteImport.update({
   id: '/calculadora',
   path: '/calculadora',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CadastroRoute = CadastroRouteImport.update({
+  id: '/cadastro',
+  path: '/cadastro',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogRoute = BlogRouteImport.update({
@@ -129,6 +135,7 @@ const ApiPublicPaymentsWebhookRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/blog': typeof BlogRoute
+  '/cadastro': typeof CadastroRoute
   '/calculadora': typeof CalculadoraRoute
   '/contato': typeof ContatoRoute
   '/glossario': typeof GlossarioRoute
@@ -149,6 +156,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/blog': typeof BlogRoute
+  '/cadastro': typeof CadastroRoute
   '/calculadora': typeof CalculadoraRoute
   '/contato': typeof ContatoRoute
   '/glossario': typeof GlossarioRoute
@@ -171,6 +179,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/blog': typeof BlogRoute
+  '/cadastro': typeof CadastroRoute
   '/calculadora': typeof CalculadoraRoute
   '/contato': typeof ContatoRoute
   '/glossario': typeof GlossarioRoute
@@ -193,6 +202,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/blog'
+    | '/cadastro'
     | '/calculadora'
     | '/contato'
     | '/glossario'
@@ -213,6 +223,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/blog'
+    | '/cadastro'
     | '/calculadora'
     | '/contato'
     | '/glossario'
@@ -234,6 +245,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/blog'
+    | '/cadastro'
     | '/calculadora'
     | '/contato'
     | '/glossario'
@@ -256,6 +268,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   BlogRoute: typeof BlogRoute
+  CadastroRoute: typeof CadastroRoute
   CalculadoraRoute: typeof CalculadoraRoute
   ContatoRoute: typeof ContatoRoute
   GlossarioRoute: typeof GlossarioRoute
@@ -312,6 +325,13 @@ declare module '@tanstack/react-router' {
       path: '/calculadora'
       fullPath: '/calculadora'
       preLoaderRoute: typeof CalculadoraRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cadastro': {
+      id: '/cadastro'
+      path: '/cadastro'
+      fullPath: '/cadastro'
+      preLoaderRoute: typeof CadastroRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blog': {
@@ -439,6 +459,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
   BlogRoute: BlogRoute,
+  CadastroRoute: CadastroRoute,
   CalculadoraRoute: CalculadoraRoute,
   ContatoRoute: ContatoRoute,
   GlossarioRoute: GlossarioRoute,
@@ -455,3 +476,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
