@@ -129,3 +129,22 @@
 3. Adicionou escopo novo? Adicione como `📋` na fase certa, ou `💡` se não tem data.
 4. **Sempre** atualize também `.lovable/prd.md` na mesma rodada.
 5. Mudou a stack ou convenção? Atualize também o `README.md`.
+
+## Atualização 2026-05-22 — UI sweep & oferta unificada
+
+### ✅ Concluído nesta rodada
+- ✅ Oferta comercial unificada: Anual R$ 797/ano + Fundadores R$ 1.297 vitalício (100 vagas). Plano Mensal descartado.
+- ✅ `/profissional` reescrito como página de oferta editorial (sem lista de espera) com contador de vagas Fundadores ao vivo.
+- ✅ `/precos` reduzido a 2 planos e preço Fundadores corrigido para R$ 1.297.
+- ✅ `SiteHeader` reativo à sessão: alterna entre Entrar/Criar conta e Meu Hub/Sair.
+- ✅ `SiteFooter`: removido link Blog, adicionado Planos e preços.
+
+### Decisões pendentes ❓ (resolvidas)
+- ✅ Preço da assinatura → híbrido (anual + vitalício fundadores)
+- ✅ Plano único ou tiers → 2 planos, sem tiers por país
+- ✅ Nome final → "Hub Profissional"
+
+### 📋 Próximos passes
+- 📋 Auditar UI das rotas autenticadas (`/hub`, `/hub/$pais`, `/hub/calculadora`, `/conta`)
+- 📋 Conectar fluxo de checkout Stripe (produtos `hub_anual` + `hub_fundadores` precisam existir no Stripe via `payments--batch_create_product`)
+- 📋 Popular ou esconder `/blog`
