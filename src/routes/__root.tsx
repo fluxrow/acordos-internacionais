@@ -14,24 +14,20 @@ import { SiteFooter } from "@/components/site-footer";
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen flex-col bg-background">
-      <SiteHeader />
-      <div className="flex flex-1 items-center justify-center px-6">
-        <div className="max-w-md text-center">
-          <p className="eyebrow">Erro 404</p>
-          <h1 className="mt-4 font-display text-5xl">Página não encontrada</h1>
-          <p className="mt-4 text-muted-foreground">
-            O conteúdo que você procura pode ter sido movido ou ainda não existe.
-          </p>
-          <Link
-            to="/"
-            className="mt-8 inline-flex items-center gap-2 rounded-sm bg-foreground px-5 py-2.5 text-sm font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-foreground/85"
-          >
-            Voltar para o início
-          </Link>
-        </div>
+    <div className="flex min-h-[60vh] items-center justify-center px-6">
+      <div className="max-w-md text-center">
+        <p className="eyebrow">Erro 404</p>
+        <h1 className="mt-4 font-display text-5xl">Página não encontrada</h1>
+        <p className="mt-4 text-muted-foreground">
+          O conteúdo que você procura pode ter sido movido ou ainda não existe.
+        </p>
+        <Link
+          to="/"
+          className="mt-8 inline-flex items-center gap-2 rounded-sm bg-foreground px-5 py-2.5 text-sm font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-foreground/85"
+        >
+          Voltar para o início
+        </Link>
       </div>
-      <SiteFooter />
     </div>
   );
 }
@@ -41,38 +37,35 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   const router = useRouter();
 
   return (
-    <div className="flex min-h-screen flex-col bg-background">
-      <SiteHeader />
-      <div className="flex flex-1 items-center justify-center px-6">
-        <div className="max-w-md text-center">
-          <p className="eyebrow">Erro</p>
-          <h1 className="mt-4 font-display text-3xl">Esta página não carregou</h1>
-          <p className="mt-3 text-sm text-muted-foreground">
-            Algo deu errado. Você pode tentar novamente ou voltar ao início.
-          </p>
-          <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <button
-              onClick={() => {
-                router.invalidate();
-                reset();
-              }}
-              className="inline-flex items-center justify-center rounded-sm bg-foreground px-4 py-2 text-sm font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-foreground/85"
-            >
-              Tentar novamente
-            </button>
-            <a
-              href="/"
-              className="inline-flex items-center justify-center rounded-sm border border-foreground px-4 py-2 text-sm font-medium uppercase tracking-[0.14em] text-foreground transition-colors hover:bg-secondary"
-            >
-              Início
-            </a>
-          </div>
+    <div className="flex min-h-[60vh] items-center justify-center px-6">
+      <div className="max-w-md text-center">
+        <p className="eyebrow">Erro</p>
+        <h1 className="mt-4 font-display text-3xl">Esta página não carregou</h1>
+        <p className="mt-3 text-sm text-muted-foreground">
+          Algo deu errado. Você pode tentar novamente ou voltar ao início.
+        </p>
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
+          <button
+            onClick={() => {
+              router.invalidate();
+              reset();
+            }}
+            className="inline-flex items-center justify-center rounded-sm bg-foreground px-4 py-2 text-sm font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-foreground/85"
+          >
+            Tentar novamente
+          </button>
+          <a
+            href="/"
+            className="inline-flex items-center justify-center rounded-sm border border-foreground px-4 py-2 text-sm font-medium uppercase tracking-[0.14em] text-foreground transition-colors hover:bg-secondary"
+          >
+            Início
+          </a>
         </div>
       </div>
-      <SiteFooter />
     </div>
   );
 }
+
 
 const SITE_TITLE =
   "Acordos Internacionais de Previdência Social | Brasil";

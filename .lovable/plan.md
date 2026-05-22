@@ -1,42 +1,28 @@
-## Objetivo
-Alinhar `/glossario` ao mesmo padrão editorial usado em Jornadas e Guias, sem alterar conteúdo dos termos.
+## Verificação: aba Guias
 
-## Mudanças em `src/routes/glossario.tsx`
+Naveguei pelas duas rotas e ambas já estão com a UI editorial aplicada:
 
-### 1. Hero editorial
-- Wrapper com radial wash `--accent-ink-soft` (mesma assinatura visual de Jornadas/Guias).
-- Breadcrumb: `Início / Referência / Glossário`.
-- Eyebrow com regrinha vinho: `<span className="h-px w-10 bg-[var(--accent-ink)]" /> Referência · Glossário`.
-- Título `font-display text-5xl md:text-7xl`.
-- Lede ampliado, com contagem de termos ("9 termos essenciais...").
+- **`/guias` (índice)** — hero com radial wash, breadcrumb, eyebrow com filete vinho, `font-display`, grid 2 colunas de cards numerados (01–04), bloco "Outros caminhos" (Jornadas/Acordos/Calculadora). ✅
+- **`/guias/$slug` (detalhe — testado em `/guias/totalizacao`)** — hero editorial, blocos numerados (01/02/03) em grid 2 colunas com TOC sticky, card "Atendimento direto" do Marcos, bloco "Relacionado · Use este guia em contexto" (jornadas + calculadora invertida), "Outros guias" em lista vertical numerada, CTA Marcos full-width. ✅
 
-### 2. Índice alfabético (navegação rápida)
-- Faixa logo abaixo do hero com letras iniciais (A, C, F, P, T, V) como âncoras `#letra`.
-- `font-display`, hover vinho, separadores sutis.
+**Conclusão:** a UI da aba Guias está 100% aplicada. Não há trabalho de refino editorial pendente nas duas rotas.
 
-### 3. Lista de termos — layout editorial
-- Trocar `<dl>` por grid 12-col: número/letra à esquerda (`md:col-span-2`, `font-display text-2xl text-[var(--accent-ink)]`), termo (`md:col-span-4 font-display text-2xl`), definição (`md:col-span-6 text-foreground/85 leading-relaxed`).
-- Divisores `border-b border-border/60`, padding `py-10`.
-- Hover na linha inteira: `hover:bg-[var(--accent-ink-soft)]/40` com transição suave.
-- IDs por termo (`id={slug}`) para deep-link.
+## Problema encontrado fora do escopo declarado
 
-### 4. Bloco "Relacionado" (novo, antes do footer)
-- Grid 12-col assimétrico 5/4/3, mesma assinatura de Jornadas/Guias:
-  - **col-span-5** — "Comece por uma jornada" → `/jornadas` (lista 2-3 jornadas em destaque).
-  - **col-span-4** — "Guias práticos" destacado com `border-l-2 border-[var(--accent-ink)] bg-background` → `/guias`.
-  - **col-span-3** — Card invertido `bg-foreground text-background` → `/calculadora`.
+Ao testar um slug inválido (`/guias/totalizacao-de-periodos-contributivos`), o **404 renderiza com header e footer duplicados** (print mostra dois `SiteHeader` e dois `SiteFooter` empilhados).
 
-### 5. CTA Marcos
-- `<CTAMarcos variant="block" />` ao final, com `contexto` específico de glossário ("Termo confuso no seu caso? Fale com o Dr. Marcos.").
+Causa: `src/routes/__root.tsx` já envolve o `<Outlet />` com `<SiteHeader/>` + `<SiteFooter/>` no `RootComponent`, mas o `NotFoundComponent` (linha 15) e o `ErrorComponent` (linha 39) também renderizam seus próprios `<SiteHeader/>` e `<SiteFooter/>`, causando duplicação.
 
-### 6. Meta tags
-- Manter `head()` atual (já tem title/description/og). Adicionar `og:type: article` e canonical implícito.
+## Plano
 
-## Documentação
-- Atualizar `.lovable/prd.md` e `ROADMAP.md` marcando Glossário como migrado para UI editorial.
+Mudança cirúrgica de apresentação em `src/routes/__root.tsx`:
 
-## Arquivos
-- editar `src/routes/glossario.tsx`
-- editar `.lovable/prd.md`, `ROADMAP.md`
+1. Remover `<SiteHeader />` e `<SiteFooter />` de dentro de `NotFoundComponent` (linhas 18 e 34), mantendo apenas o miolo da página 404 (eyebrow "Erro 404", título, descrição e botão "Voltar para o início"). Ajustar o wrapper para um container que ocupe a altura disponível dentro do `<main>` do root (`min-h-[60vh] flex items-center justify-center` em vez de `min-h-screen flex flex-col`).
+2. Aplicar exatamente a mesma limpeza ao `ErrorComponent` (linhas 45 e 72).
+3. Não tocar em `RootComponent`, no shell HTML, nem em qualquer outro arquivo.
 
-Sem mudanças em dados, rotas, ou lógica. Apenas apresentação.
+### Validação
+- Recarregar `/guias/slug-invalido` e confirmar **um** header + **um** footer + bloco 404 centralizado.
+- Recarregar `/guias` e `/guias/totalizacao` e confirmar que continuam idênticos ao estado atual (já validado por screenshot).
+
+Nenhuma mudança de lógica, dados, rotas ou tokens de design. Sem atualização de `prd.md`/`ROADMAP.md` (correção de bug pontual, não nova fase).
