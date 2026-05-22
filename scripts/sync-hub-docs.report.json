@@ -1,0 +1,34 @@
+{
+  "dry": true,
+  "planSize": 192,
+  "byPais": {
+    "belgica": 13,
+    "israel": 1,
+    "cplp": 1,
+    "alemanha": 13,
+    "austria": 3,
+    "bulgaria": 1,
+    "canada": 16,
+    "chile": 8,
+    "coreia-do-sul": 14,
+    "espanha": 4,
+    "estados-unidos": 8,
+    "grecia": 5,
+    "india": 8,
+    "italia": 16,
+    "japao": 13,
+    "luxemburgo": 3,
+    "mercosul": 9,
+    "mocambique": 8,
+    "portugal": 15,
+    "quebec": 11,
+    "republica-tcheca": 12,
+    "suica": 10
+  },
+  "skipped": [],
+  "missing": [
+    "cabo-verde",
+    "franca",
+    "iberoamericano"
+  ]
+}
