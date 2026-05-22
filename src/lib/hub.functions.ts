@@ -88,9 +88,13 @@ export const getCountryHubData = createServerFn({ method: "POST" })
         const arquivo = doc.arquivo ?? "";
         let url: string | null = null;
         if (arquivo) {
+          // Extensão real do arquivo no bucket
+          const ext = arquivo.match(/\.[a-z0-9]+$/i)?.[0] ?? ".pdf";
+          // Nome humano que o advogado vê na pasta Downloads
+          const filename = `${doc.nome}${ext}`.replace(/[\\/:*?"<>|]/g, "-");
           const { data: signed } = await supabaseAdmin.storage
             .from("hub-docs")
-            .createSignedUrl(`${pais}/${arquivo}`, 60);
+            .createSignedUrl(`${pais}/${arquivo}`, 60, { download: filename });
           url = signed?.signedUrl ?? null;
         }
         return {
