@@ -57,8 +57,13 @@ function CadastroPage() {
 
     if (authError) {
       const msg = authError.message;
-      if (msg.toLowerCase().includes("already registered") || msg.toLowerCase().includes("user already")) {
+      const lower = msg.toLowerCase();
+      if (lower.includes("already registered") || lower.includes("user already")) {
         setError("Esse e-mail já tem conta. Entre em vez de cadastrar.");
+      } else if (lower.includes("weak") || lower.includes("pwned")) {
+        setError("Essa senha apareceu em vazamentos públicos. Use uma senha mais forte (combine letras, números e símbolos).");
+      } else if (lower.includes("invalid email")) {
+        setError("E-mail inválido.");
       } else {
         setError(msg);
       }
