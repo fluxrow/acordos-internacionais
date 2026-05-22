@@ -159,3 +159,11 @@ Mudanças:
 - Home `/` mantém CTA "Hub para advogados" → `/profissional` (agora coerente).
 - **Produtos Stripe criados** via `payments--batch_create_product`: `hub_anual` (BRL 797/ano, recurring) e `hub_fundadores` (BRL 1.297, one_time) com tax_code `txcd_10103001` (SaaS). `createCheckoutSession` resolve por `lookup_key`.
 - **Bug fix `/precos`**: env var corrigida de `VITE_STRIPE_PUBLISHABLE_KEY` (inexistente) para `VITE_PAYMENTS_CLIENT_TOKEN` — sem isso o Stripe.js não inicializava e o checkout ficava em branco.
+
+## 11. Refinamento UI — /sobre/dr-marcos (2026-05-22)
+
+- Bordas suaves (`rounded-2xl/xl`) em accordion, cards e CTA aside.
+- Accordion: overlay inativo neutro (mix wine + grafite) e overlay ativo em gradiente (imagem respira no topo, texto legível embaixo). Corrige o "vermelho demais".
+- Sessão "Atuação" reestruturada em 2 cards (Nacional / Internacional destacado) + 3 stats de autoridade (sem CTA direto).
+- Sessão "Por que este hub existe" virou Manifesto com blockquote editorial + grid de 3 valores (BookOpen, Scale, Users).
+- Sessão "Como falar comigo" virou 2-card grid: claro (cidadão → /contato) e escuro vinho (advogado → /profissional). Conversão dupla por demonstração.

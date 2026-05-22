@@ -30,10 +30,10 @@ export function InteractiveImageAccordion({ items }: InteractiveImageAccordionPr
             onFocus={() => setActiveId(item.id)}
             onClick={() => setActiveId(item.id)}
             className={cn(
-              "group relative overflow-hidden border border-border bg-secondary text-left transition-all duration-500 ease-in-out cursor-pointer",
-              // Mobile: cada card aberto curto
+              "group relative overflow-hidden rounded-2xl border border-[var(--accent-ink)]/15 bg-secondary text-left transition-all duration-500 ease-in-out cursor-pointer",
+              // Mobile
               "h-56 w-full",
-              // Desktop: largura flexiva
+              // Desktop
               "md:h-full",
               isActive ? "md:flex-[5]" : "md:flex-[1]",
             )}
@@ -47,22 +47,22 @@ export function InteractiveImageAccordion({ items }: InteractiveImageAccordionPr
               height={1280}
               className={cn(
                 "absolute inset-0 h-full w-full object-cover transition-all duration-700 ease-in-out",
-                isActive ? "scale-100 opacity-100" : "scale-110 opacity-60 md:opacity-40",
+                isActive ? "scale-100 opacity-100" : "scale-110 opacity-70 md:opacity-55",
               )}
             />
 
-            {/* Overlay escuro wine */}
+            {/* Overlay: ativo = gradiente (imagem respira no topo), inativo = véu neutro escuro */}
             <div
               aria-hidden
               className={cn(
                 "absolute inset-0 transition-opacity duration-500",
                 isActive
-                  ? "bg-[linear-gradient(180deg,_color-mix(in_oklab,_var(--accent-ink)_55%,_transparent)_0%,_color-mix(in_oklab,_var(--accent-ink)_85%,_transparent)_100%)]"
-                  : "bg-[color-mix(in_oklab,_var(--accent-ink)_75%,_transparent)]",
+                  ? "bg-[linear-gradient(180deg,_transparent_0%,_color-mix(in_oklab,_var(--accent-ink)_30%,_transparent)_45%,_color-mix(in_oklab,_var(--accent-ink)_85%,_transparent)_100%)]"
+                  : "bg-[color-mix(in_oklab,_var(--accent-ink)_38%,_oklch(0.18_0_0)_62%)]/80",
               )}
             />
 
-            {/* Conteúdo colapsado: título vertical (apenas desktop, quando inativo) */}
+            {/* Título vertical (desktop, inativo) */}
             <div
               className={cn(
                 "absolute inset-0 hidden items-end justify-center p-4 transition-opacity duration-300 md:flex",
@@ -70,7 +70,7 @@ export function InteractiveImageAccordion({ items }: InteractiveImageAccordionPr
               )}
             >
               <span
-                className="font-display text-base tracking-wide text-[var(--paper)] [writing-mode:vertical-rl] [transform:rotate(180deg)]"
+                className="font-display text-base tracking-wide text-[var(--paper)]/95 [writing-mode:vertical-rl] [transform:rotate(180deg)]"
               >
                 {item.titulo}
               </span>
@@ -99,6 +99,7 @@ export function InteractiveImageAccordion({ items }: InteractiveImageAccordionPr
               </p>
             </div>
           </button>
+
         );
       })}
     </div>

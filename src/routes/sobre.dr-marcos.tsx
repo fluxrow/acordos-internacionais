@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { BookOpen, Scale, Users, ArrowRight } from "lucide-react";
 import { CTAMarcos } from "@/components/cta-marcos";
 import {
   InteractiveImageAccordion,
@@ -118,37 +119,72 @@ function SobreMarcos() {
         </div>
       </header>
 
-      {/* Atuação — texto */}
-      <section className="mx-auto grid max-w-6xl gap-12 px-6 py-16 md:grid-cols-[1fr_320px]">
-        <div className="space-y-10">
-          <Bloco titulo="Atuação">
-            <p>
-              No previdenciário <strong>nacional</strong>, atendo segurados em
-              aposentadorias, benefícios por incapacidade, pensão por morte,
-              revisões de benefícios concedidos e planejamento contributivo. A
-              atuação exclusiva em previdenciário tem uma razão objetiva: o
-              sistema é complexo o suficiente para exigir especialização real.
-            </p>
-            <p className="mt-4">
-              No previdenciário <strong>internacional</strong>, atendo
-              brasileiros que vivem ou viveram no exterior, estrangeiros com
-              tempo contributivo no Brasil, expatriados e trabalhadores em
-              processo de emigração.
-            </p>
-            <p className="mt-4">
-              Meu trabalho é principalmente{" "}
-              <em>planejamento previdenciário internacional</em>: estruturar
-              sua vida contributiva para que funcione nos dois países. São
-              situações que combinam dois sistemas previdenciários distintos,
-              acordos bilaterais e, frequentemente, decisões que não têm como
-              ser desfeitas depois.
-            </p>
-          </Bloco>
+      {/* Atuação — dois campos */}
+      <section className="mx-auto max-w-6xl px-6 py-16 md:py-20">
+        <div className="max-w-2xl">
+          <p className="eyebrow">Prática profissional</p>
+          <h2 className="mt-3 font-display text-3xl md:text-4xl">Atuação</h2>
+          <p className="lede mt-4">
+            Dois campos, uma especialização. A atuação exclusiva em Direito
+            Previdenciário existe por uma razão objetiva: o sistema é complexo
+            o suficiente para exigir foco real.
+          </p>
         </div>
 
-        <aside className="md:sticky md:top-6 md:self-start">
-          <CTAMarcos contexto="Conte sua situação. Cada mensagem é lida pessoalmente pelo Dr. Marcos Espínola." />
-        </aside>
+        <div className="mt-10 grid gap-5 md:grid-cols-2">
+          {/* Nacional */}
+          <article className="rounded-2xl border border-border bg-secondary p-7 md:p-8">
+            <p className="eyebrow">Previdenciário nacional</p>
+            <h3 className="mt-2 font-display text-2xl">Segurados do INSS no Brasil</h3>
+            <p className="mt-4 text-base leading-relaxed">
+              Aposentadorias, benefícios por incapacidade, pensão por morte,
+              revisões de benefícios concedidos e planejamento contributivo
+              para quem vive e contribui no Brasil.
+            </p>
+          </article>
+
+          {/* Internacional — destacado */}
+          <article className="relative overflow-hidden rounded-2xl border border-[var(--accent-ink)]/30 bg-[var(--accent-ink-soft)] p-7 md:p-8">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_100%_0%,_color-mix(in_oklab,_var(--accent-ink)_22%,_transparent)_0%,_transparent_60%)]"
+            />
+            <div className="relative">
+              <p className="eyebrow text-[var(--accent-ink)]">Previdenciário internacional</p>
+              <h3 className="mt-2 font-display text-2xl">
+                Brasileiros entre dois sistemas
+              </h3>
+              <p className="mt-4 text-base leading-relaxed">
+                Brasileiros que vivem ou viveram no exterior, estrangeiros com
+                tempo contributivo no Brasil, expatriados e trabalhadores em
+                processo de emigração. O foco é{" "}
+                <em>planejamento previdenciário internacional</em>: estruturar
+                a vida contributiva para que funcione nos dois países — porque
+                o que se decide antes da mudança raramente pode ser desfeito
+                depois.
+              </p>
+            </div>
+          </article>
+        </div>
+
+        {/* Stats / autoridade */}
+        <div className="mt-8 grid gap-3 md:grid-cols-3">
+          {[
+            { label: "Atuação exclusiva", value: "Direito Previdenciário" },
+            { label: "Hub público", value: "Mantido pelo escritório" },
+            { label: "Registro", value: "OAB/PR 49.038" },
+          ].map((s) => (
+            <div
+              key={s.label}
+              className="rounded-xl border border-border bg-background p-5"
+            >
+              <p className="eyebrow">{s.label}</p>
+              <p className="mt-2 font-display text-lg leading-tight">
+                {s.value}
+              </p>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* Accordion interativo — Áreas de atuação internacional */}
@@ -173,37 +209,117 @@ function SobreMarcos() {
         </div>
       </section>
 
-      {/* Por que este hub existe + Como falar */}
-      <section className="mx-auto max-w-4xl space-y-12 px-6 py-16 md:py-20">
-        <Bloco titulo="Por que este hub existe">
-          <p>
-            A informação sobre acordos internacionais do INSS está dispersa.
-            Está no gov.br, em portarias que não se falam, em literatura
-            especializada inacessível para quem mais precisa. Quem vai se
-            mudar para o exterior raramente sabe o que acontece com os anos
-            contribuídos no Brasil. Quem volta, muitas vezes descobre tarde
-            demais que perdeu tempo contributivo por falta de orientação.
+      {/* Manifesto — Por que este hub existe */}
+      <section className="mx-auto max-w-4xl px-6 py-16 md:py-20">
+        <p className="eyebrow">Manifesto</p>
+        <h2 className="mt-3 font-display text-3xl md:text-4xl">
+          Por que este hub existe
+        </h2>
+        <hr className="rule mt-4" />
+
+        <blockquote className="relative mt-8 max-w-2xl">
+          <span
+            aria-hidden
+            className="absolute -left-2 -top-6 font-display text-7xl leading-none text-[var(--accent-ink)]/35 select-none md:-left-6 md:text-8xl"
+          >
+            “
+          </span>
+          <p className="font-display text-xl italic leading-snug md:text-2xl">
+            A informação sobre acordos internacionais do INSS está dispersa —
+            no gov.br, em portarias que não se falam, em literatura técnica
+            inacessível para quem mais precisa.
           </p>
-          <p className="mt-4">
+        </blockquote>
+
+        <div className="mt-8 max-w-2xl space-y-4 text-base leading-relaxed">
+          <p>
+            Quem vai se mudar para o exterior raramente sabe o que acontece
+            com os anos contribuídos no Brasil. Quem volta, muitas vezes
+            descobre tarde demais que perdeu tempo contributivo por falta de
+            orientação.
+          </p>
+          <p>
             O hub foi construído para resolver isso: linguagem clara para o
-            cidadão, profundidade técnica para o advogado. Tudo no mesmo
-            lugar.
+            cidadão, profundidade técnica para o advogado. Tudo no mesmo lugar.
           </p>
-        </Bloco>
-        <Bloco titulo="Como falar comigo">
-          <p>
-            Pelo{" "}
-            <Link to="/contato" className="ink-link">
-              formulário de contato
+        </div>
+
+        <div className="mt-10 grid gap-3 md:grid-cols-3">
+          {[
+            { icon: BookOpen, titulo: "Linguagem clara", texto: "Para o cidadão entender o que está em jogo." },
+            { icon: Scale, titulo: "Profundidade técnica", texto: "Portarias, jurisprudência e modelos para o advogado." },
+            { icon: Users, titulo: "Um único lugar", texto: "Toda a base sobre acordos bilaterais reunida." },
+          ].map(({ icon: Icon, titulo, texto }) => (
+            <div
+              key={titulo}
+              className="rounded-xl border border-border bg-secondary p-5"
+            >
+              <Icon className="h-5 w-5 text-[var(--accent-ink)]" aria-hidden />
+              <p className="mt-3 font-display text-base leading-tight">
+                {titulo}
+              </p>
+              <p className="mt-1 text-sm text-muted-foreground">{texto}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Como falar — dois caminhos */}
+      <section className="mx-auto max-w-6xl px-6 pb-16 md:pb-20">
+        <div className="max-w-2xl">
+          <p className="eyebrow">Acesso</p>
+          <h2 className="mt-3 font-display text-3xl md:text-4xl">
+            Como falar comigo
+          </h2>
+          <p className="lede mt-4">
+            Dois caminhos, dois públicos. Escolha o que faz sentido para o
+            seu momento.
+          </p>
+        </div>
+
+        <div className="mt-10 grid gap-5 md:grid-cols-2">
+          {/* Cidadão */}
+          <article className="flex flex-col rounded-2xl border border-border bg-secondary p-7 md:p-8">
+            <p className="eyebrow">Para o cidadão</p>
+            <h3 className="mt-2 font-display text-2xl">Conte sua situação</h3>
+            <p className="mt-4 flex-1 text-base leading-relaxed">
+              Pelo formulário de contato. Cada mensagem é lida pessoalmente
+              pelo Dr. Marcos Espínola — totalização, CDT, CSDP, prova de vida
+              ou planejamento internacional.
+            </p>
+            <Link
+              to="/contato"
+              className="mt-6 inline-flex items-center gap-2 font-display text-base underline underline-offset-4 hover:text-[var(--accent-ink)]"
+            >
+              Formulário de contato
+              <ArrowRight className="h-4 w-4" aria-hidden />
             </Link>
-            . Cada mensagem é lida pessoalmente. Para advogados, o{" "}
-            <Link to="/profissional" className="ink-link">
-              hub profissional
-            </Link>{" "}
-            tem base técnica completa, portarias comentadas, modelos de
-            petição, jurisprudência e calculadoras por país.
-          </p>
-        </Bloco>
+          </article>
+
+          {/* Advogado */}
+          <article className="relative flex flex-col overflow-hidden rounded-2xl border border-[var(--accent-ink)]/30 bg-[var(--accent-ink)] p-7 text-[var(--paper)] md:p-8">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_0%_100%,_color-mix(in_oklab,_var(--paper)_18%,_transparent)_0%,_transparent_55%)]"
+            />
+            <div className="relative flex h-full flex-col">
+              <p className="eyebrow text-[var(--paper)]/80">Para advogados</p>
+              <h3 className="mt-2 font-display text-2xl">Hub profissional</h3>
+              <p className="mt-4 flex-1 text-base leading-relaxed text-[var(--paper)]/90">
+                Base técnica completa: portarias comentadas, modelos de
+                petição, jurisprudência selecionada e calculadoras por país.
+                Construído para quem opera o sistema.
+              </p>
+              <Link
+                to="/profissional"
+                className="mt-6 inline-flex items-center gap-2 font-display text-base text-[var(--paper)] underline underline-offset-4 hover:text-[var(--paper)]/80"
+              >
+                Acessar o hub profissional
+                <ArrowRight className="h-4 w-4" aria-hidden />
+              </Link>
+            </div>
+          </article>
+        </div>
       </section>
 
       <CTAMarcos
@@ -211,21 +327,5 @@ function SobreMarcos() {
         contexto="Conte sua situação — totalização, CDT, CSDP, prova de vida ou planejamento internacional. Cada caso é lido pessoalmente pelo Dr. Marcos Espínola."
       />
     </article>
-  );
-}
-
-function Bloco({
-  titulo,
-  children,
-}: {
-  titulo: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section>
-      <h2 className="font-display text-2xl md:text-3xl">{titulo}</h2>
-      <hr className="rule mt-3" />
-      <div className="mt-4 text-base leading-relaxed">{children}</div>
-    </section>
   );
 }

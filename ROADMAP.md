@@ -154,3 +154,4 @@
 - ✅ `/conta` com botão "Gerenciar assinatura" → `createPortalSession`.
 - 📋 Smoke test end-to-end de checkout sandbox (`4242 4242 4242 4242`) em ambos os planos + validar que webhook grava `subscriptions` corretamente.
 - 📋 Popular ou esconder `/blog` (link já saiu do footer).
+- ✅ `/sobre/dr-marcos`: bordas arredondadas, accordion com overlay neutro+gradiente, Atuação em 2 cards + stats, Manifesto editorial, "Como falar" como dois caminhos (cidadão / advogado).
