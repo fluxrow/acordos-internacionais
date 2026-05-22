@@ -52,13 +52,23 @@ export const getCountryHubData = createServerFn({ method: "POST" })
     const acordoData = acordosImportados[pais];
     if (!acordoData) throw new Error(`Acordo não encontrado: ${pais}`);
 
-    const { data: sub } = await supabaseAdmin
-      .from("subscriptions")
-      .select("status, lifetime_access")
-      .eq("user_id", userId)
-      .maybeSingle();
+    const [{ data: sub }, { data: adminRole }] = await Promise.all([
+      supabaseAdmin
+        .from("subscriptions")
+        .select("status, lifetime_access")
+        .eq("user_id", userId)
+        .maybeSingle(),
+      supabaseAdmin
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", userId)
+        .eq("role", "admin")
+        .maybeSingle(),
+    ]);
 
-    const hasAccess = sub?.status === "active" || sub?.lifetime_access === true;
+    const isAdmin = !!adminRole;
+    const hasAccess =
+      isAdmin || sub?.status === "active" || sub?.lifetime_access === true;
     if (!hasAccess) {
       return {
         locked: true,
