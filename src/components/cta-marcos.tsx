@@ -32,7 +32,7 @@ export function CTAMarcos({ variant = "card", contexto }: CTAMarcosProps) {
   }
 
   return (
-    <aside className="border border-border bg-secondary p-6">
+    <aside className="rounded-2xl border border-border bg-secondary p-6">
       <p className="eyebrow">Atendimento direto</p>
       <p className="mt-2 font-display text-xl leading-tight">
         Dúvidas no seu caso?
