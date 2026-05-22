@@ -105,12 +105,12 @@ Base **já importada** do repo externo `marcosespinola1379/Mapa-de-Acordos`:
 5. Analytics (PostHog ou Plausible).
 6. Idiomas EN/ES — avaliar.
 
-## 6. Decisões pendentes
+## 6. Decisões (resolvidas em 2026-05-22)
 
-- **Preço da assinatura** (mensal/anual, valor, trial?).
-- **Plano único ou tiers** (por número de países, volume de downloads)?
-- **Nome do produto pago**: "Hub Profissional", "Hub do Advogado", outro?
-- **Documentos por país**: iguais para todos os assinantes ou material premium destacado?
+- ✅ **Oferta comercial**: híbrido — Anual R$ 797/ano + Fundadores R$ 1.297 vitalício (100 vagas). Plano mensal descartado.
+- ✅ **Nome do produto pago**: "Hub Profissional".
+- ✅ **Tiers**: dois planos, sem segmentação por país.
+- ✅ **Documentos por país**: iguais para todos os assinantes; sem material premium destacado no MVP.
 
 ## 7. Stack
 
