@@ -1,11 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { totalAcordos, totalDocs } from "@/data/acordos";
 import { CTAButton } from "@/components/cta-button";
+import { getFoundersCount, FOUNDERS_LIMIT } from "@/lib/founders.functions";
 
-const TITLE = "Hub profissional para advogados | Acordos Internacionais";
+const TITLE = "Hub Profissional para advogados | Acordos Internacionais";
 const DESC =
-  "Base técnica completa sobre acordos internacionais de previdência social: portarias comentadas, modelos, jurisprudência, calculadoras e fluxogramas. Acesso vitalício.";
+  "Base técnica completa sobre acordos internacionais de previdência social: portarias comentadas, modelos, jurisprudência, calculadoras e fluxogramas. Plano anual ou vitalício para os 100 primeiros.";
 
 export const Route = createFileRoute("/profissional")({
   head: () => ({
@@ -20,13 +21,14 @@ export const Route = createFileRoute("/profissional")({
 });
 
 function Profissional() {
-  const [email, setEmail] = useState("");
-  const [enviado, setEnviado] = useState(false);
+  const { data: founders } = useQuery({
+    queryKey: ["founders-count"],
+    queryFn: () => getFoundersCount(),
+    refetchInterval: 60_000,
+  });
 
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setEnviado(true);
-  }
+  const foundersFull = founders?.isFull ?? false;
+  const foundersRemaining = founders?.remaining ?? FOUNDERS_LIMIT;
 
   return (
     <article>
@@ -46,9 +48,9 @@ function Profissional() {
             acordantes do Brasil.
           </p>
           <div className="mt-10 flex flex-wrap items-center gap-4">
-            <CTAButton href="#waitlist" variant="solid-light" size="lg" label="Entrar na lista de espera" />
+            <CTAButton href="#planos" variant="solid-light" size="lg" label="Ver planos" />
             <span className="text-xs uppercase tracking-[0.14em] opacity-70">
-              Pagamento único · Acesso vitalício
+              Anual ou vitalício · {foundersRemaining} de {FOUNDERS_LIMIT} vagas Fundadores
             </span>
           </div>
         </div>
@@ -77,82 +79,107 @@ function Profissional() {
         </div>
       </section>
 
-      {/* PREÇO */}
-      <section className="border-b border-border bg-secondary">
-        <div className="mx-auto grid max-w-6xl gap-10 px-6 py-20 md:grid-cols-[1fr_1fr]">
-          <div>
-            <p className="eyebrow">Preço</p>
-            <h2 className="mt-3 font-display text-4xl">Pagamento único, acesso vitalício.</h2>
+      {/* PLANOS */}
+      <section id="planos" className="border-b border-border bg-secondary">
+        <div className="mx-auto max-w-6xl px-6 py-20">
+          <div className="max-w-2xl">
+            <p className="eyebrow">Planos</p>
+            <h2 className="mt-3 font-display text-4xl">
+              Anual para quem trabalha. Vitalício para os 100 primeiros.
+            </h2>
             <p className="lede mt-6 text-base">
-              Sem mensalidade. Sem renovação. Compre uma vez e tenha acesso
-              para sempre, incluindo as atualizações que vierem.
+              Dois caminhos para entrar no Hub. Conteúdo idêntico — muda só a forma de pagar.
             </p>
           </div>
-          <div className="border border-foreground bg-background p-8">
-            <p className="eyebrow">Early bird · primeiros 100</p>
-            <p className="mt-3 font-display text-6xl tracking-tight">R$ 1.297</p>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Depois: R$ 1.997 · pagamento único
-            </p>
-            <hr className="rule my-6" />
-            <ul className="space-y-2 text-sm">
-              <li>· Acesso vitalício a todo o conteúdo</li>
-              <li>· Atualizações regulatórias incluídas</li>
-              <li>· Newsletter interna do Dr. Marcos Espínola</li>
-              <li>· Comunidade fechada (em breve)</li>
-            </ul>
+
+          <div className="mt-12 grid gap-6 md:grid-cols-2">
+            {/* PLANO ANUAL */}
+            <div className="flex flex-col border border-border bg-background p-8">
+              <p className="eyebrow">Anual</p>
+              <p className="mt-3 font-display text-6xl tracking-tight">R$ 797</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                /ano · equivale a R$ 66,40/mês
+              </p>
+              <hr className="rule my-6" />
+              <ul className="flex-1 space-y-2 text-sm">
+                <li>· Acesso completo ao Hub por 12 meses</li>
+                <li>· Atualizações regulatórias incluídas</li>
+                <li>· Newsletter interna do Dr. Marcos Espínola</li>
+                <li>· Renovação opcional ao fim do período</li>
+              </ul>
+              <Link
+                to="/precos"
+                hash="anual"
+                className="mt-8 inline-flex w-full items-center justify-center rounded-full border border-foreground bg-background px-6 py-3 text-sm font-medium uppercase tracking-[0.14em] text-foreground transition-colors hover:bg-foreground hover:text-background"
+              >
+                Assinar anual
+              </Link>
+            </div>
+
+            {/* PLANO FUNDADORES */}
+            <div className="flex flex-col border border-foreground bg-foreground p-8 text-background">
+              <p className="text-[10px] uppercase tracking-[0.18em] opacity-70">
+                Fundadores · primeiros 100
+              </p>
+              <p className="mt-3 font-display text-6xl tracking-tight">R$ 1.297</p>
+              <p className="mt-1 text-sm opacity-80">
+                Pagamento único · acesso vitalício
+              </p>
+              <hr className="my-6 border-background/20" />
+              <ul className="flex-1 space-y-2 text-sm">
+                <li>· Acesso vitalício a todo o conteúdo</li>
+                <li>· Todas as atualizações futuras incluídas</li>
+                <li>· Newsletter interna do Dr. Marcos Espínola</li>
+                <li>· Comunidade fechada (em breve)</li>
+                <li className="pt-2 text-xs opacity-70">
+                  {foundersFull
+                    ? `Esgotado — todas as ${FOUNDERS_LIMIT} vagas preenchidas`
+                    : `${foundersRemaining} de ${FOUNDERS_LIMIT} vagas restantes`}
+                </li>
+              </ul>
+              {foundersFull ? (
+                <span className="mt-8 inline-flex w-full cursor-not-allowed items-center justify-center rounded-full bg-background/20 px-6 py-3 text-sm font-medium uppercase tracking-[0.14em] opacity-70">
+                  Vagas esgotadas
+                </span>
+              ) : (
+                <Link
+                  to="/precos"
+                  hash="fundadores"
+                  className="mt-8 inline-flex w-full items-center justify-center rounded-full bg-background px-6 py-3 text-sm font-medium uppercase tracking-[0.14em] text-foreground transition-colors hover:bg-background/85"
+                >
+                  Garantir vaga vitalícia
+                </Link>
+              )}
+            </div>
           </div>
+
+          <p className="mt-10 text-center text-xs text-muted-foreground">
+            Pagamento processado com segurança. Você precisa de uma conta para
+            finalizar — <Link to="/cadastro" className="underline">criar conta</Link>{" "}
+            ou <Link to="/login" className="underline">entrar</Link>.
+          </p>
         </div>
       </section>
 
-      {/* WAITLIST */}
-      <section id="waitlist">
+      {/* CTA FINAL */}
+      <section>
         <div className="mx-auto max-w-3xl px-6 py-24 text-center">
-          <p className="eyebrow">Disponível em breve</p>
+          <p className="eyebrow">Dúvidas antes de assinar?</p>
           <h2 className="mt-3 font-display text-4xl">
-            Entre na lista de espera.
+            Fale diretamente com o Dr. Marcos Espínola.
           </h2>
           <p className="lede mt-6">
-            Receba o aviso quando o checkout abrir e garanta a vaga no early bird.
+            Cada mensagem é lida pessoalmente. Sem formulário automático.
           </p>
-
-          {!enviado ? (
-            <form
-              onSubmit={handleSubmit}
-              className="mx-auto mt-10 flex max-w-md flex-col gap-3 sm:flex-row"
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+            <CTAButton to="/contato" variant="dark" size="lg" label="Iniciar contato" />
+            <Link
+              to="/sobre/dr-marcos"
+              className="text-sm underline underline-offset-4 hover:text-destructive"
             >
-              <input
-                required
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="seu@email.com"
-                className="flex-1 border-0 border-b border-foreground bg-transparent py-3 text-center text-base focus:outline-none sm:text-left"
-              />
-              <button
-                type="submit"
-                className="rounded-full bg-foreground px-6 py-3 text-sm font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-foreground/85"
-              >
-                Quero ser avisado
-              </button>
-            </form>
-          ) : (
-            <p className="mt-10 inline-block border border-foreground px-6 py-4 text-sm">
-              Pronto, {email}. Você será avisado.
-            </p>
-          )}
-
-          <p className="mt-6 text-xs text-muted-foreground">
-            Lista de espera local, em breve integrada ao Lovable Cloud para
-            disparo automático.
-          </p>
-
-          <Link
-            to="/sobre/dr-marcos"
-            className="mt-12 inline-block underline underline-offset-4 hover:text-destructive"
-          >
-            Conhecer o Dr. Marcos Espínola →
-          </Link>
+              Conhecer o Dr. Marcos Espínola →
+            </Link>
+          </div>
         </div>
       </section>
     </article>
