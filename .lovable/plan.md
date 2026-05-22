@@ -1,110 +1,75 @@
+## Refinamento UI — /sobre/dr-marcos
 
-# Plano — Refino editorial da página `/sobre/dr-marcos`
+Foco: bordas arredondadas, repensar a cor do accordion e elevar 3 sessões editoriais (Atuação / Por que este hub existe / Como falar comigo) com lógica de conversão sutil — o conteúdo demonstra capacidade, sem CTA "vendedor".
 
-Mexer apenas em frontend/conteúdo. Atualizar a copy oficial e introduzir o **Interactive Image Accordion** para apresentar as áreas de atuação do Dr. Marcos.
+### 1. Bordas arredondadas (global no escopo da página)
 
----
+- Accordion: `rounded-2xl` em cada card + `overflow-hidden` (já tem). Container com `gap-3` mantido.
+- CTAs e blocos editoriais: `rounded-2xl` em containers, `rounded-xl` em sub-cards.
+- Imagens dentro do accordion herdam o raio do container.
 
-## 1. Novo conteúdo (copy oficial)
+### 2. Cor do accordion (corrigir "vermelho demais")
 
-Substituir o texto atual pelo enviado:
+Hoje overlay = `var(--accent-ink)` puro (vinho saturado) em 55–85%. Vai mudar para:
 
-- **Hero**: nome + bio curta (advogado previdenciarista, sócio Pagliuca, Espínola e Lessnau, fundador do hub) + linha discreta **OAB/PR 49.038**.
-- **Bloco "Atuação"** dividido em dois parágrafos: previdenciário nacional / previdenciário internacional (com a frase de planejamento previdenciário internacional).
-- **Bloco "Por que este hub existe"** com o texto novo.
-- **Bloco "Como falar comigo"** com o texto novo + link para `/profissional`.
-- **CTA Marcos** no aside (já existe) — manter.
+- **Inativo**: overlay neutro escuro `color-mix(in oklab, var(--accent-ink) 35%, #1a1a1a 65%)` a 70% — vira marrom-grafite sóbrio, deixa a imagem respirar.
+- **Ativo**: gradiente vertical do transparente (topo, imagem visível) → `var(--accent-ink)/85` (base, onde fica o texto). Imagem aparece nítida no topo, texto legível embaixo.
+- Título vertical (estado inativo): cor `var(--paper)` com `opacity-90`, tracking maior.
+- Borda fina `border border-[var(--accent-ink)]/15` em cada card.
 
-Sem mudanças em rotas, dados ou backend. Sem novo metadado além de pequeno ajuste do `description`.
+### 3. Sessão "Atuação" — repensar layout
 
----
+Hoje: bloco de texto + sidebar com CTAMarcos. Fica plano e a sidebar compete com a leitura.
 
-## 2. Componente novo: Interactive Image Accordion
+Nova estrutura editorial em 2 colunas assimétricas:
 
-Criar `src/components/interactive-image-accordion.tsx` inspirado em `21st.dev/minhxthanh/interactive-image-accordion`, mas **adaptado aos nossos tokens semânticos** (sem cores hex em componente; usar `--background`, `--foreground`, `--accent-ink`, `--accent-ink-soft`, `font-display`, etc.).
-
-Comportamento:
-- Linha horizontal de cards (responsivo: empilha em mobile como coluna).
-- Cada card colapsado mostra **título vertical** + leve gradiente.
-- Ao **hover** (desktop) / **tap** (mobile), o card expande com `flex-grow` animado, revela **imagem de fundo** representativa do tema e o **texto descritivo** sobreposto (overlay escuro `bg-[var(--accent-ink)]/70` + texto em `foreground` invertido).
-- Transições com `transition-all duration-500 ease-in-out`.
-- Acessibilidade: cada card é um `<button>` com `aria-expanded`.
-
-API:
-```ts
-type AccordionItem = {
-  id: string;
-  titulo: string;        // ex.: "Totalização de períodos"
-  descricao: string;     // bullets/itens da subárea
-  imagem: string;        // import de src/assets
-  alt: string;
-};
-<InteractiveImageAccordion items={...} />
+```
+[ Eyebrow + H2 "Atuação" ]
+[ Coluna A: Nacional ]   [ Coluna B: Internacional ]
+       card rounded-2xl        card rounded-2xl destacado
+                               (bg accent-ink-soft + borda accent-ink/30)
+[ Faixa horizontal: "Especialização que vira método" ]
+   3 pílulas/stats: anos de OAB | foco exclusivo | hub público
 ```
 
-Sem dependência externa nova — só Tailwind + React state.
+- Cards lado-a-lado mostram que o trabalho tem duas frentes; o card internacional fica visualmente destacado (é a especialidade do hub) — conversão sem CTA.
+- CTAMarcos sidebar **sai daqui** e vira só o bloco final (evita duplicação).
+- 3 stats curtos no fim reforçam autoridade (sem números inventados — usar "Atuação exclusiva em previdenciário", "Hub público mantido pelo escritório", "OAB/PR 49.038").
 
----
+### 4. Sessão "Por que este hub existe" — quote editorial
 
-## 3. Onde encaixar o accordion na página
+Vira destaque com tratamento de citação:
 
-Logo após o bloco "Atuação" (que descreve nacional + internacional em texto corrido), adicionar uma seção **"Áreas de atuação no previdenciário internacional"** com o accordion contendo os 7 itens:
+- Eyebrow "Manifesto" + H2.
+- Parágrafo de abertura em `text-xl font-display italic` com aspas decorativas em `var(--accent-ink)`.
+- Texto principal em coluna estreita (`max-w-2xl`).
+- No final, micro-grid de 3 itens com ícone (Lucide: `BookOpen`, `Scale`, `Users`) + label curta: "Linguagem clara" / "Profundidade técnica" / "Um único lugar". Cada item `rounded-xl border bg-secondary p-5`.
+- Isso mostra o valor entregue ao visitante (visitante = cidadão ou advogado) sem CTA.
 
-1. Totalização de períodos contributivos
-2. Aposentadoria por idade e por invalidez
-3. Pensão por morte
-4. Prova de vida
-5. Certificado de Deslocamento Temporário (CDT)
-6. Comunicação de Saída Definitiva do País (CSDP)
-7. Planejamento previdenciário internacional
+### 5. Sessão "Como falar comigo" — dois caminhos visuais
 
-Cada item ganha 1–2 linhas de descrição (a partir do texto enviado) + uma imagem de fundo.
+Vira grid de 2 cards `rounded-2xl` lado a lado, cada um um público:
 
----
+- **Card 1 — "Cidadão"** (claro, `bg-secondary`): texto sobre formulário + link "Formulário de contato →" estilo ink-link.
+- **Card 2 — "Advogado"** (escuro/destaque, `bg-[var(--accent-ink)] text-[var(--paper)]`): apresenta o hub profissional como recurso técnico (portarias comentadas, modelos, jurisprudência, calculadoras) + link "Hub profissional →".
 
-## 4. Imagens de fundo
+Conversão dupla, sem hard sell — cada visitante encontra o caminho dele. O card escuro do hub pro é o gancho de upgrade natural.
 
-Gerar 7 imagens com `imagegen` (estilo editorial, paleta neutra/quente alinhada com o site — `oklch` de `--accent-ink-soft` + tons documentais), salvas em `src/assets/atuacao/`:
+### 6. CTAMarcos (variant block) no final
 
-- `totalizacao.jpg` — carimbos, documentos antigos, mãos sobrepostas em papelada.
-- `aposentadoria.jpg` — pessoa sênior em janela com luz natural.
-- `pensao-morte.jpg` — flor seca sobre carta/documento.
-- `prova-vida.jpg` — mãos segurando passaporte/documento, luz suave.
-- `cdt.jpg` — passaporte com carimbos + mapa-mundi.
-- `csdp.jpg` — mala/aeroporto silencioso.
-- `planejamento.jpg` — escrivaninha com mapa, caderno, caneta.
+- Já existe. Apenas arredondar (`rounded-2xl` no bloco interno, se houver) e garantir que não conflite visualmente com o card escuro acima — vai ficar logo abaixo da sessão "Como falar comigo".
+- Como o último bloco já é dois cards, o CTA final ganha papel de fechamento humano: "Conte sua situação".
 
-Tom: editorial, monocromático/desaturado para o overlay e texto ficarem legíveis. Resolução 1024×1280 (formato vertical, casa com cards verticais).
+### 7. Arquivos a editar
 
----
+- `src/components/interactive-image-accordion.tsx` — `rounded-2xl`, novo overlay neutro, gradiente no ativo, borda fina.
+- `src/routes/sobre.dr-marcos.tsx` — reestrutura Atuação (2 cards + stats), Manifesto com quote + 3 ícones, "Como falar" como 2-card grid.
+- `src/components/cta-marcos.tsx` — pequeno ajuste de raio (`rounded-2xl`).
+- `.lovable/prd.md` + `ROADMAP.md` — registrar refinamento.
 
-## 5. Documentação obrigatória
+### 8. Princípios aplicados
 
-- `.lovable/prd.md`: adicionar entrada "Refino editorial /sobre/dr-marcos + componente InteractiveImageAccordion".
-- `ROADMAP.md`: marcar página `/sobre/dr-marcos` no item de refino editorial.
-- `mem://design/...` se necessário (componente novo reutilizável → registrar referência).
-
----
-
-## 6. Detalhes técnicos
-
-- **Arquivos novos**: `src/components/interactive-image-accordion.tsx`, 7 imagens em `src/assets/atuacao/`.
-- **Arquivos editados**: `src/routes/sobre.dr-marcos.tsx`, `.lovable/prd.md`, `ROADMAP.md`, `mem://index.md` (linha de referência).
-- **Sem mudanças** em rotas, RLS, server functions, dados.
-- **Tokens**: 100% via `src/styles.css` (sem hex inline).
-- **Mobile (≤768px)**: accordion vira coluna vertical (cada card mostra imagem + texto direto, sem hover); usa `md:` para o comportamento horizontal expansível.
-
----
-
-## 7. Validação
-
-1. Acessar `/sobre/dr-marcos` em desktop → ver hero + texto novo + accordion expandindo no hover com imagens de fundo + texto legível.
-2. Acessar em mobile (375px) → cards empilhados, imagens visíveis.
-3. Conferir contraste (overlay garante AA).
-4. Conferir que nenhuma classe `text-white`/`bg-black` foi introduzida.
-
----
-
-## Pergunta única antes de implementar
-
-As 7 áreas listadas acima estão certas para o accordion, ou prefere agrupar diferente (ex.: 5 cards combinando CDT+CSDP, juntando aposentadoria+pensão)? Se ok como está, sigo com 7.
+- Conversão por demonstração: cada sessão exibe uma capacidade (especialização dual, manifesto editorial, hub técnico) em vez de pedir contato.
+- Hierarquia visual leva o olho: hero → atuação dual → áreas (accordion) → manifesto → dois caminhos → CTA humano final.
+- Cor vinho usada com economia: dominante no accordion ativo e no card "advogado", suporte (soft) no resto.
+- Sem `text-white`/`bg-black` — só tokens.
