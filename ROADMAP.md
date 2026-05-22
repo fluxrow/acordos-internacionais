@@ -28,11 +28,12 @@
 
 - ✅ Reposicionamento "Acordo Internacional **by AtlasPrev**" (Dr. Marcos como rosto, não como marca)
 - ✅ Favicon, OG-image global, header, footer, metadados
-- ✅ Rotas públicas: `/`, `/acordos`, `/acordos/:pais`, `/jornadas/:jornada`, `/guias/:slug`, `/blog`, `/glossario`, `/contato`, `/profissional`, `/sobre/dr-marcos`
+- ✅ Rotas públicas: `/`, `/acordos`, `/acordos/:pais`, `/jornadas`, `/jornadas/:jornada`, `/guias/:slug`, `/blog`, `/glossario`, `/contato`, `/profissional`, `/sobre/dr-marcos`
 - ✅ Conteúdo editorial em `src/data/{acordos,guias,jornadas}.ts`
 - ✅ 25 OG images por acordo (`public/og/*.jpg`), multilaterais com selo "MULTI"
 - ✅ CI: `check-brand` (impede vazamento de marca antiga) e `check-og` (garante cobertura)
 - ✅ Hover/focus/active states consistentes em botões, links e cards (sem texto invisível)
+- ✅ **Refino editorial Jornadas**: novo índice `/jornadas` com cards numerados, detalhe com hero wash wine + número fantasma, TOC sticky, bloco "Relacionado" (países + guia + calculadora), `CTAMarcos` block global em wash wine
 
 ## Fase 2 — Migração de dados técnicos ✅ (concluída)
 

@@ -262,6 +262,12 @@ function Home() {
                 </li>
               ))}
             </ul>
+            <Link
+              to="/jornadas"
+              className="mt-4 inline-block text-sm underline underline-offset-4 hover:text-destructive"
+            >
+              Ver todas as jornadas →
+            </Link>
           </div>
 
           <div>

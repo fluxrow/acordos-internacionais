@@ -40,9 +40,9 @@ export function SiteHeader() {
             Países
           </Link>
           <Link
-            to="/jornadas/$jornada"
-            params={{ jornada: "moro-fora" }}
+            to="/jornadas"
             className="text-foreground/80 transition-colors hover:text-foreground"
+            activeProps={{ className: "text-foreground underline underline-offset-8" }}
           >
             Jornadas
           </Link>
