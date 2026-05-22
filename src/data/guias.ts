@@ -120,6 +120,8 @@ export const guias: Guia[] = [
     ],
     paisRelacionado: "portugal",
   },
+];
+
 
 export function getGuia(slug: string) {
   return guias.find((g) => g.slug === slug);
