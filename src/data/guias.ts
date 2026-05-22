@@ -3,6 +3,7 @@ export interface Guia {
   titulo: string;
   resumo: string;
   blocos: { titulo: string; conteudo: string[] }[];
+  paisRelacionado?: string;
 }
 
 export const guias: Guia[] = [
