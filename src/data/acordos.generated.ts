@@ -1,6 +1,6 @@
-// AUTO-GENERATED por scripts/import-acordos.ts
-// Não edite à mão. Rode: bun scripts/import-acordos.ts
-// Fonte: github.com/marcosespinola1379/Mapa-de-Acordos
+// AUTO-GENERATED por scripts/reconcile-hub-docs.ts
+// Não edite à mão. Rode: bun scripts/reconcile-hub-docs.ts
+// Fonte: bucket hub-docs (referências) + curadoria manual (metadados).
 
 import type { AcordoImportado } from "./acordos.types";
 
@@ -44,91 +44,91 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "nome": "Acordo de Previdência Social Brasil-Alemanha (2009)",
         "desc": "Texto oficial do acordo bilateral assinado em 03/12/2009",
         "cat": "principal",
-        "arquivo": "01-acordo-principal.pdf",
-        "tamanho": "999 KB"
+        "arquivo": "acordo-de-previdencia-social-brasil-alemanha-2009.pdf",
+        "tamanho": "998 KB"
       },
       {
         "nome": "Ajuste Administrativo — Acidentes (2015)",
         "desc": "Acordo sobre previdência do trabalho e acidentes trabalhistas",
         "cat": "complementar",
-        "arquivo": "02-ajuste-acidentes.pdf",
-        "tamanho": "610 KB"
+        "arquivo": "ajuste-administrativo-acidentes-2015.pdf",
+        "tamanho": "609 KB"
       },
       {
         "nome": "Ajuste Administrativo — Previdenciária",
         "desc": "Regulamentação da execução do acordo previdenciário",
         "cat": "complementar",
-        "arquivo": "03-ajuste-previdenciario.pdf",
-        "tamanho": "472 KB"
+        "arquivo": "ajuste-administrativo-previdenciaria.pdf",
+        "tamanho": "471 KB"
       },
       {
         "nome": "Ajuste Administrativo — Saúde e Deslocamento",
         "desc": "Disposições sobre legislação de saúde e segurança laboral",
         "cat": "complementar",
-        "arquivo": "04-ajuste-saude.pdf",
-        "tamanho": "383 KB"
+        "arquivo": "ajuste-administrativo-saude-e-deslocamento.pdf",
+        "tamanho": "382 KB"
       },
       {
         "nome": "Certificado — Deslocamento Alemanha→Brasil",
         "desc": "Comprovante de aplicação de legislação alemã no Brasil",
         "cat": "roteiro",
-        "arquivo": "05-certificado-alema.pdf",
-        "tamanho": "74 KB"
+        "arquivo": "certificado-deslocamento-alemanha-brasil.pdf",
+        "tamanho": "73 KB"
       },
       {
         "nome": "Formulário — Solicitação de Benefícios",
         "desc": "Formulário oficial para solicitação de benefícios (Brasil-Alemanha)",
         "cat": "formulario",
-        "arquivo": "06-formulario-beneficios.pdf",
-        "tamanho": "192 KB"
+        "arquivo": "formulario-solicitacao-de-beneficios.pdf",
+        "tamanho": "191 KB"
       },
       {
         "nome": "Cartilha — Acordo Previdência Social Brasil-Alemanha INSS",
         "desc": "Guia informativo para beneficiários (edição INSS)",
         "cat": "principal",
-        "arquivo": "07-cartilha-inss.pdf",
-        "tamanho": "1.054 MB"
+        "arquivo": "cartilha-acordo-previdencia-social-brasil-alemanha-inss.pdf",
+        "tamanho": "1.0 MB"
       },
       {
         "nome": "Certificado — Deslocamento Brasil→Alemanha",
         "desc": "Comprovante de aplicação de legislação brasileira na Alemanha",
         "cat": "roteiro",
-        "arquivo": "08-certificado-brasileira.pdf",
+        "arquivo": "certificado-deslocamento-brasil-alemanha.pdf",
         "tamanho": "63 KB"
       },
       {
         "nome": "Convênio de Execução do Acordo (2009)",
         "desc": "Convênio intergovernamental para execução prática",
         "cat": "complementar",
-        "arquivo": "09-convenio-execucao.pdf",
-        "tamanho": "77 KB"
+        "arquivo": "convenio-de-execucao-do-acordo-2009.pdf",
+        "tamanho": "76 KB"
       },
       {
         "nome": "Requerimento — Aposentadoria",
         "desc": "Formulário e instruções bilíngues para requerimento de aposentadoria",
         "cat": "formulario",
-        "arquivo": "10-requerimento-aposentadoria.pdf",
-        "tamanho": "451 KB"
+        "arquivo": "requerimento-aposentadoria.pdf",
+        "tamanho": "450 KB"
       },
       {
         "nome": "Requerimento — Pensão por Morte",
         "desc": "Formulário e instruções bilíngues para pensão por morte",
         "cat": "formulario",
-        "arquivo": "11-requerimento-pensao.pdf",
+        "arquivo": "requerimento-pensao-por-morte.pdf",
         "tamanho": "145 KB"
       },
       {
         "nome": "Roteiro — Guia Explicativo (Aposentadoria)",
         "desc": "Notas e explicações bilíngues para preenchimento",
         "cat": "roteiro",
-        "arquivo": "12-roteiro-aposentadoria.pdf",
-        "tamanho": "149 KB"
+        "arquivo": "roteiro-guia-explicativo-aposentadoria.pdf",
+        "tamanho": "148 KB"
       },
       {
         "nome": "Roteiro — Guia Explicativo (Pensão por Morte)",
         "desc": "Notas e explicações bilíngues para preenchimento",
         "cat": "roteiro",
-        "arquivo": "13-roteiro-pensao.pdf",
+        "arquivo": "roteiro-guia-explicativo-pensao-por-morte.pdf",
         "tamanho": "140 KB"
       }
     ]
@@ -166,21 +166,21 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "nome": "Acordo de Previdência Social Brasil-Áustria (2022)",
         "desc": "Texto oficial do acordo bilateral assinado em 17/05/2022",
         "cat": "outro",
-        "arquivo": "01-acordo-principal.pdf",
-        "tamanho": "3.1 MB"
+        "arquivo": "acordo-de-previdencia-social-brasil-austria-2022.pdf",
+        "tamanho": "3.0 MB"
       },
       {
         "nome": "Decreto de Promulgação nº 12.952/2026",
         "desc": "Decreto que promulga o Acordo para o Brasil",
         "cat": "outro",
-        "arquivo": "02-acordo-promulgado.pdf",
+        "arquivo": "decreto-de-promulgacao-n-12-952-2026.pdf",
         "tamanho": "253 KB"
       },
       {
         "nome": "Ajuste Administrativo Brasil-Áustria",
         "desc": "Regulamentação administrativa para implementação do Acordo",
         "cat": "outro",
-        "arquivo": "03-ajuste-administrativo.pdf",
+        "arquivo": "ajuste-administrativo-brasil-austria.pdf",
         "tamanho": "246 KB"
       }
     ]
@@ -216,7 +216,86 @@ export const acordosImportados: Record<string, AcordoImportado> = {
       ]
     },
     "acordoTrecho": "DECRETO Nº 8.405, DE 11 DE FEVEREIRO DE 2015 Promulga o Acordo sobre a Previdência Social entre a República Federativa do Brasil e o Reino da Bélgica, firmado em Bruxelas, em 4 de outubro de 2009. A PRESIDENTA DA REPÚBLICA, no uso da atribuição que lhe confere o art. 84, caput, inciso IV, da Constituição, e Considerando que foi firmado o Acordo sobre a Previdência Social entre a República Federativa do Brasil e a República do Reino da Bélgica, em Bruxelas, em 4 de outubro de 2009; Considerando que o Congresso Nacional aprovou o Acordo por meio do Decreto Legislativo nº 245, de 7 de junho de 20",
-    "documentos": []
+    "documentos": [
+      {
+        "nome": "Acordo Brasil Belgica 2009 2",
+        "cat": "principal",
+        "arquivo": "acordo-brasil-belgica-2009-2.pdf",
+        "tamanho": "403 KB"
+      },
+      {
+        "nome": "Acordo Brasil Belgica 2009",
+        "cat": "principal",
+        "arquivo": "acordo-brasil-belgica-2009.pdf",
+        "tamanho": "403 KB"
+      },
+      {
+        "nome": "Ajuste Administrativo Brasil Belgica",
+        "cat": "complementar",
+        "arquivo": "ajuste-administrativo-brasil-belgica.pdf",
+        "tamanho": "188 KB"
+      },
+      {
+        "nome": "Certificado de Deslocamento Temporario Brasil",
+        "cat": "outro",
+        "arquivo": "certificado-de-deslocamento-temporario-brasil.doc",
+        "tamanho": "72 KB"
+      },
+      {
+        "nome": "Certificado de Legislacao Aplicavel Belgica",
+        "cat": "outro",
+        "arquivo": "certificado-de-legislacao-aplicavel-belgica.doc",
+        "tamanho": "67 KB"
+      },
+      {
+        "nome": "Formulario de Recurso Previdenciario Belgica",
+        "cat": "formulario",
+        "arquivo": "formulario-de-recurso-previdenciario-belgica.doc",
+        "tamanho": "46 KB"
+      },
+      {
+        "nome": "Instrucao de Aposentadoria Por Idade Frances Portugues",
+        "cat": "roteiro",
+        "arquivo": "instrucao-de-aposentadoria-por-idade-frances-portugues.doc",
+        "tamanho": "116 KB"
+      },
+      {
+        "nome": "Instrucao de Aposentadoria Por Idade Holandes Portugues",
+        "cat": "roteiro",
+        "arquivo": "instrucao-de-aposentadoria-por-idade-holandes-portugues.doc",
+        "tamanho": "122 KB"
+      },
+      {
+        "nome": "Instrucao de Pensao Por Morte Frances Portugues",
+        "cat": "roteiro",
+        "arquivo": "instrucao-de-pensao-por-morte-frances-portugues.doc",
+        "tamanho": "100 KB"
+      },
+      {
+        "nome": "Instrucao de Pensao Por Morte Holandes Portugues",
+        "cat": "roteiro",
+        "arquivo": "instrucao-de-pensao-por-morte-holandes-portugues.doc",
+        "tamanho": "106 KB"
+      },
+      {
+        "nome": "Solicitacao de Aposentadoria Por Idade Belgica",
+        "cat": "formulario",
+        "arquivo": "solicitacao-de-aposentadoria-por-idade-belgica.doc",
+        "tamanho": "174 KB"
+      },
+      {
+        "nome": "Solicitacao de Aposentadoria Por Invalidez Belgica",
+        "cat": "formulario",
+        "arquivo": "solicitacao-de-aposentadoria-por-invalidez-belgica.doc",
+        "tamanho": "164 KB"
+      },
+      {
+        "nome": "Solicitacao de Pensao Por Morte Belgica",
+        "cat": "formulario",
+        "arquivo": "solicitacao-de-pensao-por-morte-belgica.doc",
+        "tamanho": "260 KB"
+      }
+    ]
   },
   "bulgaria": {
     "titulo": "Acordo Brasil-Bulgária",
@@ -250,8 +329,8 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "nome": "Acordo de Previdência Social Brasil-Bulgária",
         "desc": "Texto oficial do acordo bilateral de previdência social",
         "cat": "principal",
-        "arquivo": "01-acordo-principal.pdf",
-        "tamanho": "422 KB"
+        "arquivo": "acordo-de-previdencia-social-brasil-bulgaria-2016.pdf",
+        "tamanho": "621 KB"
       }
     ]
   },
@@ -292,16 +371,12 @@ export const acordosImportados: Record<string, AcordoImportado> = {
       {
         "nome": "Acordo sobre Segurança Social Brasil-Cabo Verde",
         "desc": "Texto oficial do acordo bilateral",
-        "cat": "principal",
-        "arquivo": "01-acordo-principal.pdf",
-        "tamanho": "8.5 MB"
+        "cat": "principal"
       },
       {
         "nome": "Ajuste Administrativo",
         "desc": "Ajuste administrativo para implementação",
-        "cat": "complementar",
-        "arquivo": "02-ajuste-administrativo.pdf",
-        "tamanho": "5.2 MB"
+        "cat": "complementar"
       }
     ]
   },
@@ -338,23 +413,17 @@ export const acordosImportados: Record<string, AcordoImportado> = {
       {
         "nome": "Acordo de Previdência Social Brasil-Canadá (2011)",
         "desc": "Texto oficial do acordo bilateral assinado em 08/08/2011",
-        "cat": "principal",
-        "arquivo": "01-acordo-principal.pdf",
-        "tamanho": "783 KB"
+        "cat": "principal"
       },
       {
         "nome": "Cartilha — Acordo Previdência Social Brasil-Canadá INSS",
         "desc": "Guia informativo para beneficiários (edição INSS - Março 2017)",
-        "cat": "principal",
-        "arquivo": "03-cartilha-inss.pdf",
-        "tamanho": "689 KB"
+        "cat": "principal"
       },
       {
         "nome": "Ajuste Administrativo Brasil-Canadá (2011)",
         "desc": "Texto do ajuste administrativo para implementação do acordo",
-        "cat": "principal",
-        "arquivo": "1a_130121-102032-939.pdf",
-        "tamanho": "160 KB"
+        "cat": "principal"
       },
       {
         "nome": "Certificado de Cobertura — Brasil",
@@ -382,7 +451,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "desc": "Formulário para solicitação de exceção ou prorrogação",
         "cat": "formulario",
         "arquivo": "07-deslocamento-excecao.pdf",
-        "tamanho": "128 KB"
+        "tamanho": "127 KB"
       },
       {
         "nome": "Retificação do Certificado",
@@ -396,7 +465,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "desc": "Formulário oficial para requerimento de aposentadoria por idade",
         "cat": "formulario",
         "arquivo": "09-formulario-idade-brasil.pdf",
-        "tamanho": "208 KB"
+        "tamanho": "207 KB"
       },
       {
         "nome": "Requerimento — Pensão por Morte (Brasil)",
@@ -417,21 +486,21 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "desc": "Formulário para apresentação de recurso administrativo",
         "cat": "formulario",
         "arquivo": "12-recurso.pdf",
-        "tamanho": "39 KB"
+        "tamanho": "38 KB"
       },
       {
         "nome": "Formulário — Aposentadoria por Idade (Canadá)",
         "desc": "Formulário canadense para requerimento de benefício por idade",
         "cat": "formulario",
         "arquivo": "13-formulario-idade-canada.pdf",
-        "tamanho": "1.2 MB"
+        "tamanho": "1.6 MB"
       },
       {
         "nome": "Formulário Adicional (Canadá)",
         "desc": "Formulário complementar para solicitações no Canadá",
         "cat": "formulario",
         "arquivo": "14-formulario-adicional-canada.pdf",
-        "tamanho": "1.6 MB"
+        "tamanho": "1.1 MB"
       },
       {
         "nome": "Formulário — Pensão por Morte (Canadá)",
@@ -445,7 +514,25 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "desc": "Formulário CPT168 para certificado de cobertura canadense",
         "cat": "formulario",
         "arquivo": "16-formulario-certificado-cobertura.pdf",
-        "tamanho": "165 KB"
+        "tamanho": "164 KB"
+      },
+      {
+        "nome": "01 Acordo Principal",
+        "cat": "principal",
+        "arquivo": "01-acordo-principal.pdf",
+        "tamanho": "782 KB"
+      },
+      {
+        "nome": "03 Cartilha Inss",
+        "cat": "roteiro",
+        "arquivo": "03-cartilha-inss.pdf",
+        "tamanho": "688 KB"
+      },
+      {
+        "nome": "1a 130121 102032 939",
+        "cat": "outro",
+        "arquivo": "1a-130121-102032-939.pdf",
+        "tamanho": "230 KB"
       }
     ]
   },
@@ -487,64 +574,78 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "nome": "Acordo de Previdência Social Brasil-Chile (2009)",
         "desc": "Texto oficial do acordo bilateral assinado em 03/03/2009",
         "cat": "principal",
-        "arquivo": "01-acordo-principal-2009.pdf",
-        "tamanho": "1.3 MB"
+        "arquivo": "acordo-de-previdencia-social-brasil-chile-2009.pdf",
+        "tamanho": "1.2 MB"
       },
       {
         "nome": "Ajuste Administrativo (2009)",
         "desc": "Regulamentação da execução do acordo",
         "cat": "complementar",
-        "arquivo": "02-ajuste-administrativo-2009.pdf",
+        "arquivo": "ajuste-administrativo-2009.pdf",
         "tamanho": "1.4 MB"
       },
       {
         "nome": "Acordo Brasil-Chile (1993)",
         "desc": "Acordo histórico de 1993",
         "cat": "complementar",
-        "arquivo": "03-acordo-1993.pdf",
-        "tamanho": "489 KB"
+        "arquivo": "acordo-brasil-chile-1993.pdf",
+        "tamanho": "4.9 MB"
       },
       {
         "nome": "Ajuste Complementar (1996)",
         "desc": "Ajuste complementar de 1996",
         "cat": "complementar",
-        "arquivo": "04-ajuste-1996.pdf",
-        "tamanho": "447 KB"
+        "arquivo": "ajuste-complementar-1996.pdf",
+        "tamanho": "9.1 MB"
       },
       {
         "nome": "Acordo Iberoamericano",
         "desc": "Acordo multilateral iberoamericano de previdência social",
-        "cat": "multilateral",
-        "arquivo": "05-acordo-iberoamericano.pdf",
-        "tamanho": "1.2 MB"
+        "cat": "multilateral"
       },
       {
         "nome": "Ajuste Iberoamericano",
         "desc": "Ajuste administrativo do acordo iberoamericano",
-        "cat": "multilateral",
-        "arquivo": "06-ajuste-iberoamericano.pdf",
-        "tamanho": "753 KB"
+        "cat": "multilateral"
       },
       {
         "nome": "Anexos Iberoamericano",
         "desc": "Anexos técnicos do acordo iberoamericano",
-        "cat": "multilateral",
-        "arquivo": "07-anexos-iberoamericano.pdf",
-        "tamanho": "241 KB"
+        "cat": "multilateral"
       },
       {
         "nome": "Convênio Multilateral",
         "desc": "Convênio multilateral de segurança social",
-        "cat": "multilateral",
-        "arquivo": "08-convenio-multilateral.pdf",
-        "tamanho": "2.1 MB"
+        "cat": "multilateral"
       },
       {
         "nome": "Guia Ouvidoria",
         "desc": "Guia de atendimento e ouvidoria",
-        "cat": "complementar",
-        "arquivo": "09-guia-ouvidoria.pdf",
-        "tamanho": "591 KB"
+        "cat": "complementar"
+      },
+      {
+        "nome": "Certificado de Deslocamento",
+        "cat": "outro",
+        "arquivo": "certificado-de-deslocamento.pdf",
+        "tamanho": "115 KB"
+      },
+      {
+        "nome": "Formulario Pedido de Prorrogacao de Deslocamento",
+        "cat": "formulario",
+        "arquivo": "formulario-pedido-de-prorrogacao-de-deslocamento.pdf",
+        "tamanho": "276 KB"
+      },
+      {
+        "nome": "Formulario Solicitacao de Beneficio",
+        "cat": "formulario",
+        "arquivo": "formulario-solicitacao-de-beneficio.pdf",
+        "tamanho": "360 KB"
+      },
+      {
+        "nome": "Requerimento Pensao Por Morte",
+        "cat": "formulario",
+        "arquivo": "requerimento-pensao-por-morte.pdf",
+        "tamanho": "369 KB"
       }
     ]
   },
@@ -586,92 +687,98 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "nome": "Acordo de Previdência Social Brasil-Coreia do Sul (2011)",
         "desc": "Texto oficial do acordo bilateral assinado em 03/07/2011",
         "cat": "outro",
-        "arquivo": "01-acordo-principal.pdf",
-        "tamanho": "3.1 MB"
+        "arquivo": "acordo-de-previdencia-social-brasil-coreia-do-sul.pdf",
+        "tamanho": "3.0 MB"
       },
       {
         "nome": "Ajuste Administrativo Brasil-Coreia do Sul (2013)",
         "desc": "Regulamentação administrativa para implementação do Acordo",
         "cat": "outro",
-        "arquivo": "02-ajuste-administrativo-2013.pdf",
-        "tamanho": "265 KB"
+        "arquivo": "ajuste-administrativo-brasil-coreia-do-sul.pdf",
+        "tamanho": "264 KB"
       },
       {
         "nome": "Solicitação de Certificado de Cobertura — Brasil",
         "desc": "Formulário BR-KR-1 para solicitação de certificado (Brasil)",
         "cat": "outro",
-        "arquivo": "03-br-kr-1-solicitacao.doc",
+        "arquivo": "solicitacao-de-certificado-de-cobertura-brasil.doc",
         "tamanho": "283 KB"
       },
       {
         "nome": "Comprovante de Cobertura — Brasil",
         "desc": "Formulário BR-KR-3 certificado de cobertura (Brasil)",
         "cat": "outro",
-        "arquivo": "04-br-kr-3-certificado.doc",
+        "arquivo": "certificado-de-cobertura-brasil.doc",
         "tamanho": "48 KB"
       },
       {
         "nome": "Solicitação Adicional — Brasil",
         "desc": "Formulário BR-KR-4A complementar (Brasil)",
         "cat": "outro",
-        "arquivo": "05-br-kr-4a-complementar.doc",
+        "arquivo": "solicitacao-adicional-de-cobertura-brasil.doc",
         "tamanho": "66 KB"
       },
       {
         "nome": "Extensão de Deslocamento — Brasil",
         "desc": "Formulário BR-KR-4 para extensão de deslocamento (Brasil)",
         "cat": "outro",
-        "arquivo": "06-br-kr-4-extensao.doc",
+        "arquivo": "extensao-de-deslocamento-brasil.doc",
         "tamanho": "58 KB"
       },
       {
         "nome": "Retificação de Certificado — Brasil",
         "desc": "Formulário BR-KR-5 para retificação (Brasil)",
         "cat": "outro",
-        "arquivo": "07-br-kr-5-retificacao.doc",
+        "arquivo": "retificacao-de-certificado-brasil.doc",
         "tamanho": "46 KB"
       },
       {
         "nome": "Recurso — Brasil",
         "desc": "Formulário BR-KR-6 para recurso administrativo (Brasil)",
         "cat": "outro",
-        "arquivo": "08-br-kr-6-recurso.doc",
+        "arquivo": "recurso-administrativo-brasil.doc",
         "tamanho": "41 KB"
       },
       {
         "nome": "Certificado de Cobertura — Coreia",
         "desc": "Formulário KR-BR-1 certificado de cobertura (Coreia)",
         "cat": "outro",
-        "arquivo": "09-kr-br-1-certificate.doc",
+        "arquivo": "certificado-de-cobertura-coreia.doc",
         "tamanho": "71 KB"
       },
       {
         "nome": "Solicitação de Extensão — Coreia",
         "desc": "Formulário KR-BR-1A para extensão de deslocamento (Coreia)",
         "cat": "outro",
-        "arquivo": "10-kr-br-1a-extension.doc",
+        "arquivo": "extensao-de-deslocamento-coreia.doc",
         "tamanho": "87 KB"
       },
       {
         "nome": "Requerimento de Benefício por Idade — Coreia",
         "desc": "Formulário KR-BR-2 aplicação de benefício por idade (Coreia)",
         "cat": "outro",
-        "arquivo": "11-kr-br-2-oldage.doc",
+        "arquivo": "requerimento-de-aposentadoria-por-idade-coreia.doc",
         "tamanho": "235 KB"
       },
       {
         "nome": "Requerimento de Invalidez/Morte — Coreia",
         "desc": "Formulário KR-BR-3 aplicação de invalidez ou morte (Coreia)",
         "cat": "outro",
-        "arquivo": "12-kr-br-3-disability.doc",
+        "arquivo": "requerimento-de-invalidez-e-morte-coreia.doc",
         "tamanho": "301 KB"
       },
       {
         "nome": "Requerimento de Montante Único — Coreia",
         "desc": "Formulário KR-BR-4 aplicação de montante único (Coreia)",
         "cat": "outro",
-        "arquivo": "13-kr-br-4-lump-sum.doc",
+        "arquivo": "requerimento-de-montante-unico-coreia.doc",
         "tamanho": "202 KB"
+      },
+      {
+        "nome": "Prorrogacao de Certificado de Cobertura Brasil",
+        "cat": "outro",
+        "arquivo": "prorrogacao-de-certificado-de-cobertura-brasil.doc",
+        "tamanho": "69 KB"
       }
     ]
   },
@@ -705,7 +812,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "nome": "Convenção Multilateral de Segurança Social da CPLP",
         "desc": "Texto oficial da convenção assinada em 24/07/2015 em Dili, Timor-Leste",
         "cat": "principal",
-        "arquivo": "2015_07_24a_Acordo-CPLP-assinado.pdf",
+        "arquivo": "convencao-multilateral-de-seguranca-social-cplp.pdf",
         "tamanho": "851 KB"
       }
     ]
@@ -754,50 +861,48 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "nome": "Convênio de Seguridade Social Brasil-Espanha (2008)",
         "desc": "Texto oficial do convênio bilateral assinado em 04/09/2008",
         "cat": "outro",
-        "arquivo": "01-acordo-principal.pdf",
-        "tamanho": "241 KB"
+        "arquivo": "convenio-de-seguridade-social-brasil-espanha-2008.pdf",
+        "tamanho": "240 KB"
       },
       {
         "nome": "Acordo Complementar Brasil-Espanha",
         "desc": "Documento complementar ao convênio principal",
         "cat": "outro",
-        "arquivo": "02-acordo-complementar.pdf",
-        "tamanho": "330 KB"
+        "arquivo": "acordo-complementar-brasil-espanha.pdf",
+        "tamanho": "329 KB"
       },
       {
         "nome": "Ajuste Administrativo Brasil-Espanha",
         "desc": "Regulamentação administrativa para implementação do convênio",
         "cat": "outro",
-        "arquivo": "03-ajuste-administrativo.pdf",
+        "arquivo": "ajuste-administrativo-brasil-espanha.pdf",
         "tamanho": "166 KB"
       },
       {
         "nome": "Acordo Iberoamericano",
         "desc": "Acordo multilateral iberoamericano de previdência social",
-        "cat": "outro",
-        "arquivo": "04-acordo-iberoamericano.pdf",
-        "tamanho": "1.2 MB"
+        "cat": "outro"
       },
       {
         "nome": "Ajuste Iberoamericano",
         "desc": "Ajuste administrativo do acordo iberoamericano",
-        "cat": "outro",
-        "arquivo": "05-ajuste-iberoamericano.pdf",
-        "tamanho": "753 KB"
+        "cat": "outro"
       },
       {
         "nome": "Anexos Iberoamericano",
         "desc": "Anexos técnicos do acordo iberoamericano",
-        "cat": "outro",
-        "arquivo": "06-anexos-iberoamericano.pdf",
-        "tamanho": "241 KB"
+        "cat": "outro"
       },
       {
         "nome": "Convênio Multilateral",
         "desc": "Convênio multilateral de segurança social",
+        "cat": "outro"
+      },
+      {
+        "nome": "Certificado de Deslocamento",
         "cat": "outro",
-        "arquivo": "07-convenio-multilateral.pdf",
-        "tamanho": "2.1 MB"
+        "arquivo": "certificado-de-deslocamento.pdf",
+        "tamanho": "59 KB"
       }
     ]
   },
@@ -838,57 +943,57 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "nome": "Acordo de Previdência Social Brasil-Estados Unidos (2015)",
         "desc": "Texto oficial do acordo bilateral assinado em 2015",
         "cat": "outro",
-        "arquivo": "01-acordo-principal.pdf",
+        "arquivo": "acordo-de-previdencia-social-brasil-estados-unidos-2015.pdf",
         "tamanho": "4.0 MB"
       },
       {
         "nome": "Ajuste Administrativo Brasil-Estados Unidos",
         "desc": "Regulamentação da execução do acordo previdenciário",
         "cat": "outro",
-        "arquivo": "02-ajuste-administrativo.pdf",
-        "tamanho": "456 KB"
+        "arquivo": "ajuste-administrativo-brasil-estados-unidos.pdf",
+        "tamanho": "455 KB"
       },
       {
         "nome": "Certificado de Cobertura Brasil-Estados Unidos",
         "desc": "Certificado de cobertura previdenciária",
         "cat": "outro",
-        "arquivo": "03-certificado-cobertura.pdf",
+        "arquivo": "certificado-de-cobertura-brasil-estados-unidos.pdf",
         "tamanho": "178 KB"
       },
       {
         "nome": "Formulário Retificação Certificado",
         "desc": "Formulário para retificar certificado de cobertura",
         "cat": "outro",
-        "arquivo": "04-retificacao-certificado.pdf",
-        "tamanho": "134 KB"
+        "arquivo": "formulario-retificacao-certificado.pdf",
+        "tamanho": "133 KB"
       },
       {
         "nome": "Formulário Aposentadoria por Idade",
         "desc": "Requerimento de aposentadoria por idade",
         "cat": "outro",
-        "arquivo": "05-formulario-idade.pdf",
+        "arquivo": "formulario-aposentadoria-por-idade.pdf",
         "tamanho": "178 KB"
       },
       {
         "nome": "Formulário Pensão por Morte",
         "desc": "Requerimento de pensão por morte",
         "cat": "outro",
-        "arquivo": "06-formulario-morte.pdf",
-        "tamanho": "250 KB"
+        "arquivo": "formulario-pensao-por-morte.pdf",
+        "tamanho": "249 KB"
       },
       {
         "nome": "Formulário Por Invalidez",
         "desc": "Requerimento de benefício por invalidez",
         "cat": "outro",
-        "arquivo": "07-formulario-invalidez.pdf",
-        "tamanho": "208 KB"
+        "arquivo": "formulario-por-invalidez.pdf",
+        "tamanho": "207 KB"
       },
       {
         "nome": "Formulário Recurso",
         "desc": "Formulário para apresentação de recursos",
         "cat": "outro",
-        "arquivo": "08-recurso.pdf",
-        "tamanho": "50 KB"
+        "arquivo": "formulario-recurso.pdf",
+        "tamanho": "49 KB"
       }
     ]
   },
@@ -933,114 +1038,82 @@ export const acordosImportados: Record<string, AcordoImportado> = {
       {
         "nome": "Acordo de Previdência Social Brasil-França",
         "desc": "Texto oficial do acordo bilateral",
-        "cat": "principal",
-        "arquivo": "01-acordo-principal.pdf",
-        "tamanho": "16.2 MB"
+        "cat": "principal"
       },
       {
         "nome": "Ajuste Administrativo",
         "desc": "Ajuste administrativo",
-        "cat": "complementar",
-        "arquivo": "02-ajuste-administrativo.pdf",
-        "tamanho": "11.3 MB"
+        "cat": "complementar"
       },
       {
         "nome": "Formulário SE41619",
         "desc": "Formulário 41619",
-        "cat": "formulario",
-        "arquivo": "03-formulario-se41619.pdf",
-        "tamanho": "437 KB"
+        "cat": "formulario"
       },
       {
         "nome": "Formulário SE41620",
         "desc": "Formulário 41620",
-        "cat": "formulario",
-        "arquivo": "04-formulario-se41620.pdf",
-        "tamanho": "159 KB"
+        "cat": "formulario"
       },
       {
         "nome": "Recurso BRA-FR-16",
         "desc": "Formulário de recurso",
-        "cat": "formulario",
-        "arquivo": "05-formulario-5.doc",
-        "tamanho": "32 KB"
+        "cat": "formulario"
       },
       {
         "nome": "Aposentadoria por Idade BRA-FR-12",
         "desc": "Formulário aposentadoria idade",
-        "cat": "formulario",
-        "arquivo": "06-formulario-6.doc",
-        "tamanho": "28 KB"
+        "cat": "formulario"
       },
       {
         "nome": "Aposentadoria por Invalidez BRA-FR-11",
         "desc": "Formulário aposentadoria invalidez",
-        "cat": "formulario",
-        "arquivo": "07-formulario-7.doc",
-        "tamanho": "24 KB"
+        "cat": "formulario"
       },
       {
         "nome": "Auxílio-Doença BRA-FR-14",
         "desc": "Formulário auxílio-doença",
-        "cat": "formulario",
-        "arquivo": "08-formulario-8.doc",
-        "tamanho": "26 KB"
+        "cat": "formulario"
       },
       {
         "nome": "Pensão por Morte BRA-FR-13",
         "desc": "Formulário pensão morte",
-        "cat": "formulario",
-        "arquivo": "09-formulario-9.doc",
-        "tamanho": "31 KB"
+        "cat": "formulario"
       },
       {
         "nome": "Salário Maternidade BRA-FR-15",
         "desc": "Formulário salário maternidade",
-        "cat": "formulario",
-        "arquivo": "10-formulario-10.doc",
-        "tamanho": "29 KB"
+        "cat": "formulario"
       },
       {
         "nome": "Período Transitório BRA-FR-01",
         "desc": "Anexo período transitório",
-        "cat": "formulario",
-        "arquivo": "11-formulario-11.doc",
-        "tamanho": "19 KB"
+        "cat": "formulario"
       },
       {
         "nome": "Demanda Pensão Invalidez",
         "desc": "Demanda pensão por invalidez",
-        "cat": "formulario",
-        "arquivo": "12-formulario-12.doc",
-        "tamanho": "22 KB"
+        "cat": "formulario"
       },
       {
         "nome": "Deslocamento Inicial BRA-FR-01B",
         "desc": "Solicitação deslocamento inicial",
-        "cat": "formulario",
-        "arquivo": "13-formulario-13.doc",
-        "tamanho": "18 KB"
+        "cat": "formulario"
       },
       {
         "nome": "Deslocamento Temporário BRA-FR-01A",
         "desc": "Solicitação deslocamento temporário",
-        "cat": "formulario",
-        "arquivo": "14-formulario-14.doc",
-        "tamanho": "17 KB"
+        "cat": "formulario"
       },
       {
         "nome": "Prorrogação Deslocamento BRA-FR-02A",
         "desc": "Prorrogação deslocamento 02A",
-        "cat": "formulario",
-        "arquivo": "15-formulario-15.doc",
-        "tamanho": "20 KB"
+        "cat": "formulario"
       },
       {
         "nome": "Prorrogação Deslocamento BRA-FR-02B",
         "desc": "Prorrogação deslocamento 02B",
-        "cat": "formulario",
-        "arquivo": "16-formulario-16.doc",
-        "tamanho": "21 KB"
+        "cat": "formulario"
       }
     ]
   },
@@ -1089,36 +1162,36 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "nome": "Acordo de Previdência Social entre a República Helênica e o Brasil",
         "desc": "Texto principal do acordo bilateral",
         "cat": "outro",
-        "arquivo": "grecia/Acordo-entre-o-Governo-da-Republica-Helenica-e-Brasil.pdf",
+        "arquivo": "acordo-de-previdencia-social-entre-a-republica-helenica-e-o-brasil-2011.pdf",
         "tamanho": "1.4 MB"
       },
       {
         "nome": "Ajuste para a Execução do Acordo de Previdência Social",
         "desc": "Instrumento administrativo de aplicação do acordo",
         "cat": "outro",
-        "arquivo": "grecia/3a_081013-161952-331.pdf",
-        "tamanho": "165 KB"
+        "arquivo": "ajuste-para-a-execucao-do-acordo-de-previdencia-social.pdf",
+        "tamanho": "164 KB"
       },
       {
         "nome": "GR/B-1 — Certificado de deslocamento temporário",
         "desc": "Aplicação do art. VIII, alíneas C e E, do acordo",
         "cat": "outro",
-        "arquivo": "grecia/GRa_B-1.pdf",
-        "tamanho": "212 KB"
+        "arquivo": "gr-b-1-certificado-de-deslocamento-temporario.pdf",
+        "tamanho": "211 KB"
       },
       {
         "nome": "GR/B-2 — Solicitação de prorrogação de deslocamento temporário",
         "desc": "Pedido de prorrogação do destacamento temporário",
         "cat": "outro",
-        "arquivo": "grecia/Formulario-GRa_B-2.pdf",
+        "arquivo": "gr-b-2-solicitacao-de-prorrogacao-de-deslocamento-temporario.pdf",
         "tamanho": "226 KB"
       },
       {
         "nome": "GR/B-3 — Formulário de pedido de benefício",
         "desc": "Requerimento de idade, invalidez, morte, auxílio-doença, salário-maternidade e demais prestações previstas",
         "cat": "outro",
-        "arquivo": "grecia/Formulario-GRa_B-3.pdf",
-        "tamanho": "397 KB"
+        "arquivo": "gr-b-3-formulario-de-pedido-de-beneficio.pdf",
+        "tamanho": "396 KB"
       }
     ]
   },
@@ -1180,57 +1253,57 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "nome": "Acordo de Previdência Social Brasil-Índia (2020)",
         "desc": "Texto oficial do acordo bilateral",
         "cat": "outro",
-        "arquivo": "01-acordo-principal.pdf",
-        "tamanho": "24 MB"
+        "arquivo": "acordo-de-previdencia-social-brasil-india-2020.pdf",
+        "tamanho": "23.6 MB"
       },
       {
         "nome": "Ajuste Administrativo Brasil-Índia",
         "desc": "Regulamentação de execução do acordo",
         "cat": "outro",
-        "arquivo": "02-ajuste-administrativo.pdf",
+        "arquivo": "ajuste-administrativo-brasil-india.pdf",
         "tamanho": "3.9 MB"
       },
       {
         "nome": "Certificado de Cobertura",
         "desc": "Certificado de cobertura previdenciária",
         "cat": "outro",
-        "arquivo": "03-certificado-cobertura.pdf",
+        "arquivo": "certificado-de-cobertura.pdf",
         "tamanho": "131 KB"
       },
       {
         "nome": "Retificação do Certificado",
         "desc": "Retificação de certificado de cobertura",
         "cat": "outro",
-        "arquivo": "04-retificacao-certificado.pdf",
-        "tamanho": "114 KB"
+        "arquivo": "retificacao-do-certificado.pdf",
+        "tamanho": "113 KB"
       },
       {
         "nome": "Formulário Aposentadoria por Idade",
         "desc": "Requerimento de aposentadoria por idade",
         "cat": "outro",
-        "arquivo": "05-formulario-idade.pdf",
+        "arquivo": "formulario-aposentadoria-por-idade.pdf",
         "tamanho": "304 KB"
       },
       {
         "nome": "Formulário Pensão por Morte",
         "desc": "Requerimento de pensão por morte",
         "cat": "outro",
-        "arquivo": "06-formulario-morte.pdf",
+        "arquivo": "formulario-pensao-por-morte.pdf",
         "tamanho": "329 KB"
       },
       {
         "nome": "Formulário Por Invalidez",
         "desc": "Requerimento de benefício por invalidez",
         "cat": "outro",
-        "arquivo": "07-formulario-invalidez.pdf",
+        "arquivo": "formulario-por-invalidez.pdf",
         "tamanho": "267 KB"
       },
       {
         "nome": "Formulário Recurso",
         "desc": "Formulário para apresentação de recursos",
         "cat": "outro",
-        "arquivo": "08-recurso.pdf",
-        "tamanho": "24 KB"
+        "arquivo": "formulario-recurso.pdf",
+        "tamanho": "23 KB"
       }
     ]
   },
@@ -1273,8 +1346,8 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "nome": "Acordo de Previdência Social Brasil-Israel",
         "desc": "Texto oficial do acordo bilateral",
         "cat": "outro",
-        "arquivo": "01-acordo-principal.pdf",
-        "tamanho": "6.9 MB"
+        "arquivo": "acordo-de-previdencia-social-brasil-israel.pdf",
+        "tamanho": "6.8 MB"
       }
     ]
   },
@@ -1322,42 +1395,42 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "nome": "Acordo de Previdência Social Brasil-Itália",
         "desc": "Texto oficial do acordo bilateral",
         "cat": "outro",
-        "arquivo": "01-acordo-principal.pdf",
-        "tamanho": "693 KB"
+        "arquivo": "acordo-de-previdencia-social-brasil-italia-2016.pdf",
+        "tamanho": "192 KB"
       },
       {
         "nome": "Protocolo Adicional",
         "desc": "Normas aplicáveis ao protocolo",
         "cat": "outro",
         "arquivo": "02-protocolo-adicional.pdf",
-        "tamanho": "192 KB"
+        "tamanho": "692 KB"
       },
       {
         "nome": "Ajuste Administrativo",
         "desc": "Procedimentos administrativos de execução",
         "cat": "outro",
         "arquivo": "03-ajuste-administrativo.pdf",
-        "tamanho": "162 KB"
+        "tamanho": "161 KB"
       },
       {
         "nome": "Formulário de Ajuste",
         "desc": "Documentação para aplicação do ajuste",
         "cat": "outro",
         "arquivo": "04-formulario-ajuste.pdf",
-        "tamanho": "156 KB"
+        "tamanho": "155 KB"
       },
       {
         "nome": "Formulário ITBR",
         "desc": "Formulário de requerimento de benefício",
         "cat": "outro",
-        "arquivo": "05-formulario-ITBR.pdf",
+        "arquivo": "05-formulario-itbr.pdf",
         "tamanho": "79 KB"
       },
       {
         "nome": "Relatório Médico Pormenorizado",
         "desc": "Modelo de relatório médico pericial",
         "cat": "outro",
-        "arquivo": "06-relatorio-medico.pdf",
+        "arquivo": "relatorio-medico-pormenorizado.pdf",
         "tamanho": "174 KB"
       },
       {
@@ -1372,7 +1445,55 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "desc": "Comunicação entre instituições",
         "cat": "outro",
         "arquivo": "08-formulario-ligacao.pdf",
-        "tamanho": "17 KB"
+        "tamanho": "16 KB"
+      },
+      {
+        "nome": "01 Acordo Principal",
+        "cat": "principal",
+        "arquivo": "01-acordo-principal.pdf",
+        "tamanho": "192 KB"
+      },
+      {
+        "nome": "06 Relatorio Medico",
+        "cat": "outro",
+        "arquivo": "06-relatorio-medico.pdf",
+        "tamanho": "174 KB"
+      },
+      {
+        "nome": "Ajuste Administrativo",
+        "cat": "complementar",
+        "arquivo": "ajuste-administrativo.pdf",
+        "tamanho": "161 KB"
+      },
+      {
+        "nome": "Certificado de Deslocamento",
+        "cat": "outro",
+        "arquivo": "certificado-de-deslocamento.pdf",
+        "tamanho": "22 KB"
+      },
+      {
+        "nome": "Formulario de Ajuste",
+        "cat": "complementar",
+        "arquivo": "formulario-de-ajuste.pdf",
+        "tamanho": "155 KB"
+      },
+      {
+        "nome": "Formulario de Ligacao",
+        "cat": "formulario",
+        "arquivo": "formulario-de-ligacao.pdf",
+        "tamanho": "16 KB"
+      },
+      {
+        "nome": "Formulario Itbr",
+        "cat": "formulario",
+        "arquivo": "formulario-itbr.pdf",
+        "tamanho": "79 KB"
+      },
+      {
+        "nome": "Protocolo Adicional",
+        "cat": "outro",
+        "arquivo": "protocolo-adicional.pdf",
+        "tamanho": "692 KB"
       }
     ]
   },
@@ -1411,99 +1532,117 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "nome": "Acordo de Previdência Social Brasil-Japão",
         "desc": "Texto oficial do acordo bilateral",
         "cat": "outro",
-        "arquivo": "01-acordo-principal.pdf",
-        "tamanho": "3.2 MB"
+        "arquivo": "acordo-de-previdencia-social-brasil-japao.pdf",
+        "tamanho": "3.1 MB"
       },
       {
         "nome": "Protocolo Adicional",
         "desc": "Complementação do acordo principal",
-        "cat": "outro",
-        "arquivo": "02-protocolo-adicional.pdf",
-        "tamanho": "1.3 MB"
+        "cat": "outro"
       },
       {
         "nome": "Ajuste Administrativo",
         "desc": "Procedimentos de execução do acordo",
         "cat": "outro",
-        "arquivo": "03-ajuste-administrativo.pdf",
-        "tamanho": "832 KB"
+        "arquivo": "ajuste-administrativo-brasil-japao.pdf",
+        "tamanho": "1.3 MB"
       },
       {
         "nome": "Formulário A",
         "desc": "Requerimento de benefício",
         "cat": "outro",
-        "arquivo": "04-formulario-a.pdf",
-        "tamanho": "136 KB"
+        "arquivo": "formulario-de-beneficios-japao.doc",
+        "tamanho": "228 KB"
       },
       {
         "nome": "Formulário B",
         "desc": "Solicitação de informações",
         "cat": "outro",
-        "arquivo": "05-formulario-b.pdf",
-        "tamanho": "81 KB"
+        "arquivo": "formulario-de-recurso-crps.pdf",
+        "tamanho": "80 KB"
       },
       {
         "nome": "Formulário C",
         "desc": "Comunicação de dados",
-        "cat": "outro",
-        "arquivo": "06-formulario-c.pdf",
-        "tamanho": "109 KB"
+        "cat": "outro"
       },
       {
         "nome": "Relatório Médico",
         "desc": "Modelo de relatório para invalidez",
         "cat": "outro",
-        "arquivo": "07-relatorio-medico.pdf",
-        "tamanho": "226 KB"
+        "arquivo": "parecer-medico.pdf",
+        "tamanho": "135 KB"
       },
       {
         "nome": "Formulário de Ligação",
         "desc": "Comunicação entre instituições",
-        "cat": "outro",
-        "arquivo": "08-formulario-ligacao.pdf",
-        "tamanho": "116 KB"
+        "cat": "outro"
       },
       {
         "nome": "Documento Administrativo A",
         "desc": "Instruções operacionais",
-        "cat": "outro",
-        "arquivo": "09-documento-a.doc",
-        "tamanho": "228 KB"
+        "cat": "outro"
       },
       {
         "nome": "Documento Administrativo B",
         "desc": "Procedimentos complementares",
-        "cat": "outro",
-        "arquivo": "10-documento-b.doc",
-        "tamanho": "92 KB"
+        "cat": "outro"
       },
       {
         "nome": "Certificado Brasil-Japão A",
         "desc": "Certificado de cobertura A",
         "cat": "outro",
-        "arquivo": "11-certificado-a.pdf",
-        "tamanho": "441 KB"
+        "arquivo": "cartilha-inss-brasil-japao.pdf",
+        "tamanho": "1.4 MB"
       },
       {
         "nome": "Certificado Brasil-Japão B",
         "desc": "Certificado de cobertura B",
         "cat": "outro",
-        "arquivo": "12-certificado-b.pdf",
-        "tamanho": "448 KB"
+        "arquivo": "certificado-de-deslocamento-temporario-brasil.pdf",
+        "tamanho": "116 KB"
       },
       {
         "nome": "Certificado Brasil-Japão C",
         "desc": "Certificado de cobertura C",
         "cat": "outro",
-        "arquivo": "13-certificado-c.pdf",
-        "tamanho": "446 KB"
+        "arquivo": "certificado-de-deslocamento-temporario-japao.pdf",
+        "tamanho": "226 KB"
       },
       {
         "nome": "Cartilha INSS",
         "desc": "Guia informativo do acordo Brasil-Japão",
-        "cat": "outro",
-        "arquivo": "14-cartilha-inss-japao.pdf",
-        "tamanho": "1.8 MB"
+        "cat": "outro"
+      },
+      {
+        "nome": "Formulario de Atualizacao de Dados do Beneficio Japao",
+        "cat": "formulario",
+        "arquivo": "formulario-de-atualizacao-de-dados-do-beneficio-japao.doc",
+        "tamanho": "92 KB"
+      },
+      {
+        "nome": "Formulario Para Beneficiarios Residentes No Exterior",
+        "cat": "formulario",
+        "arquivo": "formulario-para-beneficiarios-residentes-no-exterior.pdf",
+        "tamanho": "109 KB"
+      },
+      {
+        "nome": "Pedido de Pensao Japao Para Brasil A",
+        "cat": "formulario",
+        "arquivo": "pedido-de-pensao-japao-para-brasil-a.pdf",
+        "tamanho": "440 KB"
+      },
+      {
+        "nome": "Pedido de Pensao Japao Para Brasil B",
+        "cat": "formulario",
+        "arquivo": "pedido-de-pensao-japao-para-brasil-b.pdf",
+        "tamanho": "447 KB"
+      },
+      {
+        "nome": "Pedido de Verificacao de Periodos de Seguro Japao",
+        "cat": "formulario",
+        "arquivo": "pedido-de-verificacao-de-periodos-de-seguro-japao.pdf",
+        "tamanho": "446 KB"
       }
     ]
   },
@@ -1542,22 +1681,22 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "nome": "Acordo de Previdência Social Brasil-Luxemburgo",
         "desc": "Texto oficial do acordo bilateral",
         "cat": "outro",
-        "arquivo": "01-acordo-principal.pdf",
+        "arquivo": "acordo-de-previdencia-social-brasil-luxemburgo-2013.pdf",
         "tamanho": "1.4 MB"
       },
       {
         "nome": "Ajuste Administrativo",
         "desc": "Procedimentos de execução do acordo",
         "cat": "outro",
-        "arquivo": "02-ajuste-administrativo.pdf",
-        "tamanho": "476 KB"
+        "arquivo": "ajuste-administrativo.pdf",
+        "tamanho": "465 KB"
       },
       {
         "nome": "Protocolo Adicional",
         "desc": "Protocolo de ratificação e vigência",
         "cat": "outro",
-        "arquivo": "03-protocolo-adicional.pdf",
-        "tamanho": "166 KB"
+        "arquivo": "protocolo-adicional.pdf",
+        "tamanho": "162 KB"
       }
     ]
   },
@@ -1599,64 +1738,64 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "nome": "Acordo Multilateral de Seguridade Social do Mercosul",
         "desc": "Texto principal do acordo multilateral",
         "cat": "principal",
-        "arquivo": "mercosul/Acordo.pdf",
+        "arquivo": "acordo-multilateral-de-seguridade-social-do-mercosul-2005.pdf",
         "tamanho": "348 KB"
       },
       {
         "nome": "Regulamento Administrativo do Acordo Multilateral",
         "desc": "Instrumento de aplicação do acordo no Mercosul",
         "cat": "complementar",
-        "arquivo": "mercosul/Ajuste Administrativo.pdf",
+        "arquivo": "regulamento-administrativo-do-acordo-multilateral.pdf",
         "tamanho": "237 KB"
       },
       {
         "nome": "MER-Solicitud 01 — Formulário de solicitação de benefícios",
         "desc": "Pedido de aposentadoria, auxílio-doença ou pensão",
         "cat": "formulario",
-        "arquivo": "mercosul/3a_081013-161948-634.pdf",
+        "arquivo": "mer-solicitud-01-formulario-de-solicitacao-de-beneficios.pdf",
         "tamanho": "183 KB"
       },
       {
         "nome": "MER-Traslado 03 — Certificado de deslocamento temporário",
         "desc": "Comprovação de destacamento temporário do trabalhador",
         "cat": "formulario",
-        "arquivo": "mercosul/3a_081013-161948-731.pdf",
+        "arquivo": "mer-traslado-03-certificado-de-deslocamento-temporario.pdf",
         "tamanho": "100 KB"
       },
       {
         "nome": "MER-Prórroga Traslado 04 — Prorrogação de deslocamento temporário",
         "desc": "Solicitação de prorrogação do destacamento",
         "cat": "formulario",
-        "arquivo": "mercosul/3a_081013-161948-826.pdf",
+        "arquivo": "mer-prorroga-traslado-04-prorrogacao-de-deslocamento-temporario.pdf",
         "tamanho": "92 KB"
       },
       {
         "nome": "TBM — Transferência de benefício em manutenção",
         "desc": "Pedido de remessa de pagamento ou alteração de dados bancários",
         "cat": "formulario",
-        "arquivo": "mercosul/Formulario-TBM.pdf",
+        "arquivo": "tbm-transferencia-de-beneficio-em-manutencao.pdf",
         "tamanho": "309 KB"
       },
       {
         "nome": "Atestado de vida para residentes no exterior",
         "desc": "Comprovação de vida perante o INSS",
         "cat": "formulario",
-        "arquivo": "mercosul/formulario_atestado-de-vida-para-residentes-no-exterior-pdf_consulados-atualizado-1.pdf",
-        "tamanho": "424 KB"
+        "arquivo": "atestado-de-vida-para-residentes-no-exterior.pdf",
+        "tamanho": "425 KB"
       },
       {
         "nome": "Cartilha Mercosul — Português",
         "desc": "Guia explicativo sobre previdência social no Mercosul",
         "cat": "roteiro",
-        "arquivo": "mercosul/mercosulpt.pdf",
-        "tamanho": "1.67 MB"
+        "arquivo": "cartilha-mercosul-portugues.pdf",
+        "tamanho": "1.6 MB"
       },
       {
         "nome": "Cartilha Mercosul — Espanhol",
         "desc": "Guia explicativo sobre previsión social en el Mercosur",
         "cat": "roteiro",
-        "arquivo": "mercosul/mercosules.pdf",
-        "tamanho": "1.70 MB"
+        "arquivo": "cartilha-mercosul-espanhol.pdf",
+        "tamanho": "1.7 MB"
       }
     ]
   },
@@ -1696,50 +1835,56 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "nome": "Certificado de Deslocamento Temporário",
         "desc": "Formulário para deslocamento temporário",
         "cat": "outro",
-        "arquivo": "01-certificado-deslocamento-temporario.pdf",
-        "tamanho": "112 KB"
+        "arquivo": "certificado-de-deslocamento-temporario.pdf",
+        "tamanho": "110 KB"
       },
       {
         "nome": "Prorrogação de Deslocamento",
         "desc": "Solicitação de prorrogação de deslocamento",
         "cat": "outro",
-        "arquivo": "02-prorrogacao-deslocamento.pdf",
-        "tamanho": "134 KB"
+        "arquivo": "prorrogacao-de-deslocamento.pdf",
+        "tamanho": "131 KB"
       },
       {
         "nome": "Retificação de Deslocamento",
         "desc": "Formulário de retificação",
         "cat": "outro",
-        "arquivo": "03-retificacao-deslocamento.pdf",
-        "tamanho": "120 KB"
+        "arquivo": "retificacao-de-deslocamento.pdf",
+        "tamanho": "117 KB"
       },
       {
         "nome": "Solicitação de Aposentadoria por Idade",
         "desc": "Formulário para aposentadoria por idade",
         "cat": "outro",
-        "arquivo": "04-solicitacao-aposentadoria-idade.pdf",
-        "tamanho": "996 KB"
+        "arquivo": "solicitacao-de-aposentadoria-por-idade.pdf",
+        "tamanho": "973 KB"
       },
       {
         "nome": "Solicitação de Pensão por Morte",
         "desc": "Formulário para pensão por morte",
         "cat": "outro",
-        "arquivo": "05-solicitacao-pensao-morte.pdf",
-        "tamanho": "357 KB"
+        "arquivo": "solicitacao-de-pensao-por-morte.pdf",
+        "tamanho": "349 KB"
       },
       {
         "nome": "Solicitação de Benefício por Incapacidade",
         "desc": "Formulário para benefício por incapacidade",
         "cat": "outro",
-        "arquivo": "06-solicitacao-beneficio-incapacidade.pdf",
-        "tamanho": "275 KB"
+        "arquivo": "solicitacao-de-beneficio-por-incapacidade.pdf",
+        "tamanho": "269 KB"
       },
       {
         "nome": "Formulário de Recurso",
         "desc": "Recurso administrativo de decisão",
         "cat": "outro",
-        "arquivo": "07-formulario-recurso.pdf",
-        "tamanho": "222 KB"
+        "arquivo": "formulario-de-recurso.pdf",
+        "tamanho": "217 KB"
+      },
+      {
+        "nome": "Acordo de Previdencia Social Brasil Mocambique",
+        "cat": "principal",
+        "arquivo": "acordo-de-previdencia-social-brasil-mocambique.pdf",
+        "tamanho": "2.4 MB"
       }
     ]
   },
@@ -1791,106 +1936,110 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "nome": "Acordo de Previdência Social Brasil-Portugal",
         "desc": "Texto oficial do acordo bilateral de previdência social",
         "cat": "principal",
-        "arquivo": "01-acordo-principal.pdf",
-        "tamanho": "606 KB"
+        "arquivo": "acordo-de-previdencia-social-brasil-portugal-1992.pdf",
+        "tamanho": "592 KB"
       },
       {
         "nome": "Ajuste Administrativo",
         "desc": "Ajuste administrativo para implementação do acordo",
         "cat": "complementar",
-        "arquivo": "02-ajuste-administrativo.pdf",
+        "arquivo": "ajuste-administrativo.pdf",
         "tamanho": "9.6 MB"
       },
       {
         "nome": "Acordo Complementar (2006)",
         "desc": "Instrumento complementar ao acordo bilateral",
         "cat": "complementar",
-        "arquivo": "03-acordo-complementar.pdf",
-        "tamanho": "68 KB"
+        "arquivo": "acordo-complementar-2006.pdf",
+        "tamanho": "66 KB"
       },
       {
         "nome": "BR/PT 1 — Certificado de destacamento",
         "desc": "Documento para comprovar o destacamento e a legislação aplicável",
         "cat": "formulario",
-        "arquivo": "04-formulario-br-pt-01.pdf",
-        "tamanho": "51 KB"
+        "arquivo": "br-pt-1-certificado-de-destacamento.pdf",
+        "tamanho": "49 KB"
       },
       {
         "nome": "BR/PT 2 — Pedido de prorrogação de destacamento",
         "desc": "Solicitação de prorrogação do período de destacamento",
         "cat": "formulario",
-        "arquivo": "05-formulario-br-pt-02.doc",
-        "tamanho": "123 KB"
+        "arquivo": "pt-br-2-pedido-de-prorrogacao-de-destacamento.pdf",
+        "tamanho": "56 KB"
       },
       {
         "nome": "BR/PT 3 — Exercício do direito de opção",
         "desc": "Formulário para opção pela legislação aplicável",
         "cat": "formulario",
-        "arquivo": "06-formulario-br-pt-03.pdf",
-        "tamanho": "42 KB"
+        "arquivo": "br-pt-3-exercicio-do-direito-de-opcao.pdf",
+        "tamanho": "41 KB"
       },
       {
         "nome": "BR/PT 07 — Solicitação de prestações de benefícios",
         "desc": "Requerimento de aposentadoria, pensão e outros benefícios",
         "cat": "formulario",
-        "arquivo": "07-formulario-bra-pt-07.pdf",
-        "tamanho": "226 KB"
+        "arquivo": "br-pt-07-solicitacao-de-prestacoes-de-beneficios.pdf",
+        "tamanho": "221 KB"
       },
       {
         "nome": "BR/PT 12 — Requerimento de recurso",
         "desc": "Formulário para interposição de recurso administrativo",
         "cat": "formulario",
-        "arquivo": "08-formulario-bra-pt-12.pdf",
+        "arquivo": "br-pt-12-requerimento-de-recurso.pdf",
         "tamanho": "5 KB"
       },
       {
         "nome": "BR/PT 15 — Roteiro de documentos para solicitação de benefícios",
         "desc": "Checklist de documentos para instruir o formulário BR/PT 07",
         "cat": "roteiro",
-        "arquivo": "09-formulario-bra-pt-15.pdf",
-        "tamanho": "23 KB"
+        "arquivo": "br-pt-15-roteiro-de-documentos-para-solicitacao-de-beneficios.pdf",
+        "tamanho": "22 KB"
       },
       {
         "nome": "PT/BR 1 — Certificado de destacamento",
         "desc": "Documento para comprovar o destacamento e a legislação aplicável",
         "cat": "formulario",
-        "arquivo": "10-formulario-pt-br-01.pdf",
-        "tamanho": "51 KB"
+        "arquivo": "pt-br-1-certificado-de-destacamento.pdf",
+        "tamanho": "50 KB"
       },
       {
         "nome": "PT/BR 2 — Pedido de prorrogação de destacamento",
         "desc": "Solicitação de prorrogação do período de destacamento",
-        "cat": "formulario",
-        "arquivo": "11-formulario-pt-br-02.pdf",
-        "tamanho": "57 KB"
+        "cat": "formulario"
       },
       {
         "nome": "PT/BR 3 — Exercício do direito de opção",
         "desc": "Formulário para opção pela legislação aplicável",
         "cat": "formulario",
-        "arquivo": "12-formulario-pt-br-03.pdf",
-        "tamanho": "42 KB"
+        "arquivo": "pt-br-3-exercicio-do-direito-de-opcao.pdf",
+        "tamanho": "41 KB"
       },
       {
         "nome": "PT/BR 4 — Atestado de totalização dos períodos de seguro",
         "desc": "Doença, maternidade, paternidade, adoção e prestações familiares",
         "cat": "formulario",
-        "arquivo": "13-formulario-pt-br-04.pdf",
-        "tamanho": "64 KB"
+        "arquivo": "pt-br-4-atestado-de-totalizacao-dos-periodos-de-seguro.pdf",
+        "tamanho": "62 KB"
       },
       {
         "nome": "PT/BR 5 — Requerimento de prestações por incapacidade para o trabalho",
         "desc": "Pedido de prestações pecuniárias por incapacidade para o trabalho",
         "cat": "formulario",
-        "arquivo": "14-formulario-pt-br-05.pdf",
-        "tamanho": "51 KB"
+        "arquivo": "pt-br-5-requerimento-de-prestacoes-por-incapacidade-para-o-trabalho.pdf",
+        "tamanho": "50 KB"
       },
       {
         "nome": "PT/BR 6 — Requerimento de pensão ou aposentadoria",
         "desc": "Pedido de aposentadoria por invalidez, velhice, tempo de contribuição ou pensão por morte",
         "cat": "formulario",
-        "arquivo": "15-formulario-pt-br-06.pdf",
-        "tamanho": "117 KB"
+        "arquivo": "pt-br-6-requerimento-de-pensao-ou-aposentadoria.pdf",
+        "tamanho": "115 KB"
+      },
+      {
+        "nome": "Br Pt 2 6 Outubro 2014",
+        "cat": "outro",
+        "arquivo": "br-pt-2-6-outubro-2014.doc",
+        "tamanho": "120 KB"
       }
     ]
   },
@@ -1924,7 +2073,74 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "Plano de Pensão do Canadá"
       ]
     },
-    "documentos": []
+    "documentos": [
+      {
+        "nome": "Acordo de Previdencia Social Brasil Quebec",
+        "cat": "principal",
+        "arquivo": "acordo-de-previdencia-social-brasil-quebec.pdf",
+        "tamanho": "971 KB"
+      },
+      {
+        "nome": "Ajuste Administrativo Brasil Quebec",
+        "cat": "complementar",
+        "arquivo": "ajuste-administrativo-brasil-quebec.pdf",
+        "tamanho": "192 KB"
+      },
+      {
+        "nome": "Certificado de Deslocamento Temporario Brasil",
+        "cat": "outro",
+        "arquivo": "certificado-de-deslocamento-temporario-brasil.doc",
+        "tamanho": "117 KB"
+      },
+      {
+        "nome": "Formulario Aposentadoria Por Idade Brasil",
+        "cat": "formulario",
+        "arquivo": "formulario-aposentadoria-por-idade-brasil.doc",
+        "tamanho": "118 KB"
+      },
+      {
+        "nome": "Formulario Aposentadoria Por Idade Quebec",
+        "cat": "formulario",
+        "arquivo": "formulario-aposentadoria-por-idade-quebec.pdf",
+        "tamanho": "357 KB"
+      },
+      {
+        "nome": "Formulario Aposentadoria Por Invalidez Brasil",
+        "cat": "formulario",
+        "arquivo": "formulario-aposentadoria-por-invalidez-brasil.doc",
+        "tamanho": "118 KB"
+      },
+      {
+        "nome": "Formulario Aposentadoria Por Invalidez Quebec",
+        "cat": "formulario",
+        "arquivo": "formulario-aposentadoria-por-invalidez-quebec.pdf",
+        "tamanho": "430 KB"
+      },
+      {
+        "nome": "Formulario Pensao Por Morte Brasil",
+        "cat": "formulario",
+        "arquivo": "formulario-pensao-por-morte-brasil.doc",
+        "tamanho": "194 KB"
+      },
+      {
+        "nome": "Formulario Pensao Por Morte Quebec",
+        "cat": "formulario",
+        "arquivo": "formulario-pensao-por-morte-quebec.pdf",
+        "tamanho": "398 KB"
+      },
+      {
+        "nome": "Formulario Recurso Brasil",
+        "cat": "formulario",
+        "arquivo": "formulario-recurso-brasil.doc",
+        "tamanho": "43 KB"
+      },
+      {
+        "nome": "Retificacao de Deslocamento Temporario Brasil",
+        "cat": "outro",
+        "arquivo": "retificacao-de-deslocamento-temporario-brasil.doc",
+        "tamanho": "59 KB"
+      }
+    ]
   },
   "republica-tcheca": {
     "titulo": "Acordo Brasil-República Tcheca",
@@ -1956,6 +2172,159 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "Pensão por Morte"
       ]
     },
-    "documentos": []
+    "documentos": [
+      {
+        "nome": "01 Acordo Principal Tcheca",
+        "cat": "principal",
+        "arquivo": "01-acordo-principal-tcheca.pdf",
+        "tamanho": "5.9 MB"
+      },
+      {
+        "nome": "02 Ajuste Administrativo Tcheca",
+        "cat": "complementar",
+        "arquivo": "02-ajuste-administrativo-tcheca.pdf",
+        "tamanho": "3.5 MB"
+      },
+      {
+        "nome": "03 Certificado Deslocamento",
+        "cat": "outro",
+        "arquivo": "03-certificado-deslocamento.pdf",
+        "tamanho": "239 KB"
+      },
+      {
+        "nome": "04 Retificacao Deslocamento",
+        "cat": "outro",
+        "arquivo": "04-retificacao-deslocamento.pdf",
+        "tamanho": "137 KB"
+      },
+      {
+        "nome": "05 Formulario Idade Brasil",
+        "cat": "formulario",
+        "arquivo": "05-formulario-idade-brasil.pdf",
+        "tamanho": "461 KB"
+      },
+      {
+        "nome": "06 Formulario Morte Brasil",
+        "cat": "formulario",
+        "arquivo": "06-formulario-morte-brasil.pdf",
+        "tamanho": "636 KB"
+      },
+      {
+        "nome": "07 Formulario Invalidez Brasil",
+        "cat": "formulario",
+        "arquivo": "07-formulario-invalidez-brasil.pdf",
+        "tamanho": "445 KB"
+      },
+      {
+        "nome": "Bra Cz 108 Atestado de Vida Definitivo Cz",
+        "cat": "outro",
+        "arquivo": "bra-cz-108-atestado-de-vida-definitivo-cz.pdf",
+        "tamanho": "166 KB"
+      },
+      {
+        "nome": "Cz Bra 101 Final",
+        "cat": "outro",
+        "arquivo": "cz-bra-101-final.docx",
+        "tamanho": "39 KB"
+      },
+      {
+        "nome": "Cz Bra 102 Final",
+        "cat": "outro",
+        "arquivo": "cz-bra-102-final.docx",
+        "tamanho": "61 KB"
+      },
+      {
+        "nome": "Cz Bra 202 Final",
+        "cat": "outro",
+        "arquivo": "cz-bra-202-final.docx",
+        "tamanho": "103 KB"
+      },
+      {
+        "nome": "Pozpt",
+        "cat": "outro",
+        "arquivo": "pozpt.pdf",
+        "tamanho": "47 KB"
+      }
+    ]
+  },
+  "suica": {
+    "titulo": "Acordo Brasil-Suíça",
+    "instrumento": "Acordo de Previdência Social Brasil-Suíça",
+    "decreto": "Em curadoria",
+    "vigorDesde": "Em curadoria",
+    "orgaoBR": {
+      "titulo": "APSAI / INSS (Brasil)",
+      "instituicao": "Agência da Previdência Social de Atendimento Acordos Internacionais"
+    },
+    "orgaoParceiro": {
+      "titulo": "Órgão de Ligação (Suíça)",
+      "instituicao": "Em curadoria"
+    },
+    "beneficios": {
+      "brasil": [],
+      "parceiro": []
+    },
+    "documentos": [
+      {
+        "nome": "Acordo de Previdencia Social Brasil Suica",
+        "cat": "principal",
+        "arquivo": "acordo-de-previdencia-social-brasil-suica.pdf",
+        "tamanho": "679 KB"
+      },
+      {
+        "nome": "Ajuste Administrativo Brasil Suica",
+        "cat": "complementar",
+        "arquivo": "ajuste-administrativo-brasil-suica.pdf",
+        "tamanho": "3.9 MB"
+      },
+      {
+        "nome": "Atestado de Vida Brasil",
+        "cat": "outro",
+        "arquivo": "atestado-de-vida-brasil.pdf",
+        "tamanho": "277 KB"
+      },
+      {
+        "nome": "Certificado de Deslocamento Temporario Brasil",
+        "cat": "outro",
+        "arquivo": "certificado-de-deslocamento-temporario-brasil.pdf",
+        "tamanho": "163 KB"
+      },
+      {
+        "nome": "Formulario de Aposentadoria Por Idade Brasil",
+        "cat": "formulario",
+        "arquivo": "formulario-de-aposentadoria-por-idade-brasil.pdf",
+        "tamanho": "229 KB"
+      },
+      {
+        "nome": "Formulario de Aposentadoria Por Invalidez Brasil",
+        "cat": "formulario",
+        "arquivo": "formulario-de-aposentadoria-por-invalidez-brasil.pdf",
+        "tamanho": "230 KB"
+      },
+      {
+        "nome": "Formulario de Exercicio do Direito de Opcao Brasil",
+        "cat": "formulario",
+        "arquivo": "formulario-de-exercicio-do-direito-de-opcao-brasil.pdf",
+        "tamanho": "167 KB"
+      },
+      {
+        "nome": "Formulario de Pensao Por Morte Brasil",
+        "cat": "formulario",
+        "arquivo": "formulario-de-pensao-por-morte-brasil.pdf",
+        "tamanho": "286 KB"
+      },
+      {
+        "nome": "Formulario de Recurso Brasil",
+        "cat": "formulario",
+        "arquivo": "formulario-de-recurso-brasil.pdf",
+        "tamanho": "343 KB"
+      },
+      {
+        "nome": "Retificacao do Certificado Brasil",
+        "cat": "outro",
+        "arquivo": "retificacao-do-certificado-brasil.pdf",
+        "tamanho": "271 KB"
+      }
+    ]
   }
 };
