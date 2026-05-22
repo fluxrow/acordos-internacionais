@@ -1,44 +1,64 @@
-# Aplicar UI editorial a "Relacionado" e "Outras jornadas"
+# Alinhar a aba Guias à UI editorial
 
-Você tem razão: as duas seções do final da página de jornada (na imagem) estão "neutras" — fundo bege chapado, três cartões idênticos com borda fininha, e a lista de "Outras jornadas" parecendo botões. Não conversam com o resto do site (hero com wash wine, eyebrow + rule, números display em wine, hierarquia editorial).
+Hoje a página `/guias/$slug` ainda usa o layout "neutro" antigo (hero simples, blocos com `<hr>` discreto, sidebar com cartão de "Outros guias" e CTA). Além disso, **não existe um índice `/guias`** — só dá pra entrar via link direto.
 
-A proposta é refazer essas duas seções usando exatamente os mesmos tokens já aplicados no hero e na lista de passos.
+Vamos espelhar exatamente o tratamento que aplicamos em Jornadas.
 
-## Mudanças (apenas `src/routes/jornadas.$jornada.tsx`)
+## 1. Novo índice `/guias` (`src/routes/guias.index.tsx`)
 
-### 1. Seção "Relacionado" — virar editorial, não cartões iguais
+- Hero editorial: breadcrumb, eyebrow com rule wine ("Biblioteca · Guias"), `font-display 4xl/6xl`, lede.
+- Grid 2 colunas com 4 cartões numerados (`01–04`), número grande wine + título display + resumo + "Abrir guia →".
+- Bloco secundário com 3 links horizontais: Jornadas, Acordos, Calculadora.
+- `head()` próprio com title, description e og:title/description.
 
-Hoje: 3 cartões idênticos com `border + bg-background` sobre `bg-secondary/40`. Fica chato e simétrico demais.
+## 2. Refinar `/guias/$slug` (`src/routes/guias.$slug.tsx`)
 
-Novo:
-- **Fundo da seção**: trocar `bg-secondary/40` por um wash sutil `bg-[var(--accent-ink-soft)]/40` para criar continuidade com o hero.
-- **Eyebrow "Relacionado"**: adicionar rule wine curta (`h-px w-10 bg-[var(--accent-ink)]`) ao lado do texto, igual ao padrão editorial.
-- **Heading**: manter `font-display text-3xl`, mas adicionar variante `md:text-4xl` para ganhar peso.
-- **Grid**: 12 colunas com pesos diferentes (não 3 iguais):
-  - **Países relevantes** (`md:col-span-5`): sem cartão branco — vira lista editorial direto no wash, com numeração `01/02/03` em wine pequena e links `ink-link` grandes (`font-display text-xl`).
-  - **Guia recomendado** (`md:col-span-4`): único bloco "destacado" com `bg-background border-l-2 border-[var(--accent-ink)]` (regra vertical wine em vez de borda completa). Título em `font-display text-2xl`.
-  - **Calculadora** (`md:col-span-3`): tratamento de "ferramenta" — fundo `bg-foreground text-background` invertido, com `font-display` claro. Cria contraste e quebra a simetria.
+### Hero
+- Adicionar wash radial wine no canto (`--accent-ink-soft`), igual à jornada.
+- Breadcrumb com link real para o novo `/guias`.
+- Eyebrow `Guia · {tema curto}` (usar o slug humanizado, ou simplesmente "Guia temático" como hoje).
 
-### 2. Seção "Outras jornadas" — virar índice editorial
+### Corpo dos blocos
+- Numerar os blocos `01/02/03` em `font-display` wine à esquerda (grid `auto_1fr` igual aos passos da jornada), removendo o `<hr className="rule">`.
+- Manter `space-y-12` e divisor sutil `border-b border-border/60` entre blocos.
 
-Hoje: 3 retângulos lado a lado com bordas, parecendo botões CTA.
+### Sidebar
+- Adicionar **TOC sticky** com os títulos dos blocos numerados (espelha o "Nesta jornada"), antes do CTA.
+- Trocar o card "Outros guias" por lista editorial sem borda completa: eyebrow + numeração wine + título display + seta.
+- CTA Marcos mantém posição.
 
-Novo:
-- Remover a malha de bordas (`grid gap-px bg-border`).
-- Substituir por uma **lista vertical** com hairlines (`divide-y divide-border`), cada item com:
-  - número `01/02/03` em `font-display` wine à esquerda
-  - título da jornada em `font-display text-2xl`
-  - micro-label do público à direita (ex: "Para quem mora fora") em `text-xs text-muted-foreground uppercase tracking-wider`
-  - seta `→` em wine que translada no hover, com `hover:bg-[var(--accent-ink-soft)]/30` em toda a linha
-- Eyebrow "Outras jornadas" com rule wine, igual ao "Relacionado".
-- Em md+: layout em 2 colunas (lista ocupa `md:col-span-8`, coluna direita `md:col-span-4` vazia respira — padrão editorial assimétrico já usado em outras páginas).
+### Nova seção "Relacionado" (antes de "Outros guias" virar rodapé)
+- Grid 12 colunas assimétrico (5/4/3), igual à jornada:
+  - **Jornadas relacionadas** (col-span-5): lista numerada das jornadas onde esse guia aparece como `guiaRelacionado` (já temos esse vínculo em `src/data/jornadas.ts`).
+  - **Acordo destacado** (col-span-4): card com `border-l-2 border-[var(--accent-ink)]` apontando para um país relevante (vamos adicionar `paisRelacionado?: string` opcional em `Guia` com mapeamento simples — ex: `prova-de-vida-no-exterior` → Portugal; `certificado-deslocamento-temporario` → Estados Unidos; `aposentadoria-morando-fora` → Portugal; `totalizacao` → omitido).
+  - **Calculadora** (col-span-3): bloco invertido `bg-foreground text-background`, idêntico ao da jornada.
+- Fundo da seção: `bg-[var(--accent-ink-soft)]/40`.
+- Só renderiza se houver pelo menos uma relação.
+
+### Rodapé "Outros guias"
+- Lista editorial vertical (`divide-y`) com numeração wine + título display + seta, em `md:col-span-8` (igual ao "Outras jornadas").
+
+### CTA final
+- Adicionar `<CTAMarcos variant="block" />` no fim, igual à jornada (hoje o CTA só aparece na sidebar).
+
+## 3. Dados (`src/data/guias.ts`)
+- Adicionar `paisRelacionado?: string` ao `interface Guia`.
+- Mapear: `prova-de-vida-no-exterior` → "portugal", `certificado-deslocamento-temporario` → "estados-unidos", `aposentadoria-morando-fora` → "portugal". `totalizacao` fica sem.
+
+## 4. Navegação
+- `site-header.tsx`: verificar se há link "Guias" — se sim, apontar para `/guias` (índice).
+- `index.tsx` (home): se já existe seção de guias, adicionar "Ver todos os guias →".
+
+## 5. Documentação
+- Atualizar `.lovable/prd.md` (seção Guias) e `ROADMAP.md` marcando o refino editorial como concluído.
+
+## Arquivos a criar/editar
+- **Criar**: `src/routes/guias.index.tsx`
+- **Editar**: `src/routes/guias.$slug.tsx`, `src/data/guias.ts`, `src/components/site-header.tsx` (se aplicável), `src/routes/index.tsx` (se aplicável), `.lovable/prd.md`, `ROADMAP.md`
 
 ## O que NÃO muda
-- Hero, lista de passos, TOC sticky e CTA Marcos final permanecem como estão (já estão alinhados ao editorial).
-- Nenhuma mudança de dados, rotas ou componentes globais.
-- Sem mudanças em outras páginas — escopo restrito a estas duas seções.
-
-## Arquivos
-- `src/routes/jornadas.$jornada.tsx` — apenas os dois blocos `{/* RELACIONADO */}` e `{/* OUTRAS JORNADAS */}`.
+- Conteúdo dos guias (textos dos blocos).
+- Slugs/URLs existentes (`/guias/totalizacao` etc. seguem funcionando).
+- Outros componentes globais.
 
 Posso seguir?

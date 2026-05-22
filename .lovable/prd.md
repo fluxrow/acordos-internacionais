@@ -27,7 +27,7 @@ Dois públicos, um produto:
 
 | Área | Status |
 |---|---|
-| Rotas públicas: `/`, `/acordos`, `/acordos/:pais` (25 entradas), `/jornadas` (índice), `/jornadas/:jornada`, `/guias/:slug`, `/blog`, `/glossario`, `/contato`, `/profissional`, `/sobre/dr-marcos` | ✅ |
+| Rotas públicas: `/`, `/acordos`, `/acordos/:pais` (25 entradas), `/jornadas` (índice), `/jornadas/:jornada`, `/guias` (índice), `/guias/:slug`, `/blog`, `/glossario`, `/contato`, `/profissional`, `/sobre/dr-marcos` | ✅ |
 | Refino editorial Jornadas (índice + detalhe com TOC + bloco Relacionado) | ✅ |
 | Reposicionamento de marca (favicon, og-image, header, footer, metadados) | ✅ |
 | OG por país — 25 imagens, multilaterais com selo "MULTI" | ✅ |

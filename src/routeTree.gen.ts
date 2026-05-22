@@ -21,6 +21,7 @@ import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as JornadasIndexRouteImport } from './routes/jornadas.index'
+import { Route as GuiasIndexRouteImport } from './routes/guias.index'
 import { Route as AcordosIndexRouteImport } from './routes/acordos.index'
 import { Route as SobreDrMarcosRouteImport } from './routes/sobre.dr-marcos'
 import { Route as JornadasJornadaRouteImport } from './routes/jornadas.$jornada'
@@ -89,6 +90,11 @@ const IndexRoute = IndexRouteImport.update({
 const JornadasIndexRoute = JornadasIndexRouteImport.update({
   id: '/jornadas/',
   path: '/jornadas/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuiasIndexRoute = GuiasIndexRouteImport.update({
+  id: '/guias/',
+  path: '/guias/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AcordosIndexRoute = AcordosIndexRouteImport.update({
@@ -162,6 +168,7 @@ export interface FileRoutesByFullPath {
   '/jornadas/$jornada': typeof JornadasJornadaRoute
   '/sobre/dr-marcos': typeof SobreDrMarcosRoute
   '/acordos/': typeof AcordosIndexRoute
+  '/guias/': typeof GuiasIndexRoute
   '/jornadas/': typeof JornadasIndexRoute
   '/hub/$pais': typeof AuthenticatedHubPaisRoute
   '/hub/calculadora': typeof AuthenticatedHubCalculadoraRoute
@@ -185,6 +192,7 @@ export interface FileRoutesByTo {
   '/jornadas/$jornada': typeof JornadasJornadaRoute
   '/sobre/dr-marcos': typeof SobreDrMarcosRoute
   '/acordos': typeof AcordosIndexRoute
+  '/guias': typeof GuiasIndexRoute
   '/jornadas': typeof JornadasIndexRoute
   '/hub/$pais': typeof AuthenticatedHubPaisRoute
   '/hub/calculadora': typeof AuthenticatedHubCalculadoraRoute
@@ -210,6 +218,7 @@ export interface FileRoutesById {
   '/jornadas/$jornada': typeof JornadasJornadaRoute
   '/sobre/dr-marcos': typeof SobreDrMarcosRoute
   '/acordos/': typeof AcordosIndexRoute
+  '/guias/': typeof GuiasIndexRoute
   '/jornadas/': typeof JornadasIndexRoute
   '/_authenticated/hub/$pais': typeof AuthenticatedHubPaisRoute
   '/_authenticated/hub/calculadora': typeof AuthenticatedHubCalculadoraRoute
@@ -235,6 +244,7 @@ export interface FileRouteTypes {
     | '/jornadas/$jornada'
     | '/sobre/dr-marcos'
     | '/acordos/'
+    | '/guias/'
     | '/jornadas/'
     | '/hub/$pais'
     | '/hub/calculadora'
@@ -258,6 +268,7 @@ export interface FileRouteTypes {
     | '/jornadas/$jornada'
     | '/sobre/dr-marcos'
     | '/acordos'
+    | '/guias'
     | '/jornadas'
     | '/hub/$pais'
     | '/hub/calculadora'
@@ -282,6 +293,7 @@ export interface FileRouteTypes {
     | '/jornadas/$jornada'
     | '/sobre/dr-marcos'
     | '/acordos/'
+    | '/guias/'
     | '/jornadas/'
     | '/_authenticated/hub/$pais'
     | '/_authenticated/hub/calculadora'
@@ -305,6 +317,7 @@ export interface RootRouteChildren {
   JornadasJornadaRoute: typeof JornadasJornadaRoute
   SobreDrMarcosRoute: typeof SobreDrMarcosRoute
   AcordosIndexRoute: typeof AcordosIndexRoute
+  GuiasIndexRoute: typeof GuiasIndexRoute
   JornadasIndexRoute: typeof JornadasIndexRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
 }
@@ -393,6 +406,13 @@ declare module '@tanstack/react-router' {
       path: '/jornadas'
       fullPath: '/jornadas/'
       preLoaderRoute: typeof JornadasIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guias/': {
+      id: '/guias/'
+      path: '/guias'
+      fullPath: '/guias/'
+      preLoaderRoute: typeof GuiasIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/acordos/': {
@@ -512,6 +532,7 @@ const rootRouteChildren: RootRouteChildren = {
   JornadasJornadaRoute: JornadasJornadaRoute,
   SobreDrMarcosRoute: SobreDrMarcosRoute,
   AcordosIndexRoute: AcordosIndexRoute,
+  GuiasIndexRoute: GuiasIndexRoute,
   JornadasIndexRoute: JornadasIndexRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
 }
