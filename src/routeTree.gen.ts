@@ -20,6 +20,7 @@ import { Route as CadastroRouteImport } from './routes/cadastro'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as JornadasIndexRouteImport } from './routes/jornadas.index'
 import { Route as AcordosIndexRouteImport } from './routes/acordos.index'
 import { Route as SobreDrMarcosRouteImport } from './routes/sobre.dr-marcos'
 import { Route as JornadasJornadaRouteImport } from './routes/jornadas.$jornada'
@@ -83,6 +84,11 @@ const AuthenticatedRoute = AuthenticatedRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JornadasIndexRoute = JornadasIndexRouteImport.update({
+  id: '/jornadas/',
+  path: '/jornadas/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AcordosIndexRoute = AcordosIndexRouteImport.update({
@@ -156,6 +162,7 @@ export interface FileRoutesByFullPath {
   '/jornadas/$jornada': typeof JornadasJornadaRoute
   '/sobre/dr-marcos': typeof SobreDrMarcosRoute
   '/acordos/': typeof AcordosIndexRoute
+  '/jornadas/': typeof JornadasIndexRoute
   '/hub/$pais': typeof AuthenticatedHubPaisRoute
   '/hub/calculadora': typeof AuthenticatedHubCalculadoraRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -178,6 +185,7 @@ export interface FileRoutesByTo {
   '/jornadas/$jornada': typeof JornadasJornadaRoute
   '/sobre/dr-marcos': typeof SobreDrMarcosRoute
   '/acordos': typeof AcordosIndexRoute
+  '/jornadas': typeof JornadasIndexRoute
   '/hub/$pais': typeof AuthenticatedHubPaisRoute
   '/hub/calculadora': typeof AuthenticatedHubCalculadoraRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -202,6 +210,7 @@ export interface FileRoutesById {
   '/jornadas/$jornada': typeof JornadasJornadaRoute
   '/sobre/dr-marcos': typeof SobreDrMarcosRoute
   '/acordos/': typeof AcordosIndexRoute
+  '/jornadas/': typeof JornadasIndexRoute
   '/_authenticated/hub/$pais': typeof AuthenticatedHubPaisRoute
   '/_authenticated/hub/calculadora': typeof AuthenticatedHubCalculadoraRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -226,6 +235,7 @@ export interface FileRouteTypes {
     | '/jornadas/$jornada'
     | '/sobre/dr-marcos'
     | '/acordos/'
+    | '/jornadas/'
     | '/hub/$pais'
     | '/hub/calculadora'
     | '/api/public/payments/webhook'
@@ -248,6 +258,7 @@ export interface FileRouteTypes {
     | '/jornadas/$jornada'
     | '/sobre/dr-marcos'
     | '/acordos'
+    | '/jornadas'
     | '/hub/$pais'
     | '/hub/calculadora'
     | '/api/public/payments/webhook'
@@ -271,6 +282,7 @@ export interface FileRouteTypes {
     | '/jornadas/$jornada'
     | '/sobre/dr-marcos'
     | '/acordos/'
+    | '/jornadas/'
     | '/_authenticated/hub/$pais'
     | '/_authenticated/hub/calculadora'
     | '/api/public/payments/webhook'
@@ -293,6 +305,7 @@ export interface RootRouteChildren {
   JornadasJornadaRoute: typeof JornadasJornadaRoute
   SobreDrMarcosRoute: typeof SobreDrMarcosRoute
   AcordosIndexRoute: typeof AcordosIndexRoute
+  JornadasIndexRoute: typeof JornadasIndexRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
 }
 
@@ -373,6 +386,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/jornadas/': {
+      id: '/jornadas/'
+      path: '/jornadas'
+      fullPath: '/jornadas/'
+      preLoaderRoute: typeof JornadasIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/acordos/': {
@@ -492,6 +512,7 @@ const rootRouteChildren: RootRouteChildren = {
   JornadasJornadaRoute: JornadasJornadaRoute,
   SobreDrMarcosRoute: SobreDrMarcosRoute,
   AcordosIndexRoute: AcordosIndexRoute,
+  JornadasIndexRoute: JornadasIndexRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
 }
 export const routeTree = rootRouteImport

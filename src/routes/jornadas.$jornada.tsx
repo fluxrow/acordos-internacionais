@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { jornadas, getJornada } from "@/data/jornadas";
+import { jornadas, getJornada, type Jornada } from "@/data/jornadas";
 import { acordos } from "@/data/acordos";
 import { getGuia } from "@/data/guias";
 import { CTAMarcos } from "@/components/cta-marcos";
@@ -31,9 +31,9 @@ function slugify(s: string) {
 }
 
 function JornadaPage() {
-  const { jornada: j } = Route.useLoaderData();
+  const { jornada: j } = Route.useLoaderData() as { jornada: Jornada };
   const paises = (j.paisesRelacionados ?? [])
-    .map((s) => acordos.find((a) => a.slug === s))
+    .map((s: string) => acordos.find((a) => a.slug === s))
     .filter((a): a is NonNullable<typeof a> => !!a);
   const guia = j.guiaRelacionado ? getGuia(j.guiaRelacionado) : undefined;
 
@@ -70,7 +70,7 @@ function JornadaPage() {
       {/* PASSOS + TOC */}
       <section className="mx-auto grid max-w-6xl gap-12 px-6 py-16 md:grid-cols-[1fr_280px]">
         <ol className="space-y-12">
-          {j.passos.map((p, i) => (
+          {j.passos.map((p: Jornada["passos"][number], i: number) => (
             <li
               key={p.titulo}
               id={`passo-${i + 1}`}
@@ -91,7 +91,7 @@ function JornadaPage() {
           <div className="border border-border p-6">
             <p className="eyebrow">Nesta jornada</p>
             <ol className="mt-4 space-y-3 text-sm">
-              {j.passos.map((p, i) => (
+              {j.passos.map((p: Jornada["passos"][number], i: number) => (
                 <li key={p.titulo}>
                   <a
                     href={`#passo-${i + 1}`}
@@ -127,7 +127,7 @@ function JornadaPage() {
                 <div className="border border-border bg-background p-6">
                   <p className="eyebrow">Países relevantes</p>
                   <ul className="mt-4 space-y-3 text-sm">
-                    {paises.map((a) => (
+                    {paises.map((a: NonNullable<ReturnType<typeof acordos.find>>) => (
                       <li key={a.slug}>
                         <Link
                           to="/acordos/$pais"
