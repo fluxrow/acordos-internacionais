@@ -29,6 +29,8 @@ Dois públicos, um produto:
 |---|---|
 | Rotas públicas: `/`, `/acordos`, `/acordos/:pais` (25 entradas), `/jornadas` (índice), `/jornadas/:jornada`, `/guias` (índice), `/guias/:slug`, `/blog`, `/glossario`, `/contato`, `/profissional`, `/sobre/dr-marcos` | ✅ |
 | Refino editorial Jornadas (índice + detalhe com TOC + bloco Relacionado) | ✅ |
+| Refino editorial Guias (índice + detalhe com TOC + bloco Relacionado) | ✅ |
+| Refino editorial Glossário (hero wash wine, índice alfabético, lista 12-col, bloco Relacionado, CTAMarcos) | ✅ |
 | Reposicionamento de marca (favicon, og-image, header, footer, metadados) | ✅ |
 | OG por país — 25 imagens, multilaterais com selo "MULTI" | ✅ |
 | CI: `check-brand` e `check-og` (falha build se sobrar slug antigo ou OG faltando) | ✅ |
