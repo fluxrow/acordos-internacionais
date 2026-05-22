@@ -1,4 +1,4 @@
-import { createFileRoute, Link, redirect } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
@@ -28,6 +28,7 @@ export const Route = createFileRoute("/cadastro")({
 });
 
 function CadastroPage() {
+  const navigate = useNavigate();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -71,7 +72,7 @@ function CadastroPage() {
     }
 
     if (data.session) {
-      window.location.href = "/hub";
+      await navigate({ to: "/hub", replace: true });
       return;
     }
 
