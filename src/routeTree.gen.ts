@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ProfissionalRouteImport } from './routes/profissional'
 import { Route as PrecosRouteImport } from './routes/precos'
 import { Route as LoginRouteImport } from './routes/login'
@@ -30,6 +31,11 @@ import { Route as AuthenticatedHubCalculadoraRouteImport } from './routes/_authe
 import { Route as AuthenticatedHubPaisRouteImport } from './routes/_authenticated/hub.$pais'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProfissionalRoute = ProfissionalRouteImport.update({
   id: '/profissional',
   path: '/profissional',
@@ -142,6 +148,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/precos': typeof PrecosRoute
   '/profissional': typeof ProfissionalRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/conta': typeof AuthenticatedContaRoute
   '/hub': typeof AuthenticatedHubRouteWithChildren
   '/acordos/$pais': typeof AcordosPaisRoute
@@ -163,6 +170,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/precos': typeof PrecosRoute
   '/profissional': typeof ProfissionalRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/conta': typeof AuthenticatedContaRoute
   '/hub': typeof AuthenticatedHubRouteWithChildren
   '/acordos/$pais': typeof AcordosPaisRoute
@@ -186,6 +194,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/precos': typeof PrecosRoute
   '/profissional': typeof ProfissionalRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/conta': typeof AuthenticatedContaRoute
   '/_authenticated/hub': typeof AuthenticatedHubRouteWithChildren
   '/acordos/$pais': typeof AcordosPaisRoute
@@ -209,6 +218,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/precos'
     | '/profissional'
+    | '/reset-password'
     | '/conta'
     | '/hub'
     | '/acordos/$pais'
@@ -230,6 +240,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/precos'
     | '/profissional'
+    | '/reset-password'
     | '/conta'
     | '/hub'
     | '/acordos/$pais'
@@ -252,6 +263,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/precos'
     | '/profissional'
+    | '/reset-password'
     | '/_authenticated/conta'
     | '/_authenticated/hub'
     | '/acordos/$pais'
@@ -275,6 +287,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   PrecosRoute: typeof PrecosRoute
   ProfissionalRoute: typeof ProfissionalRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   AcordosPaisRoute: typeof AcordosPaisRoute
   GuiasSlugRoute: typeof GuiasSlugRoute
   JornadasJornadaRoute: typeof JornadasJornadaRoute
@@ -285,6 +298,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/profissional': {
       id: '/profissional'
       path: '/profissional'
@@ -466,6 +486,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   PrecosRoute: PrecosRoute,
   ProfissionalRoute: ProfissionalRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   AcordosPaisRoute: AcordosPaisRoute,
   GuiasSlugRoute: GuiasSlugRoute,
   JornadasJornadaRoute: JornadasJornadaRoute,
