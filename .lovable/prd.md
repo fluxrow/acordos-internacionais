@@ -105,12 +105,12 @@ Base **já importada** do repo externo `marcosespinola1379/Mapa-de-Acordos`:
 5. Analytics (PostHog ou Plausible).
 6. Idiomas EN/ES — avaliar.
 
-## 6. Decisões pendentes
+## 6. Decisões (resolvidas em 2026-05-22)
 
-- **Preço da assinatura** (mensal/anual, valor, trial?).
-- **Plano único ou tiers** (por número de países, volume de downloads)?
-- **Nome do produto pago**: "Hub Profissional", "Hub do Advogado", outro?
-- **Documentos por país**: iguais para todos os assinantes ou material premium destacado?
+- ✅ **Oferta comercial**: híbrido — Anual R$ 797/ano + Fundadores R$ 1.297 vitalício (100 vagas). Plano mensal descartado.
+- ✅ **Nome do produto pago**: "Hub Profissional".
+- ✅ **Tiers**: dois planos, sem segmentação por país.
+- ✅ **Documentos por país**: iguais para todos os assinantes; sem material premium destacado no MVP.
 
 ## 7. Stack
 
@@ -153,3 +153,5 @@ Mudanças:
 - `SiteHeader` agora é reativo a `supabase.auth.onAuthStateChange`: deslogado mostra "Entrar/Criar conta", logado mostra "Meu Hub" + "Sair".
 - `SiteFooter`: link "Blog" removido (em construção); adicionado "Planos e preços".
 - Home `/` mantém CTA "Hub para advogados" → `/profissional` (agora coerente).
+- **Produtos Stripe criados** via `payments--batch_create_product`: `hub_anual` (BRL 797/ano, recurring) e `hub_fundadores` (BRL 1.297, one_time) com tax_code `txcd_10103001` (SaaS). `createCheckoutSession` resolve por `lookup_key`.
+- **Bug fix `/precos`**: env var corrigida de `VITE_STRIPE_PUBLISHABLE_KEY` (inexistente) para `VITE_PAYMENTS_CLIENT_TOKEN` — sem isso o Stripe.js não inicializava e o checkout ficava em branco.

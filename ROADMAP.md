@@ -145,6 +145,9 @@
 - ✅ Nome final → "Hub Profissional"
 
 ### 📋 Próximos passes
-- 📋 Auditar UI das rotas autenticadas (`/hub`, `/hub/$pais`, `/hub/calculadora`, `/conta`)
-- 📋 Conectar fluxo de checkout Stripe (produtos `hub_anual` + `hub_fundadores` precisam existir no Stripe via `payments--batch_create_product`)
-- 📋 Popular ou esconder `/blog`
+- 📋 Auditar UI das rotas autenticadas (`/hub`, `/hub/$pais`, `/hub/calculadora`, `/conta`) com sessão real ponta-a-ponta (já parecem ok no código; falta validar visualmente logado).
+- ✅ Produtos Stripe `hub_anual` (BRL 797/ano) e `hub_fundadores` (BRL 1.297 one-time) criados via `payments--batch_create_product` com tax_code SaaS (`txcd_10103001`).
+- ✅ Checkout `/precos` ligado a `createCheckoutSession` + Stripe embedded (bug de env var `VITE_PAYMENTS_CLIENT_TOKEN` corrigido).
+- ✅ `/conta` com botão "Gerenciar assinatura" → `createPortalSession`.
+- 📋 Smoke test end-to-end de checkout sandbox (`4242 4242 4242 4242`) em ambos os planos + validar que webhook grava `subscriptions` corretamente.
+- 📋 Popular ou esconder `/blog` (link já saiu do footer).

@@ -74,10 +74,10 @@ function PrecosPage() {
   useEffect(() => {
     if (!clientSecret || !checkoutRef.current) return;
 
-    // Carrega Stripe.js dinamicamente (VITE_STRIPE_PUBLISHABLE_KEY deve estar configurado)
-    const publishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY as string | undefined;
+    // Token publicável vem do Lovable Payments (sandbox/live escolhido automaticamente pelo build)
+    const publishableKey = import.meta.env.VITE_PAYMENTS_CLIENT_TOKEN as string | undefined;
     if (!publishableKey) {
-      console.error("[precos] VITE_STRIPE_PUBLISHABLE_KEY não configurado");
+      console.error("[precos] VITE_PAYMENTS_CLIENT_TOKEN não configurado");
       return;
     }
 
