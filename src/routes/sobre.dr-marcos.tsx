@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { BookOpen, Scale, Users, ArrowRight } from "lucide-react";
 import { CTAMarcos } from "@/components/cta-marcos";
 import {
   InteractiveImageAccordion,
