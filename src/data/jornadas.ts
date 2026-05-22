@@ -5,6 +5,8 @@ export interface Jornada {
   resumo: string;
   passos: { titulo: string; descricao: string }[];
   cta: string;
+  paisesRelacionados?: string[];
+  guiaRelacionado?: string;
 }
 
 export const jornadas: Jornada[] = [
@@ -37,6 +39,8 @@ export const jornadas: Jornada[] = [
       },
     ],
     cta: "Tem dúvidas no seu caso? Fale com o Dr. Marcos Espínola.",
+    paisesRelacionados: ["portugal", "estados-unidos", "alemanha"],
+    guiaRelacionado: "certificado-deslocamento-temporario",
   },
   {
     slug: "moro-fora",
@@ -66,6 +70,8 @@ export const jornadas: Jornada[] = [
       },
     ],
     cta: "Quer revisar seu plano? Fale com o Dr. Marcos Espínola.",
+    paisesRelacionados: ["portugal", "japao", "estados-unidos"],
+    guiaRelacionado: "prova-de-vida-no-exterior",
   },
   {
     slug: "estou-voltando",
@@ -96,6 +102,8 @@ export const jornadas: Jornada[] = [
       },
     ],
     cta: "Demora ou indeferimento? Fale com o Dr. Marcos Espínola.",
+    paisesRelacionados: ["portugal", "alemanha"],
+    guiaRelacionado: "totalizacao",
   },
   {
     slug: "quero-me-aposentar",
@@ -126,6 +134,8 @@ export const jornadas: Jornada[] = [
       },
     ],
     cta: "Quer simular seu caso? Fale com o Dr. Marcos Espínola.",
+    paisesRelacionados: ["portugal", "italia", "japao"],
+    guiaRelacionado: "aposentadoria-morando-fora",
   },
 ];
 

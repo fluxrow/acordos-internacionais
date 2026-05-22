@@ -9,8 +9,12 @@ interface CTAMarcosProps {
 export function CTAMarcos({ variant = "card", contexto }: CTAMarcosProps) {
   if (variant === "block") {
     return (
-      <section className="border-y border-border bg-secondary py-16">
-        <div className="mx-auto max-w-3xl px-6 text-center">
+      <section className="relative overflow-hidden border-y border-[var(--accent-ink)]/20 bg-[var(--accent-ink-soft)] py-16">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,_color-mix(in_oklab,_var(--accent-ink)_18%,_transparent)_0%,_transparent_60%)]"
+        />
+        <div className="relative z-10 mx-auto max-w-3xl px-6 text-center">
           <p className="eyebrow">Atendimento direto</p>
           <h2 className="mt-3 font-display text-3xl">
             Precisa de orientação no seu caso?
