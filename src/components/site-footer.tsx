@@ -64,13 +64,13 @@ export function SiteFooter() {
                 </Link>
               </li>
               <li>
-                <Link to="/sobre/dr-marcos" className="hover:underline underline-offset-4">
-                  Sobre o Dr. Marcos Espínola
+                <Link to="/precos" className="hover:underline underline-offset-4">
+                  Planos e preços
                 </Link>
               </li>
               <li>
-                <Link to="/blog" className="hover:underline underline-offset-4">
-                  Blog
+                <Link to="/sobre/dr-marcos" className="hover:underline underline-offset-4">
+                  Sobre o Dr. Marcos Espínola
                 </Link>
               </li>
             </ul>
