@@ -329,19 +329,3 @@ function SobreMarcos() {
     </article>
   );
 }
-
-function Bloco({
-  titulo,
-  children,
-}: {
-  titulo: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section>
-      <h2 className="font-display text-2xl md:text-3xl">{titulo}</h2>
-      <hr className="rule mt-3" />
-      <div className="mt-4 text-base leading-relaxed">{children}</div>
-    </section>
-  );
-}
