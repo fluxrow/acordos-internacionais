@@ -168,6 +168,13 @@
 - `getHubDashboard` server fn: junta subscription + role + últimos 5 países do `downloads_log` em uma única chamada.
 - `/hub/$pais`: sticky tabs (Visão Geral / Documentos / Órgãos / Trecho legal) com URL search param (`?tab=…`), busca + filtro por categoria nos documentos, botão "Copiar citação" no trecho legal (formatado com fonte e decreto).
 
+## Onda 3 Hub — concluída (25/05/2026)
+- Tabelas `calc_history`, `hub_favoritos`, `hub_notas` com RLS por `auth.uid()` e trigger `updated_at` nas notas.
+- `src/lib/hub-personal.functions.ts`: `listFavoritos` / `toggleFavorito`, `getNota` / `saveNota` (upsert), `listCalcs` / `saveCalc` / `deleteCalc`.
+- `/hub/$pais`: botão Favoritar no header + `NotaEditor` privado (autosave 1.2s) na aba Visão Geral.
+- `/hub/calculadora`: botão "Salvar este cálculo" no form + seção "Cálculos recentes" listando últimos 20.
+- Export PDF do laudo segue via `window.print()` (rota já tem layout pronto para impressão) — `@react-pdf/renderer` adiado por peso de bundle.
+
 ## Próximas ondas Hub
-- Onda 3: histórico da calculadora (`calc_history`), favoritos de país (`hub_favoritos`), notas privadas (`hub_notas`), export PDF do laudo, stepper visual de 3 passos na calculadora.
-- Onda 4: curadoria de metadados da Suíça, monitorar repo do Marcos para França.
+- Onda 4: curadoria de metadados da Suíça, monitorar repo do Marcos para França/Cabo Verde/Iberoamericano.
+- Polimento: stepper visual de 3 passos na calculadora, rótulo editável + delete no histórico, seção "Países favoritos" no dashboard.
