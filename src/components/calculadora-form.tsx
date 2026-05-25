@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FileUp, Calculator, AlertTriangle, XCircle, Clock, CheckCircle2, Loader2, Save, Check } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import { saveCalc } from "@/lib/hub-personal.functions";
+import { CTAMarcos } from "@/components/cta-marcos";
 import {
   PAISES_ACORDO,
   CARENCIAS,
@@ -457,19 +458,10 @@ function ResultadoView({
       )}
 
       {variant === "public" && (resultado.caso === 3 || resultado.caso === "2B") && (
-        <div className="mt-6 rounded-xl border border-border/60 bg-background/80 p-5 backdrop-blur-sm">
-          <p className="text-sm font-medium text-foreground">
-            Quer um laudo técnico completo, com fundamentação e fórmulas?
-          </p>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Assine o Hub do Advogado e tenha acesso à calculadora profissional, modelos e jurisprudência.
-          </p>
-          <a
-            href="/login"
-            className="mt-3 inline-flex items-center gap-2 rounded-md bg-[var(--accent-ink)] px-4 py-2 text-sm font-medium text-[var(--accent-ink-foreground,white)] hover:opacity-90"
-          >
-            Conhecer o Hub do Advogado
-          </a>
+        <div className="mt-6">
+          <CTAMarcos
+            contexto="Seu caso parece se encaixar em um acordo internacional. Cada situação tem nuances (CDT, tempos contributivos, idade-elo, prova de vida). O Dr. Marcos Espínola revisa pessoalmente."
+          />
         </div>
       )}
     </section>
