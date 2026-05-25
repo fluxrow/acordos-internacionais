@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      calc_history: {
+        Row: {
+          created_at: string
+          id: string
+          inputs: Json
+          pais: string
+          resultado: Json
+          rotulo: string | null
+          tipo: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          inputs?: Json
+          pais: string
+          resultado?: Json
+          rotulo?: string | null
+          tipo: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          inputs?: Json
+          pais?: string
+          resultado?: Json
+          rotulo?: string | null
+          tipo?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       downloads_log: {
         Row: {
           country: string
@@ -34,6 +67,54 @@ export type Database = {
           downloaded_at?: string
           file_path?: string
           id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      hub_favoritos: {
+        Row: {
+          created_at: string
+          id: string
+          pais: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          pais: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          pais?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      hub_notas: {
+        Row: {
+          conteudo: string
+          created_at: string
+          id: string
+          pais: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          conteudo?: string
+          created_at?: string
+          id?: string
+          pais: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          conteudo?: string
+          created_at?: string
+          id?: string
+          pais?: string
+          updated_at?: string
           user_id?: string
         }
         Relationships: []

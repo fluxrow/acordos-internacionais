@@ -5,6 +5,8 @@ import { z } from "zod";
 import { Copy, Check, Search, Download, FileText } from "lucide-react";
 import { getCountryHubData, type HubData } from "@/lib/hub.functions";
 import { CTAButton } from "@/components/cta-button";
+import { FavoritoButton } from "@/components/hub/favorito-button";
+import { NotaEditor } from "@/components/hub/nota-editor";
 
 const tabSchema = z.object({
   tab: z
@@ -57,7 +59,10 @@ function HubPaisPage() {
       </nav>
 
       <header>
-        <h1 className="font-display text-4xl">{data.titulo}</h1>
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <h1 className="font-display text-4xl">{data.titulo}</h1>
+          {!data.locked && <FavoritoButton pais={pais} />}
+        </div>
         <dl className="mt-4 flex flex-wrap gap-x-8 gap-y-1 text-sm text-muted-foreground">
           <div>
             <dt className="inline font-medium text-foreground">Instrumento: </dt>
@@ -84,7 +89,12 @@ function HubPaisPage() {
             hasTrecho={!!data.acordoTrecho}
           />
           <div className="mt-8">
-            {tab === "visao" && <VisaoTab data={data} />}
+            {tab === "visao" && (
+              <div className="space-y-8">
+                <VisaoTab data={data} />
+                <NotaEditor pais={pais} />
+              </div>
+            )}
             {tab === "documentos" && <DocumentosTab data={data} />}
             {tab === "orgaos" && <OrgaosTab data={data} />}
             {tab === "trecho" && <TrechoTab data={data} pais={pais} />}
