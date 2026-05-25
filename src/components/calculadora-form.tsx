@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { FileUp, Calculator, AlertTriangle, XCircle, Clock, CheckCircle2, Loader2 } from "lucide-react";
+import { FileUp, Calculator, AlertTriangle, XCircle, Clock, CheckCircle2, Loader2, Save, Check } from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
+import { saveCalc } from "@/lib/hub-personal.functions";
 import {
   PAISES_ACORDO,
   CARENCIAS,
@@ -519,4 +521,53 @@ function toneFor(caso: ResultadoCalculo["caso"]): Tone {
     case 3:
       return { ink: "--state-success", bg: "--state-success-soft", border: "--state-success", icon: CheckCircle2 };
   }
+}
+
+function SalvarCalculoButton({
+  pais,
+  tipo,
+  inputs,
+  resultado,
+}: {
+  pais: string;
+  tipo: TipoBeneficio;
+  inputs: Record<string, unknown>;
+  resultado: ResultadoCalculo;
+}) {
+  const [saved, setSaved] = useState(false);
+  const m = useMutation({
+    mutationFn: () =>
+      saveCalc({
+        data: {
+          pais: pais || "—",
+          tipo,
+          inputs: JSON.stringify(inputs),
+          resultado: JSON.stringify(resultado),
+          rotulo: null,
+        },
+      }),
+    onSuccess: () => {
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2400);
+    },
+  });
+
+  return (
+    <Button
+      type="button"
+      variant="outline"
+      onClick={() => m.mutate()}
+      disabled={m.isPending || !pais}
+      className="gap-2"
+    >
+      {m.isPending ? (
+        <Loader2 className="h-4 w-4 animate-spin" />
+      ) : saved ? (
+        <Check className="h-4 w-4" />
+      ) : (
+        <Save className="h-4 w-4" />
+      )}
+      {saved ? "Salvo no histórico" : "Salvar este cálculo"}
+    </Button>
+  );
 }
