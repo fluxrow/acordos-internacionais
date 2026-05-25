@@ -329,9 +329,25 @@ export function CalculadoraForm({ variant }: Props) {
           Calcular {isPro ? "RMI pro-rata" : "meu benefício"}
         </Button>
         {isPro && resultado && (
-          <Button type="button" variant="outline" onClick={() => window.print()}>
-            Imprimir / Salvar PDF
-          </Button>
+          <>
+            <Button type="button" variant="outline" onClick={() => window.print()}>
+              Imprimir / Salvar PDF
+            </Button>
+            <SalvarCalculoButton
+              pais={pais}
+              tipo={tipo}
+              resultado={resultado}
+              inputs={{
+                nome,
+                dataNasc,
+                sexo,
+                tempoBrasilMeses: parseInt(tempoBrasil, 10),
+                tempoPaisMeses: parseInt(tempoPais, 10),
+                salarioMedio: parseFloat(salarioMedio.replace(",", ".")),
+                pro,
+              }}
+            />
+          </>
         )}
       </div>
 
