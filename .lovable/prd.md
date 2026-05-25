@@ -178,3 +178,16 @@ Princípio reforçado: **calculadora pública é para o cidadão** (gratuita, se
 - `SiteFooter` coluna Cidadão: link "Calculadora gratuita".
 - `/calculadora`: microcopy "Sem cadastro · Sem pagar · Resultado em 2 minutos" abaixo do H1.
 - `/hub/calculadora` segue intocada (auth + assinatura + `noindex,nofollow`).
+
+## 13. Sandbox `/preview/*` (2026-05-25)
+
+Ambiente paralelo para validar propostas do Dr. Marcos sem mexer no site público. Toda rota sob `/preview` carrega `<PreviewBanner>` e `noindex,nofollow`.
+
+- `/preview` — índice das variações com link para versão atual ao lado.
+- `/preview/home` — nova headline + CTAs revistos, sem "modelos de petição".
+- `/preview/jornadas` — ordem proposta (Moro fora → Voltei → Trabalho temp) + bloco "Atendimento direto".
+- `/preview/jornadas/$jornada` — blocos novos: `ProvaDeVidaBlock` (Moro fora) e `PlanejamentoTotalizacaoBlock` (Voltei).
+- `/preview/guias` + `/preview/guias/saida-definitiva-do-pais` — guia novo adaptado do `.tsx` do Marcos.
+- `/preview/profissional` — Hub sem menção a "modelos de petição".
+
+Regra: zero alteração fora de `src/routes/preview.*`, `src/components/preview/*`, `.lovable/prd.md`, `ROADMAP.md`. Promoção para produção é decisão separada, após aprovação do Marcos.
