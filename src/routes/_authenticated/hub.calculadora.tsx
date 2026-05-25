@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { CalculadoraForm } from "@/components/calculadora-form";
+import { CalcHistoryList } from "@/components/hub/calc-history-list";
 
 export const Route = createFileRoute("/_authenticated/hub/calculadora")({
   head: () => ({
@@ -43,6 +44,11 @@ function CalculadoraProPage() {
 
       <section className="mx-auto max-w-5xl px-6 py-10 md:py-14">
         <CalculadoraForm variant="pro" />
+      </section>
+
+      <section className="mx-auto max-w-5xl px-6 pb-16 print:hidden">
+        <h2 className="font-display text-2xl mb-4">Cálculos recentes</h2>
+        <CalcHistoryList />
       </section>
     </main>
   );
