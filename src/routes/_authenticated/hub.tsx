@@ -1,9 +1,18 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { useMemo, useState } from "react";
 import { Calculator, ArrowRight } from "lucide-react";
-import { getAccountData } from "@/lib/profile.functions";
+import { getHubDashboard } from "@/lib/hub.functions";
 import { CTAButton } from "@/components/cta-button";
 import { acordosImportados } from "@/data/acordos.generated";
+import { REGIAO_POR_PAIS } from "@/data/regioes";
+import { CountryCard } from "@/components/hub/country-card";
+import {
+  DashboardFilters,
+  type RegiaoFiltro,
+  type StatusFiltro,
+} from "@/components/hub/dashboard-filters";
+import { ContinueReading } from "@/components/hub/continue-reading";
 
 const PAISES = [
   { slug: "alemanha", nome: "Alemanha", flag: "de" },
@@ -33,6 +42,8 @@ const PAISES = [
   { slug: "suica", nome: "Suíça", flag: "ch" },
 ] as const;
 
+const PAIS_POR_SLUG = Object.fromEntries(PAISES.map((p) => [p.slug, p]));
+
 function getGreeting() {
   const h = new Date().getHours();
   if (h < 12) return "Bom dia";
@@ -40,11 +51,10 @@ function getGreeting() {
   return "Boa noite";
 }
 
-function cobertura(slug: string) {
+function temMaterial(slug: string) {
   const d = acordosImportados[slug];
-  if (!d) return { docs: 0, emCuradoria: true };
-  const docs = d.documentos.filter((x) => x.arquivo).length;
-  return { docs, emCuradoria: docs === 0 };
+  if (!d) return false;
+  return d.documentos.some((x) => x.arquivo);
 }
 
 export const Route = createFileRoute("/_authenticated/hub")({
@@ -53,22 +63,39 @@ export const Route = createFileRoute("/_authenticated/hub")({
 
 function HubDashboard() {
   const { data, isPending } = useQuery({
-    queryKey: ["account"],
-    queryFn: () => getAccountData(),
+    queryKey: ["hub-dashboard"],
+    queryFn: () => getHubDashboard(),
   });
 
-  const active = data?.subscription?.status === "active";
+  const hasAccess = data?.hasAccess === true;
   const isAdmin = data?.isAdmin === true;
-  const hasAccess = active || isAdmin || data?.subscription?.lifetimeAccess === true;
+
+  const [regiao, setRegiao] = useState<RegiaoFiltro>("todas");
+  const [status, setStatus] = useState<StatusFiltro>("todos");
+
+  const paisesFiltrados = useMemo(() => {
+    return PAISES.filter((p) => {
+      if (regiao !== "todas" && REGIAO_POR_PAIS[p.slug] !== regiao) return false;
+      const tem = temMaterial(p.slug);
+      if (status === "com-material" && !tem) return false;
+      if (status === "em-curadoria" && tem) return false;
+      return true;
+    });
+  }, [regiao, status]);
+
+  const recentItems = (data?.recentCountries ?? [])
+    .map((r) => {
+      const p = PAIS_POR_SLUG[r.pais];
+      return p ? { pais: r.pais, nome: p.nome, flag: p.flag, lastAt: r.lastAt } : null;
+    })
+    .filter((x): x is NonNullable<typeof x> => x !== null);
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-10">
       <header className="mb-8">
         <p className="eyebrow mb-1">{getGreeting()}</p>
-        <h1 className="font-display text-4xl">
-          {isPending ? " " : (data?.firstName ?? "você")}
-        </h1>
-        <p className="mt-1 text-muted-foreground">Hub Profissional — Acordos Previdenciários</p>
+        <h1 className="font-display text-4xl">Hub Profissional</h1>
+        <p className="mt-1 text-muted-foreground">Acordos Previdenciários Internacionais</p>
         {isAdmin && (
           <span className="mt-3 inline-flex items-center rounded-full border border-[var(--accent-ink)]/30 bg-[var(--accent-ink)]/5 px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.14em] text-[var(--accent-ink)]">
             Modo admin
@@ -93,7 +120,7 @@ function HubDashboard() {
         to="/hub/calculadora"
         className="group mb-8 flex items-center gap-5 rounded-2xl border border-border bg-secondary px-6 py-5 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_-12px_rgba(0,0,0,0.08)] transition-all hover:-translate-y-0.5 hover:border-foreground hover:shadow-[0_8px_24px_-8px_rgba(0,0,0,0.16)]"
       >
-        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[var(--accent-ink)] text-[var(--paper)]">
+        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--accent-ink)] text-[var(--paper)]">
           <Calculator className="h-5 w-5" />
         </span>
         <div className="flex-1">
@@ -106,59 +133,37 @@ function HubDashboard() {
         <ArrowRight className="h-5 w-5 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-foreground" />
       </Link>
 
+      <ContinueReading items={recentItems} />
+
       <section>
-        <h2 className="mb-4 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
-          {PAISES.length} acordos disponíveis
-        </h2>
-        <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-          {PAISES.map(({ slug, nome, flag }) => {
-            const c = cobertura(slug);
-            return (
-              <li key={slug}>
-                <Link
-                  to="/hub/$pais"
-                  params={{ pais: slug }}
-                  className="group flex flex-col items-center gap-2 rounded-xl border border-border bg-background p-4 shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-all hover:-translate-y-0.5 hover:border-foreground hover:shadow-[0_4px_16px_-6px_rgba(0,0,0,0.12)]"
-                >
-                  {flag ? (
-                    <img
-                      src={`https://flagcdn.com/w40/${flag}.png`}
-                      srcSet={`https://flagcdn.com/w80/${flag}.png 2x`}
-                      alt={nome}
-                      width={40}
-                      height={30}
-                      className="rounded-md object-cover"
-                      loading="lazy"
-                    />
-                  ) : (
-                    <span className="flex h-[30px] w-[40px] items-center justify-center rounded-md bg-secondary text-xs text-muted-foreground">
-                      MULTI
-                    </span>
-                  )}
-                  <span className="text-center text-xs leading-tight">{nome}</span>
-                  {c.emCuradoria ? (
-                    <span className="inline-flex items-center rounded-full bg-[var(--accent-ink)]/10 px-2 py-0.5 text-[10px] font-medium text-[var(--accent-ink)]">
-                      Em curadoria
-                    </span>
-                  ) : (
-                    <span className="text-[10px] text-muted-foreground">
-                      {c.docs} {c.docs === 1 ? "documento" : "documentos"}
-                      {!hasAccess && " · 🔒"}
-                    </span>
-                  )}
-                </Link>
+        <DashboardFilters
+          regiao={regiao}
+          status={status}
+          onRegiao={setRegiao}
+          onStatus={setStatus}
+          totalVisivel={paisesFiltrados.length}
+        />
+        {paisesFiltrados.length === 0 ? (
+          <p className="rounded-2xl border border-dashed border-border px-6 py-10 text-center text-sm text-muted-foreground">
+            Nenhum país nesse filtro.
+          </p>
+        ) : (
+          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+            {paisesFiltrados.map((p) => (
+              <li key={p.slug}>
+                <CountryCard pais={p} hasAccess={hasAccess} />
               </li>
-            );
-          })}
-        </ul>
+            ))}
+          </ul>
+        )}
       </section>
 
       <footer className="mt-10 flex items-center gap-4 border-t border-border pt-6 text-sm text-muted-foreground">
         <Link to="/conta" className="hover:text-foreground">Minha conta</Link>
-        {active && data?.subscription?.periodEnd && (
+        {data?.isActive && data?.periodEnd && (
           <span>
             Assinatura ativa até{" "}
-            {new Date(data.subscription.periodEnd).toLocaleDateString("pt-BR")}
+            {new Date(data.periodEnd).toLocaleDateString("pt-BR")}
           </span>
         )}
       </footer>

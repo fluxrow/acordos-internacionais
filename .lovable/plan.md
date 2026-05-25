@@ -1,196 +1,180 @@
-# Onda 1 — Destravar o Hub (plano de execução)
 
-## Decisões já tomadas
-- **Importar tudo**: 192 docs do repo `marcosespinola1379/Mapa-de-Acordos`, incluindo **Suíça** (10 docs) → o Hub passa de 24 para **25 países**.
-- **Cabo Verde** e **Iberoamericano** continuam visíveis com badge "Em curadoria".
-- **Nomes de arquivo**: slugificados no bucket (sem acentos/espaços), mas o `Content-Disposition` força o download a sair com o `doc.nome` curado. Advogado vê nome humano na pasta Downloads.
+# Plano — Hub Profissional · Ondas 2 e 3
+
+A Onda 1 (sync de 192 docs, Suíça, selos de cobertura, card da Calculadora, download humanizado) já está em produção. Este plano cobre as **duas ondas restantes** para deixar o Hub à altura de um produto sênior.
 
 ---
 
-## Passo 1 — Script de sincronização (`scripts/sync-hub-docs.ts`)
+## Onda 2 — UX/UI Overhaul (foco em conversão e leitura)
 
-Cria um script único, idempotente, que faz tudo:
+Objetivo: transformar o Hub de "lista de países" em **workspace do advogado previdenciarista internacional**.
 
-1. Lista a árvore do repo via `https://api.github.com/repos/marcosespinola1379/Mapa-de-Acordos/git/trees/main?recursive=1`.
-2. Filtra só `.pdf`, `.doc`, `.docx` (case-insensitive).
-3. Aplica o **mapa de pastas → slugs** (próximo passo).
-4. Para cada arquivo:
-   - baixa em stream de `raw.githubusercontent.com/…/<path>`
-   - slugifica o nome (preserva extensão original lowercased)
-   - faz upload via `supabaseAdmin.storage.from("hub-docs").upload(slug + "/" + filename, buffer, { upsert: true, contentType })`
-5. Ao final, escreve `scripts/sync-hub-docs.report.json` com `{ uploaded, skipped, missing, errors }`.
+### 2.1 Dashboard `/hub` — reorganizar por intenção
 
-**Como rodar** (você decide quando):
-```bash
-bun scripts/sync-hub-docs.ts          # importa tudo
-bun scripts/sync-hub-docs.ts --dry    # só lista o que faria
-bun scripts/sync-hub-docs.ts --pais alemanha  # só um país (debug)
+Hoje: grid plano de 25 países + card da Calculadora no topo.
+Proposta:
+
+```text
+┌─────────────────────────────────────────────────┐
+│  Calculadora RMI Pro-rata  →  [Abrir]           │  ← já existe
+├─────────────────────────────────────────────────┤
+│  Continuar de onde parou                         │  ← NOVO
+│  [Alemanha · 3 docs vistos] [Portugal · 1 doc]   │
+├─────────────────────────────────────────────────┤
+│  Filtros: [Todos] [Europa] [Américas] [Ásia]    │  ← NOVO
+│           [Com material ✓] [Em curadoria]        │
+├─────────────────────────────────────────────────┤
+│  Países (25)                                     │
+│  [card] [card] [card] [card]                     │
+└─────────────────────────────────────────────────┘
 ```
 
-O script usa `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` (já existem como secrets).
+Implementação:
+- "Continuar de onde parou": query nos últimos 5 `downloads_log` distintos por `country` do usuário (server fn já existente pode ser estendida).
+- Filtros por região: derivar de um mapa estático `regioes = { Europa: [...], Américas: [...] }` em `src/data/regioes.ts` (sem migration).
+- Filtros por status: usar `coberturaDoPais()` que já existe.
 
-### Mapa de pastas (GitHub → nosso slug)
+### 2.2 Página do país `/hub/$pais` — tabs sticky
 
-| GitHub | Nosso slug | Obs |
-|---|---|---|
-| `alemanha/` | `alemanha` | 13 docs |
-| `austria/` | `austria` | 3 |
-| `belgica/` | `belgica` | 12 (era 0 no dataset → destrava!) |
-| `bulgaria/` | `bulgaria` | 1 |
-| `canada/` | `canada` | 16 |
-| `chile/` | `chile` | 8 |
-| `coreia/` | **`coreia-do-sul`** | 14 — rename! |
-| `espanha/` | `espanha` | 4 |
-| `estados-unidos/` | `estados-unidos` | 8 |
-| `grecia/` | `grecia` | 5 |
-| `india/` | `india` | 8 |
-| `italia/` | `italia` | 16 |
-| `japao/` | `japao` | 13 |
-| `luxemburgo/` | `luxemburgo` | 3 |
-| `mercosul/` | `mercosul` | 9 |
-| `mocambique/` | `mocambique` | 8 |
-| `portugal/` | `portugal` | 15 |
-| `quebec/` | `quebec` | 11 (era 0 → destrava!) |
-| `republica-tcheca/` | `republica-tcheca` | 12 (era 0 → destrava!) |
-| `suica/` | **`suica`** (novo país) | 10 |
-| raiz `Acordo Brasil - Bélgica (2009).pdf` | → `belgica/` | já tem duplicata na pasta — pular |
-| raiz `…Israel.pdf` | → `israel/` | único arquivo do Israel |
-| raiz `Convenção Multilateral…CPLP.pdf` | → `cplp/` | único arquivo do CPLP |
-| (não existe) | `cabo-verde` | só badge "Em curadoria" |
-| (não existe) | `franca` | **FALTA NO REPO** — verificar com Marcos |
-| (não existe) | `iberoamericano` | só badge |
+Hoje: tudo empilhado em uma página longa (visão geral + órgãos + benefícios + trecho + documentos).
+Proposta: **sticky tabs** no topo (após o header do país) com 4 abas:
 
-**ATENÇÃO — França sumiu do repo**: o `import-acordos.ts` esperava `acordo-franca.html` (parser de HTML para metadados, OK), mas a pasta `franca/` com PDFs não existe. Vou registrar isso no relatório e tratar França também como "Em curadoria" até o Marcos subir. Pode ser que ele suba durante a execução, então o script é idempotente.
+| Aba | Conteúdo |
+|---|---|
+| **Visão Geral** | instrumento, decreto, vigor, benefícios (BR/parceiro), trecho jurídico |
+| **Documentos** | lista completa com busca + filtro por categoria (formulário, instrução, decreto, outro) |
+| **Órgãos** | cards lado a lado (BR vs parceiro) com endereço, telefone, site |
+| **Trecho legal** | acordoTrecho em tipografia editorial, com botão "copiar citação" |
+
+Implementação:
+- Componente `<HubTabs>` usando `@/components/ui/tabs` (já instalado).
+- Sticky com `sticky top-16 z-30 bg-background/95 backdrop-blur`.
+- URL sincronizada via `?tab=documentos` (search params do TanStack Router).
+
+### 2.3 Card de país no dashboard — visual mais denso
+
+Hoje: card simples com bandeira + nome + selo.
+Proposta:
+- Bandeira maior, nome em destaque.
+- Linha de selos: `13 docs · trecho · 2 órgãos` ou badge `Em curadoria`.
+- Hover: leve `translate-y-[-2px]` + shadow.
+- Bordas `rounded-2xl` (alinhar com a memória de UI).
+
+### 2.4 Tela de documento — preview antes do download
+
+Quando o advogado clica em um documento, hoje baixa direto. Proposta:
+- Sheet lateral (`@/components/ui/sheet`) mostrando: nome, categoria, tamanho, data do acordo, descrição.
+- Dois botões: `Baixar PDF` (mantém comportamento atual) e `Marcar como favorito` (Onda 3).
+
+### 2.5 Calculadora — entrada de dados mais clara
+
+Hoje: `src/routes/_authenticated/hub.calculadora.tsx` usa `<CalculadoraForm>`.
+Proposta:
+- Adicionar **stepper visual** (3 passos: Dados pessoais → Tempo de contribuição → Resultado).
+- Resultado em card com gradiente sutil e CTA secundário "Salvar este cálculo" (prepara Onda 3).
+- Manter toda lógica de `src/lib/calculadora.ts` intocada (apenas UI).
 
 ---
 
-## Passo 2 — Regenerar `acordos.generated.ts`
+## Onda 3 — Features avançadas (persistência)
 
-Hoje o `arquivo:` no dataset veio do parse de HTML e **não bate** com os nomes reais. Vou:
+Objetivo: tornar o Hub uma ferramenta de trabalho diária, não só consulta.
 
-1. Adaptar `scripts/import-acordos.ts` (que já existe) para, depois do parse de HTML, cruzar com a **listagem real do bucket** (`supabaseAdmin.storage.from("hub-docs").list(slug)`).
-2. Para cada `documentos[i]`: tentar match por:
-   - igualdade case-insensitive,
-   - fuzzy match no `nome` curado vs nome do arquivo (Levenshtein simples),
-   - fallback: se não casar, preservar a entrada mas `arquivo: null` (UI já trata como "Indisponível").
-3. **Arquivos no bucket sem entrada no dataset**: adicionar como nova entrada com `cat: "outro"` e `nome: humanizado a partir do filename`. Isso garante que TODO arquivo importado fica acessível.
-4. Adicionar Suíça ao dataset (escrever bloco mínimo: título, instrumento, decreto, vigor — placeholders pendentes de curadoria, mas com documentos disponíveis).
-5. Regenerar `src/data/acordos.generated.ts`.
+### 3.1 Histórico de cálculos — `calc_history`
 
-**Rodar:**
-```bash
-bun scripts/import-acordos.ts --reconcile-storage
+Migration:
+```sql
+CREATE TABLE public.calc_history (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id uuid NOT NULL,
+  pais text NOT NULL,
+  tipo text NOT NULL,           -- aposentadoria_idade | pensao_morte
+  inputs jsonb NOT NULL,        -- snapshot dos campos
+  resultado jsonb NOT NULL,     -- ResultadoCalculo
+  rotulo text,                  -- "Cliente João - simulação 1"
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+ALTER TABLE public.calc_history ENABLE ROW LEVEL SECURITY;
+CREATE POLICY calc_select_own ON public.calc_history FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY calc_insert_own ON public.calc_history FOR INSERT WITH CHECK (auth.uid() = user_id);
+CREATE POLICY calc_delete_own ON public.calc_history FOR DELETE USING (auth.uid() = user_id);
 ```
 
----
+UI:
+- Lista em `/hub/calculadora?tab=historico` com cards (rotulo, país, RMI, data).
+- Botão "Recarregar inputs" reabre o form preenchido.
 
-## Passo 3 — `Content-Disposition` no serverFn
+### 3.2 Favoritos de país — `hub_favoritos`
 
-No `src/lib/hub.functions.ts`, ao gerar a signed URL:
-
-```ts
-const { data: signed } = await supabaseAdmin.storage
-  .from("hub-docs")
-  .createSignedUrl(`${pais}/${arquivo}`, 60, {
-    download: `${doc.nome}.pdf`,  // força filename humano no download
-  });
+Migration:
+```sql
+CREATE TABLE public.hub_favoritos (
+  user_id uuid NOT NULL,
+  pais text NOT NULL,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  PRIMARY KEY (user_id, pais)
+);
+ALTER TABLE public.hub_favoritos ENABLE ROW LEVEL SECURITY;
+CREATE POLICY fav_all_own ON public.hub_favoritos FOR ALL USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
 ```
 
-(A opção `download` do `createSignedUrl` já injeta `response-content-disposition=attachment; filename=…` na URL.)
+UI: ícone de estrela no card do país; seção "Seus favoritos" no topo do dashboard (acima de "Continuar de onde parou").
 
----
+### 3.3 Notas privadas por país — `hub_notas`
 
-## Passo 4 — Adicionar Suíça ao dashboard
-
-Em `src/routes/_authenticated/hub.tsx`, adicionar:
-```ts
-{ slug: "suica", nome: "Suíça", flag: "ch" },
+Migration:
+```sql
+CREATE TABLE public.hub_notas (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id uuid NOT NULL,
+  pais text NOT NULL,
+  conteudo text NOT NULL,
+  updated_at timestamptz NOT NULL DEFAULT now()
+);
+CREATE UNIQUE INDEX hub_notas_user_pais ON public.hub_notas(user_id, pais);
+ALTER TABLE public.hub_notas ENABLE ROW LEVEL SECURITY;
+CREATE POLICY nota_all_own ON public.hub_notas FOR ALL USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
 ```
 
-Lista vai de 24 para 25. Ordem alfabética mantida.
+UI: nova aba "Minhas notas" na página do país; textarea com autosave (debounce 800ms).
+
+### 3.4 Export PDF do resultado da calculadora
+
+- Lib: `@react-pdf/renderer` (Worker-compatível, pure JS, sem native deps).
+- Template com header AtlasPrev, dados de input, resultado, rodapé com aviso "Estimativa não vinculante".
+- Server fn `exportCalculoPdf` retornando base64 (ou link assinado se virar grande).
+
+### 3.5 Citações jurídicas — botão "copiar"
+
+Na aba "Trecho legal", botão que copia formatado: `"Trecho do Acordo Brasil–{País}, Decreto nº X, art. Y: '...'"`. Útil para petições.
 
 ---
 
-## Passo 5 — Card da Calculadora no /hub
+## Ordem de execução proposta
 
-Acima do grid de países, bloco destacado:
-
-```
-┌─────────────────────────────────────────────────────────┐
-│ [ícone]  Calculadora RMI Pro-rata                       │
-│          Laudo técnico com tabela detalhada              │
-│          [Abrir calculadora →]                          │
-└─────────────────────────────────────────────────────────┘
-```
-
-- `bg-secondary`, `rounded-2xl`, ícone Lucide `Calculator` à esquerda.
-- Variant para sem acesso: mesmo card vira preview borrado + CTA `/precos`.
-- Usa `<Link to="/hub/calculadora">`.
+1. **Onda 2.1 + 2.3** — Dashboard reorganizado (filtros + continuar de onde parou + card denso). Sem migration.
+2. **Onda 2.2 + 2.5** — Tabs sticky no país + stepper na calculadora. Sem migration.
+3. **Onda 2.4** — Sheet de preview de documento.
+4. **Onda 3.2** — Favoritos (menor risco, migration simples) + estrela nos cards.
+5. **Onda 3.1 + 3.4** — Histórico + export PDF (pacote `@react-pdf/renderer`).
+6. **Onda 3.3 + 3.5** — Notas privadas + copiar citação.
 
 ---
 
-## Passo 6 — Selo de cobertura nos cards de país
+## Detalhes técnicos (devs)
 
-Helper client-side `coberturaDoPais(slug)`:
-```ts
-function cobertura(slug: string) {
-  const d = acordosImportados[slug];
-  if (!d) return { docs: 0, trecho: false, orgaos: false, emCuradoria: true };
-  return {
-    docs: d.documentos.filter(x => x.arquivo).length,
-    trecho: !!d.acordoTrecho,
-    orgaos: !!(d.orgaoBR && d.orgaoParceiro),
-    emCuradoria: d.documentos.filter(x => x.arquivo).length === 0,
-  };
-}
-```
-
-No card do país, linha sob o nome:
-- Tem docs: `"13 docs · trecho · órgãos"` (em `text-[10px] text-muted-foreground`)
-- Sem docs: badge `"Em curadoria"` (em `bg-[var(--accent-ink)]/10 text-[var(--accent-ink)] rounded-full px-2 py-0.5 text-[10px]`)
-
-Países que vão receber badge "Em curadoria" na Onda 1: **Cabo Verde, Iberoamericano, França** (até Marcos subir).
-
----
-
-## Passo 7 — Validação end-to-end
-
-Checklist automatizado (`scripts/validate-hub.ts`):
-
-1. Para cada país do dataset: contar `documentos.filter(d => d.arquivo).length`.
-2. Para cada arquivo: `supabaseAdmin.storage.from("hub-docs").list(pais)` → verificar que existe.
-3. Gerar 3 signed URLs aleatórias e fazer HEAD nelas (status 200, content-length > 0).
-4. Imprimir relatório:
-   ```
-   ✓ alemanha:    13/13 docs OK
-   ✓ canada:      16/16 docs OK
-   ⚠ cabo-verde:   0 docs (em curadoria)
-   ✓ TOTAL: 192 arquivos no bucket, 192 referenciados, 0 inconsistências
-   ```
-
----
-
-## Passo 8 — Atualizar docs do projeto (regra de memória core)
-
-- `.lovable/prd.md`: registrar "Onda 1 Hub: 192 docs importados, calculadora visível, selos de cobertura, Suíça (25º país)".
-- `ROADMAP.md`: mover itens da Onda 1 para "concluído", manter Ondas 2-4 como próximos.
-
----
-
-## Ordem de execução (e o que você precisa fazer)
-
-| # | Ação | Quem |
-|---|---|---|
-| 1 | Aprovar este plano | Você |
-| 2 | Criar `scripts/sync-hub-docs.ts` + rodar `--dry` para validar mapeamento | Claude |
-| 3 | Mostrar o relatório dry-run pra você | Claude → Você |
-| 4 | Rodar sync real (192 uploads, ~3-5 min) | Claude |
-| 5 | Adaptar `import-acordos.ts` + regenerar dataset | Claude |
-| 6 | Aplicar Content-Disposition no serverFn | Claude |
-| 7 | Adicionar Suíça ao dashboard, card da Calculadora, selos | Claude |
-| 8 | Rodar `validate-hub.ts` e mostrar relatório | Claude |
-| 9 | Atualizar prd.md + ROADMAP.md | Claude |
-| 10 | Você testa: login como admin, abre Alemanha, baixa 1 PDF, abre Canadá, baixa outro, abre calculadora | Você |
+- **Server fns**: estender `src/lib/hub.functions.ts` com `getHubDashboard()` (junta sub/role + favoritos + últimos downloads) para evitar 3 round-trips do dashboard.
+- **Rotas novas**: nenhuma rota nova; apenas search params (`?tab=`, `?filtro=`).
+- **RLS**: padrão `auth.uid() = user_id` em todas as 3 novas tabelas — alinhado com `downloads_log`.
+- **Componentes novos** em `src/components/hub/`:
+  - `dashboard-filters.tsx`
+  - `continue-reading.tsx`
+  - `country-card.tsx` (extrair do `hub.tsx` atual)
+  - `hub-tabs.tsx`
+  - `doc-preview-sheet.tsx`
+  - `calc-stepper.tsx`
+  - `nota-editor.tsx`
+- **Memória / docs**: atualizar `.lovable/prd.md`, `ROADMAP.md` e marcar tasks 5–12 conforme conclusão.
 
 ---
 
@@ -198,25 +182,18 @@ Checklist automatizado (`scripts/validate-hub.ts`):
 
 | Risco | Mitigação |
 |---|---|
-| GitHub rate limit (60 req/h sem token) | Script faz 1 chamada à API (lista a árvore), depois baixa via `raw.githubusercontent.com` (sem limit) |
-| Upload de 192 arquivos demora muito | Upload em paralelo com `Promise.all` em batches de 10 |
-| Storage cobra por GB | 192 PDFs ≈ ~200 MB total → bem abaixo do free tier |
-| Nome de arquivo com caracteres estranhos quebra path | Slugify rigoroso: `.normalize("NFD").replace(/[\u0300-\u036f]/g, "")` → minúsculas → `[^a-z0-9.-]` vira `-` |
-| Conflito de nomes após slugify (2 arquivos viram o mesmo path) | Detectar no script e sufixar `-2`, `-3`. Relatório mostra. |
-| `cabo-verde`, `iberoamericano`, `franca` sem arquivos | UI já trata via badge "Em curadoria" |
-| Suíça sem metadados curados (instrumento, decreto, etc.) | Placeholders `"Em curadoria"` no dataset, mas docs disponíveis. Curadoria de texto fica para depois. |
+| `@react-pdf/renderer` pesado no bundle | Lazy import dentro da server fn de export |
+| Autosave de notas spamar o servidor | Debounce 800ms + comparar com último valor salvo |
+| Tabs sticky quebrar em mobile (1021px é o viewport atual) | `flex-wrap` + `overflow-x-auto` nas tabs |
+| Filtros + favoritos + continuar = dashboard sobrecarregado | Hierarquia visual: favoritos pequeno, continuar médio, grid principal grande |
 
 ---
 
-## Critério de "Onda 1 concluída"
+## O que NÃO entra agora (parking lot)
 
-- [ ] `scripts/sync-hub-docs.ts` rodado com sucesso, relatório mostra 192 uploads.
-- [ ] `acordos.generated.ts` regenerado, 25 países, todo `arquivo:` tem objeto no bucket.
-- [ ] `/hub` mostra card da calculadora no topo + 25 países com selo de cobertura.
-- [ ] 3 países sem docs (Cabo Verde, Iberoamericano, França) mostram badge "Em curadoria".
-- [ ] Login como admin, abrir 3 países diferentes, baixar 1 PDF de cada — todos abrem e o filename salvo é o `doc.nome` humano.
-- [ ] `prd.md` + `ROADMAP.md` atualizados.
+- Busca global cross-país ("encontrar em qualquer acordo a palavra X").
+- Comparador de acordos (BR-DE vs BR-PT lado a lado).
+- Compartilhar simulação por link público.
+- Versionamento de documentos (quando MTP publicar nova revisão).
 
----
-
-**Aguardo seu OK para iniciar.** Se quiser ajustar algo (ex.: pular Suíça por ora, mudar slug, deixar nome do arquivo igual ao do GitHub sem slugificar), me avisa antes do go.
+Decidir depois de ver tração das Ondas 2 e 3.

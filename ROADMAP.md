@@ -163,7 +163,11 @@
 - Dashboard `/hub`: card destacado da Calculadora RMI no topo, selo de cobertura ("N documentos" ou "Em curadoria") em cada país.
 - 3 países sem material no repo: Cabo Verde, França, Iberoamericano — exibem badge "Em curadoria".
 
+## Onda 2 Hub — concluída (25/05/2026)
+- Dashboard `/hub`: filtros por região (Europa/Américas/Ásia/Multilateral) e status (com material / em curadoria), seção "Continuar de onde parou" (últimos países acessados via `downloads_log`), cards de país mais densos com selos `N docs · trecho · N órgãos`, `rounded-2xl`.
+- `getHubDashboard` server fn: junta subscription + role + últimos 5 países do `downloads_log` em uma única chamada.
+- `/hub/$pais`: sticky tabs (Visão Geral / Documentos / Órgãos / Trecho legal) com URL search param (`?tab=…`), busca + filtro por categoria nos documentos, botão "Copiar citação" no trecho legal (formatado com fonte e decreto).
+
 ## Próximas ondas Hub
-- Onda 2: redesign do dashboard (filtro por região, busca, atividade), página `/hub/$pais` em tabs.
-- Onda 3: histórico da calculadora, favoritos, ⌘K, notas privadas.
+- Onda 3: histórico da calculadora (`calc_history`), favoritos de país (`hub_favoritos`), notas privadas (`hub_notas`), export PDF do laudo, stepper visual de 3 passos na calculadora.
 - Onda 4: curadoria de metadados da Suíça, monitorar repo do Marcos para França.
