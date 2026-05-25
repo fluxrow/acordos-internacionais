@@ -78,18 +78,21 @@ function Home() {
 
               <div className="mt-10 flex flex-col gap-3 sm:flex-row">
                 <CTAButton
-                  to="/acordos"
+                  to="/calculadora"
                   variant="dark"
+                  size="lg"
+                  label="Simular meu benefício · grátis"
+                />
+                <CTAButton
+                  to="/acordos"
+                  variant="light"
                   size="lg"
                   label={`Ver os ${totalAcordos} países`}
                 />
-                <CTAButton
-                  to="/profissional"
-                  variant="light"
-                  size="lg"
-                  label="Hub para advogados"
-                />
               </div>
+              <p className="mt-4 text-xs text-muted-foreground">
+                Trabalhou no exterior? Descubra em 2 minutos. Sem cadastro. Sem pagar.
+              </p>
             </div>
           </div>
         </div>
