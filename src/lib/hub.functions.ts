@@ -4,6 +4,70 @@ import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { acordosImportados } from "@/data/acordos.generated";
 import type { OrgaoLigacao } from "@/data/acordos.types";
 
+export type HubDashboardData = {
+  hasAccess: boolean;
+  isAdmin: boolean;
+  isActive: boolean;
+  lifetime: boolean;
+  periodEnd: string | null;
+  recentCountries: Array<{ pais: string; lastAt: string; count: number }>;
+};
+
+export const getHubDashboard = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }): Promise<HubDashboardData> => {
+    const { userId } = context;
+
+    const [{ data: sub }, { data: adminRole }, { data: recent }] =
+      await Promise.all([
+        supabaseAdmin
+          .from("subscriptions")
+          .select("status, lifetime_access, current_period_end")
+          .eq("user_id", userId)
+          .maybeSingle(),
+        supabaseAdmin
+          .from("user_roles")
+          .select("role")
+          .eq("user_id", userId)
+          .eq("role", "admin")
+          .maybeSingle(),
+        supabaseAdmin
+          .from("downloads_log")
+          .select("country, downloaded_at")
+          .eq("user_id", userId)
+          .order("downloaded_at", { ascending: false })
+          .limit(30),
+      ]);
+
+    const isAdmin = !!adminRole;
+    const isActive = sub?.status === "active";
+    const lifetime = sub?.lifetime_access === true;
+    const hasAccess = isAdmin || isActive || lifetime;
+
+    // Dedup mantendo o mais recente por país, máx 5
+    const seen = new Map<string, { lastAt: string; count: number }>();
+    for (const row of recent ?? []) {
+      const cur = seen.get(row.country);
+      if (cur) {
+        cur.count += 1;
+      } else {
+        seen.set(row.country, { lastAt: row.downloaded_at, count: 1 });
+      }
+    }
+    const recentCountries = Array.from(seen.entries())
+      .slice(0, 5)
+      .map(([pais, v]) => ({ pais, lastAt: v.lastAt, count: v.count }));
+
+    return {
+      hasAccess,
+      isAdmin,
+      isActive,
+      lifetime,
+      periodEnd: sub?.current_period_end ?? null,
+      recentCountries,
+    };
+  });
+
 type DocumentoComUrl = {
   nome: string;
   desc: string;
