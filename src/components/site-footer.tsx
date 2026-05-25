@@ -43,6 +43,11 @@ export function SiteFooter() {
                 </Link>
               </li>
               <li>
+                <Link to="/calculadora" className="hover:underline underline-offset-4">
+                  Calculadora gratuita
+                </Link>
+              </li>
+              <li>
                 <Link to="/glossario" className="hover:underline underline-offset-4">
                   Glossário
                 </Link>

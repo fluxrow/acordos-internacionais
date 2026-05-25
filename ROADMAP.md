@@ -178,3 +178,10 @@
 ## Próximas ondas Hub
 - Onda 4: curadoria de metadados da Suíça, monitorar repo do Marcos para França/Cabo Verde/Iberoamericano.
 - Polimento: stepper visual de 3 passos na calculadora, rótulo editável + delete no histórico, seção "Países favoritos" no dashboard.
+
+## Calculadora pública — CTA + descoberta (25/05/2026)
+- ✅ CTA pós-resultado da calculadora pública (`/calculadora`, casos 3 e 2B) agora aponta para `/contato` via `<CTAMarcos>` — não mais para o Hub. Hub é produto exclusivo para advogados.
+- ✅ Header global: novo item "Calculadora" entre Jornadas e Guias; link mobile (deslogado) prioriza Calculadora.
+- ✅ Home: CTA principal da hero passou a ser "Simular meu benefício · grátis" → `/calculadora`, com microcopy "Sem cadastro. Sem pagar."
+- ✅ Footer (coluna Cidadão): link "Calculadora gratuita".
+- ✅ `/calculadora`: microcopy "Sem cadastro · Sem pagar · Resultado em 2 minutos" abaixo do H1.

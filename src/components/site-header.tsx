@@ -47,6 +47,13 @@ export function SiteHeader() {
             Jornadas
           </Link>
           <Link
+            to="/calculadora"
+            className="text-foreground/80 transition-colors hover:text-foreground"
+            activeProps={{ className: "text-foreground underline underline-offset-8" }}
+          >
+            Calculadora
+          </Link>
+          <Link
             to="/guias"
             className="text-foreground/80 transition-colors hover:text-foreground"
             activeProps={{ className: "text-foreground underline underline-offset-8" }}
@@ -97,10 +104,10 @@ export function SiteHeader() {
         </nav>
 
         <Link
-          to={isAuthed ? "/hub" : "/acordos"}
+          to={isAuthed ? "/hub" : "/calculadora"}
           className="text-sm underline underline-offset-4 md:hidden"
         >
-          {isAuthed ? "Meu Hub" : "Países"}
+          {isAuthed ? "Meu Hub" : "Calculadora"}
         </Link>
       </div>
     </header>

@@ -48,6 +48,9 @@ function CalculadoraPublicaPage() {
             do INSS e descubra se você tem direito a aposentadoria por idade ou pensão por
             morte — e qual seria o valor estimado pelo pro-rata.
           </p>
+          <p className="mt-4 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
+            Sem cadastro · Sem pagar · Resultado em 2 minutos
+          </p>
         </div>
       </section>
 
