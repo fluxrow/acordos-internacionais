@@ -91,8 +91,8 @@ export type CalcHistoryItem = {
   id: string;
   pais: string;
   tipo: string;
-  inputs: Record<string, unknown>;
-  resultado: Record<string, unknown>;
+  inputs: string; // JSON string (kept opaque for type-safe transport)
+  resultado: string; // JSON string
   rotulo: string | null;
   created_at: string;
 };
@@ -108,7 +108,15 @@ export const listCalcs = createServerFn({ method: "GET" })
       .order("created_at", { ascending: false })
       .limit(20);
     if (error) throw new Error(error.message);
-    return (data ?? []) as CalcHistoryItem[];
+    return (data ?? []).map((r) => ({
+      id: r.id,
+      pais: r.pais,
+      tipo: r.tipo,
+      inputs: JSON.stringify(r.inputs ?? {}),
+      resultado: JSON.stringify(r.resultado ?? {}),
+      rotulo: r.rotulo,
+      created_at: r.created_at,
+    }));
   });
 
 export const saveCalc = createServerFn({ method: "POST" })
@@ -118,8 +126,8 @@ export const saveCalc = createServerFn({ method: "POST" })
       .object({
         pais: z.string().min(1).max(120),
         tipo: z.string().min(1).max(64),
-        inputs: z.record(z.string(), z.unknown()),
-        resultado: z.record(z.string(), z.unknown()),
+        inputs: z.string().max(8000), // JSON-encoded by caller
+        resultado: z.string().max(8000),
         rotulo: z.string().max(160).optional().nullable(),
       })
       .parse(input),
@@ -132,8 +140,8 @@ export const saveCalc = createServerFn({ method: "POST" })
         user_id: userId,
         pais: data.pais,
         tipo: data.tipo,
-        inputs: data.inputs,
-        resultado: data.resultado,
+        inputs: JSON.parse(data.inputs),
+        resultado: JSON.parse(data.resultado),
         rotulo: data.rotulo ?? null,
       })
       .select("id")
