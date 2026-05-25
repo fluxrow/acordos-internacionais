@@ -185,3 +185,16 @@
 - ✅ Home: CTA principal da hero passou a ser "Simular meu benefício · grátis" → `/calculadora`, com microcopy "Sem cadastro. Sem pagar."
 - ✅ Footer (coluna Cidadão): link "Calculadora gratuita".
 - ✅ `/calculadora`: microcopy "Sem cadastro · Sem pagar · Resultado em 2 minutos" abaixo do H1.
+
+## Sandbox `/preview/*` — concluído (25/05/2026)
+- Sandbox isolado para mostrar ao Dr. Marcos as mudanças propostas (3 briefings HTML) **sem afetar o site público**.
+- Layout `src/routes/preview.tsx` com `<PreviewBanner>` sticky e `noindex,nofollow` em todas as subrotas.
+- Índice `/preview` lista as variações com link para "ver versão atual" lado a lado.
+- Rotas espelho criadas:
+  - `/preview/home` — nova headline, CTAs revistos, sem "modelos de petição".
+  - `/preview/jornadas` — ordem proposta (Moro fora → Voltei → Trabalho temp) + bloco "Atendimento direto".
+  - `/preview/jornadas/$jornada` — jornadas existentes + novos blocos `ProvaDeVidaBlock` (Moro fora) e `PlanejamentoTotalizacaoBlock` (Voltei).
+  - `/preview/guias` + `/preview/guias/saida-definitiva-do-pais` — guia novo adaptado do `.tsx` enviado pelo Marcos.
+  - `/preview/profissional` — Hub sem menção a "modelos de petição".
+- Componentes em `src/components/preview/*` usam tokens do `src/styles.css` (sem hex hardcoded) e `@tanstack/react-router`.
+- Zero linha alterada fora de `src/routes/preview.*`, `src/components/preview/*`, `ROADMAP.md`, `.lovable/prd.md`.
