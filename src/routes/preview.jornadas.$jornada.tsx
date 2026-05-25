@@ -53,7 +53,7 @@ function PreviewJornada() {
       <section className="mx-auto max-w-4xl px-6 py-16 md:py-20">
         <p className="eyebrow">Passo a passo</p>
         <ol className="mt-6 space-y-6">
-          {jornada.passos.map((p, i) => (
+          {jornada.passos.map((p: { titulo: string; descricao: string }, i: number) => (
             <li
               key={p.titulo}
               className="rounded-2xl border border-border bg-background p-6 md:p-8"

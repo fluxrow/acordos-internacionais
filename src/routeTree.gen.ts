@@ -26,13 +26,17 @@ import { Route as JornadasIndexRouteImport } from './routes/jornadas.index'
 import { Route as GuiasIndexRouteImport } from './routes/guias.index'
 import { Route as AcordosIndexRouteImport } from './routes/acordos.index'
 import { Route as SobreDrMarcosRouteImport } from './routes/sobre.dr-marcos'
+import { Route as PreviewProfissionalRouteImport } from './routes/preview.profissional'
 import { Route as PreviewHomeRouteImport } from './routes/preview.home'
+import { Route as PreviewGuiasRouteImport } from './routes/preview.guias'
 import { Route as JornadasJornadaRouteImport } from './routes/jornadas.$jornada'
 import { Route as GuiasSlugRouteImport } from './routes/guias.$slug'
 import { Route as AcordosPaisRouteImport } from './routes/acordos.$pais'
 import { Route as AuthenticatedHubRouteImport } from './routes/_authenticated/hub'
 import { Route as AuthenticatedContaRouteImport } from './routes/_authenticated/conta'
 import { Route as PreviewJornadasIndexRouteImport } from './routes/preview.jornadas.index'
+import { Route as PreviewJornadasJornadaRouteImport } from './routes/preview.jornadas.$jornada'
+import { Route as PreviewGuiasSaidaDefinitivaDoPaisRouteImport } from './routes/preview.guias.saida-definitiva-do-pais'
 import { Route as AuthenticatedHubCalculadoraRouteImport } from './routes/_authenticated/hub.calculadora'
 import { Route as AuthenticatedHubPaisRouteImport } from './routes/_authenticated/hub.$pais'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
@@ -121,9 +125,19 @@ const SobreDrMarcosRoute = SobreDrMarcosRouteImport.update({
   path: '/sobre/dr-marcos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PreviewProfissionalRoute = PreviewProfissionalRouteImport.update({
+  id: '/profissional',
+  path: '/profissional',
+  getParentRoute: () => PreviewRoute,
+} as any)
 const PreviewHomeRoute = PreviewHomeRouteImport.update({
   id: '/home',
   path: '/home',
+  getParentRoute: () => PreviewRoute,
+} as any)
+const PreviewGuiasRoute = PreviewGuiasRouteImport.update({
+  id: '/guias',
+  path: '/guias',
   getParentRoute: () => PreviewRoute,
 } as any)
 const JornadasJornadaRoute = JornadasJornadaRouteImport.update({
@@ -156,6 +170,17 @@ const PreviewJornadasIndexRoute = PreviewJornadasIndexRouteImport.update({
   path: '/jornadas/',
   getParentRoute: () => PreviewRoute,
 } as any)
+const PreviewJornadasJornadaRoute = PreviewJornadasJornadaRouteImport.update({
+  id: '/jornadas/$jornada',
+  path: '/jornadas/$jornada',
+  getParentRoute: () => PreviewRoute,
+} as any)
+const PreviewGuiasSaidaDefinitivaDoPaisRoute =
+  PreviewGuiasSaidaDefinitivaDoPaisRouteImport.update({
+    id: '/saida-definitiva-do-pais',
+    path: '/saida-definitiva-do-pais',
+    getParentRoute: () => PreviewGuiasRoute,
+  } as any)
 const AuthenticatedHubCalculadoraRoute =
   AuthenticatedHubCalculadoraRouteImport.update({
     id: '/calculadora',
@@ -191,7 +216,9 @@ export interface FileRoutesByFullPath {
   '/acordos/$pais': typeof AcordosPaisRoute
   '/guias/$slug': typeof GuiasSlugRoute
   '/jornadas/$jornada': typeof JornadasJornadaRoute
+  '/preview/guias': typeof PreviewGuiasRouteWithChildren
   '/preview/home': typeof PreviewHomeRoute
+  '/preview/profissional': typeof PreviewProfissionalRoute
   '/sobre/dr-marcos': typeof SobreDrMarcosRoute
   '/acordos/': typeof AcordosIndexRoute
   '/guias/': typeof GuiasIndexRoute
@@ -199,6 +226,8 @@ export interface FileRoutesByFullPath {
   '/preview/': typeof PreviewIndexRoute
   '/hub/$pais': typeof AuthenticatedHubPaisRoute
   '/hub/calculadora': typeof AuthenticatedHubCalculadoraRoute
+  '/preview/guias/saida-definitiva-do-pais': typeof PreviewGuiasSaidaDefinitivaDoPaisRoute
+  '/preview/jornadas/$jornada': typeof PreviewJornadasJornadaRoute
   '/preview/jornadas/': typeof PreviewJornadasIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -218,7 +247,9 @@ export interface FileRoutesByTo {
   '/acordos/$pais': typeof AcordosPaisRoute
   '/guias/$slug': typeof GuiasSlugRoute
   '/jornadas/$jornada': typeof JornadasJornadaRoute
+  '/preview/guias': typeof PreviewGuiasRouteWithChildren
   '/preview/home': typeof PreviewHomeRoute
+  '/preview/profissional': typeof PreviewProfissionalRoute
   '/sobre/dr-marcos': typeof SobreDrMarcosRoute
   '/acordos': typeof AcordosIndexRoute
   '/guias': typeof GuiasIndexRoute
@@ -226,6 +257,8 @@ export interface FileRoutesByTo {
   '/preview': typeof PreviewIndexRoute
   '/hub/$pais': typeof AuthenticatedHubPaisRoute
   '/hub/calculadora': typeof AuthenticatedHubCalculadoraRoute
+  '/preview/guias/saida-definitiva-do-pais': typeof PreviewGuiasSaidaDefinitivaDoPaisRoute
+  '/preview/jornadas/$jornada': typeof PreviewJornadasJornadaRoute
   '/preview/jornadas': typeof PreviewJornadasIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -248,7 +281,9 @@ export interface FileRoutesById {
   '/acordos/$pais': typeof AcordosPaisRoute
   '/guias/$slug': typeof GuiasSlugRoute
   '/jornadas/$jornada': typeof JornadasJornadaRoute
+  '/preview/guias': typeof PreviewGuiasRouteWithChildren
   '/preview/home': typeof PreviewHomeRoute
+  '/preview/profissional': typeof PreviewProfissionalRoute
   '/sobre/dr-marcos': typeof SobreDrMarcosRoute
   '/acordos/': typeof AcordosIndexRoute
   '/guias/': typeof GuiasIndexRoute
@@ -256,6 +291,8 @@ export interface FileRoutesById {
   '/preview/': typeof PreviewIndexRoute
   '/_authenticated/hub/$pais': typeof AuthenticatedHubPaisRoute
   '/_authenticated/hub/calculadora': typeof AuthenticatedHubCalculadoraRoute
+  '/preview/guias/saida-definitiva-do-pais': typeof PreviewGuiasSaidaDefinitivaDoPaisRoute
+  '/preview/jornadas/$jornada': typeof PreviewJornadasJornadaRoute
   '/preview/jornadas/': typeof PreviewJornadasIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -278,7 +315,9 @@ export interface FileRouteTypes {
     | '/acordos/$pais'
     | '/guias/$slug'
     | '/jornadas/$jornada'
+    | '/preview/guias'
     | '/preview/home'
+    | '/preview/profissional'
     | '/sobre/dr-marcos'
     | '/acordos/'
     | '/guias/'
@@ -286,6 +325,8 @@ export interface FileRouteTypes {
     | '/preview/'
     | '/hub/$pais'
     | '/hub/calculadora'
+    | '/preview/guias/saida-definitiva-do-pais'
+    | '/preview/jornadas/$jornada'
     | '/preview/jornadas/'
     | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
@@ -305,7 +346,9 @@ export interface FileRouteTypes {
     | '/acordos/$pais'
     | '/guias/$slug'
     | '/jornadas/$jornada'
+    | '/preview/guias'
     | '/preview/home'
+    | '/preview/profissional'
     | '/sobre/dr-marcos'
     | '/acordos'
     | '/guias'
@@ -313,6 +356,8 @@ export interface FileRouteTypes {
     | '/preview'
     | '/hub/$pais'
     | '/hub/calculadora'
+    | '/preview/guias/saida-definitiva-do-pais'
+    | '/preview/jornadas/$jornada'
     | '/preview/jornadas'
     | '/api/public/payments/webhook'
   id:
@@ -334,7 +379,9 @@ export interface FileRouteTypes {
     | '/acordos/$pais'
     | '/guias/$slug'
     | '/jornadas/$jornada'
+    | '/preview/guias'
     | '/preview/home'
+    | '/preview/profissional'
     | '/sobre/dr-marcos'
     | '/acordos/'
     | '/guias/'
@@ -342,6 +389,8 @@ export interface FileRouteTypes {
     | '/preview/'
     | '/_authenticated/hub/$pais'
     | '/_authenticated/hub/calculadora'
+    | '/preview/guias/saida-definitiva-do-pais'
+    | '/preview/jornadas/$jornada'
     | '/preview/jornadas/'
     | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
@@ -490,11 +539,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SobreDrMarcosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/preview/profissional': {
+      id: '/preview/profissional'
+      path: '/profissional'
+      fullPath: '/preview/profissional'
+      preLoaderRoute: typeof PreviewProfissionalRouteImport
+      parentRoute: typeof PreviewRoute
+    }
     '/preview/home': {
       id: '/preview/home'
       path: '/home'
       fullPath: '/preview/home'
       preLoaderRoute: typeof PreviewHomeRouteImport
+      parentRoute: typeof PreviewRoute
+    }
+    '/preview/guias': {
+      id: '/preview/guias'
+      path: '/guias'
+      fullPath: '/preview/guias'
+      preLoaderRoute: typeof PreviewGuiasRouteImport
       parentRoute: typeof PreviewRoute
     }
     '/jornadas/$jornada': {
@@ -538,6 +601,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/preview/jornadas/'
       preLoaderRoute: typeof PreviewJornadasIndexRouteImport
       parentRoute: typeof PreviewRoute
+    }
+    '/preview/jornadas/$jornada': {
+      id: '/preview/jornadas/$jornada'
+      path: '/jornadas/$jornada'
+      fullPath: '/preview/jornadas/$jornada'
+      preLoaderRoute: typeof PreviewJornadasJornadaRouteImport
+      parentRoute: typeof PreviewRoute
+    }
+    '/preview/guias/saida-definitiva-do-pais': {
+      id: '/preview/guias/saida-definitiva-do-pais'
+      path: '/saida-definitiva-do-pais'
+      fullPath: '/preview/guias/saida-definitiva-do-pais'
+      preLoaderRoute: typeof PreviewGuiasSaidaDefinitivaDoPaisRouteImport
+      parentRoute: typeof PreviewGuiasRoute
     }
     '/_authenticated/hub/calculadora': {
       id: '/_authenticated/hub/calculadora'
@@ -590,15 +667,34 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
   AuthenticatedRouteChildren,
 )
 
+interface PreviewGuiasRouteChildren {
+  PreviewGuiasSaidaDefinitivaDoPaisRoute: typeof PreviewGuiasSaidaDefinitivaDoPaisRoute
+}
+
+const PreviewGuiasRouteChildren: PreviewGuiasRouteChildren = {
+  PreviewGuiasSaidaDefinitivaDoPaisRoute:
+    PreviewGuiasSaidaDefinitivaDoPaisRoute,
+}
+
+const PreviewGuiasRouteWithChildren = PreviewGuiasRoute._addFileChildren(
+  PreviewGuiasRouteChildren,
+)
+
 interface PreviewRouteChildren {
+  PreviewGuiasRoute: typeof PreviewGuiasRouteWithChildren
   PreviewHomeRoute: typeof PreviewHomeRoute
+  PreviewProfissionalRoute: typeof PreviewProfissionalRoute
   PreviewIndexRoute: typeof PreviewIndexRoute
+  PreviewJornadasJornadaRoute: typeof PreviewJornadasJornadaRoute
   PreviewJornadasIndexRoute: typeof PreviewJornadasIndexRoute
 }
 
 const PreviewRouteChildren: PreviewRouteChildren = {
+  PreviewGuiasRoute: PreviewGuiasRouteWithChildren,
   PreviewHomeRoute: PreviewHomeRoute,
+  PreviewProfissionalRoute: PreviewProfissionalRoute,
   PreviewIndexRoute: PreviewIndexRoute,
+  PreviewJornadasJornadaRoute: PreviewJornadasJornadaRoute,
   PreviewJornadasIndexRoute: PreviewJornadasIndexRoute,
 }
 
