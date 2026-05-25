@@ -167,3 +167,14 @@ Mudanças:
 - Sessão "Atuação" reestruturada em 2 cards (Nacional / Internacional destacado) + 3 stats de autoridade (sem CTA direto).
 - Sessão "Por que este hub existe" virou Manifesto com blockquote editorial + grid de 3 valores (BookOpen, Scale, Users).
 - Sessão "Como falar comigo" virou 2-card grid: claro (cidadão → /contato) e escuro vinho (advogado → /profissional). Conversão dupla por demonstração.
+
+## 12. Calculadora pública — CTA + descoberta (2026-05-25)
+
+Princípio reforçado: **calculadora pública é para o cidadão** (gratuita, sem login, sem paywall). **Hub é para advogados** (assinatura). Os dois fluxos nunca se cruzam.
+
+- `CalculadoraForm variant="public"`: o bloco pós-resultado (casos 3 e 2B) deixou de oferecer assinatura do Hub. Agora usa `<CTAMarcos>` apontando para `/contato` — caminho coerente para alguém que descobriu que tem direito e precisa de orientação humana.
+- `SiteHeader`: novo link "Calculadora" no nav desktop entre Jornadas e Guias; mobile (deslogado) entra direto em "Calculadora" (era "Países").
+- Home `/`: CTA primário da hero mudou para "Simular meu benefício · grátis" → `/calculadora` (CTA "Ver países" virou secundário). Microcopy reforça "Sem cadastro. Sem pagar."
+- `SiteFooter` coluna Cidadão: link "Calculadora gratuita".
+- `/calculadora`: microcopy "Sem cadastro · Sem pagar · Resultado em 2 minutos" abaixo do H1.
+- `/hub/calculadora` segue intocada (auth + assinatura + `noindex,nofollow`).
