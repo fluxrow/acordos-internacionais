@@ -26,6 +26,8 @@ import { Route as JornadasIndexRouteImport } from './routes/jornadas.index'
 import { Route as GuiasIndexRouteImport } from './routes/guias.index'
 import { Route as AcordosIndexRouteImport } from './routes/acordos.index'
 import { Route as SobreDrMarcosRouteImport } from './routes/sobre.dr-marcos'
+import { Route as PreviewJornadasRouteImport } from './routes/preview.jornadas'
+import { Route as PreviewHomeRouteImport } from './routes/preview.home'
 import { Route as JornadasJornadaRouteImport } from './routes/jornadas.$jornada'
 import { Route as GuiasSlugRouteImport } from './routes/guias.$slug'
 import { Route as AcordosPaisRouteImport } from './routes/acordos.$pais'
@@ -119,6 +121,16 @@ const SobreDrMarcosRoute = SobreDrMarcosRouteImport.update({
   path: '/sobre/dr-marcos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PreviewJornadasRoute = PreviewJornadasRouteImport.update({
+  id: '/jornadas',
+  path: '/jornadas',
+  getParentRoute: () => PreviewRoute,
+} as any)
+const PreviewHomeRoute = PreviewHomeRouteImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => PreviewRoute,
+} as any)
 const JornadasJornadaRoute = JornadasJornadaRouteImport.update({
   id: '/jornadas/$jornada',
   path: '/jornadas/$jornada',
@@ -179,6 +191,8 @@ export interface FileRoutesByFullPath {
   '/acordos/$pais': typeof AcordosPaisRoute
   '/guias/$slug': typeof GuiasSlugRoute
   '/jornadas/$jornada': typeof JornadasJornadaRoute
+  '/preview/home': typeof PreviewHomeRoute
+  '/preview/jornadas': typeof PreviewJornadasRoute
   '/sobre/dr-marcos': typeof SobreDrMarcosRoute
   '/acordos/': typeof AcordosIndexRoute
   '/guias/': typeof GuiasIndexRoute
@@ -204,6 +218,8 @@ export interface FileRoutesByTo {
   '/acordos/$pais': typeof AcordosPaisRoute
   '/guias/$slug': typeof GuiasSlugRoute
   '/jornadas/$jornada': typeof JornadasJornadaRoute
+  '/preview/home': typeof PreviewHomeRoute
+  '/preview/jornadas': typeof PreviewJornadasRoute
   '/sobre/dr-marcos': typeof SobreDrMarcosRoute
   '/acordos': typeof AcordosIndexRoute
   '/guias': typeof GuiasIndexRoute
@@ -232,6 +248,8 @@ export interface FileRoutesById {
   '/acordos/$pais': typeof AcordosPaisRoute
   '/guias/$slug': typeof GuiasSlugRoute
   '/jornadas/$jornada': typeof JornadasJornadaRoute
+  '/preview/home': typeof PreviewHomeRoute
+  '/preview/jornadas': typeof PreviewJornadasRoute
   '/sobre/dr-marcos': typeof SobreDrMarcosRoute
   '/acordos/': typeof AcordosIndexRoute
   '/guias/': typeof GuiasIndexRoute
@@ -260,6 +278,8 @@ export interface FileRouteTypes {
     | '/acordos/$pais'
     | '/guias/$slug'
     | '/jornadas/$jornada'
+    | '/preview/home'
+    | '/preview/jornadas'
     | '/sobre/dr-marcos'
     | '/acordos/'
     | '/guias/'
@@ -285,6 +305,8 @@ export interface FileRouteTypes {
     | '/acordos/$pais'
     | '/guias/$slug'
     | '/jornadas/$jornada'
+    | '/preview/home'
+    | '/preview/jornadas'
     | '/sobre/dr-marcos'
     | '/acordos'
     | '/guias'
@@ -312,6 +334,8 @@ export interface FileRouteTypes {
     | '/acordos/$pais'
     | '/guias/$slug'
     | '/jornadas/$jornada'
+    | '/preview/home'
+    | '/preview/jornadas'
     | '/sobre/dr-marcos'
     | '/acordos/'
     | '/guias/'
@@ -466,6 +490,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SobreDrMarcosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/preview/jornadas': {
+      id: '/preview/jornadas'
+      path: '/jornadas'
+      fullPath: '/preview/jornadas'
+      preLoaderRoute: typeof PreviewJornadasRouteImport
+      parentRoute: typeof PreviewRoute
+    }
+    '/preview/home': {
+      id: '/preview/home'
+      path: '/home'
+      fullPath: '/preview/home'
+      preLoaderRoute: typeof PreviewHomeRouteImport
+      parentRoute: typeof PreviewRoute
+    }
     '/jornadas/$jornada': {
       id: '/jornadas/$jornada'
       path: '/jornadas/$jornada'
@@ -553,10 +591,14 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
 )
 
 interface PreviewRouteChildren {
+  PreviewHomeRoute: typeof PreviewHomeRoute
+  PreviewJornadasRoute: typeof PreviewJornadasRoute
   PreviewIndexRoute: typeof PreviewIndexRoute
 }
 
 const PreviewRouteChildren: PreviewRouteChildren = {
+  PreviewHomeRoute: PreviewHomeRoute,
+  PreviewJornadasRoute: PreviewJornadasRoute,
   PreviewIndexRoute: PreviewIndexRoute,
 }
 

@@ -33,7 +33,7 @@ const JORNADAS_ORDENADAS: PreviewJornada[] = [
   },
 ];
 
-export const Route = createFileRoute("/preview/jornadas")({
+export const Route = createFileRoute("/preview/jornadas/")({
   head: () => ({
     meta: [
       { title: "Pré-visualização · Jornadas | Briefing Dr. Marcos" },
