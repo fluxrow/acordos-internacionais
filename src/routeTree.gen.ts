@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ProfissionalRouteImport } from './routes/profissional'
+import { Route as PreviewRouteImport } from './routes/preview'
 import { Route as PrecosRouteImport } from './routes/precos'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as GlossarioRouteImport } from './routes/glossario'
@@ -20,6 +21,7 @@ import { Route as CadastroRouteImport } from './routes/cadastro'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PreviewIndexRouteImport } from './routes/preview.index'
 import { Route as JornadasIndexRouteImport } from './routes/jornadas.index'
 import { Route as GuiasIndexRouteImport } from './routes/guias.index'
 import { Route as AcordosIndexRouteImport } from './routes/acordos.index'
@@ -41,6 +43,11 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
 const ProfissionalRoute = ProfissionalRouteImport.update({
   id: '/profissional',
   path: '/profissional',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PreviewRoute = PreviewRouteImport.update({
+  id: '/preview',
+  path: '/preview',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrecosRoute = PrecosRouteImport.update({
@@ -86,6 +93,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const PreviewIndexRoute = PreviewIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PreviewRoute,
 } as any)
 const JornadasIndexRoute = JornadasIndexRouteImport.update({
   id: '/jornadas/',
@@ -159,6 +171,7 @@ export interface FileRoutesByFullPath {
   '/glossario': typeof GlossarioRoute
   '/login': typeof LoginRoute
   '/precos': typeof PrecosRoute
+  '/preview': typeof PreviewRouteWithChildren
   '/profissional': typeof ProfissionalRoute
   '/reset-password': typeof ResetPasswordRoute
   '/conta': typeof AuthenticatedContaRoute
@@ -170,6 +183,7 @@ export interface FileRoutesByFullPath {
   '/acordos/': typeof AcordosIndexRoute
   '/guias/': typeof GuiasIndexRoute
   '/jornadas/': typeof JornadasIndexRoute
+  '/preview/': typeof PreviewIndexRoute
   '/hub/$pais': typeof AuthenticatedHubPaisRoute
   '/hub/calculadora': typeof AuthenticatedHubCalculadoraRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -194,6 +208,7 @@ export interface FileRoutesByTo {
   '/acordos': typeof AcordosIndexRoute
   '/guias': typeof GuiasIndexRoute
   '/jornadas': typeof JornadasIndexRoute
+  '/preview': typeof PreviewIndexRoute
   '/hub/$pais': typeof AuthenticatedHubPaisRoute
   '/hub/calculadora': typeof AuthenticatedHubCalculadoraRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -209,6 +224,7 @@ export interface FileRoutesById {
   '/glossario': typeof GlossarioRoute
   '/login': typeof LoginRoute
   '/precos': typeof PrecosRoute
+  '/preview': typeof PreviewRouteWithChildren
   '/profissional': typeof ProfissionalRoute
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/conta': typeof AuthenticatedContaRoute
@@ -220,6 +236,7 @@ export interface FileRoutesById {
   '/acordos/': typeof AcordosIndexRoute
   '/guias/': typeof GuiasIndexRoute
   '/jornadas/': typeof JornadasIndexRoute
+  '/preview/': typeof PreviewIndexRoute
   '/_authenticated/hub/$pais': typeof AuthenticatedHubPaisRoute
   '/_authenticated/hub/calculadora': typeof AuthenticatedHubCalculadoraRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -235,6 +252,7 @@ export interface FileRouteTypes {
     | '/glossario'
     | '/login'
     | '/precos'
+    | '/preview'
     | '/profissional'
     | '/reset-password'
     | '/conta'
@@ -246,6 +264,7 @@ export interface FileRouteTypes {
     | '/acordos/'
     | '/guias/'
     | '/jornadas/'
+    | '/preview/'
     | '/hub/$pais'
     | '/hub/calculadora'
     | '/api/public/payments/webhook'
@@ -270,6 +289,7 @@ export interface FileRouteTypes {
     | '/acordos'
     | '/guias'
     | '/jornadas'
+    | '/preview'
     | '/hub/$pais'
     | '/hub/calculadora'
     | '/api/public/payments/webhook'
@@ -284,6 +304,7 @@ export interface FileRouteTypes {
     | '/glossario'
     | '/login'
     | '/precos'
+    | '/preview'
     | '/profissional'
     | '/reset-password'
     | '/_authenticated/conta'
@@ -295,6 +316,7 @@ export interface FileRouteTypes {
     | '/acordos/'
     | '/guias/'
     | '/jornadas/'
+    | '/preview/'
     | '/_authenticated/hub/$pais'
     | '/_authenticated/hub/calculadora'
     | '/api/public/payments/webhook'
@@ -310,6 +332,7 @@ export interface RootRouteChildren {
   GlossarioRoute: typeof GlossarioRoute
   LoginRoute: typeof LoginRoute
   PrecosRoute: typeof PrecosRoute
+  PreviewRoute: typeof PreviewRouteWithChildren
   ProfissionalRoute: typeof ProfissionalRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   AcordosPaisRoute: typeof AcordosPaisRoute
@@ -336,6 +359,13 @@ declare module '@tanstack/react-router' {
       path: '/profissional'
       fullPath: '/profissional'
       preLoaderRoute: typeof ProfissionalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/preview': {
+      id: '/preview'
+      path: '/preview'
+      fullPath: '/preview'
+      preLoaderRoute: typeof PreviewRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/precos': {
@@ -400,6 +430,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/preview/': {
+      id: '/preview/'
+      path: '/'
+      fullPath: '/preview/'
+      preLoaderRoute: typeof PreviewIndexRouteImport
+      parentRoute: typeof PreviewRoute
     }
     '/jornadas/': {
       id: '/jornadas/'
@@ -515,6 +552,17 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
   AuthenticatedRouteChildren,
 )
 
+interface PreviewRouteChildren {
+  PreviewIndexRoute: typeof PreviewIndexRoute
+}
+
+const PreviewRouteChildren: PreviewRouteChildren = {
+  PreviewIndexRoute: PreviewIndexRoute,
+}
+
+const PreviewRouteWithChildren =
+  PreviewRoute._addFileChildren(PreviewRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
@@ -525,6 +573,7 @@ const rootRouteChildren: RootRouteChildren = {
   GlossarioRoute: GlossarioRoute,
   LoginRoute: LoginRoute,
   PrecosRoute: PrecosRoute,
+  PreviewRoute: PreviewRouteWithChildren,
   ProfissionalRoute: ProfissionalRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   AcordosPaisRoute: AcordosPaisRoute,
