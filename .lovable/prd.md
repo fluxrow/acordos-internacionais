@@ -191,3 +191,14 @@ Ambiente paralelo para validar propostas do Dr. Marcos sem mexer no site públic
 - `/preview/profissional` — Hub sem menção a "modelos de petição".
 
 Regra: zero alteração fora de `src/routes/preview.*`, `src/components/preview/*`, `.lovable/prd.md`, `ROADMAP.md`. Promoção para produção é decisão separada, após aprovação do Marcos.
+
+## Calculadora Pro — versão "laudo" (Hub do Advogado)
+
+- Rota: `/hub/calculadora` (autenticada, requer assinatura).
+- Componente: `src/components/calculadora-form-pro.tsx` (independente do `CalculadoraForm` público).
+- Modelo de referência: `calculadora-advogado.html` do repositório `marcosespinola1379/Mapa-de-Acordos` (portado para React, tokens semânticos oklch, sem hex inline).
+- Campos novos: Nome, CPF, Data da análise, Data de nascimento, Sexo (com rótulos descritivos), Responsável/Advogado, Início/Fim de filiação no exterior (com fallback "total em meses"), Tempo Brasil em anos+meses separados.
+- Resultados: 4 cenários — Caso 1 (carência cumprida), Caso 2 (insuficiente), Caso 2B (planejamento por idade, com contador), Caso 3 (totalização válida, com fórmula explícita).
+- Pronto para impressão: rodapé identificável "www.acordosinternacionais.com · Documento gerado em DD/MM/AAAA", cabeçalho do cliente embutido no laudo, botão Imprimir / PDF (`window.print()`).
+- Integra com histórico de cálculos (`saveCalc` em `hub-personal.functions.ts`) e parser de CNIS (`parsearCNIS` + `pdfjs-loader`).
+- Lógica: estende `src/lib/calculadora.ts` (adiciona países do HTML e `calcMesesEntreDatas`). Não altera `calcularResultado`.

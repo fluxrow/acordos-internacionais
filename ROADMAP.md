@@ -198,3 +198,10 @@
   - `/preview/profissional` — Hub sem menção a "modelos de petição".
 - Componentes em `src/components/preview/*` usam tokens do `src/styles.css` (sem hex hardcoded) e `@tanstack/react-router`.
 - Zero linha alterada fora de `src/routes/preview.*`, `src/components/preview/*`, `ROADMAP.md`, `.lovable/prd.md`.
+
+## Calculadora Pro — modelo "laudo" portado do HTML
+
+- Entrega: nova UX da calculadora do Hub do Advogado em `/hub/calculadora`, fiel ao `calculadora-advogado.html` (cabeçalho/cliente, 4 cenários de resultado, tabela técnica, fórmula, rodapé identificável, contador de idade no caso 2B).
+- Componente isolado: `src/components/calculadora-form-pro.tsx`. Rota pública `/calculadora` segue inalterada.
+- Tokens semânticos (`--state-*`, `--accent-ink*`) — zero hex inline.
+- Países do acordo expandidos para paridade com o HTML (Áustria, Bolívia, Bulgária, EUA, Índia, Moçambique, Paraguai, República Tcheca, Quebec).
