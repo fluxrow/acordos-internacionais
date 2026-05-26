@@ -202,3 +202,19 @@ Regra: zero alteração fora de `src/routes/preview.*`, `src/components/preview/
 - Pronto para impressão: rodapé identificável "www.acordosinternacionais.com · Documento gerado em DD/MM/AAAA", cabeçalho do cliente embutido no laudo, botão Imprimir / PDF (`window.print()`).
 - Integra com histórico de cálculos (`saveCalc` em `hub-personal.functions.ts`) e parser de CNIS (`parsearCNIS` + `pdfjs-loader`).
 - Lógica: estende `src/lib/calculadora.ts` (adiciona países do HTML e `calcMesesEntreDatas`). Não altera `calcularResultado`.
+
+## Calculadora pública (segurado) — UX amigável
+
+- Rota: `/calculadora` (público, sem cadastro).
+- Componente: `src/components/calculadora-form.tsx` (variant prop removida — só pública; Pro vive em `calculadora-form-pro.tsx`).
+- Modelo de referência: `calculadora-segurado.html` do repositório `marcosespinola1379/Mapa-de-Acordos`.
+- Linguagem: dirigida ao segurado leigo, sem jargão jurídico (sem "RMI teórica", "SB", "pro-rata" em destaque).
+- Fluxo em 3 passos visíveis:
+  1. Como calcular? (toggle Com extrato CNIS / Sem extrato — estimativa).
+  2. Tipo de benefício e dados (data de nascimento como `<input type="date">`, sexo, tipo, país).
+  3. Tempo no exterior (data início + fim, ou total em meses).
+- Tutorial colapsável "Como baixar CNIS em 3 passos" com link para meu.inss.gov.br.
+- Upload do CNIS com drag-and-drop; status visual de leitura/sucesso/erro; preenche auto data de nascimento.
+- Modo manual: salário médio + tempo no Brasil em Anos/Meses separados; cálculo recebe badge "estimativa".
+- Resultados por caso (1, 2, 2B, 3) com cards coloridos amigáveis e CTA contextual para Dr. Marcos via `<CTAMarcos />`. Caso 3 destaca o valor mensal estimado em R$.
+- Lógica reaproveita `calcularResultado` e `parsearCNIS` — sem mudança em `src/lib/calculadora.ts`.

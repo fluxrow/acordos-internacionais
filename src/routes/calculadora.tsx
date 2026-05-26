@@ -55,7 +55,7 @@ function CalculadoraPublicaPage() {
       </section>
 
       <section className="mx-auto max-w-4xl px-6 py-10 md:py-14">
-        <CalculadoraForm variant="public" />
+        <CalculadoraForm />
       </section>
     </main>
   );
