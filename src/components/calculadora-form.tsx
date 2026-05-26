@@ -651,8 +651,9 @@ function ResultadoView({
       )}
 
       <div className="mt-6">
-        <CTAMarcos contexto={ctaContexto(resultado.caso)} />
+        <CTAMarcos variant="result" caso={resultado.caso} contexto={ctaContexto(resultado.caso)} />
       </div>
+
     </section>
   );
 }
