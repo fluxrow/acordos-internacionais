@@ -99,11 +99,10 @@ export function CalculadoraForm() {
       setCnis({
         nome: dados.nome ?? "",
         cpf: dados.cpf ?? "",
-        qtdSalarios: dados.salarios?.length ?? 0,
-        somaSalarios:
-          dados.salarios?.reduce((a: number, b: number) => a + b, 0) ?? 0,
+        mediaSalarial: dados.mediasSalarial ?? 0,
         totalMeses: dados.totalMeses ?? 0,
       });
+
       if (dados.dataNasc) {
         // DD/MM/AAAA -> YYYY-MM-DD
         const [d, m, a] = dados.dataNasc.split("/");
