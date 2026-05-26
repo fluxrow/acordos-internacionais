@@ -271,3 +271,38 @@
     animation: globe-enter-left 2.2s ease-out both;
   }
 }
+
+/* Refined form fields — calculadora */
+.calc-form label {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.005em;
+  color: var(--foreground);
+  opacity: 0.85;
+}
+.calc-form input:not([type="file"]):not([type="checkbox"]):not([type="radio"]),
+.calc-form [role="combobox"] {
+  height: 2.875rem;
+  border-radius: 0.625rem;
+  border-color: color-mix(in oklab, var(--border) 80%, transparent);
+  background: color-mix(in oklab, var(--background) 60%, transparent);
+  font-size: 0.9375rem;
+  padding-left: 0.875rem;
+  padding-right: 0.875rem;
+  box-shadow: 0 1px 0 0 color-mix(in oklab, var(--foreground) 4%, transparent);
+  transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+.calc-form input:not([type="file"]):not([type="checkbox"]):not([type="radio"]):hover,
+.calc-form [role="combobox"]:hover {
+  border-color: color-mix(in oklab, var(--accent-ink) 35%, var(--border));
+}
+.calc-form input:not([type="file"]):not([type="checkbox"]):not([type="radio"]):focus-visible,
+.calc-form [role="combobox"]:focus {
+  border-color: var(--accent-ink);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent-ink) 18%, transparent);
+  outline: none;
+  background: var(--background);
+}
+.calc-form input::placeholder {
+  color: color-mix(in oklab, var(--muted-foreground) 80%, transparent);
+}
