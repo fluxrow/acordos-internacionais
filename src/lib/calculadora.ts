@@ -103,13 +103,17 @@ export function calcularResultado(params: {
   const idadeMin = sexo === "F" ? 62 : 65;
   const idadeAtual = calcIdade(nascInput);
 
+  const semSalario = !sbFinal || sbFinal <= 0;
+
   // Caso 1: Brasil já tem carência solo
   if (tempoBrasilMeses >= carencia) {
-    const rmiTeorica = sbFinal * coef;
+    const rmiTeorica = semSalario ? undefined : sbFinal * coef;
     return {
       caso: 1,
       titulo: "Totalização desnecessária",
-      descricao: `Com ${formatarTempo(tempoBrasilMeses)} apenas no Brasil, você já atingiu a carência de ${carencia} meses. A totalização usaria pro-rata e REDUZIRIA o valor do benefício. Recomendamos requerer pelo Brasil isoladamente.`,
+      descricao: semSalario
+        ? `Com ${formatarTempo(tempoBrasilMeses)} apenas no Brasil, você já atingiu a carência de ${carencia} meses. Não é necessário juntar o tempo no exterior — recomendamos requerer pelo Brasil isoladamente.`
+        : `Com ${formatarTempo(tempoBrasilMeses)} apenas no Brasil, você já atingiu a carência de ${carencia} meses. A totalização usaria pro-rata e REDUZIRIA o valor do benefício. Recomendamos requerer pelo Brasil isoladamente.`,
       rmiTeorica,
       tempoBrasil: tempoBrasilMeses,
       tempoPais: tempoPaisMeses,
@@ -145,6 +149,16 @@ export function calcularResultado(params: {
   }
 
   // Caso 3: totalização válida
+  if (semSalario) {
+    return {
+      caso: 3,
+      titulo: "Totalização válida",
+      descricao: `Você cumpre o tempo mínimo somando Brasil + ${nomePais}. Para saber o valor exato do benefício, carregue o extrato do INSS (CNIS).`,
+      tempoBrasil: tempoBrasilMeses,
+      tempoPais: tempoPaisMeses,
+      tempoTotal,
+    };
+  }
   const rmiTeorica = sbFinal * coef;
   const rmiProrata = rmiTeorica * (tempoBrasilMeses / tempoTotal);
   const rmiAjustada = Math.max(rmiProrata, SMmin);
@@ -159,3 +173,4 @@ export function calcularResultado(params: {
     tempoTotal,
   };
 }
+
