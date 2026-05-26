@@ -217,3 +217,7 @@
 - Resultados em linguagem leiga, com valor em destaque (caso 3), contador de idade (caso 2B), explicações inline e CTA contextual para o Dr. Marcos.
 - Componente desacoplou-se do Pro: `CalculadoraForm` (público) e `CalculadoraFormPro` (Hub) agora são totalmente independentes.
 - Tokens semânticos oklch — zero hex inline.
+
+## Glassmorphism nos cards de destaque
+
+- Substituídos cards `bg-secondary` por `bg-background/60 backdrop-blur-md` em: `cta-marcos`, `acordos.$pais` (aside curiosidade), `sobre.dr-marcos` (3 artigos), `hub.index` (banner + onboarding), `hub.$pais` (2 cards), `precos` (garantia), `contato` (card lateral).

@@ -222,3 +222,8 @@ Após aprovação do Dr. Marcos, todas as variações do sandbox foram promovida
 - Modo manual: salário médio + tempo no Brasil em Anos/Meses separados; cálculo recebe badge "estimativa".
 - Resultados por caso (1, 2, 2B, 3) com cards coloridos amigáveis e CTA contextual para Dr. Marcos via `<CTAMarcos />`. Caso 3 destaca o valor mensal estimado em R$.
 - Lógica reaproveita `calcularResultado` e `parsearCNIS` — sem mudança em `src/lib/calculadora.ts`.
+
+## Glassmorphism nos cards
+
+- Cards de destaque (CTA Marcos, "próximos passos", aside de curiosidade em `/acordos/[país]`, artigos em `/sobre/dr-marcos`, banners do Hub, card de garantia em `/precos`, card de contato) usam `bg-background/60 backdrop-blur-md border-border/60` em vez de `bg-secondary` chapado.
+- Motivo: o cinza sólido destoava da paleta editorial; o vidro deixa o radial gradient do hero atravessar o card e mantém a identidade.
