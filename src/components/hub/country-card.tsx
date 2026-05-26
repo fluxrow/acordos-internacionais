@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { acordosImportados } from "@/data/acordos.generated";
+import { MULTI_LOGOS } from "@/lib/multi-logos";
 
 type Pais = { slug: string; nome: string; flag: string | null };
 
@@ -40,6 +41,15 @@ export function CountryCard({
             width={56}
             height={42}
             className="rounded-lg object-cover shadow-[0_1px_3px_rgba(0,0,0,0.12)]"
+            loading="lazy"
+          />
+        ) : MULTI_LOGOS[pais.slug] ? (
+          <img
+            src={MULTI_LOGOS[pais.slug]}
+            alt={pais.nome}
+            width={56}
+            height={42}
+            className="h-[42px] w-[56px] rounded-lg bg-background object-contain p-1 shadow-[0_1px_3px_rgba(0,0,0,0.12)] ring-1 ring-border"
             loading="lazy"
           />
         ) : (
