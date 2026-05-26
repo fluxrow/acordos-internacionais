@@ -29,6 +29,7 @@ const FOLDER_TO_SLUG: Record<string, string> = {
   austria: "austria",
   belgica: "belgica",
   bulgaria: "bulgaria",
+  "cabo-verde": "cabo-verde",
   canada: "canada",
   chile: "chile",
   coreia: "coreia-do-sul",
