@@ -205,3 +205,11 @@
 - Componente isolado: `src/components/calculadora-form-pro.tsx`. Rota pública `/calculadora` segue inalterada.
 - Tokens semânticos (`--state-*`, `--accent-ink*`) — zero hex inline.
 - Países do acordo expandidos para paridade com o HTML (Áustria, Bolívia, Bulgária, EUA, Índia, Moçambique, Paraguai, República Tcheca, Quebec).
+
+## Calculadora pública — UX do segurado
+
+- Refatorada `/calculadora` seguindo o `calculadora-segurado.html` de referência.
+- Fluxo guiado em 3 passos com toggle CNIS/manual, tutorial colapsável e datas nativas (`<input type="date">`).
+- Resultados em linguagem leiga, com valor em destaque (caso 3), contador de idade (caso 2B), explicações inline e CTA contextual para o Dr. Marcos.
+- Componente desacoplou-se do Pro: `CalculadoraForm` (público) e `CalculadoraFormPro` (Hub) agora são totalmente independentes.
+- Tokens semânticos oklch — zero hex inline.
