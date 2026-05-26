@@ -42,8 +42,7 @@ type Modo = "cnis" | "manual";
 interface CnisInfo {
   nome: string;
   cpf: string;
-  qtdSalarios: number;
-  somaSalarios: number;
+  mediaSalarial: number;
   totalMeses: number;
 }
 
@@ -54,6 +53,7 @@ function isoParaBR(iso: string) {
   if (!a || !m || !d) return "";
   return `${d}/${m}/${a}`;
 }
+
 
 export function CalculadoraForm() {
   // Tutorial
