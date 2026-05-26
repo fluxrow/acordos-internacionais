@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
 import {
   FileUp,
-  Calculator,
   AlertTriangle,
   XCircle,
   Clock,
@@ -629,5 +628,3 @@ function SalvarCalculoButton({
   );
 }
 
-// Avoid unused-import warning for Calculator (kept for parity with public form)
-export const __ICON_KEEP = Calculator;
