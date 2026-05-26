@@ -179,18 +179,21 @@ Princípio reforçado: **calculadora pública é para o cidadão** (gratuita, se
 - `/calculadora`: microcopy "Sem cadastro · Sem pagar · Resultado em 2 minutos" abaixo do H1.
 - `/hub/calculadora` segue intocada (auth + assinatura + `noindex,nofollow`).
 
-## 13. Sandbox `/preview/*` (2026-05-25)
+## 13. Promoção do sandbox `/preview/*` → produção (2026-05-26)
 
-Ambiente paralelo para validar propostas do Dr. Marcos sem mexer no site público. Toda rota sob `/preview` carrega `<PreviewBanner>` e `noindex,nofollow`.
+Após aprovação do Dr. Marcos, todas as variações do sandbox foram promovidas para as rotas reais. O sandbox `/preview/*`, o `PreviewBanner` e a pasta `src/components/preview/` foram removidos.
 
-- `/preview` — índice das variações com link para versão atual ao lado.
-- `/preview/home` — nova headline + CTAs revistos, sem "modelos de petição".
-- `/preview/jornadas` — ordem proposta (Moro fora → Voltei → Trabalho temp) + bloco "Atendimento direto".
-- `/preview/jornadas/$jornada` — blocos novos: `ProvaDeVidaBlock` (Moro fora) e `PlanejamentoTotalizacaoBlock` (Voltei).
-- `/preview/guias` + `/preview/guias/saida-definitiva-do-pais` — guia novo adaptado do `.tsx` do Marcos.
-- `/preview/profissional` — Hub sem menção a "modelos de petição".
+- **`/`** — bloco "dois públicos" reescrito (cidadão: CTAs `Ver os 25 países`, `Jornadas`, `Blog`; advogado: novo H1 "Hub Profissional em Direito Previdenciário Internacional", descrição completa e tagline, CTAs sem "modelos de petição").
+- **`/jornadas`** — ordem 1) Moro fora · 2) Voltei · 3) Trabalho temporário + bloco 04 "Atendimento direto com o Dr. Marcos Espínola".
+- **`/jornadas/moro-fora`** — passa a renderizar `ProvaDeVidaBlock` (5 modalidades).
+- **`/jornadas/estou-voltando`** — passa a renderizar `PlanejamentoTotalizacaoBlock` (CDT × CDSP, 4 etapas, cenários, erros).
+- **`/guias`** — novo card 05 "Comunicação de Saída Definitiva do País" com selo "NOVO".
+- **`/guias/saida-definitiva-do-pais`** — nova rota dedicada com SEO real (sem `noindex`), FAQ, riscos e fontes oficiais da Receita Federal.
+- **`/profissional`** — hero, descrição e lista de features reescritos sem "modelos de petição" (nota de rodapé: funcionalidade suspensa).
+- **`SiteHeader`** — link "Guias" virou dropdown hover/focus com a biblioteca completa (4 guias + Saída Fiscal com badge "Novo").
+- Componentes movidos: `src/components/preview/{prova-de-vida,planejamento-totalizacao}-block.tsx` → `src/components/jornadas/`.
 
-Regra: zero alteração fora de `src/routes/preview.*`, `src/components/preview/*`, `.lovable/prd.md`, `ROADMAP.md`. Promoção para produção é decisão separada, após aprovação do Marcos.
+
 
 ## Calculadora Pro — versão "laudo" (Hub do Advogado)
 

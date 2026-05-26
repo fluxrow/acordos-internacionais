@@ -186,18 +186,15 @@
 - ✅ Footer (coluna Cidadão): link "Calculadora gratuita".
 - ✅ `/calculadora`: microcopy "Sem cadastro · Sem pagar · Resultado em 2 minutos" abaixo do H1.
 
-## Sandbox `/preview/*` — concluído (25/05/2026)
-- Sandbox isolado para mostrar ao Dr. Marcos as mudanças propostas (3 briefings HTML) **sem afetar o site público**.
-- Layout `src/routes/preview.tsx` com `<PreviewBanner>` sticky e `noindex,nofollow` em todas as subrotas.
-- Índice `/preview` lista as variações com link para "ver versão atual" lado a lado.
-- Rotas espelho criadas:
-  - `/preview/home` — nova headline, CTAs revistos, sem "modelos de petição".
-  - `/preview/jornadas` — ordem proposta (Moro fora → Voltei → Trabalho temp) + bloco "Atendimento direto".
-  - `/preview/jornadas/$jornada` — jornadas existentes + novos blocos `ProvaDeVidaBlock` (Moro fora) e `PlanejamentoTotalizacaoBlock` (Voltei).
-  - `/preview/guias` + `/preview/guias/saida-definitiva-do-pais` — guia novo adaptado do `.tsx` enviado pelo Marcos.
-  - `/preview/profissional` — Hub sem menção a "modelos de petição".
-- Componentes em `src/components/preview/*` usam tokens do `src/styles.css` (sem hex hardcoded) e `@tanstack/react-router`.
-- Zero linha alterada fora de `src/routes/preview.*`, `src/components/preview/*`, `ROADMAP.md`, `.lovable/prd.md`.
+## Promoção do sandbox `/preview/*` → produção ✅ (26/05/2026)
+- Aprovações do Dr. Marcos aplicadas definitivamente nas rotas reais; sandbox `/preview/*`, `PreviewBanner` e `src/components/preview/` removidos.
+- **`/`**: bloco "dois públicos" reescrito (novo H1 do advogado, tagline, CTAs `Ver 25 países` / `Jornadas` / `Blog` / `Sobre o Dr. Marcos`).
+- **`/jornadas`**: reordenado (Moro fora → Voltei → Trabalho temporário) + bloco 04 "Atendimento direto com o Dr. Marcos".
+- **`/jornadas/moro-fora`** e **`/jornadas/estou-voltando`**: passam a renderizar `ProvaDeVidaBlock` e `PlanejamentoTotalizacaoBlock` (movidos para `src/components/jornadas/`).
+- **`/guias`**: novo card 05 "Comunicação de Saída Definitiva do País" (badge NOVO).
+- **`/guias/saida-definitiva-do-pais`**: nova rota dedicada com SEO real, FAQ, riscos e fontes oficiais.
+- **`/profissional`**: hero, descrição e features reescritos sem "modelos de petição".
+- **`SiteHeader`**: item "Guias" virou dropdown hover/focus com a biblioteca completa + Saída Fiscal (badge "Novo").
 
 ## Calculadora Pro — modelo "laudo" portado do HTML
 
