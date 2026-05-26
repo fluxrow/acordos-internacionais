@@ -17,10 +17,25 @@ export const COEFICIENTES = {
 } as const;
 
 export const PAISES_ACORDO = [
-  "Alemanha", "Argentina", "Bélgica", "Cabo Verde", "Canadá", "Chile",
-  "Coreia do Sul", "Espanha", "França", "Grécia", "Israel", "Itália",
-  "Japão", "Luxemburgo", "Portugal", "Quebec", "Suíça", "Uruguai",
+  "Alemanha", "Argentina", "Áustria", "Bélgica", "Bolívia", "Bulgária",
+  "Cabo Verde", "Canadá", "Chile", "Coreia do Sul", "Espanha",
+  "Estados Unidos", "França", "Grécia", "Índia", "Israel", "Itália",
+  "Japão", "Luxemburgo", "Moçambique", "Paraguai", "Portugal",
+  "Quebec (Canadá)", "República Tcheca", "Suíça", "Uruguai",
 ] as const;
+
+/**
+ * Calcula meses entre duas datas no formato ISO (YYYY-MM-DD) vindo de <input type="date">.
+ * Retorna 0 se inválido ou negativo.
+ */
+export function calcMesesEntreDatas(iso1: string, iso2: string): number {
+  if (!iso1 || !iso2) return 0;
+  const d1 = new Date(iso1 + "T12:00:00");
+  const d2 = new Date(iso2 + "T12:00:00");
+  if (Number.isNaN(d1.getTime()) || Number.isNaN(d2.getTime())) return 0;
+  const diff = (d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24 * 30.44);
+  return diff > 0 ? Math.round(diff) : 0;
+}
 
 export type TipoBeneficio = "aposentadoria_idade" | "pensao_morte";
 export type Sexo = "F" | "M";
