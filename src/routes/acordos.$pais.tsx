@@ -311,7 +311,7 @@ function AcordoPais() {
                 </Bloco>
 
                 {a.conteudo.curiosidade && (
-                  <aside className="relative border-l-2 border-[var(--accent-ink)] bg-secondary p-6">
+                  <aside className="relative rounded-r-lg border-l-2 border-[var(--accent-ink)] bg-background/50 p-6 backdrop-blur-md">
                     <p className="eyebrow text-[var(--accent-ink)]">Para o registro</p>
                     <p className="mt-3 font-display text-xl leading-snug italic">
                       <Highlight text={a.conteudo.curiosidade} terms={termosChave} />
