@@ -104,7 +104,7 @@ function HubDashboard() {
       </header>
 
       {!hasAccess && !isPending && (
-        <div className="mb-8 rounded-2xl border border-border bg-secondary px-6 py-5 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_-12px_rgba(0,0,0,0.08)]">
+        <div className="mb-8 rounded-2xl border border-border/60 bg-background/60 px-6 py-5 backdrop-blur-md shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_-12px_rgba(0,0,0,0.08)]">
           <p className="font-medium">Acesso bloqueado</p>
           <p className="mt-1 text-sm text-muted-foreground">
             Assine o Hub Profissional para acessar os materiais técnicos de todos os acordos e a calculadora RMI.
