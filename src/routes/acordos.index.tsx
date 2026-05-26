@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { acordos, totalAcordos } from "@/data/acordos";
+import { MULTI_LOGOS } from "@/lib/multi-logos";
 
 const TITLE = "Países com acordo previdenciário com o Brasil";
 const DESC =
