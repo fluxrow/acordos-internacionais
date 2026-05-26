@@ -1,86 +1,78 @@
-## Objetivo
+## Diagnóstico
 
-Promover as mudanças aprovadas em `/preview/*` para as rotas reais correspondentes, eliminar as rotas de preview e o banner, e atualizar `prd.md` + `ROADMAP.md`.
-
-## Mapa preview → destino
+Comparei o repositório `marcosespinola1379/Mapa-de-Acordos` com o estado atual do Hub (bucket `hub-docs` + `src/data/acordos.generated.ts`):
 
 
-| Preview                                      | Destino real                                         | Natureza da mudança                                                                      |
-| -------------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| `preview.home.tsx`                           | `routes/index.tsx`                                   | Reescrita do bloco "dois públicos" (cidadão + advogado)                                  |
-| `preview.jornadas.index.tsx`                 | `routes/jornadas.index.tsx`                          | Reordenação dos cards + novo bloco 04 "Atendimento direto" com Dr. Marcos                |
-| `preview.jornadas.$jornada.tsx`              | `routes/jornadas.$jornada.tsx`                       | Injetar `ProvaDeVidaBlock` (moro-fora) e `PlanejamentoTotalizacaoBlock` (estou-voltando) |
-| `preview.guias.tsx`                          | `routes/guias.index.tsx`                             | Adicionar card 05 "Comunicação de Saída Definitiva do País" apontando para a nova rota   |
-| `preview.guias.saida-definitiva-do-pais.tsx` | **nova** `routes/guias.saida-definitiva-do-pais.tsx` | Promover conteúdo integral como guia real (head/meta SEO real, sem `noindex`)            |
-| `preview.profissional.tsx`                   | `routes/profissional.tsx`                            | Hero/descrição/lista de features reescritas sem "modelos de petição"                     |
+| País                        | Repo              | Bucket hoje | Catálogo `docs:` | Status        |
+| --------------------------- | ----------------- | ----------- | ---------------- | ------------- |
+| **cabo-verde**              | 2 PDFs            | **0**       | 2                | faltando 100% |
+| **franca**                  | 16 docs (PDF+DOC) | **0**       | 16               | faltando 100% |
+| **iberoamericano**          | 9 PDFs            | **0**       | 6                | faltando 100% |
+| bulgaria                    | 1                 | 1           | 1                | ok            |
+| israel                      | 1 (raiz)          | 1           | 1                | ok            |
+| cplp                        | 1 (raiz)          | 1           | 1                | ok            |
+| austria, luxemburgo, demais | aliados           | aliados     | ok               | ok            |
 
 
-## Mudanças por arquivo
+**Causa raiz:** `scripts/sync-hub-docs.ts` tem um `FOLDER_TO_SLUG` que **não inclui** `cabo-verde`, `franca` e `iberoamericano`. Por isso o sync nunca subiu esses arquivos. O `acordos.generated.ts` tem metadados curados (órgãos, benefícios, trecho do acordo), mas os documentos ficaram com `arquivo: ""` — então no Hub aparecem sem link de download.
 
-### 1. `src/routes/index.tsx`
+## Plano
 
-Substituir a seção "dois públicos" pelo bloco do preview:
+### 1. Corrigir `scripts/sync-hub-docs.ts`
 
-- Card 01 (cidadão): nova headline + CTAs `Ver os 25 países` (dark), `Explorar por situação / jornadas`, `Blog`.
-- Card 02 (advogado): novo título "Hub Profissional em Direito Previdenciário Internacional: Educação, Eficiência e Excelência.", descrição completa, tagline em itálico, CTAs `Conhecer o hub`, `Blog`, `Sobre o Dr. Marcos`. Sem menção a "modelos de petição".
-- HERO, stats e "países em destaque" permanecem como estão hoje.
+Adicionar ao `FOLDER_TO_SLUG`:
 
-### 2. `src/routes/jornadas.index.tsx`
+```ts
+"cabo-verde": "cabo-verde",
+franca: "franca",
+iberoamericano: "iberoamericano",
+```
 
-- Reordenar para: 1) Moro fora · 2) Voltei · 3) Trabalho temporariamente no exterior (usar fonte `JORNADAS_ORDENADAS` do preview).
-- Abaixo dos 3 cards, adicionar o bloco 04 "Atendimento direto com o Dr. Marcos Espínola" (wine, `border-[var(--accent-ink)]`, `bg-[var(--accent-ink-soft)]`) com CTA `Agendar consulta` → `/contato` e link "Conhecer o Dr. Marcos" → `/sobre/dr-marcos`.
+### 2. Rodar o sync (precisa de `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` no ambiente)
 
-### 3. `src/routes/jornadas.$jornada.tsx`
+```bash
+bun scripts/sync-hub-docs.ts --pais cabo-verde
+bun scripts/sync-hub-docs.ts --pais franca
+bun scripts/sync-hub-docs.ts --pais iberoamericano
+```
 
-- Importar `ProvaDeVidaBlock` e `PlanejamentoTotalizacaoBlock` (mover de `src/components/preview/` para `src/components/jornadas/` — não pertencem mais a preview).
-- Renderizar `<ProvaDeVidaBlock />` quando `slug === "moro-fora"` e `<PlanejamentoTotalizacaoBlock />` quando `slug === "estou-voltando"`, entre os passos e o CTA final.
+Resultado esperado: 2 + 16 + 9 = **27 arquivos** novos no bucket `hub-docs`.
 
-### 4. `src/routes/guias.index.tsx`
+### 3. Re-gerar `src/data/acordos.generated.ts`
 
-- Adicionar item extra (após os existentes de `guias`) com slug `saida-definitiva-do-pais` apontando para `/guias/$slug` (não mais para `/preview/...`).
-- Adicionar o `guia` no array em `src/data/guias.ts` (slug, título, resumo) para manter a fonte única de verdade — assim o item aparece naturalmente sem hardcode no `index.tsx`.
+```bash
+bun scripts/reconcile-hub-docs.ts
+```
 
-### 5. **Nova** `src/routes/guias.saida-definitiva-do-pais.tsx`
+O reconcile faz match fuzzy entre os arquivos do bucket e as entradas existentes em `acordos.generated.ts`, preenchendo `arquivo` + `tamanho`. Arquivos sem match viram entradas novas (cat `outro`/`formulario`/etc.).
 
-- Promover o conteúdo integral de `preview.guias.saida-definitiva-do-pais.tsx`.
-- Substituir `head()` por `title`/`description`/`og:title`/`og:description` reais (sem `noindex`), com canonical `https://acordosinternacionais.com/guias/saida-definitiva-do-pais`.
-- Atualizar breadcrumb (`Início / Guias / Saída Fiscal`).
-- Observação: como esse guia tem layout próprio (FAQ, fontes oficiais), ele vive como rota dedicada e o resolver de `guias.$slug.tsx` continua atendendo os outros. O card no índice aponta para esta rota dedicada via `Link to="/guias/saida-definitiva-do-pais"`.
+### 4. Ajustar contagens em `src/data/acordos.ts`
 
-### 6. `src/routes/profissional.tsx`
+Recalcular `docs:` para os 3 países depois do reconcile. Provável resultado:
 
-- Substituir hero (novo H1 longo, descrição completa, tagline em itálico).
-- Substituir a lista "O que está dentro" pelos 8 itens do preview (sem "modelos de petição") + nota de rodapé `Modelos de petição: funcionalidade suspensa por hora — retorna em versão futura.`
-- Manter blocos de planos/preço/founders/CTA final como estão hoje (preview só reescreveu hero + features).
+- cabo-verde: 2 (mantém)
+- franca: 16 (mantém)
+- iberoamericano: 6 → **9** (atualizar)
 
-## Limpeza
+Se cabo-verde ainda estiver com status `ratificacao` mas agora tem texto integral disponível, manter status como está — não foi pedido para reavaliar status, só completar dados.
 
-- Excluir:
-  - `src/routes/preview.tsx`
-  - `src/routes/preview.index.tsx`
-  - `src/routes/preview.home.tsx`
-  - `src/routes/preview.jornadas.index.tsx`
-  - `src/routes/preview.jornadas.$jornada.tsx`
-  - `src/routes/preview.guias.tsx`
-  - `src/routes/preview.guias.saida-definitiva-do-pais.tsx`
-  - `src/routes/preview.profissional.tsx`
-  - `src/components/preview/preview-banner.tsx`
-- Mover (renomear pasta):
-  - `src/components/preview/prova-de-vida-block.tsx` → `src/components/jornadas/prova-de-vida-block.tsx`
-  - `src/components/preview/planejamento-totalizacao-block.tsx` → `src/components/jornadas/planejamento-totalizacao-block.tsx`
-- `src/routeTree.gen.ts` será regenerado automaticamente pelo plugin do Vite.
+### 5. Atualizar `.lovable/prd.md` e `ROADMAP.md`
 
-## Documentação
-
-- `.lovable/prd.md`: anotar promoção dos previews → produção (Fase 1 + Fase 2 + nova página Saída Fiscal).
-- `ROADMAP.md`: marcar como concluídos os itens das fases promovidas; remover menções à sandbox `/preview`.
+Registrar que Cabo Verde, França e Ibero-Americano passaram a ter documentos servíveis no Hub.
 
 ## Fora de escopo
 
-- Não tocar lógica de calculadora, auth, dados de acordos ou Hub autenticado.
-- A aba **"Saída Fiscal"** no `site-header` global **não** está incluída — a nota original sugeria adicionar, mas o header tem critérios próprios (espaço, prioridade). Confirmar separadamente se deseja que entre no menu principal ou fique acessível apenas pelo card no índice de Guias. vamos colocar um acoerdeam mas com um efeito quer fca a pessoa passar o dedo ou clicar pra ver tudo que tem ali.
+- Não mexer em status (`ratificacao` / `incompleto` / `vigente`) sem pedido explícito.
+- Não tocar nos demais países que já estão alinhados.
+- Não alterar conteúdo editorial (`conteudoExpandido`).
 
-## Pergunta antes de executar
+## Pré-requisito (precisa do usuário)
 
-Adicionar "Saída Fiscal" como item de navegação no `site-header` global, ou manter acessível apenas via card no índice de Guias?   
-vamos colocar um acoerdeam mas com um efeito quer fca a pessoa passar o dedo ou clicar pra ver tudo que tem ali.
+O passo 2 roda contra o Supabase com a **service role key**. Posso rodar no sandbox se os env vars `SUPABASE_URL` e `SUPABASE_SERVICE_ROLE_KEY` estiverem disponíveis (checo com `compgen -e` antes). Se não estiverem, preparo as alterações do código (passos 1, 4 e 5) e você roda o sync localmente.
+
+## Quer que eu inclua também?
+
+- **Israel** e **CPLP** hoje têm só 1 PDF (o texto do acordo). O repo não tem mais documentos para esses — sem ação possível agora.
+- **Bulgária** tem só o acordo (status `incompleto`). Idem — nada novo no repo.  
+  
+pode incluir também.
