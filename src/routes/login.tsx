@@ -1,5 +1,5 @@
 import { createFileRoute, Link, redirect, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
 
@@ -23,6 +23,30 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  // Reage quando a sessão hidrata depois do mount (callback OAuth, restore de localStorage)
+  useEffect(() => {
+    let cancelled = false;
+
+    supabase.auth.getSession().then(({ data }) => {
+      if (!cancelled && data.session?.user) {
+        navigate({ to: redirectTo ?? "/hub", replace: true });
+      }
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        if (session?.user) {
+          navigate({ to: redirectTo ?? "/hub", replace: true });
+        }
+      },
+    );
+
+    return () => {
+      cancelled = true;
+      subscription.unsubscribe();
+    };
+  }, [navigate, redirectTo]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
