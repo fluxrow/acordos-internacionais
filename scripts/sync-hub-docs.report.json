@@ -1,7 +1,7 @@
 {
   "dry": false,
-  "planSize": 2,
-  "uploaded": 2,
+  "planSize": 9,
+  "uploaded": 9,
   "errors": [],
   "skipped": [
     "raiz/saida_definitiva_blog.docx (sem mapeamento)"
@@ -11,6 +11,7 @@
     "austria",
     "belgica",
     "bulgaria",
+    "cabo-verde",
     "canada",
     "chile",
     "coreia-do-sul",
@@ -19,7 +20,6 @@
     "estados-unidos",
     "franca",
     "grecia",
-    "iberoamericano",
     "india",
     "israel",
     "italia",
@@ -33,6 +33,6 @@
     "suica"
   ],
   "byPais": {
-    "cabo-verde": 2
+    "iberoamericano": 9
   }
 }
