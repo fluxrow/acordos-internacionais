@@ -156,15 +156,14 @@ export function CalculadoraForm() {
     let estimativaLocal = false;
 
     if (modo === "manual") {
-      const salario = parseFloat(salarioManual.replace(",", "."));
       const anos = parseInt(anosBR, 10) || 0;
       const mesesExtra = parseInt(mesesBR, 10) || 0;
       tempoBrasilMeses = anos * 12 + mesesExtra;
-      if (!salario || tempoBrasilMeses === 0) {
-        setErroForm("Preencha o salário médio e o tempo contribuído no Brasil.");
+      if (tempoBrasilMeses === 0) {
+        setErroForm("Informe o tempo contribuído no Brasil (anos e/ou meses).");
         return;
       }
-      sbFinal = Math.max(salario, SMmin);
+      sbFinal = 0; // sem CNIS, não estimamos valor em reais
       estimativaLocal = true;
     } else {
       if (!cnis || cnis.mediaSalarial <= 0) {
@@ -175,6 +174,7 @@ export function CalculadoraForm() {
       tempoBrasilMeses = cnis.totalMeses || 0;
 
     }
+
 
     // Tempo no exterior
     let tempoPaisMeses = 0;
@@ -323,24 +323,9 @@ export function CalculadoraForm() {
         {modo === "manual" && (
           <div className="space-y-4 rounded-xl border border-border/60 bg-background/40 p-5">
             <p className="rounded-md border-l-4 border-[var(--state-info)] bg-[var(--state-info-soft)]/60 px-4 py-3 text-xs text-[var(--state-info)]">
-              ℹ️ Sem o extrato do INSS, o cálculo é uma <strong>estimativa</strong>.
-              Para confirmar seus direitos, recomendamos buscar o extrato.
+              ℹ️ Sem o extrato do INSS calculamos apenas se você tem <strong>tempo suficiente</strong> para o benefício.
+              O <strong>valor em reais</strong> só pode ser estimado com o CNIS.
             </p>
-            <div className="space-y-1.5">
-              <Label htmlFor="sb-manual">Salário médio de contribuição (R$)</Label>
-              <Input
-                id="sb-manual"
-                type="number"
-                min={0}
-                step="0.01"
-                value={salarioManual}
-                onChange={(e) => setSalarioManual(e.target.value)}
-                placeholder="Ex: 3500,00"
-              />
-              <p className="text-xs text-muted-foreground">
-                Média dos seus salários contribuídos no Brasil.
-              </p>
-            </div>
             <div className="space-y-1.5">
               <Label>Tempo contribuído no Brasil</Label>
               <div className="grid grid-cols-2 gap-2">
@@ -366,6 +351,7 @@ export function CalculadoraForm() {
             </div>
           </div>
         )}
+
       </section>
 
       {/* 2️⃣ DADOS */}
