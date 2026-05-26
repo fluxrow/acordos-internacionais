@@ -172,7 +172,7 @@ function VisaoTab({ data }: { data: Unlocked }) {
         </section>
       )}
 
-      <div className="rounded-2xl border border-border bg-secondary px-6 py-5">
+      <div className="rounded-2xl border border-border/60 bg-background/60 px-6 py-5 backdrop-blur-md">
         <p className="text-sm font-medium">{data.documentos.length} documentos disponíveis</p>
         <p className="mt-1 text-xs text-muted-foreground">
           Acesse a aba <strong>Documentos</strong> para baixar formulários, decretos e instruções.
