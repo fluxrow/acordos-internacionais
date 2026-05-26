@@ -57,7 +57,7 @@ function temMaterial(slug: string) {
   return d.documentos.some((x) => x.arquivo);
 }
 
-export const Route = createFileRoute("/_authenticated/hub")({
+export const Route = createFileRoute("/_authenticated/hub/")({
   component: HubDashboard,
 });
 

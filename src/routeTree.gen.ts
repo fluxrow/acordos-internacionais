@@ -32,9 +32,9 @@ import { Route as PreviewGuiasRouteImport } from './routes/preview.guias'
 import { Route as JornadasJornadaRouteImport } from './routes/jornadas.$jornada'
 import { Route as GuiasSlugRouteImport } from './routes/guias.$slug'
 import { Route as AcordosPaisRouteImport } from './routes/acordos.$pais'
-import { Route as AuthenticatedHubRouteImport } from './routes/_authenticated/hub'
 import { Route as AuthenticatedContaRouteImport } from './routes/_authenticated/conta'
 import { Route as PreviewJornadasIndexRouteImport } from './routes/preview.jornadas.index'
+import { Route as AuthenticatedHubIndexRouteImport } from './routes/_authenticated/hub.index'
 import { Route as PreviewJornadasJornadaRouteImport } from './routes/preview.jornadas.$jornada'
 import { Route as PreviewGuiasSaidaDefinitivaDoPaisRouteImport } from './routes/preview.guias.saida-definitiva-do-pais'
 import { Route as AuthenticatedHubCalculadoraRouteImport } from './routes/_authenticated/hub.calculadora'
@@ -155,11 +155,6 @@ const AcordosPaisRoute = AcordosPaisRouteImport.update({
   path: '/acordos/$pais',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedHubRoute = AuthenticatedHubRouteImport.update({
-  id: '/hub',
-  path: '/hub',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
 const AuthenticatedContaRoute = AuthenticatedContaRouteImport.update({
   id: '/conta',
   path: '/conta',
@@ -169,6 +164,11 @@ const PreviewJornadasIndexRoute = PreviewJornadasIndexRouteImport.update({
   id: '/jornadas/',
   path: '/jornadas/',
   getParentRoute: () => PreviewRoute,
+} as any)
+const AuthenticatedHubIndexRoute = AuthenticatedHubIndexRouteImport.update({
+  id: '/hub/',
+  path: '/hub/',
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 const PreviewJornadasJornadaRoute = PreviewJornadasJornadaRouteImport.update({
   id: '/jornadas/$jornada',
@@ -183,14 +183,14 @@ const PreviewGuiasSaidaDefinitivaDoPaisRoute =
   } as any)
 const AuthenticatedHubCalculadoraRoute =
   AuthenticatedHubCalculadoraRouteImport.update({
-    id: '/calculadora',
-    path: '/calculadora',
-    getParentRoute: () => AuthenticatedHubRoute,
+    id: '/hub/calculadora',
+    path: '/hub/calculadora',
+    getParentRoute: () => AuthenticatedRoute,
   } as any)
 const AuthenticatedHubPaisRoute = AuthenticatedHubPaisRouteImport.update({
-  id: '/$pais',
-  path: '/$pais',
-  getParentRoute: () => AuthenticatedHubRoute,
+  id: '/hub/$pais',
+  path: '/hub/$pais',
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 const ApiPublicPaymentsWebhookRoute =
   ApiPublicPaymentsWebhookRouteImport.update({
@@ -212,7 +212,6 @@ export interface FileRoutesByFullPath {
   '/profissional': typeof ProfissionalRoute
   '/reset-password': typeof ResetPasswordRoute
   '/conta': typeof AuthenticatedContaRoute
-  '/hub': typeof AuthenticatedHubRouteWithChildren
   '/acordos/$pais': typeof AcordosPaisRoute
   '/guias/$slug': typeof GuiasSlugRoute
   '/jornadas/$jornada': typeof JornadasJornadaRoute
@@ -228,6 +227,7 @@ export interface FileRoutesByFullPath {
   '/hub/calculadora': typeof AuthenticatedHubCalculadoraRoute
   '/preview/guias/saida-definitiva-do-pais': typeof PreviewGuiasSaidaDefinitivaDoPaisRoute
   '/preview/jornadas/$jornada': typeof PreviewJornadasJornadaRoute
+  '/hub/': typeof AuthenticatedHubIndexRoute
   '/preview/jornadas/': typeof PreviewJornadasIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -243,7 +243,6 @@ export interface FileRoutesByTo {
   '/profissional': typeof ProfissionalRoute
   '/reset-password': typeof ResetPasswordRoute
   '/conta': typeof AuthenticatedContaRoute
-  '/hub': typeof AuthenticatedHubRouteWithChildren
   '/acordos/$pais': typeof AcordosPaisRoute
   '/guias/$slug': typeof GuiasSlugRoute
   '/jornadas/$jornada': typeof JornadasJornadaRoute
@@ -259,6 +258,7 @@ export interface FileRoutesByTo {
   '/hub/calculadora': typeof AuthenticatedHubCalculadoraRoute
   '/preview/guias/saida-definitiva-do-pais': typeof PreviewGuiasSaidaDefinitivaDoPaisRoute
   '/preview/jornadas/$jornada': typeof PreviewJornadasJornadaRoute
+  '/hub': typeof AuthenticatedHubIndexRoute
   '/preview/jornadas': typeof PreviewJornadasIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -277,7 +277,6 @@ export interface FileRoutesById {
   '/profissional': typeof ProfissionalRoute
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/conta': typeof AuthenticatedContaRoute
-  '/_authenticated/hub': typeof AuthenticatedHubRouteWithChildren
   '/acordos/$pais': typeof AcordosPaisRoute
   '/guias/$slug': typeof GuiasSlugRoute
   '/jornadas/$jornada': typeof JornadasJornadaRoute
@@ -293,6 +292,7 @@ export interface FileRoutesById {
   '/_authenticated/hub/calculadora': typeof AuthenticatedHubCalculadoraRoute
   '/preview/guias/saida-definitiva-do-pais': typeof PreviewGuiasSaidaDefinitivaDoPaisRoute
   '/preview/jornadas/$jornada': typeof PreviewJornadasJornadaRoute
+  '/_authenticated/hub/': typeof AuthenticatedHubIndexRoute
   '/preview/jornadas/': typeof PreviewJornadasIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -311,7 +311,6 @@ export interface FileRouteTypes {
     | '/profissional'
     | '/reset-password'
     | '/conta'
-    | '/hub'
     | '/acordos/$pais'
     | '/guias/$slug'
     | '/jornadas/$jornada'
@@ -327,6 +326,7 @@ export interface FileRouteTypes {
     | '/hub/calculadora'
     | '/preview/guias/saida-definitiva-do-pais'
     | '/preview/jornadas/$jornada'
+    | '/hub/'
     | '/preview/jornadas/'
     | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
@@ -342,7 +342,6 @@ export interface FileRouteTypes {
     | '/profissional'
     | '/reset-password'
     | '/conta'
-    | '/hub'
     | '/acordos/$pais'
     | '/guias/$slug'
     | '/jornadas/$jornada'
@@ -358,6 +357,7 @@ export interface FileRouteTypes {
     | '/hub/calculadora'
     | '/preview/guias/saida-definitiva-do-pais'
     | '/preview/jornadas/$jornada'
+    | '/hub'
     | '/preview/jornadas'
     | '/api/public/payments/webhook'
   id:
@@ -375,7 +375,6 @@ export interface FileRouteTypes {
     | '/profissional'
     | '/reset-password'
     | '/_authenticated/conta'
-    | '/_authenticated/hub'
     | '/acordos/$pais'
     | '/guias/$slug'
     | '/jornadas/$jornada'
@@ -391,6 +390,7 @@ export interface FileRouteTypes {
     | '/_authenticated/hub/calculadora'
     | '/preview/guias/saida-definitiva-do-pais'
     | '/preview/jornadas/$jornada'
+    | '/_authenticated/hub/'
     | '/preview/jornadas/'
     | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
@@ -581,13 +581,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AcordosPaisRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/hub': {
-      id: '/_authenticated/hub'
-      path: '/hub'
-      fullPath: '/hub'
-      preLoaderRoute: typeof AuthenticatedHubRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
     '/_authenticated/conta': {
       id: '/_authenticated/conta'
       path: '/conta'
@@ -601,6 +594,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/preview/jornadas/'
       preLoaderRoute: typeof PreviewJornadasIndexRouteImport
       parentRoute: typeof PreviewRoute
+    }
+    '/_authenticated/hub/': {
+      id: '/_authenticated/hub/'
+      path: '/hub'
+      fullPath: '/hub/'
+      preLoaderRoute: typeof AuthenticatedHubIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
     }
     '/preview/jornadas/$jornada': {
       id: '/preview/jornadas/$jornada'
@@ -618,17 +618,17 @@ declare module '@tanstack/react-router' {
     }
     '/_authenticated/hub/calculadora': {
       id: '/_authenticated/hub/calculadora'
-      path: '/calculadora'
+      path: '/hub/calculadora'
       fullPath: '/hub/calculadora'
       preLoaderRoute: typeof AuthenticatedHubCalculadoraRouteImport
-      parentRoute: typeof AuthenticatedHubRoute
+      parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/hub/$pais': {
       id: '/_authenticated/hub/$pais'
-      path: '/$pais'
+      path: '/hub/$pais'
       fullPath: '/hub/$pais'
       preLoaderRoute: typeof AuthenticatedHubPaisRouteImport
-      parentRoute: typeof AuthenticatedHubRoute
+      parentRoute: typeof AuthenticatedRoute
     }
     '/api/public/payments/webhook': {
       id: '/api/public/payments/webhook'
@@ -640,27 +640,18 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface AuthenticatedHubRouteChildren {
-  AuthenticatedHubPaisRoute: typeof AuthenticatedHubPaisRoute
-  AuthenticatedHubCalculadoraRoute: typeof AuthenticatedHubCalculadoraRoute
-}
-
-const AuthenticatedHubRouteChildren: AuthenticatedHubRouteChildren = {
-  AuthenticatedHubPaisRoute: AuthenticatedHubPaisRoute,
-  AuthenticatedHubCalculadoraRoute: AuthenticatedHubCalculadoraRoute,
-}
-
-const AuthenticatedHubRouteWithChildren =
-  AuthenticatedHubRoute._addFileChildren(AuthenticatedHubRouteChildren)
-
 interface AuthenticatedRouteChildren {
   AuthenticatedContaRoute: typeof AuthenticatedContaRoute
-  AuthenticatedHubRoute: typeof AuthenticatedHubRouteWithChildren
+  AuthenticatedHubPaisRoute: typeof AuthenticatedHubPaisRoute
+  AuthenticatedHubCalculadoraRoute: typeof AuthenticatedHubCalculadoraRoute
+  AuthenticatedHubIndexRoute: typeof AuthenticatedHubIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedContaRoute: AuthenticatedContaRoute,
-  AuthenticatedHubRoute: AuthenticatedHubRouteWithChildren,
+  AuthenticatedHubPaisRoute: AuthenticatedHubPaisRoute,
+  AuthenticatedHubCalculadoraRoute: AuthenticatedHubCalculadoraRoute,
+  AuthenticatedHubIndexRoute: AuthenticatedHubIndexRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
