@@ -1,7 +1,15 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { Menu } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { guias } from "@/data/guias";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 const SAIDA_FISCAL = {
   slug: "saida-definitiva-do-pais",
@@ -11,6 +19,7 @@ const SAIDA_FISCAL = {
 
 export function SiteHeader() {
   const [isAuthed, setIsAuthed] = useState<boolean | null>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
@@ -25,6 +34,8 @@ export function SiteHeader() {
     await supabase.auth.signOut();
     window.location.href = "/";
   }
+
+  const closeMobile = () => setMobileOpen(false);
 
   return (
     <header className="border-b border-border bg-background">
@@ -158,13 +169,143 @@ export function SiteHeader() {
           )}
         </nav>
 
-        <Link
-          to={isAuthed ? "/hub" : "/calculadora"}
-          className="text-sm underline underline-offset-4 md:hidden"
-        >
-          {isAuthed ? "Meu Hub" : "Calculadora"}
-        </Link>
+        {/* Mobile: atalho + hambúrguer */}
+        <div className="flex items-center gap-3 md:hidden">
+          <Link
+            to={isAuthed ? "/hub" : "/calculadora"}
+            className="text-sm underline underline-offset-4"
+          >
+            {isAuthed ? "Meu Hub" : "Calculadora"}
+          </Link>
+          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+            <SheetTrigger asChild>
+              <button
+                type="button"
+                aria-label="Abrir menu"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border text-foreground transition-colors hover:bg-[var(--accent-ink-soft)]"
+              >
+                <Menu className="h-4 w-4" />
+              </button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[88vw] max-w-sm overflow-y-auto bg-background p-0">
+              <SheetHeader className="border-b border-border px-6 py-5 text-left">
+                <SheetTitle className="font-display text-base font-semibold tracking-tight text-foreground">
+                  Navegação
+                </SheetTitle>
+              </SheetHeader>
+
+              <nav className="flex flex-col px-2 py-3 text-sm">
+                <MobileLink to="/acordos" onClick={closeMobile}>Países</MobileLink>
+                <MobileLink to="/jornadas" onClick={closeMobile}>Jornadas</MobileLink>
+                <MobileLink to="/calculadora" onClick={closeMobile}>Calculadora</MobileLink>
+
+                <div className="mt-4 px-4 pb-2">
+                  <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-[var(--accent-ink)]">
+                    Guias
+                  </p>
+                </div>
+                {guias.map((g) => (
+                  <MobileLink
+                    key={g.slug}
+                    to="/guias/$slug"
+                    params={{ slug: g.slug }}
+                    onClick={closeMobile}
+                    indent
+                  >
+                    {g.titulo}
+                  </MobileLink>
+                ))}
+                <Link
+                  to="/guias/saida-definitiva-do-pais"
+                  onClick={closeMobile}
+                  className="mx-2 flex items-center justify-between gap-3 rounded-lg px-4 py-2.5 text-[13px] text-foreground/85 transition-colors hover:bg-[var(--accent-ink-soft)] hover:text-foreground"
+                >
+                  <span>{SAIDA_FISCAL.titulo}</span>
+                  <span className="shrink-0 rounded-full border border-[var(--accent-ink)] bg-[var(--accent-ink-soft)] px-2 py-0.5 text-[9px] font-medium uppercase tracking-[0.14em] text-[var(--accent-ink)]">
+                    Novo
+                  </span>
+                </Link>
+                <MobileLink to="/guias" onClick={closeMobile} indent muted>
+                  Ver todos os guias →
+                </MobileLink>
+
+                <div className="my-3 h-px bg-border" />
+
+                <MobileLink to="/profissional" onClick={closeMobile}>
+                  Hub Profissional
+                </MobileLink>
+
+                <div className="my-3 h-px bg-border" />
+
+                {isAuthed ? (
+                  <>
+                    <Link
+                      to="/hub"
+                      onClick={closeMobile}
+                      className="mx-4 mt-2 inline-flex items-center justify-center rounded-full border border-foreground bg-foreground px-4 py-2.5 text-xs font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-background hover:text-foreground"
+                    >
+                      Meu Hub
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        closeMobile();
+                        handleSignOut(e);
+                      }}
+                      className="mx-4 mt-2 text-left text-xs uppercase tracking-[0.14em] text-foreground/70 transition-colors hover:text-foreground"
+                    >
+                      Sair
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <MobileLink to="/login" onClick={closeMobile}>
+                      Entrar
+                    </MobileLink>
+                    <Link
+                      to="/cadastro"
+                      onClick={closeMobile}
+                      className="mx-4 mt-2 inline-flex items-center justify-center rounded-full border border-foreground bg-foreground px-4 py-2.5 text-xs font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-background hover:text-foreground"
+                    >
+                      Criar conta
+                    </Link>
+                  </>
+                )}
+              </nav>
+            </SheetContent>
+          </Sheet>
+        </div>
       </div>
     </header>
+  );
+}
+
+function MobileLink({
+  to,
+  params,
+  onClick,
+  children,
+  indent = false,
+  muted = false,
+}: {
+  to: string;
+  params?: Record<string, string>;
+  onClick: () => void;
+  children: React.ReactNode;
+  indent?: boolean;
+  muted?: boolean;
+}) {
+  return (
+    <Link
+      to={to}
+      params={params as never}
+      onClick={onClick}
+      className={`mx-2 rounded-lg px-4 py-2.5 transition-colors hover:bg-[var(--accent-ink-soft)] hover:text-foreground ${
+        indent ? "text-[13px]" : "text-sm"
+      } ${muted ? "text-foreground/60" : "text-foreground/85"}`}
+      activeProps={{ className: "bg-[var(--accent-ink-soft)] text-foreground" }}
+    >
+      {children}
+    </Link>
   );
 }
