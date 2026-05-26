@@ -186,6 +186,13 @@
 - ✅ Footer (coluna Cidadão): link "Calculadora gratuita".
 - ✅ `/calculadora`: microcopy "Sem cadastro · Sem pagar · Resultado em 2 minutos" abaixo do H1.
 
+## Hub — sync de Cabo Verde, França e Ibero-Americano ✅ (26/05/2026)
+- `scripts/sync-hub-docs.ts`: adicionados `cabo-verde`, `franca` e `iberoamericano` ao `FOLDER_TO_SLUG` (estavam fora do mapa, por isso o bucket nunca recebeu os arquivos).
+- Subidos **27 documentos** ao bucket `hub-docs`: Cabo Verde (2), França (16), Ibero-Americano (9).
+- `bun scripts/reconcile-hub-docs.ts` regenerou `src/data/acordos.generated.ts` — todos os 25 países agora têm `arquivo` resolvido em cada documento listado.
+- `src/data/acordos.ts`: contagens `docs:` realinhadas ao bucket real (Áustria 2→3, Bélgica 15→13, Canadá 16→19, Chile 8→13, Coreia 13→14, Espanha 4→8, Itália 8→16, Japão 13→19, Luxemburgo 2→3, Moçambique 7→8, Portugal 15→16, Mercosul 5→9, Ibero 6→9).
+- Status preservados — Cabo Verde permanece `ratificacao`, Bulgária permanece `incompleto`, Israel permanece `ratificacao` (repo não tem documentos adicionais para esses três).
+
 ## Promoção do sandbox `/preview/*` → produção ✅ (26/05/2026)
 - Aprovações do Dr. Marcos aplicadas definitivamente nas rotas reais; sandbox `/preview/*`, `PreviewBanner` e `src/components/preview/` removidos.
 - **`/`**: bloco "dois públicos" reescrito (novo H1 do advogado, tagline, CTAs `Ver 25 países` / `Jornadas` / `Blog` / `Sobre o Dr. Marcos`).
