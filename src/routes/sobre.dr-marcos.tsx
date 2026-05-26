@@ -279,7 +279,7 @@ function SobreMarcos() {
 
         <div className="mt-10 grid gap-5 md:grid-cols-2">
           {/* Cidadão */}
-          <article className="flex flex-col rounded-2xl border border-border bg-secondary p-7 md:p-8">
+          <article className="flex flex-col rounded-2xl border border-border/60 bg-background/60 p-7 backdrop-blur-md md:p-8">
             <p className="eyebrow">Para o cidadão</p>
             <h3 className="mt-2 font-display text-2xl">Conte sua situação</h3>
             <p className="mt-4 flex-1 text-base leading-relaxed">
