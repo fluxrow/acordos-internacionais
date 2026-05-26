@@ -1,54 +1,39 @@
 ## Objetivo
+Tornar o CTA no final do resultado da calculadora do segurado **mais chamativo** e alinhado à ID do projeto (wine `--accent-ink`, tipografia `font-display`, `eyebrow`, `CTAButton`), com botão principal **"Quero fazer meu planejamento"** e frases-chave em destaque.
 
-Remover o campo "Salário médio de contribuição (R$)" do modo "Sem extrato" da calculadora pública, de modo que — quando o usuário não carregar o CNIS — o cálculo seja feito apenas sobre o tempo de contribuição (carência e idade), sem estimar valores monetários.
+## Arquivo afetado
+- `src/components/cta-marcos.tsx`
 
-## Arquivos afetados
-
-- `src/components/calculadora-form.tsx`
-- `src/lib/calculadora.ts`
+(Nenhuma mudança de chamada — `CalculadoraForm` já passa `contexto` por caso.)
 
 ## Mudanças
 
-### 1. UI — Remover campo de salário (modo manual)
+### Nova variante `result` no `CTAMarcos`
+Adicionar `variant: "card" | "block" | "result"` e usar `result` como padrão da calculadora. A variante `card` atual permanece para os outros usos.
 
-Em `calculadora-form.tsx`, no bloco `modo === "manual"`:
+Layout da variante `result`:
+- Card grande, `rounded-2xl`, fundo `bg-[var(--accent-ink-soft)]`, borda `border-[var(--accent-ink)]/30`.
+- Decoração: gradiente radial sutil em `--accent-ink` (mesmo padrão da variante `block`).
+- **Eyebrow** wine: "Próximo passo".
+- **Headline** `font-display text-2xl md:text-3xl` em `text-[var(--accent-ink)]`: copy por caso, com palavras-chave em `<strong>` destacadas no mesmo tom wine:
+  - Caso 1: "Você já tem **direito no Brasil**. Vamos garantir o **melhor valor**."
+  - Caso 2: "Ainda não dá hoje — mas **um planejamento muda esse cenário**."
+  - Caso 2B: "Falta só a idade. **Cada mês conta** para você se aposentar melhor."
+  - Caso 3: "Você tem direito à **totalização internacional**. Vamos protocolar."
+- Sub-copy curta (reaproveita o `contexto` passado pelo form, em `text-foreground/80`).
+- Bullet row com 3 mini-benefícios (ícones `Check`): "Análise do seu caso", "Estratégia personalizada", "Atendimento com o Dr. Marcos".
+- **Botão principal**: `CTAButton` `variant="dark"`, `size="lg"`, label **"Quero fazer meu planejamento"**, leva a `/contato`.
+- Link secundário discreto: "Prefiro saber mais antes →" → `/sobre` (ou `/contato`).
 
-- Remover o input de "Salário médio de contribuição (R$)" e seu label/ajuda.
-- Manter os campos de tempo no Brasil (anos + meses).
-- Ajustar o alerta/info do modo manual para deixar claro que o cálculo será apenas de tempo.
+### Integração com a calculadora
+- `CalculadoraForm` já chama `<CTAMarcos contexto={...} />`. Trocar para `<CTAMarcos variant="result" contexto={...} />` no `ResultadoView`.
+- Passar o `caso` para permitir headline contextual: `<CTAMarcos variant="result" caso={resultado.caso} contexto={...} />`. Quando `caso` não vier, usar headline genérica.
 
-### 2. Validação — Ajustar `onCalcular`
+### Identidade visual (ID)
+- Usar apenas tokens semânticos (`--accent-ink`, `--accent-ink-soft`, `--foreground`, `--background`, `--border`).
+- Tipografia: `font-display` na headline, classe utilitária `eyebrow` no rótulo.
+- Sem hex, sem cores soltas.
 
-- No modo manual: exigir apenas `tempoBrasilMeses > 0` (remover a exigência do salário).
-- Passar `sbFinal = 0` para `calcularResultado` quando estiver no modo manual.
-- Manter `estimativa = true` no modo manual para sinalizar que não há CNIS.
-
-### 3. Lógica — Adaptar `calcularResultado`
-
-Em `calculadora.ts`:
-
-- Aceitar `sbFinal = 0`.
-- Quando `sbFinal <= 0`:
-  - **Caso 1**: não retornar `rmiTeorica` (pois não há base salarial para calcular).
-  - **Caso 3**: não retornar `rmiTeorica` nem `rmiProrata`.
-- Adaptar a descrição do **Caso 1** quando não há salário: remover a frase sobre "REDUZIRIA o valor do benefício" e focar apenas no tempo.
-
-### 4. UI — Adaptar `ResultadoView`
-
-Em `calculadora-form.tsx`, no componente `ResultadoView`:
-
-- Receber nova prop `semSalario` (ou reaproveitar `estimativa` com novo significado).
-- Quando `semSalario`:
-  - **Caso 3**: ocultar o bloco de destaque com o valor estimado em R$.
-  - **Caso 1**: usar descrição amigável sem referência a valores monetários.
-  - Adicionar um aviso educativo: "Para saber o valor exato do benefício, é necessário carregar o extrato do INSS (CNIS)."
-
-## Resultado esperado
-
-A calculadora pública continua funcional em dois modos:
-
-- **Com extrato (CNIS)**: calcula tempo + valores, como hoje.
-- **Sem extrato (manual)**: o usuário informa apenas o tempo no Brasil e no exterior; o resultado indica se a carência/idade é atingida, mas **não estima valores em reais**.  
-  
-e ai temos que ter o ct pra pessoa poder falar com o dr marcos 
-- &nbsp;
+## Fora de escopo
+- Variantes `card` e `block` permanecem como estão.
+- Sem mudanças em rotas, `calculadora.ts` ou em `prd.md`/`ROADMAP.md` (mudança puramente visual).
