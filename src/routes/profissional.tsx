@@ -39,13 +39,19 @@ function Profissional() {
             Hub profissional · Para advogados previdenciaristas
           </p>
           <h1 className="mt-6 max-w-4xl font-display text-5xl leading-[1.05] md:text-7xl">
-            A base técnica que faltava em previdência internacional.
+            Hub Profissional em Direito Previdenciário Internacional:
+            Educação, Eficiência e Excelência.
           </h1>
           <p className="mt-8 max-w-2xl text-lg opacity-80">
-            Portarias comentadas, modelos de petição e requerimentos,
-            jurisprudência por tema, calculadoras de totalização, fluxogramas
-            de procedimento, organizados pelos {totalAcordos} países
-            acordantes do Brasil.
+            Base técnica completa, sem juridiquês: textos integrais dos acordos
+            internacionais comentados, portarias estruturadas por tema,
+            jurisprudência organizada, calculadoras de totalização e benefícios
+            previdenciários, certificados (saída fiscal, deslocamento
+            temporário, prorrogação). Tudo integrado para economizar tempo e
+            fundamentar suas estratégias em lei.
+          </p>
+          <p className="mt-4 max-w-2xl text-sm italic opacity-75">
+            O fundamento técnico que você merece. A eficiência que você precisa.
           </p>
           <div className="mt-10 flex flex-wrap items-center gap-4">
             <CTAButton href="#planos" variant="solid-light" size="lg" label="Ver planos" />
@@ -63,11 +69,13 @@ function Profissional() {
           <h2 className="mt-3 font-display text-4xl">Para o trabalho do dia a dia.</h2>
           <ul className="mt-12 grid gap-px overflow-hidden border border-border bg-border md:grid-cols-2">
             {[
-              ["Fichas-país completas", `Os ${totalAcordos} acordos com base legal, formulários, particularidades, jurisprudência relevante.`],
-              ["Portarias comentadas", "Atos do INSS sobre acordos internacionais, explicados por tema."],
-              ["Modelos de petição", "Petições iniciais, requerimentos administrativos e recursos editáveis."],
-              ["Calculadoras", "Totalização, conversão de tempo, cálculo prorata."],
-              ["Fluxogramas de procedimento", "CDT, totalização, prova de vida: passo a passo visual."],
+              ["Fichas-país completas", `Os ${totalAcordos} acordos com base legal, formulários, particularidades e jurisprudência relevante.`],
+              ["Acordos comentados", "Texto integral de cada acordo internacional com comentários artigo a artigo."],
+              ["Portarias por tema", "Atos do INSS sobre acordos internacionais, estruturados por tema."],
+              ["Jurisprudência organizada", "Decisões selecionadas por país, tipo de benefício e ponto controvertido."],
+              ["Calculadoras", "Totalização, conversão de tempo e cálculo prorata."],
+              ["Certificados", "Saída fiscal, deslocamento temporário, prorrogação — modelos e fluxos."],
+              ["Fluxogramas", "CDT, totalização, prova de vida: passo a passo visual."],
               [`+${totalDocs} documentos`, "Tudo organizado, buscável e atualizado quando há mudança regulatória."],
             ].map(([t, d]) => (
               <li key={t} className="bg-background p-8">
@@ -76,8 +84,13 @@ function Profissional() {
               </li>
             ))}
           </ul>
+          <p className="mt-6 text-xs text-muted-foreground">
+            Modelos de petição: funcionalidade suspensa por hora — retorna em
+            versão futura.
+          </p>
         </div>
       </section>
+
 
       {/* PLANOS */}
       <section id="planos" className="border-b border-border bg-secondary">

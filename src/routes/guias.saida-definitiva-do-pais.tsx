@@ -1,5 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 
+const TITLE = "Comunicação de Saída Definitiva do País — Guia completo";
+const DESC =
+  "Saída fiscal do Brasil: o que é a CSDP, diferença para a DSDP, riscos de não regularizar, FAQ e fontes oficiais da Receita Federal.";
+const CANONICAL =
+  "https://acordosinternacionais.com/guias/saida-definitiva-do-pais";
+
 const PARA_QUE_SERVE = [
   "Evitar permanência indevida como residente fiscal no Brasil.",
   "Reduzir risco de bitributação sobre rendimentos recebidos no exterior.",
@@ -62,23 +68,23 @@ const FONTES_OFICIAIS = [
   },
 ];
 
-export const Route = createFileRoute("/preview/guias/saida-definitiva-do-pais")({
+export const Route = createFileRoute("/guias/saida-definitiva-do-pais")({
   head: () => ({
     meta: [
-      {
-        title:
-          "Pré-visualização · Comunicação de Saída Definitiva do País | Briefing Dr. Marcos",
-      },
-      { name: "robots", content: "noindex, nofollow" },
+      { title: `${TITLE} | Acordos Internacionais` },
+      { name: "description", content: DESC },
+      { property: "og:title", content: TITLE },
+      { property: "og:description", content: DESC },
+      { property: "og:url", content: CANONICAL },
     ],
+    links: [{ rel: "canonical", href: CANONICAL }],
   }),
-  component: PreviewSaidaFiscal,
+  component: SaidaFiscalPage,
 });
 
-function PreviewSaidaFiscal() {
+function SaidaFiscalPage() {
   return (
     <article>
-      {/* HERO */}
       <header className="relative overflow-hidden border-b border-border">
         <div
           aria-hidden
@@ -86,15 +92,17 @@ function PreviewSaidaFiscal() {
         />
         <div className="relative z-10 mx-auto max-w-4xl px-6 py-16 md:py-20">
           <nav className="text-xs text-muted-foreground">
-            <Link to="/preview" className="hover:underline underline-offset-4">
-              Preview
+            <Link to="/" className="hover:underline underline-offset-4">
+              Início
             </Link>
             <span aria-hidden> / </span>
-            <Link to="/preview/guias" className="hover:underline underline-offset-4">
+            <Link to="/guias" className="hover:underline underline-offset-4">
               Guias
             </Link>
+            <span aria-hidden> / </span>
+            <span>Saída Fiscal</span>
           </nav>
-          <p className="eyebrow mt-6">Guia temático · proposta</p>
+          <p className="eyebrow mt-6">Guia temático · Saída fiscal</p>
           <h1 className="mt-4 font-display text-4xl md:text-6xl">
             Comunicação de Saída Definitiva do País
           </h1>
@@ -121,7 +129,6 @@ function PreviewSaidaFiscal() {
         </div>
       </header>
 
-      {/* Definitiva ≠ nunca mais voltar */}
       <div className="border-b border-border bg-[var(--accent-ink-soft)]/40">
         <div className="mx-auto max-w-4xl px-6 py-8 md:py-10">
           <p className="text-base font-medium leading-relaxed">
@@ -134,7 +141,6 @@ function PreviewSaidaFiscal() {
       </div>
 
       <div className="mx-auto max-w-4xl px-6 py-16 md:py-20 space-y-16">
-        {/* 01 — O que é */}
         <section>
           <p className="eyebrow">01</p>
           <h2 className="mt-2 font-display text-2xl md:text-3xl">
@@ -149,7 +155,6 @@ function PreviewSaidaFiscal() {
           </p>
         </section>
 
-        {/* 02 — Para que serve */}
         <section>
           <p className="eyebrow">02</p>
           <h2 className="mt-2 font-display text-2xl md:text-3xl">
@@ -170,7 +175,6 @@ function PreviewSaidaFiscal() {
           </div>
         </section>
 
-        {/* 03 — CSDP × DSDP */}
         <section id="quando-fazer">
           <p className="eyebrow">03</p>
           <h2 className="mt-2 font-display text-2xl md:text-3xl">
@@ -217,7 +221,6 @@ function PreviewSaidaFiscal() {
           </div>
         </section>
 
-        {/* 04 — Riscos */}
         <section>
           <p className="eyebrow">04</p>
           <h2 className="mt-2 font-display text-2xl md:text-3xl">
@@ -238,7 +241,6 @@ function PreviewSaidaFiscal() {
           </ul>
         </section>
 
-        {/* 05 — FAQ */}
         <section>
           <p className="eyebrow">05</p>
           <h2 className="mt-2 font-display text-2xl md:text-3xl">
@@ -259,7 +261,6 @@ function PreviewSaidaFiscal() {
           </div>
         </section>
 
-        {/* Fontes */}
         <section>
           <p className="eyebrow">Fontes oficiais</p>
           <ul className="mt-4 space-y-2 text-sm">

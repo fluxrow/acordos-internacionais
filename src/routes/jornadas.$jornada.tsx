@@ -3,6 +3,8 @@ import { jornadas, getJornada, type Jornada } from "@/data/jornadas";
 import { acordos } from "@/data/acordos";
 import { getGuia } from "@/data/guias";
 import { CTAMarcos } from "@/components/cta-marcos";
+import { ProvaDeVidaBlock } from "@/components/jornadas/prova-de-vida-block";
+import { PlanejamentoTotalizacaoBlock } from "@/components/jornadas/planejamento-totalizacao-block";
 
 export const Route = createFileRoute("/jornadas/$jornada")({
   head: ({ params }) => {
@@ -107,6 +109,11 @@ function JornadaPage() {
           </div>
         </aside>
       </section>
+
+      {/* Bloco específico por jornada (promovido do preview) */}
+      {j.slug === "moro-fora" && <ProvaDeVidaBlock />}
+      {j.slug === "estou-voltando" && <PlanejamentoTotalizacaoBlock />}
+
 
       {/* RELACIONADO */}
       {(paises.length > 0 || guia) && (

@@ -114,33 +114,91 @@ function Home() {
         </div>
       </section>
 
-      {/* DOIS PÚBLICOS */}
+      {/* DOIS PÚBLICOS — reescrito (cidadão + advogado) */}
       <section className="border-b border-border bg-secondary/40">
         <div className="mx-auto grid max-w-6xl gap-6 px-6 py-16 md:grid-cols-2 md:py-20">
-          <PathCard
-            number="01"
-            eyebrow="Para o cidadão"
-            titulo="Brasileiro no exterior"
-            descricao="Você mora fora, vai se mudar ou está voltando ao Brasil. Entenda como o tempo contribuído conta e fale diretamente com o advogado responsável quando precisar."
-            ctaLabel="Ver jornadas"
-            ctaTo="/jornadas/$jornada"
-            ctaParams={{ jornada: "moro-fora" }}
-            secondaryLabel="Falar com o Dr. Marcos Espínola"
-            secondaryTo="/contato"
-          />
-          <PathCard
-            number="02"
-            eyebrow="Para o advogado"
-            titulo="Hub profissional"
-            descricao="Base técnica completa por país: portarias comentadas, modelos de petição, jurisprudência, calculadoras e fluxogramas. Acesso vitalício, atualização contínua."
-            ctaLabel="Conhecer o hub"
-            ctaTo="/profissional"
-            secondaryLabel="Sobre o Dr. Marcos Espínola"
-            secondaryTo="/sobre/dr-marcos"
-            inverso
-          />
+          {/* 01 · Cidadão */}
+          <div className="flex flex-col gap-6 rounded-2xl border border-border bg-background p-10 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_-12px_rgba(0,0,0,0.12)] md:p-14">
+            <div className="flex items-baseline gap-4">
+              <span className="font-display text-3xl opacity-50">01</span>
+              <span className="text-[10px] uppercase tracking-[0.18em] opacity-70">
+                Para o cidadão
+              </span>
+            </div>
+            <h3 className="font-display text-2xl leading-tight md:text-3xl">
+              Para o brasileiro que trabalha ou trabalhou no exterior e que
+              precisa entender seus direitos previdenciários.
+            </h3>
+            <div className="mt-auto flex flex-wrap items-center gap-3 pt-4">
+              <CTAButton
+                to="/acordos"
+                variant="dark"
+                size="md"
+                label={`Ver os ${totalAcordos} países`}
+              />
+              <Link
+                to="/jornadas"
+                className="rounded-full border border-foreground px-5 py-2.5 text-xs font-medium uppercase tracking-[0.18em] transition-colors hover:bg-foreground hover:text-background"
+              >
+                Explorar por situação / jornadas
+              </Link>
+              <Link
+                to="/blog"
+                className="rounded-full border border-border px-5 py-2.5 text-xs font-medium uppercase tracking-[0.18em] transition-colors hover:bg-secondary"
+              >
+                Blog
+              </Link>
+            </div>
+          </div>
+
+          {/* 02 · Advogado */}
+          <div className="flex flex-col gap-6 rounded-2xl border border-foreground bg-foreground p-10 text-background shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_-12px_rgba(0,0,0,0.12)] md:p-14">
+            <div className="flex items-baseline gap-4">
+              <span className="font-display text-3xl opacity-50">02</span>
+              <span className="text-[10px] uppercase tracking-[0.18em] opacity-70">
+                Para o advogado
+              </span>
+            </div>
+            <h3 className="font-display text-2xl leading-tight md:text-3xl">
+              Hub Profissional em Direito Previdenciário Internacional:
+              Educação, Eficiência e Excelência.
+            </h3>
+            <p className="text-base opacity-80 md:text-lg">
+              Base técnica completa, sem juridiquês: textos integrais dos
+              acordos internacionais comentados, portarias estruturadas por
+              tema, jurisprudência organizada, calculadoras de totalização e
+              benefícios previdenciários, certificados (saída fiscal,
+              deslocamento temporário, prorrogação). Tudo integrado para
+              economizar tempo no seu dia a dia e fundamentar suas estratégias
+              em lei.
+            </p>
+            <p className="text-sm italic opacity-75">
+              O fundamento técnico que você merece. A eficiência que você precisa.
+            </p>
+            <div className="mt-auto flex flex-wrap items-center gap-3 pt-4">
+              <CTAButton
+                to="/profissional"
+                variant="solid-light"
+                size="md"
+                label="Conhecer o hub"
+              />
+              <Link
+                to="/blog"
+                className="rounded-full border border-background/40 px-5 py-2.5 text-xs font-medium uppercase tracking-[0.18em] transition-colors hover:bg-background hover:text-foreground"
+              >
+                Blog
+              </Link>
+              <Link
+                to="/sobre/dr-marcos"
+                className="rounded-full border border-background/40 px-5 py-2.5 text-xs font-medium uppercase tracking-[0.18em] transition-colors hover:bg-background hover:text-foreground"
+              >
+                Sobre o Dr. Marcos
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
+
 
 
       {/* PAÍSES EM DESTAQUE */}
@@ -310,48 +368,3 @@ function Home() {
   );
 }
 
-function PathCard(props: {
-  number: string;
-  eyebrow: string;
-  titulo: string;
-  descricao: string;
-  ctaLabel: string;
-  ctaTo: string;
-  ctaParams?: Record<string, string>;
-  secondaryLabel: string;
-  secondaryTo: string;
-  inverso?: boolean;
-}) {
-  const wrap = props.inverso
-    ? "bg-foreground text-background border-foreground"
-    : "bg-background text-foreground border-border";
-  return (
-    <div
-      className={`${wrap} flex flex-col gap-6 rounded-2xl border p-10 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_-12px_rgba(0,0,0,0.12)] md:p-14`}
-    >
-      <div className="flex items-baseline gap-4">
-        <span className="font-display text-3xl opacity-50">{props.number}</span>
-        <span className="text-[10px] uppercase tracking-[0.18em] opacity-70">
-          {props.eyebrow}
-        </span>
-      </div>
-      <h3 className="font-display text-3xl leading-tight md:text-4xl">{props.titulo}</h3>
-      <p className="text-base opacity-80 md:text-lg">{props.descricao}</p>
-      <div className="mt-auto flex flex-wrap items-center gap-5 pt-4">
-        <CTAButton
-          to={props.ctaTo as any}
-          params={props.ctaParams as any}
-          variant={props.inverso ? "solid-light" : "dark"}
-          size="md"
-          label={props.ctaLabel}
-        />
-        <Link
-          to={props.secondaryTo as any}
-          className="text-sm underline underline-offset-4 opacity-90 hover:opacity-100"
-        >
-          {props.secondaryLabel}
-        </Link>
-      </div>
-    </div>
-  );
-}
