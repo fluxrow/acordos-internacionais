@@ -18,6 +18,22 @@ export const Route = createFileRoute("/guias/")({
 });
 
 function GuiasIndex() {
+  const items = [
+    ...guias.map((g) => ({
+      slug: g.slug,
+      titulo: g.titulo,
+      resumo: g.resumo,
+      novo: false as const,
+    })),
+    {
+      slug: "saida-definitiva-do-pais",
+      titulo: "Comunicação de Saída Definitiva do País",
+      resumo:
+        "Entenda a saída fiscal do Brasil, a DSDP, os prazos e os riscos de manter residência fiscal indevida.",
+      novo: true as const,
+    },
+  ];
+
   return (
     <>
       <section className="relative overflow-hidden border-b border-border/60">
@@ -47,18 +63,16 @@ function GuiasIndex() {
 
       <section className="mx-auto max-w-6xl px-6 py-16 md:py-20">
         <ul className="grid gap-px border border-border bg-border md:grid-cols-2">
-          {guias.map((g, i) => (
-            <li key={g.slug} className="bg-background">
-              <Link
-                to="/guias/$slug"
-                params={{ slug: g.slug }}
-                className="group flex h-full flex-col gap-4 p-8 transition-colors hover:bg-[var(--accent-ink-soft)] md:p-10"
-              >
+          {items.map((g, i) => {
+            const inner = (
+              <>
                 <div className="flex items-baseline justify-between gap-4">
                   <span className="font-display text-3xl text-[var(--accent-ink)] md:text-4xl">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <span className="eyebrow">Guia temático</span>
+                  <span className="eyebrow">
+                    {g.novo ? "Guia temático · NOVO" : "Guia temático"}
+                  </span>
                 </div>
                 <h2 className="font-display text-2xl leading-tight md:text-3xl">
                   {g.titulo}
@@ -67,11 +81,32 @@ function GuiasIndex() {
                 <span className="mt-auto pt-2 text-sm underline underline-offset-4 group-hover:text-destructive">
                   Abrir guia →
                 </span>
-              </Link>
-            </li>
-          ))}
+              </>
+            );
+            return (
+              <li key={g.slug} className="bg-background">
+                {g.novo ? (
+                  <Link
+                    to="/guias/saida-definitiva-do-pais"
+                    className="group flex h-full flex-col gap-4 p-8 transition-colors hover:bg-[var(--accent-ink-soft)] md:p-10"
+                  >
+                    {inner}
+                  </Link>
+                ) : (
+                  <Link
+                    to="/guias/$slug"
+                    params={{ slug: g.slug }}
+                    className="group flex h-full flex-col gap-4 p-8 transition-colors hover:bg-[var(--accent-ink-soft)] md:p-10"
+                  >
+                    {inner}
+                  </Link>
+                )}
+              </li>
+            );
+          })}
         </ul>
       </section>
+
 
       <section className="border-t border-border bg-secondary/40">
         <div className="mx-auto max-w-6xl px-6 py-16">
