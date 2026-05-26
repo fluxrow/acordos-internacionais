@@ -71,9 +71,8 @@ function Home() {
                 do Brasil.
               </h1>
               <p className="lede mt-8 max-w-xl">
-                Para o brasileiro no exterior que precisa entender seus direitos.
-                Para o advogado que trabalha com totalização, prova de vida,
-                certificados e benefícios internacionais.
+                Para o brasileiro que trabalha ou trabalhou no exterior e que
+                precisa entender seus direitos previdenciários.
               </p>
 
               <div className="mt-10 flex flex-col gap-3 sm:flex-row">
