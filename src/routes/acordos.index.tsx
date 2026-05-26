@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { acordos, totalAcordos } from "@/data/acordos";
+import { MULTI_LOGOS } from "@/lib/multi-logos";
 
 const TITLE = "Países com acordo previdenciário com o Brasil";
 const DESC =
@@ -140,6 +141,15 @@ function AcordosIndex() {
                         height={42}
                         loading="lazy"
                         className="h-[42px] w-[56px] flex-shrink-0 rounded-md border border-border object-cover"
+                      />
+                    ) : MULTI_LOGOS[a.slug] ? (
+                      <img
+                        src={MULTI_LOGOS[a.slug]}
+                        alt=""
+                        width={56}
+                        height={42}
+                        loading="lazy"
+                        className="h-[42px] w-[56px] flex-shrink-0 rounded-md border border-border bg-background object-contain p-1"
                       />
                     ) : (
                       <div className="flex h-[42px] w-[56px] flex-shrink-0 items-center justify-center rounded-md border border-border text-[9px] uppercase tracking-[0.14em]">
