@@ -185,7 +185,7 @@ export function CalculadoraFormPro() {
   const sbFinal = Math.max(parseFloat((salarioManual || "0").replace(",", ".")) || 0, SMmin);
 
   return (
-    <form onSubmit={onCalcular} className="space-y-8">
+    <form onSubmit={onCalcular} className="calc-form space-y-8">
       {/* ============ 1. IDENTIFICAÇÃO ============ */}
       <Secao titulo="Identificação do Cliente">
         <div className="rounded-xl border border-[var(--accent-ink-soft)] bg-[var(--accent-ink-soft)]/40 p-5 space-y-4">
