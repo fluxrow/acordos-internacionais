@@ -25,6 +25,7 @@ import { Route as GuiasIndexRouteImport } from './routes/guias.index'
 import { Route as AcordosIndexRouteImport } from './routes/acordos.index'
 import { Route as SobreDrMarcosRouteImport } from './routes/sobre.dr-marcos'
 import { Route as JornadasJornadaRouteImport } from './routes/jornadas.$jornada'
+import { Route as GuiasSaidaDefinitivaDoPaisRouteImport } from './routes/guias.saida-definitiva-do-pais'
 import { Route as GuiasSlugRouteImport } from './routes/guias.$slug'
 import { Route as AcordosPaisRouteImport } from './routes/acordos.$pais'
 import { Route as AuthenticatedContaRouteImport } from './routes/_authenticated/conta'
@@ -112,6 +113,12 @@ const JornadasJornadaRoute = JornadasJornadaRouteImport.update({
   path: '/jornadas/$jornada',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GuiasSaidaDefinitivaDoPaisRoute =
+  GuiasSaidaDefinitivaDoPaisRouteImport.update({
+    id: '/guias/saida-definitiva-do-pais',
+    path: '/guias/saida-definitiva-do-pais',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const GuiasSlugRoute = GuiasSlugRouteImport.update({
   id: '/guias/$slug',
   path: '/guias/$slug',
@@ -164,6 +171,7 @@ export interface FileRoutesByFullPath {
   '/conta': typeof AuthenticatedContaRoute
   '/acordos/$pais': typeof AcordosPaisRoute
   '/guias/$slug': typeof GuiasSlugRoute
+  '/guias/saida-definitiva-do-pais': typeof GuiasSaidaDefinitivaDoPaisRoute
   '/jornadas/$jornada': typeof JornadasJornadaRoute
   '/sobre/dr-marcos': typeof SobreDrMarcosRoute
   '/acordos/': typeof AcordosIndexRoute
@@ -188,6 +196,7 @@ export interface FileRoutesByTo {
   '/conta': typeof AuthenticatedContaRoute
   '/acordos/$pais': typeof AcordosPaisRoute
   '/guias/$slug': typeof GuiasSlugRoute
+  '/guias/saida-definitiva-do-pais': typeof GuiasSaidaDefinitivaDoPaisRoute
   '/jornadas/$jornada': typeof JornadasJornadaRoute
   '/sobre/dr-marcos': typeof SobreDrMarcosRoute
   '/acordos': typeof AcordosIndexRoute
@@ -214,6 +223,7 @@ export interface FileRoutesById {
   '/_authenticated/conta': typeof AuthenticatedContaRoute
   '/acordos/$pais': typeof AcordosPaisRoute
   '/guias/$slug': typeof GuiasSlugRoute
+  '/guias/saida-definitiva-do-pais': typeof GuiasSaidaDefinitivaDoPaisRoute
   '/jornadas/$jornada': typeof JornadasJornadaRoute
   '/sobre/dr-marcos': typeof SobreDrMarcosRoute
   '/acordos/': typeof AcordosIndexRoute
@@ -240,6 +250,7 @@ export interface FileRouteTypes {
     | '/conta'
     | '/acordos/$pais'
     | '/guias/$slug'
+    | '/guias/saida-definitiva-do-pais'
     | '/jornadas/$jornada'
     | '/sobre/dr-marcos'
     | '/acordos/'
@@ -264,6 +275,7 @@ export interface FileRouteTypes {
     | '/conta'
     | '/acordos/$pais'
     | '/guias/$slug'
+    | '/guias/saida-definitiva-do-pais'
     | '/jornadas/$jornada'
     | '/sobre/dr-marcos'
     | '/acordos'
@@ -289,6 +301,7 @@ export interface FileRouteTypes {
     | '/_authenticated/conta'
     | '/acordos/$pais'
     | '/guias/$slug'
+    | '/guias/saida-definitiva-do-pais'
     | '/jornadas/$jornada'
     | '/sobre/dr-marcos'
     | '/acordos/'
@@ -314,6 +327,7 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   AcordosPaisRoute: typeof AcordosPaisRoute
   GuiasSlugRoute: typeof GuiasSlugRoute
+  GuiasSaidaDefinitivaDoPaisRoute: typeof GuiasSaidaDefinitivaDoPaisRoute
   JornadasJornadaRoute: typeof JornadasJornadaRoute
   SobreDrMarcosRoute: typeof SobreDrMarcosRoute
   AcordosIndexRoute: typeof AcordosIndexRoute
@@ -436,6 +450,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JornadasJornadaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/guias/saida-definitiva-do-pais': {
+      id: '/guias/saida-definitiva-do-pais'
+      path: '/guias/saida-definitiva-do-pais'
+      fullPath: '/guias/saida-definitiva-do-pais'
+      preLoaderRoute: typeof GuiasSaidaDefinitivaDoPaisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/guias/$slug': {
       id: '/guias/$slug'
       path: '/guias/$slug'
@@ -520,6 +541,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   AcordosPaisRoute: AcordosPaisRoute,
   GuiasSlugRoute: GuiasSlugRoute,
+  GuiasSaidaDefinitivaDoPaisRoute: GuiasSaidaDefinitivaDoPaisRoute,
   JornadasJornadaRoute: JornadasJornadaRoute,
   SobreDrMarcosRoute: SobreDrMarcosRoute,
   AcordosIndexRoute: AcordosIndexRoute,
@@ -530,13 +552,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
