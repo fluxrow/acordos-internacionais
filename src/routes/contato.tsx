@@ -161,7 +161,7 @@ function Contato() {
             </p>
           </form>
         ) : (
-          <div className="border border-foreground bg-secondary p-8">
+          <div className="border border-foreground/60 bg-background/60 p-8 backdrop-blur-md">
             <p className="eyebrow">Tudo certo</p>
             <h2 className="mt-3 font-display text-3xl">Mensagem em rota</h2>
             <p className="lede mt-4 text-base">
