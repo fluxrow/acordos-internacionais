@@ -451,7 +451,7 @@ export function CalculadoraForm() {
         </p>
       )}
 
-      <Button type="submit" size="lg" className="w-full gap-2 md:w-auto">
+      <Button type="submit" size="lg" className="w-full gap-2 rounded-full md:w-auto">
         <Calculator className="h-4 w-4" aria-hidden />
         🧮 Calcular meu benefício
       </Button>
