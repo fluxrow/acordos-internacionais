@@ -172,7 +172,7 @@ function VisaoTab({ data }: { data: Unlocked }) {
         </section>
       )}
 
-      <div className="rounded-2xl border border-border bg-secondary px-6 py-5">
+      <div className="rounded-2xl border border-border/60 bg-background/60 px-6 py-5 backdrop-blur-md">
         <p className="text-sm font-medium">{data.documentos.length} documentos disponíveis</p>
         <p className="mt-1 text-xs text-muted-foreground">
           Acesse a aba <strong>Documentos</strong> para baixar formulários, decretos e instruções.
@@ -352,7 +352,7 @@ function LockedContent({
 }) {
   return (
     <div className="mt-8 space-y-6">
-      <div className="rounded-2xl border border-border bg-secondary px-6 py-5 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_-12px_rgba(0,0,0,0.08)]">
+      <div className="rounded-2xl border border-border/60 bg-background/60 px-6 py-5 backdrop-blur-md shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_-12px_rgba(0,0,0,0.08)]">
         <p className="font-medium">Material técnico disponível para assinantes</p>
         <p className="mt-1 text-sm text-muted-foreground">
           Assine o Hub Profissional e acesse o texto do acordo, decretos, formulários e modelos.

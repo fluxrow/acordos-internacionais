@@ -128,7 +128,7 @@ export function CTAMarcos({ variant = "card", contexto, caso }: CTAMarcosProps) 
   }
 
   return (
-    <aside className="rounded-2xl border border-border bg-secondary p-6">
+    <aside className="rounded-2xl border border-border/60 bg-background/60 p-6 backdrop-blur-md shadow-[0_8px_24px_-12px_rgba(122,31,31,0.12)]">
       <p className="eyebrow">Atendimento direto</p>
       <p className="mt-2 font-display text-xl leading-tight">
         Dúvidas no seu caso?

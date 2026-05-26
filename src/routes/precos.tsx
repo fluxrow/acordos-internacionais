@@ -131,7 +131,7 @@ function PrecosPage() {
       </div>
 
       {authError && (
-        <div className="mx-auto mb-8 max-w-md rounded-sm border border-border bg-secondary p-4 text-center text-sm">
+        <div className="mx-auto mb-8 max-w-md rounded-sm border border-border/60 bg-background/60 p-4 text-center text-sm backdrop-blur-md">
           <p>Você precisa estar logado para assinar.</p>
           <div className="mt-3 flex justify-center gap-3">
             <Link

@@ -104,7 +104,7 @@ function HubDashboard() {
       </header>
 
       {!hasAccess && !isPending && (
-        <div className="mb-8 rounded-2xl border border-border bg-secondary px-6 py-5 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_-12px_rgba(0,0,0,0.08)]">
+        <div className="mb-8 rounded-2xl border border-border/60 bg-background/60 px-6 py-5 backdrop-blur-md shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_-12px_rgba(0,0,0,0.08)]">
           <p className="font-medium">Acesso bloqueado</p>
           <p className="mt-1 text-sm text-muted-foreground">
             Assine o Hub Profissional para acessar os materiais técnicos de todos os acordos e a calculadora RMI.
@@ -118,7 +118,7 @@ function HubDashboard() {
       {/* Card destacado: Calculadora RMI */}
       <Link
         to="/hub/calculadora"
-        className="group mb-8 flex items-center gap-5 rounded-2xl border border-border bg-secondary px-6 py-5 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_-12px_rgba(0,0,0,0.08)] transition-all hover:-translate-y-0.5 hover:border-foreground hover:shadow-[0_8px_24px_-8px_rgba(0,0,0,0.16)]"
+        className="group mb-8 flex items-center gap-5 rounded-2xl border border-border/60 bg-background/60 px-6 py-5 backdrop-blur-md shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_-12px_rgba(0,0,0,0.08)] transition-all hover:-translate-y-0.5 hover:border-foreground hover:shadow-[0_8px_24px_-8px_rgba(0,0,0,0.16)]"
       >
         <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--accent-ink)] text-[var(--paper)]">
           <Calculator className="h-5 w-5" />

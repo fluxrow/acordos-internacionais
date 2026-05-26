@@ -133,7 +133,7 @@ function SobreMarcos() {
 
         <div className="mt-10 grid gap-5 md:grid-cols-2">
           {/* Nacional */}
-          <article className="rounded-2xl border border-border bg-secondary p-7 md:p-8">
+          <article className="rounded-2xl border border-border/60 bg-background/60 p-7 backdrop-blur-md md:p-8">
             <p className="eyebrow">Previdenciário nacional</p>
             <h3 className="mt-2 font-display text-2xl">Segurados do INSS no Brasil</h3>
             <p className="mt-4 text-base leading-relaxed">
@@ -252,7 +252,7 @@ function SobreMarcos() {
           ].map(({ icon: Icon, titulo, texto }) => (
             <div
               key={titulo}
-              className="rounded-xl border border-border bg-secondary p-5"
+              className="rounded-xl border border-border/60 bg-background/60 p-5 backdrop-blur-md"
             >
               <Icon className="h-5 w-5 text-[var(--accent-ink)]" aria-hidden />
               <p className="mt-3 font-display text-base leading-tight">
@@ -279,7 +279,7 @@ function SobreMarcos() {
 
         <div className="mt-10 grid gap-5 md:grid-cols-2">
           {/* Cidadão */}
-          <article className="flex flex-col rounded-2xl border border-border bg-secondary p-7 md:p-8">
+          <article className="flex flex-col rounded-2xl border border-border/60 bg-background/60 p-7 backdrop-blur-md md:p-8">
             <p className="eyebrow">Para o cidadão</p>
             <h3 className="mt-2 font-display text-2xl">Conte sua situação</h3>
             <p className="mt-4 flex-1 text-base leading-relaxed">

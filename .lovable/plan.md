@@ -1,36 +1,28 @@
 ## Objetivo
-Substituir o placeholder "MULTI" pelos logos oficiais de **CPLP**, **Ibero-Americano (OISS)** e **Mercosul** nos cards do Hub e na lista "Continuar de onde parou".
 
-## Passos
+Substituir o fundo cinza chapado (`bg-secondary`) dos cards que destoam da identidade visual por um tratamento de vidro (glassmorphism), alinhado aos demais cards da página que já usam `bg-background/70 backdrop-blur-sm`.
 
-1. **Importar os 3 logos como assets**
-   - Copiar os anexos para:
-     - `src/assets/logos/cplp.png`
-     - `src/assets/logos/oiss.png` (Ibero-Americano)
-     - `src/assets/logos/mercosul.png`
+## Escopo (apenas o que aparece no screenshot)
 
-2. **Criar mapa slug → logo** em `src/lib/multi-logos.ts`:
-   ```ts
-   export const MULTI_LOGOS: Record<string, string> = {
-     cplp: cplpLogo,
-     iberoamericano: oissLogo,
-     mercosul: mercosulLogo,
-   };
-   ```
+Mudanças focadas na página `/acordos/[país]`. Nada de backend, dados ou rotas.
 
-3. **`src/components/hub/country-card.tsx`**
-   - Quando `pais.flag` é `null` e existe `MULTI_LOGOS[pais.slug]`, renderizar `<img>` com o logo (object-contain, fundo branco/secondary, mesmas dimensões 56×42, rounded-lg).
-   - Manter fallback "MULTI" para casos futuros sem logo.
+### 1. Card "Atendimento direto" — `src/components/cta-marcos.tsx` (linha 131)
 
-4. **`src/components/hub/continue-reading.tsx`**
-   - Mesma lógica em tamanho menor (24×18): se sem flag mas com logo, renderiza o logo; senão mantém o "M".
+- Trocar `border-border bg-secondary` por algo como:
+`border-border/60 bg-background/60 backdrop-blur-md shadow-[0_8px_24px_-12px_rgba(122,31,31,0.12)]`
+- Manter o restante (padding, radius, conteúdo).
 
-## Escopo
-- Apenas frontend/apresentação. Sem mudanças em dados, backend, RLS ou rotas.
-- Sem alterações em `acordos.ts` ou `acordos.generated.ts` — o slug continua identificador.
+### 2. Aside "Para o registro" / curiosidade — `src/routes/acordos.$pais.tsx` (linha 314)
 
-## Arquivos
-- novo: `src/assets/logos/cplp.png`, `oiss.png`, `mercosul.png`
-- novo: `src/lib/multi-logos.ts`
-- editado: `src/components/hub/country-card.tsx`
-- editado: `src/components/hub/continue-reading.tsx`
+- Trocar `bg-secondary` por `bg-background/50 backdrop-blur-md`, mantendo a borda esquerda em accent-ink que dá a personalidade editorial.
+
+## Fora de escopo
+
+- Não vou mexer nos outros arquivos que usam `bg-secondary` (botões, sheets, hub, home, etc.) — só os dois cards da tela `/acordos/[país]` mostrados. Se quiser estender depois, faço numa próxima rodada. pode incluir pra aplicar nas oputras paginas tbm.
+- Sem alterar tokens em `src/styles.css` — o efeito vem de classes utilitárias (`bg-background/60 backdrop-blur-md`) sobre o radial gradient que a página já tem no hero, dando o "vidro" real.
+
+## Verificação
+
+Conferir visualmente em desktop (1021px) e mobile que os cards ganharam translucidez sobre o fundo, sem perder legibilidade.
+
+Posso aplicar?
