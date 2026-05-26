@@ -1,37 +1,36 @@
-## Problema
+## Objetivo
+Substituir o placeholder "MULTI" pelos logos oficiais de **CPLP**, **Ibero-Americano (OISS)** e **Mercosul** nos cards do Hub e na lista "Continuar de onde parou".
 
-No mobile o `SiteHeader` mostra **apenas um link** (Meu Hub se logado, Calculadora se não) — todos os outros itens de navegação (Países, Jornadas, Calculadora, Guias, Hub Profissional, Entrar/Sair) só aparecem em `md:` ou acima. Quem entra pelo celular não tem como descobrir o resto do site sem rolar a home inteira.
+## Passos
 
-## Solução
+1. **Importar os 3 logos como assets**
+   - Copiar os anexos para:
+     - `src/assets/logos/cplp.png`
+     - `src/assets/logos/oiss.png` (Ibero-Americano)
+     - `src/assets/logos/mercosul.png`
 
-Adicionar um **botão hambúrguer** ao lado do link já existente (Meu Hub / Calculadora) que abre um **drawer/sheet lateral** com toda a navegação.
+2. **Criar mapa slug → logo** em `src/lib/multi-logos.ts`:
+   ```ts
+   export const MULTI_LOGOS: Record<string, string> = {
+     cplp: cplpLogo,
+     iberoamericano: oissLogo,
+     mercosul: mercosulLogo,
+   };
+   ```
 
-### Conteúdo do drawer
+3. **`src/components/hub/country-card.tsx`**
+   - Quando `pais.flag` é `null` e existe `MULTI_LOGOS[pais.slug]`, renderizar `<img>` com o logo (object-contain, fundo branco/secondary, mesmas dimensões 56×42, rounded-lg).
+   - Manter fallback "MULTI" para casos futuros sem logo.
 
-Mesmos itens do menu desktop, na mesma ordem:
-- Países (`/acordos`)
-- Jornadas (`/jornadas`)
-- Calculadora (`/calculadora`)
-- Guias — seção expandida (lista todos os guias + Saída Definitiva com selo "Novo")
-- Hub Profissional (`/profissional`)
-- Separador
-- Se logado: **Meu Hub** (CTA destacado) + **Sair**
-- Se deslogado: **Entrar** + **Criar conta** (CTA destacado)
+4. **`src/components/hub/continue-reading.tsx`**
+   - Mesma lógica em tamanho menor (24×18): se sem flag mas com logo, renderiza o logo; senão mantém o "M".
 
-### Implementação
+## Escopo
+- Apenas frontend/apresentação. Sem mudanças em dados, backend, RLS ou rotas.
+- Sem alterações em `acordos.ts` ou `acordos.generated.ts` — o slug continua identificador.
 
-- Usar `<Sheet>` do shadcn (já instalado em `src/components/ui/sheet.tsx`) com `side="right"`.
-- Botão hambúrguer: ícone `Menu` do lucide-react, visível só em `md:hidden`, posicionado **antes** do link rápido existente para virar: `[☰] Meu Hub`.
-- Fechar o sheet automaticamente ao clicar em qualquer link (controlar `open` com `useState`).
-- Manter o link rápido "Meu Hub"/"Calculadora" como atalho — não removê-lo, só ganhar companhia.
-- Tokens semânticos só (`bg-background`, `text-foreground`, `border-border`, `var(--accent-ink*)`).
-
-### Arquivo único afetado
-
-`src/components/site-header.tsx` — adicionar import de `Sheet`/`SheetContent`/`SheetTrigger`, ícone `Menu`, estado `mobileOpen` e o bloco mobile.
-
-## Fora de escopo
-
-- Não mexer no menu desktop (já funciona).
-- Não criar componente novo — tudo no `site-header.tsx`.
-- Não tocar em `.lovable/prd.md` / `ROADMAP.md` (é ajuste de UX de header, não mudança estrutural).
+## Arquivos
+- novo: `src/assets/logos/cplp.png`, `oiss.png`, `mercosul.png`
+- novo: `src/lib/multi-logos.ts`
+- editado: `src/components/hub/country-card.tsx`
+- editado: `src/components/hub/continue-reading.tsx`

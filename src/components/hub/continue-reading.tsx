@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { History, ArrowRight } from "lucide-react";
+import { MULTI_LOGOS } from "@/lib/multi-logos";
 
 type Item = { pais: string; nome: string; flag: string | null; lastAt: string };
 
@@ -29,6 +30,15 @@ export function ContinueReading({ items }: { items: Item[] }) {
                   width={24}
                   height={18}
                   className="rounded object-cover"
+                  loading="lazy"
+                />
+              ) : MULTI_LOGOS[it.pais] ? (
+                <img
+                  src={MULTI_LOGOS[it.pais]}
+                  alt=""
+                  width={24}
+                  height={18}
+                  className="h-[18px] w-[24px] rounded bg-background object-contain ring-1 ring-border"
                   loading="lazy"
                 />
               ) : (
