@@ -167,12 +167,13 @@ export function CalculadoraForm() {
       sbFinal = Math.max(salario, SMmin);
       estimativaLocal = true;
     } else {
-      if (!cnis || cnis.qtdSalarios === 0) {
+      if (!cnis || cnis.mediaSalarial <= 0) {
         setErroForm("Envie o extrato do INSS (CNIS) em PDF primeiro — ou use o modo sem extrato.");
         return;
       }
-      sbFinal = Math.max(cnis.somaSalarios / cnis.qtdSalarios, SMmin);
+      sbFinal = Math.max(cnis.mediaSalarial, SMmin);
       tempoBrasilMeses = cnis.totalMeses || 0;
+
     }
 
     // Tempo no exterior
