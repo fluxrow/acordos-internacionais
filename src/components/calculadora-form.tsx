@@ -209,7 +209,7 @@ export function CalculadoraForm() {
   }
 
   return (
-    <form onSubmit={onCalcular} className="space-y-8">
+    <form onSubmit={onCalcular} className="calc-form space-y-8">
       {/* TUTORIAL CNIS */}
       <button
         type="button"
