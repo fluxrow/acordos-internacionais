@@ -1,9 +1,40 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { jornadas } from "@/data/jornadas";
+import { CTAButton } from "@/components/cta-button";
 
 const TITLE = "Jornadas — o que fazer em cada momento da sua vida internacional";
 const DESC =
-  "Quatro percursos práticos para brasileiros que vão se mudar, já moram fora, estão voltando ou querem se aposentar usando acordo internacional.";
+  "Três percursos práticos para brasileiros que moram fora, estão voltando ou trabalham temporariamente no exterior. Atendimento direto com o Dr. Marcos Espínola.";
+
+type JornadaIdx = {
+  slug: "moro-fora" | "estou-voltando" | "vou-me-mudar";
+  titulo: string;
+  publico: string;
+  resumo: string;
+};
+
+const JORNADAS_ORDENADAS: JornadaIdx[] = [
+  {
+    slug: "moro-fora",
+    titulo: "Moro fora",
+    publico: "Brasileiros que vivem no exterior",
+    resumo:
+      "Preciso receber meu benefício, entender como funciona em países com/sem acordo e fazer a prova de vida (5 modalidades).",
+  },
+  {
+    slug: "estou-voltando",
+    titulo: "Voltei para o Brasil",
+    publico: "Retornados ao Brasil após período no exterior",
+    resumo:
+      "Validar contribuições no exterior, solicitar totalização e planejar a aposentadoria com tempo dos dois países.",
+  },
+  {
+    slug: "vou-me-mudar",
+    titulo: "Trabalho temporariamente no exterior",
+    publico: "Brasileiros em deslocamento temporário",
+    resumo:
+      "Manter contribuições no Brasil, entender como funciona para turistas, expatriados e contratos de curto prazo.",
+  },
+];
 
 export const Route = createFileRoute("/jornadas/")({
   head: () => ({
@@ -34,20 +65,17 @@ function JornadasIndex() {
             <span>Jornadas</span>
           </nav>
           <p className="eyebrow mt-6">Por situação</p>
-          <h1 className="mt-5 font-display text-4xl md:text-6xl">
-            Jornadas.
-          </h1>
+          <h1 className="mt-5 font-display text-4xl md:text-6xl">Jornadas.</h1>
           <p className="lede mt-6 max-w-2xl">
-            O que fazer em cada momento da sua vida internacional — do
-            embarque ao retorno, passando pela aposentadoria com tempo de
-            dois países.
+            Três percursos práticos. Quando precisar de um olhar pessoal sobre
+            o seu caso, o Dr. Marcos Espínola está logo abaixo.
           </p>
         </div>
       </section>
 
       <section className="mx-auto max-w-6xl px-6 py-16 md:py-20">
-        <ul className="grid gap-px border border-border bg-border md:grid-cols-2">
-          {jornadas.map((j, i) => (
+        <ul className="grid gap-px border border-border bg-border md:grid-cols-3">
+          {JORNADAS_ORDENADAS.map((j, i) => (
             <li key={j.slug} className="bg-background">
               <Link
                 to="/jornadas/$jornada"
@@ -71,52 +99,37 @@ function JornadasIndex() {
             </li>
           ))}
         </ul>
-      </section>
 
-      <section className="border-t border-border bg-secondary/40">
-        <div className="mx-auto max-w-6xl px-6 py-16">
-          <p className="eyebrow">Procurando algo específico?</p>
-          <h2 className="mt-3 font-display text-3xl">Outras entradas</h2>
-          <div className="mt-8 grid gap-6 md:grid-cols-3">
+        {/* 04 · Atendimento direto com o Dr. Marcos */}
+        <div className="mt-12 rounded-3xl border-2 border-[var(--accent-ink)] bg-[var(--accent-ink-soft)] p-10 md:p-14">
+          <div className="flex flex-wrap items-baseline gap-3">
+            <span className="font-display text-3xl text-[var(--accent-ink)] opacity-70">
+              04
+            </span>
+            <span className="rounded-full bg-[var(--accent-ink)] px-3 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-background">
+              Atendimento direto
+            </span>
+          </div>
+          <h2 className="mt-5 font-display text-3xl leading-tight md:text-4xl">
+            Atendimento direto com o Dr. Marcos Espínola
+          </h2>
+          <p className="lede mt-4 max-w-2xl">
+            Cada caso tem nuances que nenhuma jornada cobre por completo. Se
+            você já explorou as três acima e quer um olhar pessoal, fale com
+            o Dr. Marcos.
+          </p>
+          <div className="mt-8 flex flex-wrap items-center gap-4">
+            <CTAButton
+              to="/contato"
+              variant="dark"
+              size="lg"
+              label="Agendar consulta"
+            />
             <Link
-              to="/acordos"
-              className="group block border border-border bg-background p-6 transition-colors hover:border-[var(--accent-ink)]"
+              to="/sobre/dr-marcos"
+              className="text-sm underline underline-offset-4 hover:text-[var(--accent-ink)]"
             >
-              <p className="eyebrow">Por país</p>
-              <p className="mt-2 font-display text-xl">Acordos vigentes</p>
-              <p className="mt-2 text-sm text-muted-foreground">
-                25 países e três acordos multilaterais.
-              </p>
-              <span className="mt-4 inline-block text-sm underline underline-offset-4 group-hover:text-destructive">
-                Ver índice →
-              </span>
-            </Link>
-            <Link
-              to="/guias/$slug"
-              params={{ slug: "totalizacao" }}
-              className="group block border border-border bg-background p-6 transition-colors hover:border-[var(--accent-ink)]"
-            >
-              <p className="eyebrow">Por tema</p>
-              <p className="mt-2 font-display text-xl">Guias práticos</p>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Totalização, prova de vida, CDT, aposentadoria fora.
-              </p>
-              <span className="mt-4 inline-block text-sm underline underline-offset-4 group-hover:text-destructive">
-                Abrir guias →
-              </span>
-            </Link>
-            <Link
-              to="/calculadora"
-              className="group block border border-border bg-background p-6 transition-colors hover:border-[var(--accent-ink)]"
-            >
-              <p className="eyebrow">Ferramenta</p>
-              <p className="mt-2 font-display text-xl">Calculadora prorata</p>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Estime sua parte proporcional em cada país.
-              </p>
-              <span className="mt-4 inline-block text-sm underline underline-offset-4 group-hover:text-destructive">
-                Abrir calculadora →
-              </span>
+              Conhecer o Dr. Marcos →
             </Link>
           </div>
         </div>
