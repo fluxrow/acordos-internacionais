@@ -1,24 +1,53 @@
-## Bug
+## Objetivo
 
-Clicar no card "Calculadora RMI Pro-rata" muda a URL para `/hub/calculadora` mas a página da calculadora não aparece — a tela continua mostrando o dashboard do Hub (ou fica em branco).
+Refatorar **somente a calculadora pública** (`/calculadora`) para igualar o fluxo e a linguagem do `calculadora-segurado.html` enviado. A versão Pro (`/hub/calculadora`) e a lib `src/lib/calculadora.ts` não mudam — a lib já cobre todos os 4 casos necessários.
 
-## Causa
+## Arquivos afetados
 
-No TanStack Router, qualquer arquivo `foo.tsx` que tenha arquivos irmãos `foo.bar.tsx` vira automaticamente uma **rota-layout** — e precisa renderizar `<Outlet />` para que as filhas apareçam.
+- `src/components/calculadora-form.tsx` — reescrita do bloco `variant="public"` (mantendo `variant="pro"` intocado, OU separando em dois componentes).
+- `src/routes/calculadora.tsx` — ajustes mínimos de copy/título do header se necessário.
 
-`src/routes/_authenticated/hub.tsx` está nessa situação (tem como filhos `hub.calculadora.tsx` e `hub.$pais.tsx`), mas seu componente `HubDashboard` renderiza só o dashboard, sem `<Outlet />`. Então a rota `/hub/calculadora` é matched, o componente filho é carregado em memória, mas não tem onde renderizar — e o usuário continua vendo o conteúdo de `/hub`.
+## Mudanças de UX (espelhando o HTML)
 
-## Correção
+1. **Header amigável**: "🌍 Calcule seu benefício internacional" + subtítulo orientado ao segurado (não-jurídico).
+2. **Tutorial colapsável** "📋 Precisa do seu extrato do INSS (CNIS)? Veja como baixar em 3 passos" com os 3 passos do HTML (link para meu.inss.gov.br).
+3. **Passo 1️⃣ — Como você quer calcular?**
+   - Toggle visual em 2 cards: `📄 Com extrato do INSS (Resultado mais preciso)` × `✏️ Sem extrato (estimativa)`.
+   - Modo CNIS: drop-area com clique/drag-and-drop, status de leitura (loading / ok com nome+CPF / erro). Continua usando `extrairTextoPdf` + `parsearCNIS`.
+   - Modo manual: alerta amarelo "estimativa" + campo Salário médio (R$) + Tempo no Brasil em **Anos / Meses** (dois inputs, não um total).
+4. **Passo 2️⃣ — Tipo de benefício e dados**:
+   - Data de nascimento como `<input type="date">` (substitui DD/MM/AAAA). Conversão para o formato `DD/MM/AAAA` exigido por `calcularResultado` ocorre no submit.
+   - Sexo, Tipo de benefício, País — selects amigáveis.
+5. **Passo 3️⃣ — Tempo no exterior**: Data início + Data fim (`<input type="date">`) **ou** "Total em meses" como alternativa, igual ao HTML.
+6. **Botão** "🧮 Calcular meu benefício".
+7. **Resultados por caso** (usando `caso` que já vem de `calcularResultado`):
+   - **Caso 1** — card amarelo "⚠️ Você já tem direito no Brasil — sem precisar da totalização" (não exibir RMI teórica; texto explicando que a totalização reduziria).
+   - **Caso 2** — card vermelho "❌ Ainda não é possível obter este benefício" com lista de detalhes e "Faltam X meses".
+   - **Caso 2B** — card roxo "📋 Você tem o tempo — mas ainda não chegou a hora" com destaque para idade mínima e meses restantes.
+   - **Caso 3** — card verde "✅ Você tem direito à totalização!" com **valor mensal estimado (R$)** em destaque, percentual de proporção Brasil e explicação "Como funciona". Badge `estimativa` se modo manual.
+   - Cada caso fecha com `<CTAMarcos />` (já em uso) — substitui o `cta-box` com WhatsApp do HTML.
+8. **Linguagem**: tudo em PT-BR coloquial dirigido ao segurado, sem jargão (sem "RMI teórica", "SBmin", "pro-rata" em destaque — só em pequeno texto explicativo).
+9. **Tokens semânticos** de `src/styles.css` (cores oklch, `--state-*`, `--accent-*`). Nada de hex inline.
 
-`/hub` é uma página real (dashboard), não um layout que envolve outras telas. A solução correta é renomear o arquivo para `hub.index.tsx`, transformando `/hub` em rota-folha e libertando as filhas.
+## O que NÃO muda
 
-### Mudanças
+- `src/lib/calculadora.ts` — já cobre os 4 casos.
+- `src/lib/cnis-parser.ts` / `pdfjs-loader.ts`.
+- `CalculadoraFormPro` (versão do Hub).
+- Rotas e auth.
 
-1. **Renomear** `src/routes/_authenticated/hub.tsx` → `src/routes/_authenticated/hub.index.tsx`.
-2. Trocar o `createFileRoute("/_authenticated/hub")` por `createFileRoute("/_authenticated/hub/")` dentro do arquivo (TanStack exige a barra final para `index.tsx`).
-3. Nenhuma outra mudança: `routeTree.gen.ts` é regenerado automaticamente; o `<Link to="/hub">` continua válido; nenhuma outra tela referencia o arquivo pelo nome antigo.
+## Detalhes técnicos
 
-### Fora de escopo
+- Estado do form: `modo: 'cnis'|'manual'`, `salarioManual`, `anosBR`, `mesesBR` (modo manual); `cnisData` (modo CNIS); `dataNascISO`, `sexo`, `tipo`, `pais`, `dataInicExteriorISO`, `dataFimExteriorISO`, `mesesPaisManual`.
+- Tempo no exterior: se `mesesPaisManual` preenchido → usa direto; senão calcula via `calcMesesEntreDatas(iniISO, fimISO)` (helper já existente).
+- Tempo no Brasil (manual): `anos*12 + meses`.
+- Salário base: `Math.max(salario, SMmin)` (igual ao HTML).
+- Conversão de `dataNascISO` → `DD/MM/AAAA` antes de chamar `calcularResultado`.
+- Toggle do tutorial via `useState`.
+- Estados de erro/validação via mensagens inline (sem `alert()`).
 
-- Nada de mexer na calculadora, no design ou em autenticação. O bug é puramente de roteamento.
-- Não atualizo `.lovable/prd.md` / `ROADMAP.md` porque é correção de bug, não mudança significativa de produto.
+## Verificação
+
+- Testar os 4 casos manualmente no preview com dados sintéticos.
+- Conferir que CNIS continua sendo lido (modo CNIS).
+- Conferir que mobile (viewport ~390px) fica legível — cards e selects empilham.
