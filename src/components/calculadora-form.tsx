@@ -70,9 +70,9 @@ export function CalculadoraForm() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   // Manual
-  const [salarioManual, setSalarioManual] = useState("");
   const [anosBR, setAnosBR] = useState("");
   const [mesesBR, setMesesBR] = useState("");
+
 
   // Dados gerais
   const [dataNascISO, setDataNascISO] = useState("");
