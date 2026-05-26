@@ -298,7 +298,7 @@ export function CalculadoraForm() {
                 {carregandoPdf
                   ? "Lendo extrato..."
                   : cnis
-                  ? `✓ Extrato carregado — ${cnis.qtdSalarios} salários encontrados`
+                  ? `✓ Extrato carregado — ${formatarTempo(cnis.totalMeses)} de contribuição`
                   : "Clique aqui ou arraste o PDF do CNIS"}
               </p>
               <p className="mt-1 text-xs text-muted-foreground">
