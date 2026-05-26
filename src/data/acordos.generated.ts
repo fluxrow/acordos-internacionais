@@ -371,12 +371,16 @@ export const acordosImportados: Record<string, AcordoImportado> = {
       {
         "nome": "Acordo sobre Segurança Social Brasil-Cabo Verde",
         "desc": "Texto oficial do acordo bilateral",
-        "cat": "principal"
+        "cat": "principal",
+        "arquivo": "acordo-sobre-seguranca-social-brasil-cabo-verde.pdf",
+        "tamanho": "1.0 MB"
       },
       {
         "nome": "Ajuste Administrativo",
         "desc": "Ajuste administrativo para implementação",
-        "cat": "complementar"
+        "cat": "complementar",
+        "arquivo": "ajuste-administrativo-brasil-cabo-verde.pdf",
+        "tamanho": "570 KB"
       }
     ]
   },
@@ -1038,82 +1042,114 @@ export const acordosImportados: Record<string, AcordoImportado> = {
       {
         "nome": "Acordo de Previdência Social Brasil-França",
         "desc": "Texto oficial do acordo bilateral",
-        "cat": "principal"
+        "cat": "principal",
+        "arquivo": "acordo-de-previdencia-social-brasil-franca-2013.pdf",
+        "tamanho": "15.0 MB"
       },
       {
         "nome": "Ajuste Administrativo",
         "desc": "Ajuste administrativo",
-        "cat": "complementar"
+        "cat": "complementar",
+        "arquivo": "ajuste-administrativo.pdf",
+        "tamanho": "10.5 MB"
       },
       {
         "nome": "Formulário SE41619",
         "desc": "Formulário 41619",
-        "cat": "formulario"
+        "cat": "formulario",
+        "arquivo": "formulario-se41619.pdf",
+        "tamanho": "436 KB"
       },
       {
         "nome": "Formulário SE41620",
         "desc": "Formulário 41620",
-        "cat": "formulario"
+        "cat": "formulario",
+        "arquivo": "formulario-se41620.pdf",
+        "tamanho": "158 KB"
       },
       {
         "nome": "Recurso BRA-FR-16",
         "desc": "Formulário de recurso",
-        "cat": "formulario"
+        "cat": "formulario",
+        "arquivo": "recurso-bra-fr-16.doc",
+        "tamanho": "44 KB"
       },
       {
         "nome": "Aposentadoria por Idade BRA-FR-12",
         "desc": "Formulário aposentadoria idade",
-        "cat": "formulario"
+        "cat": "formulario",
+        "arquivo": "aposentadoria-por-idade-bra-fr-12.doc",
+        "tamanho": "143 KB"
       },
       {
         "nome": "Aposentadoria por Invalidez BRA-FR-11",
         "desc": "Formulário aposentadoria invalidez",
-        "cat": "formulario"
+        "cat": "formulario",
+        "arquivo": "aposentadoria-por-invalidez-bra-fr-11.doc",
+        "tamanho": "146 KB"
       },
       {
         "nome": "Auxílio-Doença BRA-FR-14",
         "desc": "Formulário auxílio-doença",
-        "cat": "formulario"
+        "cat": "formulario",
+        "arquivo": "auxilio-doenca-bra-fr-14.doc",
+        "tamanho": "151 KB"
       },
       {
         "nome": "Pensão por Morte BRA-FR-13",
         "desc": "Formulário pensão morte",
-        "cat": "formulario"
+        "cat": "formulario",
+        "arquivo": "pensao-por-morte-bra-fr-13.doc",
+        "tamanho": "233 KB"
       },
       {
         "nome": "Salário Maternidade BRA-FR-15",
         "desc": "Formulário salário maternidade",
-        "cat": "formulario"
+        "cat": "formulario",
+        "arquivo": "salario-maternidade-bra-fr-15.doc",
+        "tamanho": "201 KB"
       },
       {
         "nome": "Período Transitório BRA-FR-01",
         "desc": "Anexo período transitório",
-        "cat": "formulario"
+        "cat": "formulario",
+        "arquivo": "periodo-transitorio-bra-fr-01.doc",
+        "tamanho": "105 KB"
       },
       {
         "nome": "Demanda Pensão Invalidez",
         "desc": "Demanda pensão por invalidez",
-        "cat": "formulario"
+        "cat": "formulario",
+        "arquivo": "demanda-pensao-invalidez.doc",
+        "tamanho": "54 KB"
       },
       {
         "nome": "Deslocamento Inicial BRA-FR-01B",
         "desc": "Solicitação deslocamento inicial",
-        "cat": "formulario"
+        "cat": "formulario",
+        "arquivo": "deslocamento-inicial-bra-fr-01b.doc",
+        "tamanho": "71 KB"
       },
       {
         "nome": "Deslocamento Temporário BRA-FR-01A",
         "desc": "Solicitação deslocamento temporário",
-        "cat": "formulario"
+        "cat": "formulario",
+        "arquivo": "deslocamento-temporario-bra-fr-01a.doc",
+        "tamanho": "77 KB"
       },
       {
         "nome": "Prorrogação Deslocamento BRA-FR-02A",
         "desc": "Prorrogação deslocamento 02A",
-        "cat": "formulario"
+        "cat": "formulario",
+        "arquivo": "prorrogacao-deslocamento-bra-fr-02a.doc",
+        "tamanho": "82 KB"
       },
       {
         "nome": "Prorrogação Deslocamento BRA-FR-02B",
         "desc": "Prorrogação deslocamento 02B",
-        "cat": "formulario"
+        "cat": "formulario",
+        "arquivo": "prorrogacao-deslocamento-bra-fr-02b.doc",
+        "tamanho": "78 KB"
       }
     ]
   },
@@ -1214,7 +1250,62 @@ export const acordosImportados: Record<string, AcordoImportado> = {
       "brasil": [],
       "parceiro": []
     },
-    "documentos": []
+    "documentos": [
+      {
+        "nome": "Acordo de Aplicacao da Convencao Multilateral Ibero Americana",
+        "cat": "principal",
+        "arquivo": "acordo-de-aplicacao-da-convencao-multilateral-ibero-americana.pdf",
+        "tamanho": "753 KB"
+      },
+      {
+        "nome": "Anexos Ao Acordo",
+        "cat": "principal",
+        "arquivo": "anexos-ao-acordo.pdf",
+        "tamanho": "240 KB"
+      },
+      {
+        "nome": "Certificado de Deslocamento Temporario Ibero 3",
+        "cat": "outro",
+        "arquivo": "certificado-de-deslocamento-temporario-ibero-3.pdf",
+        "tamanho": "412 KB"
+      },
+      {
+        "nome": "Certificado de Deslocamento Temporario Ibero 4",
+        "cat": "outro",
+        "arquivo": "certificado-de-deslocamento-temporario-ibero-4.pdf",
+        "tamanho": "404 KB"
+      },
+      {
+        "nome": "Certificado de Opcao Sobre Legislacao Aplicavel Ibero 6",
+        "cat": "outro",
+        "arquivo": "certificado-de-opcao-sobre-legislacao-aplicavel-ibero-6.pdf",
+        "tamanho": "420 KB"
+      },
+      {
+        "nome": "Certificado de Prorrogacao do Deslocamento Ibero 5",
+        "cat": "outro",
+        "arquivo": "certificado-de-prorrogacao-do-deslocamento-ibero-5.pdf",
+        "tamanho": "441 KB"
+      },
+      {
+        "nome": "Certificado Sobre Legislaa O Aplica Vel Iberoa 7",
+        "cat": "outro",
+        "arquivo": "certificado-sobre-legislaa-o-aplica-vel-iberoa-7.pdf",
+        "tamanho": "369 KB"
+      },
+      {
+        "nome": "Certificado Sobre Legislacao Aplicavel Ibero 7",
+        "cat": "outro",
+        "arquivo": "certificado-sobre-legislacao-aplicavel-ibero-7.pdf",
+        "tamanho": "385 KB"
+      },
+      {
+        "nome": "Convencao Multilateral Ibero Americana de Seguranca Social",
+        "cat": "principal",
+        "arquivo": "convencao-multilateral-ibero-americana-de-seguranca-social.pdf",
+        "tamanho": "2.4 MB"
+      }
+    ]
   },
   "india": {
     "titulo": "Acordo Brasil-Índia",

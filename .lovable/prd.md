@@ -50,6 +50,7 @@ Dois públicos, um produto:
 | **COLLAB.md na raiz** com divisão Lovable ↔ Claude e regras de coordenação | ✅ |
 | Copy de `pro-content-lock.tsx` alinhado a modelo de assinatura (não mais "pagamento único") | ✅ |
 | **Infra Hub (Claude PR):** migração SQL (`hub_schema`), `_authenticated.tsx`, `hub.functions.ts`, `payments/webhook.ts`, `checkout.functions.ts` | ✅ |
+| **Bucket `hub-docs` completo nos 25 países** — sync adicionou Cabo Verde, França e Ibero-Americano (27 arquivos) que estavam faltando no `FOLDER_TO_SLUG` do `scripts/sync-hub-docs.ts`. `acordos.generated.ts` e `acordos.ts` realinhados ao bucket real. | ✅ |
 
 ## 4. Próxima rodada — Hub do Advogado (MVP pago)
 
