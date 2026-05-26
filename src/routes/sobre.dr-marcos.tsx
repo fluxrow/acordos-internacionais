@@ -252,7 +252,7 @@ function SobreMarcos() {
           ].map(({ icon: Icon, titulo, texto }) => (
             <div
               key={titulo}
-              className="rounded-xl border border-border bg-secondary p-5"
+              className="rounded-xl border border-border/60 bg-background/60 p-5 backdrop-blur-md"
             >
               <Icon className="h-5 w-5 text-[var(--accent-ink)]" aria-hidden />
               <p className="mt-3 font-display text-base leading-tight">
