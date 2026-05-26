@@ -49,11 +49,11 @@ export function ProContentLock({
           sob o acordo.
         </p>
 
-        <ul className="mt-7 grid gap-px overflow-hidden rounded-lg border border-border/60 bg-border/60 sm:grid-cols-2">
+        <ul className="mt-7 grid gap-px overflow-hidden rounded-lg border border-border/60 bg-border/30 sm:grid-cols-2">
           {itens.map((item) => (
             <li
               key={item}
-              className="flex items-start gap-3 bg-background/85 p-4 text-sm text-foreground/80"
+              className="flex items-start gap-3 bg-background/40 p-4 text-sm text-foreground/80 backdrop-blur-md transition-colors hover:bg-background/60"
             >
               <LockIcon className="mt-0.5 shrink-0 text-[var(--accent-ink)]/70" />
               <span>{item}</span>
