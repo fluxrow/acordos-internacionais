@@ -221,3 +221,9 @@
 ## Glassmorphism nos cards de destaque
 
 - Substituídos cards `bg-secondary` por `bg-background/60 backdrop-blur-md` em: `cta-marcos`, `acordos.$pais` (aside curiosidade), `sobre.dr-marcos` (3 artigos), `hub.index` (banner + onboarding), `hub.$pais` (2 cards), `precos` (garantia), `contato` (card lateral).
+
+## Fix: calculadora pública aceita CNIS sem coluna de salários (27/05/2026)
+
+- `CalculadoraForm` (`/calculadora`) deixou de bloquear o cálculo quando o CNIS é lido mas o parser não captura salários — agora calcula o **direito** ao benefício e marca como estimativa (sem valor em R$), mesmo comportamento do modo manual.
+- Mensagem de erro reservada para o caso real: CNIS sem nenhum período de contribuição lido.
+- Parser `src/lib/cnis-parser.ts`: regex de salários reescrito para aceitar valores no padrão brasileiro `1.234,56` standalone (não só prefixados por `R$`), com 2 casas decimais obrigatórias — melhora extração também na Calculadora Pro (`/hub/calculadora`), que reusa `parsearCNIS`.
