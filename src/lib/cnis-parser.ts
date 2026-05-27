@@ -26,8 +26,24 @@ export function parsearCNIS(texto: string): DadosCNIS {
     if (m > 0 && m < 600) totalMeses += m;
   }
 
-  const salarios = [...texto.matchAll(/R\$?\s*([\d.,]+)/g)]
-    .map((m) => parseFloat(m[1].replace(/\./g, "").replace(",", ".")))
+  // Salários: aceita "R$ 1.234,56", "1.234,56" (padrão BR com vírgula decimal)
+  // e, como fallback, valores precedidos por rótulos típicos do CNIS.
+  const candidatos: number[] = [];
+
+  // Padrão 1: explicitamente prefixado por R$
+  for (const m of texto.matchAll(/R\$\s*([\d.]+,\d{2})/g)) {
+    candidatos.push(parseFloat(m[1].replace(/\./g, "").replace(",", ".")));
+  }
+
+  // Padrão 2: valores no formato brasileiro standalone (1.234,56 ou 567,89)
+  // Restringe a 2 casas decimais para evitar capturar datas / códigos.
+  if (candidatos.length === 0) {
+    for (const m of texto.matchAll(/(?<![\d.,])(\d{1,3}(?:\.\d{3})*,\d{2})(?![\d])/g)) {
+      candidatos.push(parseFloat(m[1].replace(/\./g, "").replace(",", ".")));
+    }
+  }
+
+  const salarios = candidatos
     .filter((v) => v >= 100 && v <= 50000)
     .slice(0, 360);
   const mediasSalarial = salarios.length

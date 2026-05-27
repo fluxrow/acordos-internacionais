@@ -166,13 +166,15 @@ export function CalculadoraForm() {
       sbFinal = 0; // sem CNIS, não estimamos valor em reais
       estimativaLocal = true;
     } else {
-      if (!cnis || cnis.mediaSalarial <= 0) {
-        setErroForm("Envie o extrato do INSS (CNIS) em PDF primeiro — ou use o modo sem extrato.");
+      if (!cnis || cnis.totalMeses <= 0) {
+        setErroForm(
+          "Não conseguimos ler períodos de contribuição neste PDF. Use o modo 'Sem extrato' e informe o tempo manualmente.",
+        );
         return;
       }
-      sbFinal = Math.max(cnis.mediaSalarial, SMmin);
-      tempoBrasilMeses = cnis.totalMeses || 0;
-
+      sbFinal = cnis.mediaSalarial > 0 ? Math.max(cnis.mediaSalarial, SMmin) : 0;
+      tempoBrasilMeses = cnis.totalMeses;
+      estimativaLocal = cnis.mediaSalarial <= 0;
     }
 
 
