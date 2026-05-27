@@ -1,11 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getAccountData, createPortalSession } from "@/lib/profile.functions";
+import { listMyDevices, releaseOtherSessions, releaseSession } from "@/lib/session-guard.functions";
+import { getDeviceId } from "@/lib/device-id";
 import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/conta")({
   component: ContaPage,
 });
+
 
 const STATUS_LABEL: Record<string, string> = {
   active: "Ativa",
