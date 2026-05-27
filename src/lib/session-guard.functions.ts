@@ -13,23 +13,24 @@ function readGeo() {
   const ip =
     getRequestHeader("cf-connecting-ip") ??
     getRequestHeader("x-forwarded-for")?.split(",")[0]?.trim() ??
-    null;
-  const city = getRequestHeader("cf-ipcity") ?? null;
-  const region = getRequestHeader("cf-region") ?? null;
-  const country = getRequestHeader("cf-ipcountry") ?? null;
+    undefined;
+  const city = getRequestHeader("cf-ipcity") ?? undefined;
+  const region = getRequestHeader("cf-region") ?? undefined;
+  const country = getRequestHeader("cf-ipcountry") ?? undefined;
   const latStr = getRequestHeader("cf-iplatitude");
   const lonStr = getRequestHeader("cf-iplongitude");
-  const lat = latStr ? Number(latStr) : null;
-  const lon = lonStr ? Number(lonStr) : null;
+  const lat = latStr ? Number(latStr) : undefined;
+  const lon = lonStr ? Number(lonStr) : undefined;
   return {
     p_ip: ip,
     p_city: city,
     p_region: region,
     p_country: country,
-    p_lat: Number.isFinite(lat) ? lat : null,
-    p_lon: Number.isFinite(lon) ? lon : null,
+    p_lat: Number.isFinite(lat) ? lat : undefined,
+    p_lon: Number.isFinite(lon) ? lon : undefined,
   };
 }
+
 
 export type ClaimResult =
   | { ok: true }
