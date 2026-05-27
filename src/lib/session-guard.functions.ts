@@ -50,10 +50,11 @@ export const claimSession = createServerFn({ method: "POST" })
     const geo = readGeo();
     const { data: res, error } = await supabase.rpc("claim_session", {
       p_device_id: data.deviceId,
-      p_device_label: data.deviceLabel ?? null,
-      p_user_agent: data.userAgent ?? null,
+      p_device_label: data.deviceLabel,
+      p_user_agent: data.userAgent,
       ...geo,
     });
+
     if (error) {
       console.error("claim_session", error);
       return { ok: false, reason: "error" };

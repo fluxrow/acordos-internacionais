@@ -9,11 +9,12 @@ export type RiskFlag = {
   user_email: string | null;
   kind: string;
   score: number;
-  evidence: Record<string, unknown>;
+  evidence: string;
   created_at: string;
   resolved_at: string | null;
   resolution_note: string | null;
 };
+
 
 async function assertAdmin(userId: string) {
   const { data } = await supabaseAdmin
@@ -47,9 +48,10 @@ export const listRiskFlags = createServerFn({ method: "GET" })
 
     return flags.map((f) => ({
       ...f,
-      evidence: (f.evidence ?? {}) as Record<string, unknown>,
+      evidence: JSON.stringify(f.evidence ?? {}),
       user_email: emailMap.get(f.user_id) ?? null,
     }));
+
   });
 
 export const resolveRiskFlag = createServerFn({ method: "POST" })
