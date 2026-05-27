@@ -11,6 +11,9 @@ import {
 import appCss from "../styles.css?url";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { useSessionGuard } from "@/hooks/use-session-guard";
+import { Toaster } from "@/components/ui/sonner";
+
 
 function NotFoundComponent() {
   return (
@@ -126,6 +129,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  useSessionGuard();
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -135,7 +139,9 @@ function RootComponent() {
           <Outlet />
         </main>
         <SiteFooter />
+        <Toaster />
       </div>
     </QueryClientProvider>
   );
 }
+

@@ -14,6 +14,90 @@ export type Database = {
   }
   public: {
     Tables: {
+      account_risk_flags: {
+        Row: {
+          created_at: string
+          evidence: Json
+          id: string
+          kind: string
+          resolution_note: string | null
+          resolved_at: string | null
+          resolved_by: string | null
+          score: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          evidence?: Json
+          id?: string
+          kind: string
+          resolution_note?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          score?: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          evidence?: Json
+          id?: string
+          kind?: string
+          resolution_note?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          score?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      active_sessions: {
+        Row: {
+          created_at: string
+          device_id: string
+          device_label: string | null
+          geo_city: string | null
+          geo_country: string | null
+          geo_lat: number | null
+          geo_lon: number | null
+          geo_region: string | null
+          id: string
+          ip_inet: unknown
+          last_seen_at: string
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          device_id: string
+          device_label?: string | null
+          geo_city?: string | null
+          geo_country?: string | null
+          geo_lat?: number | null
+          geo_lon?: number | null
+          geo_region?: string | null
+          id?: string
+          ip_inet?: unknown
+          last_seen_at?: string
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          device_id?: string
+          device_label?: string | null
+          geo_city?: string | null
+          geo_country?: string | null
+          geo_lat?: number | null
+          geo_lon?: number | null
+          geo_region?: string | null
+          id?: string
+          ip_inet?: unknown
+          last_seen_at?: string
+          user_agent?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       calc_history: {
         Row: {
           created_at: string
@@ -143,6 +227,48 @@ export type Database = {
         }
         Relationships: []
       }
+      session_events: {
+        Row: {
+          device_id: string
+          event_type: string
+          geo_city: string | null
+          geo_country: string | null
+          geo_lat: number | null
+          geo_lon: number | null
+          geo_region: string | null
+          id: string
+          ip_inet: unknown
+          occurred_at: string
+          user_id: string
+        }
+        Insert: {
+          device_id: string
+          event_type: string
+          geo_city?: string | null
+          geo_country?: string | null
+          geo_lat?: number | null
+          geo_lon?: number | null
+          geo_region?: string | null
+          id?: string
+          ip_inet?: unknown
+          occurred_at?: string
+          user_id: string
+        }
+        Update: {
+          device_id?: string
+          event_type?: string
+          geo_city?: string | null
+          geo_country?: string | null
+          geo_lat?: number | null
+          geo_lon?: number | null
+          geo_region?: string | null
+          id?: string
+          ip_inet?: unknown
+          occurred_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       subscriptions: {
         Row: {
           cancel_at_period_end: boolean
@@ -211,6 +337,22 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      claim_session: {
+        Args: {
+          p_city?: string
+          p_country?: string
+          p_device_id: string
+          p_device_label?: string
+          p_ip?: string
+          p_lat?: number
+          p_lon?: number
+          p_region?: string
+          p_user_agent?: string
+        }
+        Returns: Json
+      }
+      cleanup_old_session_events: { Args: never; Returns: undefined }
+      detect_geo_anomalies: { Args: { p_user_id: string }; Returns: undefined }
       get_founder_count: { Args: never; Returns: number }
       has_role: {
         Args: {
@@ -219,6 +361,38 @@ export type Database = {
         }
         Returns: boolean
       }
+      haversine_km: {
+        Args: { lat1: number; lat2: number; lon1: number; lon2: number }
+        Returns: number
+      }
+      heartbeat_session: {
+        Args: {
+          p_city?: string
+          p_country?: string
+          p_device_id: string
+          p_ip?: string
+          p_lat?: number
+          p_lon?: number
+          p_region?: string
+        }
+        Returns: Json
+      }
+      is_pro: { Args: { _user_id: string }; Returns: boolean }
+      list_my_devices: {
+        Args: never
+        Returns: {
+          created_at: string
+          device_id: string
+          device_label: string
+          geo_city: string
+          geo_country: string
+          is_active: boolean
+          last_seen_at: string
+          user_agent: string
+        }[]
+      }
+      release_other_sessions: { Args: { p_device_id: string }; Returns: Json }
+      release_session: { Args: { p_device_id: string }; Returns: Json }
     }
     Enums: {
       app_role: "subscriber" | "admin"

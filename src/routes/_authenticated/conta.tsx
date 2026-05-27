@@ -1,11 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getAccountData, createPortalSession } from "@/lib/profile.functions";
+import { listMyDevices, releaseOtherSessions, releaseSession } from "@/lib/session-guard.functions";
+import { getDeviceId } from "@/lib/device-id";
 import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/conta")({
   component: ContaPage,
 });
+
 
 const STATUS_LABEL: Record<string, string> = {
   active: "Ativa",
@@ -16,9 +20,16 @@ const STATUS_LABEL: Record<string, string> = {
 };
 
 function ContaPage() {
+  const qc = useQueryClient();
   const { data, isPending } = useQuery({
     queryKey: ["account"],
     queryFn: () => getAccountData(),
+  });
+
+  const devicesQuery = useQuery({
+    queryKey: ["my-devices"],
+    queryFn: () => listMyDevices(),
+    refetchInterval: 30_000,
   });
 
   const portalMutation = useMutation({
@@ -29,10 +40,25 @@ function ContaPage() {
     },
   });
 
+  const releaseOthersMutation = useMutation({
+    mutationFn: () => releaseOtherSessions({ data: { deviceId: getDeviceId() } }),
+    onSuccess: (res) => {
+      toast.success(`${res.released ?? 0} dispositivo(s) desconectado(s)`);
+      qc.invalidateQueries({ queryKey: ["my-devices"] });
+    },
+  });
+
+  const releaseOneMutation = useMutation({
+    mutationFn: (deviceId: string) => releaseSession({ data: { deviceId } }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["my-devices"] }),
+  });
+
   async function handleLogout() {
+    try { await releaseSession({ data: { deviceId: getDeviceId() } }); } catch {}
     await supabase.auth.signOut();
     window.location.href = "/";
   }
+
 
   const sub = data?.subscription;
   const isActive = sub?.status === "active";
@@ -128,6 +154,56 @@ function ContaPage() {
             )}
           </section>
 
+          <section className="rounded-sm border border-border p-6">
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <p className="eyebrow">Dispositivos conectados</p>
+              {(devicesQuery.data?.length ?? 0) > 1 && (
+                <button
+                  onClick={() => releaseOthersMutation.mutate()}
+                  disabled={releaseOthersMutation.isPending}
+                  className="text-xs uppercase tracking-[0.12em] text-muted-foreground hover:text-foreground disabled:opacity-50"
+                >
+                  Sair dos outros
+                </button>
+              )}
+            </div>
+            {devicesQuery.isPending ? (
+              <p className="text-sm text-muted-foreground">Carregando…</p>
+            ) : (devicesQuery.data?.length ?? 0) === 0 ? (
+              <p className="text-sm text-muted-foreground">Nenhum dispositivo registrado.</p>
+            ) : (
+              <ul className="space-y-3 text-sm">
+                {devicesQuery.data!.map((d) => {
+                  const isCurrent = d.device_id === getDeviceId();
+                  return (
+                    <li key={d.device_id} className="flex items-center justify-between gap-3 border-b border-border/50 pb-3 last:border-0">
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className={`inline-flex h-2 w-2 rounded-full ${d.is_active ? "bg-green-500" : "bg-muted-foreground"}`} />
+                          <span className="font-medium">{d.device_label ?? "Dispositivo"}</span>
+                          {isCurrent && (
+                            <span className="rounded-sm bg-secondary px-1.5 py-0.5 text-[10px] uppercase tracking-[0.1em]">Este</span>
+                          )}
+                        </div>
+                        <p className="mt-0.5 text-xs text-muted-foreground">
+                          {d.geo_city ?? "—"}{d.geo_country ? ` · ${d.geo_country}` : ""} · visto {new Date(d.last_seen_at).toLocaleString("pt-BR")}
+                        </p>
+                      </div>
+                      {!isCurrent && (
+                        <button
+                          onClick={() => releaseOneMutation.mutate(d.device_id)}
+                          className="text-xs uppercase tracking-[0.12em] text-muted-foreground hover:text-destructive"
+                        >
+                          Desconectar
+                        </button>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </section>
+
           <button
             onClick={handleLogout}
             className="text-sm text-muted-foreground hover:text-foreground"
@@ -136,6 +212,7 @@ function ContaPage() {
           </button>
         </div>
       )}
+
     </div>
   );
 }
