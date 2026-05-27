@@ -20,9 +20,16 @@ const STATUS_LABEL: Record<string, string> = {
 };
 
 function ContaPage() {
+  const qc = useQueryClient();
   const { data, isPending } = useQuery({
     queryKey: ["account"],
     queryFn: () => getAccountData(),
+  });
+
+  const devicesQuery = useQuery({
+    queryKey: ["my-devices"],
+    queryFn: () => listMyDevices(),
+    refetchInterval: 30_000,
   });
 
   const portalMutation = useMutation({
@@ -33,10 +40,25 @@ function ContaPage() {
     },
   });
 
+  const releaseOthersMutation = useMutation({
+    mutationFn: () => releaseOtherSessions({ data: { deviceId: getDeviceId() } }),
+    onSuccess: (res) => {
+      toast.success(`${res.released ?? 0} dispositivo(s) desconectado(s)`);
+      qc.invalidateQueries({ queryKey: ["my-devices"] });
+    },
+  });
+
+  const releaseOneMutation = useMutation({
+    mutationFn: (deviceId: string) => releaseSession({ data: { deviceId } }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["my-devices"] }),
+  });
+
   async function handleLogout() {
+    try { await releaseSession({ data: { deviceId: getDeviceId() } }); } catch {}
     await supabase.auth.signOut();
     window.location.href = "/";
   }
+
 
   const sub = data?.subscription;
   const isActive = sub?.status === "active";
