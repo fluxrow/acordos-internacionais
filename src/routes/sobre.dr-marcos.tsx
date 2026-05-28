@@ -158,21 +158,21 @@ function SobreMarcos() {
           </article>
 
           {/* Internacional — destacado */}
-          <article className="relative overflow-hidden rounded-2xl border border-[var(--accent-ink)]/30 bg-[var(--accent-ink-soft)] p-7 md:p-8">
+          <article className="relative overflow-hidden rounded-2xl border border-[var(--accent-ink)]/40 bg-[var(--card-bg)] p-7 shadow-[var(--shadow-gold-glow)] md:p-8">
             <div
               aria-hidden
-              className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_100%_0%,_color-mix(in_oklab,_var(--accent-ink)_22%,_transparent)_0%,_transparent_60%)]"
+              className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_100%_0%,_color-mix(in_oklab,_var(--accent-ink)_18%,_transparent)_0%,_transparent_60%)]"
             />
             <div className="relative">
               <p className="eyebrow text-[var(--accent-ink)]">Previdenciário internacional</p>
-              <h3 className="mt-2 font-display text-2xl">
-                Brasileiros entre dois sistemas
+              <h3 className="mt-2 font-display text-2xl text-[var(--ink)]">
+                Brasileiros entre <span className="text-gold">dois sistemas</span>
               </h3>
-              <p className="mt-4 text-base leading-relaxed">
+              <p className="mt-4 text-base leading-relaxed text-[var(--ink-soft)]">
                 Brasileiros que vivem ou viveram no exterior, estrangeiros com
                 tempo contributivo no Brasil, expatriados e trabalhadores em
                 processo de emigração. O foco é{" "}
-                <em>planejamento previdenciário internacional</em>: estruturar
+                <em className="text-[var(--ink)]">planejamento previdenciário internacional</em>: estruturar
                 a vida contributiva para que funcione nos dois países — porque
                 o que se decide antes da mudança raramente pode ser desfeito
                 depois.
