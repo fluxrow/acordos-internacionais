@@ -99,24 +99,37 @@ function SobreMarcos() {
           aria-hidden
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_0%,_color-mix(in_oklab,_var(--accent-ink)_14%,_transparent)_0%,_transparent_60%)]"
         />
-        <div className="relative z-10 mx-auto max-w-4xl px-6 py-16 md:py-24">
-          <p className="eyebrow">Sobre</p>
-          <h1 className="mt-4 font-display text-4xl md:text-6xl">
-            Dr. Marcos Espínola
-          </h1>
-          <p className="lede mt-6 max-w-2xl">
-            Advogado previdenciarista com atuação exclusiva em Direito
-            Previdenciário. Sócio do escritório{" "}
-            <span className="text-foreground">
-              Pagliuca, Espínola e Lessnau — Advocacia com Propósito
-            </span>
-            , em Curitiba. Fundador do hub Acordos Internacionais, criado para
-            organizar, em um único lugar, a base técnica e informativa sobre
-            os acordos bilaterais firmados pelo Brasil.
-          </p>
-          <p className="mt-6 text-sm uppercase tracking-[0.18em] text-muted-foreground">
-            OAB/PR 49.038
-          </p>
+        <div className="relative z-10 mx-auto grid max-w-6xl gap-12 px-6 py-16 md:grid-cols-[1.2fr_1fr] md:items-center md:py-24">
+          <div>
+            <p className="eyebrow">Sobre</p>
+            <h1 className="mt-4 font-display text-4xl md:text-6xl">
+              Dr. Marcos Espínola
+            </h1>
+            <p className="lede mt-6 max-w-2xl">
+              Advogado previdenciarista com atuação exclusiva em Direito
+              Previdenciário. Sócio do escritório{" "}
+              <span className="text-foreground">
+                Pagliuca, Espínola e Lessnau — Advocacia com Propósito
+              </span>
+              , em Curitiba. Fundador do hub Acordos Internacionais, criado para
+              organizar, em um único lugar, a base técnica e informativa sobre
+              os acordos bilaterais firmados pelo Brasil.
+            </p>
+            <p className="mt-6 text-sm uppercase tracking-[0.18em] text-muted-foreground">
+              OAB/PR 49.038
+            </p>
+          </div>
+          <div className="order-first md:order-last">
+            <div className="overflow-hidden border border-border bg-secondary shadow-sm">
+              <img
+                src={imgMarcos}
+                alt="Retrato do Dr. Marcos Espínola no escritório"
+                width={1280}
+                height={1707}
+                className="block aspect-[3/4] w-full object-cover"
+              />
+            </div>
+          </div>
         </div>
       </header>
 
