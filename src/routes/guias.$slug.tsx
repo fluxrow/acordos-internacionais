@@ -163,7 +163,7 @@ function GuiaPage() {
                 </div>
               )}
 
-              <div className="md:col-span-3 bg-foreground text-background p-6">
+              <div className="md:col-span-3 bg-card text-card-foreground border border-border p-6">
                 <p className="eyebrow text-background/70">Ferramenta</p>
                 <p className="mt-3 font-display text-2xl leading-tight">
                   Calculadora prorata

@@ -215,7 +215,7 @@ function PrecosPage() {
                 }
                 className={`mt-6 w-full rounded-full px-5 py-2.5 text-sm font-medium uppercase tracking-[0.14em] transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
                   plan.destaque || plan.isFounder
-                    ? "bg-foreground text-background hover:bg-foreground/85"
+                    ? "bg-card text-card-foreground border border-border hover:bg-foreground/85"
                     : "border border-foreground hover:bg-secondary"
                 }`}
               >

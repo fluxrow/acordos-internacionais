@@ -37,7 +37,7 @@ function Profissional() {
   return (
     <article>
       {/* HERO */}
-      <header className="border-b border-border bg-foreground text-background">
+      <header className="border-b border-border bg-card text-card-foreground border border-border">
         <div className="mx-auto max-w-6xl px-6 py-20 md:py-28">
           <p className="text-[10px] uppercase tracking-[0.18em] opacity-70">
             Hub Profissional · Direito Previdenciário Internacional
@@ -156,7 +156,7 @@ function Profissional() {
 
       {/* PROOF */}
       <section
-        className="relative border-b border-border bg-foreground text-background"
+        className="relative border-b border-border bg-card text-card-foreground border border-border"
         style={{
           backgroundImage: `linear-gradient(color-mix(in oklab, var(--foreground) 86%, transparent), color-mix(in oklab, var(--foreground) 86%, transparent)), url(${imgMap})`,
           backgroundSize: "cover",
@@ -185,7 +185,7 @@ function Profissional() {
             ))}
           </div>
 
-          <div className="mt-14 border-t border-background/20 pt-10">
+          <div className="mt-14 border-t border-border pt-10">
             <p className="text-[10px] uppercase tracking-[0.18em] opacity-70">
               Curadoria de
             </p>
@@ -267,7 +267,7 @@ function Profissional() {
               <p className="mt-1 text-sm opacity-80">
                 Pagamento único · acesso vitalício
               </p>
-              <hr className="my-6 border-background/20" />
+              <hr className="my-6 border-border" />
               <ul className="flex-1 space-y-2 text-sm">
                 <li>· Acesso vitalício a todo o conteúdo</li>
                 <li>· Todas as atualizações futuras incluídas</li>
@@ -304,7 +304,7 @@ function Profissional() {
       </section>
 
       {/* CTA FINAL */}
-      <section className="bg-foreground text-background">
+      <section className="bg-card text-card-foreground border border-border">
         <div className="mx-auto max-w-3xl px-6 py-24 text-center">
           <p className="text-[10px] uppercase tracking-[0.18em] opacity-70">
             Pronto para entrar?

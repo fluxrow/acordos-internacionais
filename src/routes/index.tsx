@@ -184,13 +184,13 @@ function Home() {
               />
               <Link
                 to="/blog"
-                className="rounded-full border border-background/40 px-5 py-2.5 text-xs font-medium uppercase tracking-[0.18em] transition-colors hover:bg-background hover:text-foreground"
+                className="rounded-full border border-[var(--accent-ink)]/40 px-5 py-2.5 text-xs font-medium uppercase tracking-[0.18em] transition-colors hover:bg-[var(--accent-ink)] hover:text-[var(--paper)]"
               >
                 Blog
               </Link>
               <Link
                 to="/sobre/dr-marcos"
-                className="rounded-full border border-background/40 px-5 py-2.5 text-xs font-medium uppercase tracking-[0.18em] transition-colors hover:bg-background hover:text-foreground"
+                className="rounded-full border border-[var(--accent-ink)]/40 px-5 py-2.5 text-xs font-medium uppercase tracking-[0.18em] transition-colors hover:bg-[var(--accent-ink)] hover:text-[var(--paper)]"
               >
                 Sobre o Dr. Marcos
               </Link>
