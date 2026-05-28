@@ -65,11 +65,12 @@ function Home() {
               <p className="eyebrow">Brasil · Previdência Social Internacional</p>
               <h1 className="mt-6 font-display text-[2.5rem] leading-[1.02] tracking-tight md:text-[3.5rem] lg:text-[4.25rem]">
                 O mapa definitivo dos{" "}
-                <em className="font-normal italic text-destructive">
+                <span className="text-gold">
                   acordos previdenciários
-                </em>{" "}
+                </span>{" "}
                 do Brasil.
               </h1>
+
               <p className="lede mt-8 max-w-xl">
                 Para o brasileiro que trabalha ou trabalhou no exterior e que
                 precisa entender seus direitos previdenciários.
