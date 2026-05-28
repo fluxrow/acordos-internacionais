@@ -137,6 +137,7 @@ function JornadasIndex() {
               Conhecer o Dr. Marcos →
             </Link>
           </div>
+          </div>
         </div>
       </section>
     </>
