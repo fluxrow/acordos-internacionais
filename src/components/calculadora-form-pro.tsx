@@ -185,10 +185,10 @@ export function CalculadoraFormPro() {
   const sbFinal = Math.max(parseFloat((salarioManual || "0").replace(",", ".")) || 0, SMmin);
 
   return (
-    <form onSubmit={onCalcular} className="calc-form space-y-8">
+    <form onSubmit={onCalcular} className="calc-form space-y-10">
       {/* ============ 1. IDENTIFICAÇÃO ============ */}
       <Secao titulo="Identificação do Cliente">
-        <div className="rounded-xl border border-[var(--accent-ink-soft)] bg-[var(--accent-ink-soft)]/40 p-5 space-y-4">
+        <div className="rounded-sm border border-border bg-paper-soft/40 p-5 space-y-4">
           <div className="grid gap-4 md:grid-cols-3">
             <Campo label="Nome completo" htmlFor="cli-nome">
               <Input id="cli-nome" value={clienteNome} onChange={(e) => setClienteNome(e.target.value)} placeholder="Nome do segurado" />
@@ -206,7 +206,7 @@ export function CalculadoraFormPro() {
             </Campo>
             <Campo label="Sexo" htmlFor="cli-sexo">
               <Select value={sexo} onValueChange={(v) => setSexo(v as Sexo)}>
-                <SelectTrigger id="cli-sexo"><SelectValue placeholder="Selecione..." /></SelectTrigger>
+                <SelectTrigger id="cli-sexo"><SelectValue placeholder="Selecione…" /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="F">Feminino — idade mínima 62 anos</SelectItem>
                   <SelectItem value="M">Masculino — idade mínima 65 anos</SelectItem>
@@ -225,7 +225,7 @@ export function CalculadoraFormPro() {
         <div className="grid gap-4 md:grid-cols-2">
           <Campo label="Espécie do benefício" htmlFor="tipo" dica="Carência: 180 meses (Ap. Idade) · 18 meses (Pensão)">
             <Select value={tipo} onValueChange={(v) => setTipo(v as TipoBeneficio)}>
-              <SelectTrigger id="tipo"><SelectValue placeholder="Selecione..." /></SelectTrigger>
+              <SelectTrigger id="tipo"><SelectValue placeholder="Selecione…" /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="aposentadoria_idade">Aposentadoria por Idade</SelectItem>
                 <SelectItem value="pensao_morte">Pensão por Morte</SelectItem>
@@ -234,7 +234,7 @@ export function CalculadoraFormPro() {
           </Campo>
           <Campo label="País signatário (acordo)" htmlFor="pais">
             <Select value={pais} onValueChange={setPais}>
-              <SelectTrigger id="pais"><SelectValue placeholder="Selecione..." /></SelectTrigger>
+              <SelectTrigger id="pais"><SelectValue placeholder="Selecione…" /></SelectTrigger>
               <SelectContent>
                 {PAISES_ACORDO.map((p) => (
                   <SelectItem key={p} value={p}>{p}</SelectItem>
@@ -248,14 +248,18 @@ export function CalculadoraFormPro() {
       {/* ============ 3. BRASIL ============ */}
       <Secao titulo="Tempo de Contribuição — Brasil (RGPS)">
         <label
-          className={`block rounded-xl border-2 border-dashed p-6 text-center cursor-pointer transition ${
+          className={`block rounded-sm border border-dashed p-6 text-center cursor-pointer transition ${
             cnisCarregado
-              ? "border-[var(--state-success)] bg-[var(--state-success-soft)]/40"
-              : "border-[var(--accent-ink)]/40 bg-[var(--accent-ink-soft)]/30 hover:bg-[var(--accent-ink-soft)]/60"
+              ? "border-[var(--accent-ink)] bg-paper-soft/60"
+              : "border-border bg-background/40 hover:border-foreground/40 hover:bg-paper-soft/40"
           }`}
         >
-          <FileUp className="mx-auto h-8 w-8 text-[var(--accent-ink)]" aria-hidden />
-          <p className="mt-2 text-sm font-semibold text-[var(--accent-ink)]">Carregar CNIS em PDF</p>
+          {cnisCarregado ? (
+            <Check className="mx-auto h-6 w-6 text-[var(--accent-ink)]" strokeWidth={1.5} aria-hidden />
+          ) : (
+            <FileUp className="mx-auto h-6 w-6 text-muted-foreground" strokeWidth={1.5} aria-hidden />
+          )}
+          <p className="mt-2 font-serif text-base">Carregar CNIS em PDF</p>
           <p className="text-xs text-muted-foreground">Extrato de Contribuição do INSS · até 20 MB</p>
           <input
             ref={fileRef}
@@ -275,19 +279,19 @@ export function CalculadoraFormPro() {
               carregandoPdf
                 ? "text-muted-foreground"
                 : cnisStatus?.ok
-                  ? "text-[var(--state-success)]"
+                  ? "text-foreground"
                   : "text-[var(--state-error)]"
             }`}
           >
             {carregandoPdf ? (
-              <span className="inline-flex items-center gap-2"><Loader2 className="h-3 w-3 animate-spin" /> Processando CNIS...</span>
+              <span className="inline-flex items-center gap-2"><Loader2 className="h-3 w-3 animate-spin" /> Processando CNIS…</span>
             ) : (
-              <>{cnisStatus?.ok ? "✓ " : "✗ "}{cnisStatus?.msg}</>
+              <>{cnisStatus?.msg}</>
             )}
           </p>
         )}
 
-        <p className="my-3 text-center text-xs uppercase tracking-wider text-muted-foreground">— ou inserir manualmente —</p>
+        <p className="my-4 text-center text-[11px] uppercase tracking-[0.18em] text-muted-foreground">— ou inserir manualmente —</p>
 
         <div className="grid gap-4 md:grid-cols-2">
           <Campo label="Salário de Benefício médio (SB) — R$" htmlFor="sb" dica="Média dos SC corrigidos pelo IPCA-E (80% maiores)">
@@ -301,8 +305,8 @@ export function CalculadoraFormPro() {
           </Campo>
         </div>
 
-        <p className="mt-3 rounded-md border-l-2 border-[var(--accent-ink)] bg-[var(--accent-ink-soft)]/40 px-3 py-2 text-xs text-foreground/80">
-          ℹ️ Se o CNIS for carregado, os valores do PDF prevalecem sobre os campos manuais.
+        <p className="mt-3 border-l border-[var(--accent-ink)] pl-3 text-xs text-foreground/75">
+          Se o CNIS for carregado, os valores do PDF prevalecem sobre os campos manuais.
         </p>
       </Secao>
 
@@ -324,20 +328,20 @@ export function CalculadoraFormPro() {
       </Secao>
 
       {erroForm && (
-        <p className="rounded-md border border-[var(--state-error-soft)] bg-[var(--state-error-soft)] px-4 py-3 text-sm text-[var(--state-error)]">
+        <p className="border-l-2 border-[var(--state-error)] bg-[var(--state-error-soft)]/40 px-4 py-3 text-sm text-[var(--state-error)]">
           {erroForm}
         </p>
       )}
 
       {/* ============ AÇÕES ============ */}
       <div className="flex flex-wrap gap-3 print:hidden">
-        <Button type="submit" size="lg" className="gap-2">
+        <Button type="submit" size="lg" className="gap-2 rounded-sm">
           <Scale className="h-4 w-4" aria-hidden />
           Calcular RMI Pro-rata
         </Button>
         {resultado && (
           <>
-            <Button type="button" variant="outline" onClick={() => window.print()} className="gap-2">
+            <Button type="button" variant="outline" onClick={() => window.print()} className="gap-2 rounded-sm">
               <Printer className="h-4 w-4" aria-hidden /> Imprimir / PDF
             </Button>
             <SalvarCalculoButton
@@ -351,7 +355,7 @@ export function CalculadoraFormPro() {
             />
           </>
         )}
-        <Button type="button" variant="ghost" onClick={limpar} className="gap-2 ml-auto">
+        <Button type="button" variant="ghost" onClick={limpar} className="gap-2 ml-auto rounded-sm">
           <Eraser className="h-4 w-4" aria-hidden /> Limpar
         </Button>
       </div>
@@ -372,12 +376,11 @@ export function CalculadoraFormPro() {
 // ─── Secao / Campo ─────────────────────────────────────────────────────────
 function Secao({ titulo, children }: { titulo: string; children: React.ReactNode }) {
   return (
-    <section className="space-y-4">
-      <h2 className="flex items-center gap-3 text-xs font-bold uppercase tracking-[0.12em] text-[var(--accent-ink)]">
-        {titulo}
-        <span aria-hidden className="h-px flex-1 bg-border" />
-      </h2>
-      {children}
+    <section className="space-y-5">
+      <header className="border-b border-border pb-3">
+        <h2 className="font-display text-xl font-semibold tracking-tight">{titulo}</h2>
+      </header>
+      <div className="space-y-4">{children}</div>
     </section>
   );
 }
@@ -387,7 +390,7 @@ function Campo({
 }: { label: string; htmlFor: string; dica?: string; children: React.ReactNode }) {
   return (
     <div className="space-y-1.5">
-      <Label htmlFor={htmlFor} className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{label}</Label>
+      <Label htmlFor={htmlFor} className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">{label}</Label>
       {children}
       {dica && <p className="text-[11px] text-muted-foreground">{dica}</p>}
     </div>
@@ -412,25 +415,39 @@ function Laudo({
 
   return (
     <section
-      className="rounded-2xl border-2 p-6 print:border print:rounded-none"
-      style={{ borderColor: `var(${tone.border})`, backgroundColor: `var(${tone.bg})` }}
+      className="relative rounded-sm border border-border bg-background p-6 md:p-8 print:rounded-none"
     >
+      {/* Filete colorido no topo identificando o caso */}
+      <span
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-[2px] rounded-t-sm print:hidden"
+        style={{ backgroundColor: `var(${tone.ink})` }}
+      />
+
       {/* Cabeçalho cliente (visível na tela + impressão) */}
       <CabecalhoCliente cliente={cliente} />
 
       <header className="flex items-start gap-3">
-        <Icon className="mt-0.5 h-6 w-6 shrink-0" style={{ color: `var(${tone.ink})` }} aria-hidden />
+        <Icon
+          className="mt-1 h-5 w-5 shrink-0"
+          style={{ color: `var(${tone.ink})` }}
+          strokeWidth={1.5}
+          aria-hidden
+        />
         <div>
-          <h3 className="text-lg font-semibold" style={{ color: `var(${tone.ink})` }}>
+          <p className="eyebrow" style={{ color: `var(${tone.ink})` }}>
+            Parecer técnico
+          </p>
+          <h3 className="mt-1 font-display text-2xl font-semibold leading-tight">
             {resultado.titulo}
           </h3>
-          <p className="mt-1 text-sm text-foreground/85">{resultado.descricao}</p>
+          <p className="mt-2 text-base leading-relaxed text-foreground/80">{resultado.descricao}</p>
         </div>
       </header>
 
       {/* QUADRO DESTAQUE — caso 3 */}
       {resultado.caso === 3 && resultado.rmiProrata != null && resultado.rmiTeorica != null && (
-        <div className="mt-5 grid gap-4 md:grid-cols-2">
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
           <Destaque label="RMI Pro-rata (Brasil)" sub="parte proporcional paga pelo INSS" value={formatarMoeda(resultado.rmiProrata)} tone={tone} highlight />
           <Destaque label="RMI Teórica" sub={`SB × ${(coef * 100).toFixed(0)}%`} value={formatarMoeda(resultado.rmiTeorica)} tone={tone} />
         </div>
@@ -446,15 +463,15 @@ function Laudo({
       )}
 
       {/* TABELA TÉCNICA */}
-      <div className="mt-6 overflow-x-auto rounded-lg border border-border/60 bg-background/70">
+      <div className="mt-6 overflow-x-auto border-y border-border">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-border bg-muted/40 text-[11px] uppercase tracking-wider text-muted-foreground">
-              <th className="px-3 py-2 text-left">Parâmetro técnico</th>
-              <th className="px-3 py-2 text-right">Valor</th>
+            <tr className="border-b border-border text-[11px] uppercase tracking-[0.12em] text-muted-foreground">
+              <th className="px-3 py-2.5 text-left font-semibold">Parâmetro técnico</th>
+              <th className="px-3 py-2.5 text-right font-semibold">Valor</th>
             </tr>
           </thead>
-          <tbody className="[&_tr]:border-b [&_tr:last-child]:border-b-0 [&_tr]:border-border/40 [&_td]:px-3 [&_td]:py-2 [&_td:last-child]:text-right [&_td:last-child]:font-semibold">
+          <tbody className="[&_tr]:border-b [&_tr:last-child]:border-b-0 [&_tr]:border-border/60 [&_td]:px-3 [&_td]:py-2 [&_td:last-child]:text-right [&_td:last-child]:font-semibold">
             <tr><td className="text-muted-foreground">Espécie</td><td>{tipoLabel}</td></tr>
             <tr><td className="text-muted-foreground">País signatário</td><td>{pais}</td></tr>
             <tr><td className="text-muted-foreground">Carência exigida</td><td>{carencia} meses ({formatarTempo(carencia)})</td></tr>
@@ -463,7 +480,7 @@ function Laudo({
             <tr><td className="text-muted-foreground">Total combinado</td><td>{resultado.tempoTotal} meses ({formatarTempo(resultado.tempoTotal)})</td></tr>
             <tr>
               <td className="text-muted-foreground">Status carência</td>
-              <td>{resultado.tempoTotal >= carencia ? "✓ atingida" : `⏳ faltam ${carencia - resultado.tempoTotal} meses`}</td>
+              <td>{resultado.tempoTotal >= carencia ? "Atingida" : `Faltam ${carencia - resultado.tempoTotal} meses`}</td>
             </tr>
             {resultado.rmiTeorica != null && (
               <tr><td className="text-muted-foreground">RMI Teórica</td><td>{formatarMoeda(resultado.rmiTeorica)}</td></tr>
@@ -472,7 +489,7 @@ function Laudo({
               <tr><td className="text-muted-foreground">Índice Pro-rata (BR ÷ Total)</td><td>{((resultado.tempoBrasil / resultado.tempoTotal) * 100).toFixed(4)}%</td></tr>
             )}
             {resultado.rmiProrata != null && (
-              <tr style={{ backgroundColor: `var(${tone.bg})` }}>
+              <tr>
                 <td className="text-muted-foreground"><strong>RMI Pro-rata</strong></td>
                 <td><strong style={{ color: `var(${tone.ink})` }}>{formatarMoeda(resultado.rmiProrata)}</strong></td>
               </tr>
@@ -484,18 +501,18 @@ function Laudo({
 
       {/* FÓRMULA */}
       {resultado.caso === 3 && resultado.rmiTeorica != null && resultado.rmiProrata != null && (
-        <div className="mt-4 rounded-lg border border-border/60 bg-background/80 p-4 font-mono text-xs leading-relaxed text-foreground/80">
-          <div>RMI teórica = SB × coef = {formatarMoeda(resultado.rmiTeorica / coef)} × {(coef * 100).toFixed(0)}% = <strong>{formatarMoeda(resultado.rmiTeorica)}</strong></div>
+        <div className="mt-5 border-t border-border pt-4 font-mono text-xs leading-relaxed text-foreground/75">
+          <div>RMI teórica = SB × coef = {formatarMoeda(resultado.rmiTeorica / coef)} × {(coef * 100).toFixed(0)}% = <strong className="text-foreground">{formatarMoeda(resultado.rmiTeorica)}</strong></div>
           <div className="mt-1">
-            RMI pro-rata = RMI teórica × (meses_BR ÷ total) = {formatarMoeda(resultado.rmiTeorica)} × ({resultado.tempoBrasil} ÷ {resultado.tempoTotal}) = <strong>{formatarMoeda(resultado.rmiProrata)}</strong>
+            RMI pro-rata = RMI teórica × (meses_BR ÷ total) = {formatarMoeda(resultado.rmiTeorica)} × ({resultado.tempoBrasil} ÷ {resultado.tempoTotal}) = <strong className="text-foreground">{formatarMoeda(resultado.rmiProrata)}</strong>
           </div>
         </div>
       )}
 
       {/* RODAPÉ */}
-      <footer className="mt-6 border-t border-border/60 pt-3 text-[11px] text-muted-foreground">
+      <footer className="mt-6 border-t border-border pt-3 text-[11px] text-muted-foreground">
         <div className="flex flex-wrap justify-between gap-2">
-          <span>www.acordosinternacionais.com — Cálculo de RMI Pro-rata (Acordos Internacionais)</span>
+          <span>www.acordosinternacionais.com — Cálculo de RMI Pro-rata</span>
           <span>Documento gerado em {new Date().toLocaleDateString("pt-BR")}</span>
         </div>
       </footer>
@@ -509,7 +526,7 @@ function CabecalhoCliente({ cliente }: { cliente: ClienteInfo }) {
   const fmt = (iso: string) => (iso ? isoToBr(iso) : "—");
   const sexoLabel = cliente.sexo === "F" ? "Feminino" : cliente.sexo === "M" ? "Masculino" : "—";
   return (
-    <div className="mb-5 rounded-lg border border-border/60 bg-background/80 p-4 print:bg-white">
+    <div className="mb-6 border-b border-border pb-5 print:bg-white">
       <div className="grid gap-3 md:grid-cols-3 text-sm">
         <Info label="Cliente" value={cliente.nome || "—"} />
         <Info label="CPF" value={cliente.cpf || "—"} />
@@ -525,8 +542,8 @@ function CabecalhoCliente({ cliente }: { cliente: ClienteInfo }) {
 function Info({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</div>
-      <div className="mt-0.5 font-semibold">{value}</div>
+      <div className="text-[10px] uppercase tracking-[0.12em] text-muted-foreground">{label}</div>
+      <div className="mt-0.5 font-serif font-semibold">{value}</div>
     </div>
   );
 }
@@ -536,11 +553,22 @@ function Destaque({
 }: { label: string; sub?: string; value: string; tone: Tone; highlight?: boolean }) {
   return (
     <div
-      className="rounded-xl border-2 bg-background/80 p-5 print:bg-white"
-      style={{ borderColor: highlight ? `var(${tone.ink})` : "var(--border)" }}
+      className="relative rounded-sm border border-border bg-background p-5 print:bg-white"
     >
-      <div className="text-xs uppercase tracking-wider text-muted-foreground">{label}</div>
-      <div className="mt-2 text-3xl font-bold" style={{ color: highlight ? `var(${tone.ink})` : undefined }}>{value}</div>
+      {highlight && (
+        <span
+          aria-hidden
+          className="absolute inset-x-0 top-0 h-[2px] rounded-t-sm"
+          style={{ backgroundColor: `var(${tone.ink})` }}
+        />
+      )}
+      <div className="eyebrow">{label}</div>
+      <div
+        className="mt-2 font-display text-3xl font-semibold tracking-tight md:text-4xl"
+        style={highlight ? { color: `var(${tone.ink})` } : undefined}
+      >
+        {value}
+      </div>
       {sub && <div className="mt-1 text-[11px] text-muted-foreground">{sub}</div>}
     </div>
   );
@@ -560,19 +588,19 @@ function PlanejContador({
   const faltam = a > 0 && mm > 0 ? `${a}a ${mm}m` : a > 0 ? `${a} ano${a > 1 ? "s" : ""}` : `${mm} meses`;
 
   return (
-    <div className="mt-5 grid grid-cols-3 gap-3 rounded-xl border-2 border-[var(--state-info)] bg-[var(--state-info-soft)] p-4 text-center">
-      <div>
-        <div className="text-[10px] uppercase tracking-wider text-[var(--state-info)]/80">Idade atual</div>
-        <div className="mt-1 text-2xl font-bold text-[var(--state-info)]">{idadeAtual} anos</div>
+    <div className="mt-6 grid grid-cols-3 divide-x divide-border rounded-sm border border-border bg-background p-5 text-center">
+      <div className="px-2">
+        <div className="eyebrow">Idade atual</div>
+        <div className="mt-1 font-display text-2xl font-semibold tracking-tight">{idadeAtual} anos</div>
       </div>
-      <div>
-        <div className="text-[10px] uppercase tracking-wider text-[var(--state-info)]/80">Idade mínima</div>
-        <div className="mt-1 text-2xl font-bold text-[var(--state-info)]">{idadeMin} anos</div>
-        <div className="text-[10px] text-[var(--state-info)]/70">EC 103/2019</div>
+      <div className="px-2">
+        <div className="eyebrow">Idade mínima</div>
+        <div className="mt-1 font-display text-2xl font-semibold tracking-tight">{idadeMin} anos</div>
+        <div className="mt-1 text-[10px] text-muted-foreground">EC 103/2019</div>
       </div>
-      <div>
-        <div className="text-[10px] uppercase tracking-wider text-[var(--state-info)]/80">Faltam</div>
-        <div className="mt-1 text-2xl font-bold text-[var(--state-info)]">{faltam}</div>
+      <div className="px-2">
+        <div className="eyebrow">Faltam</div>
+        <div className="mt-1 font-display text-2xl font-semibold tracking-tight" style={{ color: "var(--state-info)" }}>{faltam}</div>
       </div>
     </div>
   );
