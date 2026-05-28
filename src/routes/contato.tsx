@@ -150,7 +150,7 @@ function Contato() {
 
             <button
               type="submit"
-              className="inline-flex items-center gap-2 rounded-full bg-card px-6 py-3 text-sm font-medium uppercase tracking-[0.14em] text-card-foreground transition-colors hover:bg-card/85"
+              className="inline-flex items-center gap-2 rounded-full bg-[var(--accent-ink)] px-6 py-3 text-sm font-medium uppercase tracking-[0.14em] text-[var(--paper)] shadow-[var(--shadow-soft)] transition-all hover:-translate-y-0.5 hover:bg-[var(--accent-ink-soft)] hover:shadow-[var(--shadow-gold-glow)]"
             >
               Enviar mensagem <span aria-hidden>→</span>
             </button>
