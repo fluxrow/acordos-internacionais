@@ -244,3 +244,9 @@
 - Componentes: `cta-button.tsx`, `ui/button.tsx`, `site-header.tsx`, `site-footer.tsx` e rotas públicas (`index`, `profissional`, `precos`, `contato`, `jornadas.*`, `sobre.dr-marcos`, `acordos.*`, `guias.*`) varridos para usar tokens (sem `bg-foreground/text-background` invertidos).
 - Regra de destaque tipográfico: 1–2 palavras gold (`.text-gold`) por heading principal.
 - Fontes, espaçamentos, layout, globos e copy mantidos. Plano anterior de arredondamentos/sombras/hover preservado.
+
+## Refinos pós-ultrareview (rodada 2)
+- Headings em /acordos, /guias, /contato com keyword em gold
+- Filtros ativos (/acordos, /contato) com text-[var(--paper)] sobre gold
+- BeneficiosComparativo: header dark + linhas zebra; CTA contato em gold premium
+- ProContentLock: bullets em --paper-soft para legibilidade
