@@ -53,7 +53,7 @@ function GuiasIndex() {
             <span aria-hidden className="h-px w-10 bg-[var(--accent-ink)]" />
             <p className="eyebrow">Biblioteca · Por tema</p>
           </div>
-          <h1 className="mt-5 font-display text-4xl md:text-6xl">Guias.</h1>
+          <h1 className="mt-5 font-display text-4xl md:text-6xl"><span className="text-gold">Guias</span>.</h1>
           <p className="lede mt-6 max-w-2xl">
             Os conceitos que voltam em quase todo processo internacional —
             explicados de forma direta, com exemplos práticos.
