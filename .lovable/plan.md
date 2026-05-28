@@ -1,57 +1,127 @@
-## Objetivo
+## Escopo desta rodada
 
-Trazer `CalculadoraForm` (pública, `/calculadora`) e `CalculadoraFormPro` (`/hub/calculadora`) para a mesma identidade editorial Paper & Ink do resto do site — sem mudar uma linha de lógica, validações ou cálculos.
+Três frentes:
 
-## Diagnóstico
+1. **Reestruturar `/profissional**` como LP de conversão (Hero → Problem → Story → Proof → Features → Planos → CTA).
+2. **Adicionar retrato do Dr. Marcos** no hero de `/sobre/dr-marcos`.
+3. **Estabelecer biblioteca de imagens realistas** para reutilizar pelo site (estilo das suas referências de LP).
 
-Vícios visuais herdados do HTML original que não combinam com o site:
+---
 
-1. **Emojis decorativos** — 1️⃣ 2️⃣ 3️⃣ 🧮 📋 ⚠️ ❌ ✅ ⏳ ℹ️ ✓ ✗ espalhados em títulos, botões e resultados. Nenhuma outra página do site usa.
-2. **Cantos arredondados demais** — `rounded-xl`, `rounded-2xl`, botão `rounded-full`. O site inteiro roda com `--radius: 0.25rem` (quase quadrado).
-3. **Headers de seção em estilo "form moderno"** — `text-sm uppercase tracking-wider text-muted-foreground` em vez da classe `.eyebrow` editorial (que tem `tracking: 0.18em` e font Inter).
-4. **Tipografia dos números/destaques** — `text-3xl font-bold` sans-serif. No resto do site, números de destaque vêm em Playfair Display.
-5. **Botões CTA** — `rounded-full` preto com emoji. Header e cards do site usam botões quadrados (`CRIAR CONTA`).
-6. **Mode cards e banners de tutorial** — borda dupla `border-2` arredondada e bg wine-soft chapado, em vez do tratamento sóbrio com hairline (`--rule`) usado em country-cards / continue-reading.
-7. **Estado "carregado/sucesso"** — depende de cor verde forte (`--state-success`) com bg saturado. Editorial pede tratamento mais discreto (✓ minúsculo + texto, sem flood color).
+## 1) `/profissional` — nova LP
 
-## Mudanças propostas (apenas presentação)
+### Conteúdo por bloco
 
-### `src/components/calculadora-form.tsx`
-- Remover todos os emojis de títulos, botões, descrições e textos de resultado (`tituloAmigavel`, `descricaoAmigavel`, badges).
-- Trocar headers `h2` das seções por `<p className="eyebrow">` + título Playfair (`font-display`) ou só eyebrow, padrão editorial.
-- Substituir `rounded-xl`/`rounded-2xl` por `rounded-sm` (alinha com `--radius`); manter `rounded-md` só em campos.
-- Tutorial collapsible: trocar bg `accent-ink-soft` chapado por borda hairline (`border-border`) + bg `paper-soft`, chevron sem emoji.
-- Mode cards: simplificar para card retangular com hairline, ícone pequeno à esquerda, sem `border-2`. Estado ativo = borda `--accent-ink` + bg `paper-soft`, sem flood wine.
-- Dropzone CNIS: borda dashed `--rule`, ícone neutro, estado sucesso = ✓ + texto serif (sem bg verde).
-- CTA principal: `rounded-sm`, sem emoji, label "Calcular benefício".
-- `ResultadoView`:
-  - Cabeçalho com eyebrow + título em `font-display`.
-  - Valor pro-rata em Playfair (`font-display text-4xl`) em vez de sans bold.
-  - Bloco de destaque sem `border-2` colorido; usar borda hairline + faixa fina superior na cor do `tone`.
-  - `<dl>` em formato lista editorial (label small caps + valor à direita), sem fundo cinza.
-  - Fórmula em mono cinza claro com hairline em cima.
+**HERO** (preto-tinta, hairline)
 
-### `src/components/calculadora-form-pro.tsx`
-Mesma família de ajustes, preservando o tom "laudo técnico":
-- `Secao`: já usa eyebrow-ish; padronizar com `.eyebrow` real + filete `<hr className="rule">`.
-- Cartão de identificação: remover bg `accent-ink-soft` chapado, usar `bg-paper-soft` + borda hairline.
-- Dropzone CNIS: igual à pública.
-- `Destaque`: número em `font-display`, borda hairline com filete colorido no topo apenas no `highlight`.
-- `PlanejContador`: trocar `border-2` + bg `state-info-soft` saturado por 3 colunas com filete hairline entre, números em Playfair.
-- Tabela técnica: já está boa; só remover ✓/⏳ e usar palavras ("atingida" / "faltam X meses").
-- Botões: `rounded-sm`, sem emojis; ícones lucide já estão ok.
-- Laudo (`<section>` envolvente): remover `border-2` colorido global; usar borda hairline + barra superior de 2 px na cor do tone (mais sóbrio para impressão).
+- Eyebrow: `Hub Profissional · Direito Previdenciário Internacional`
+- H1: *"O fundamento técnico dos acordos internacionais, para você fechar o caso hoje."*
+- Subhead 1 linha: 40+ países · portarias · jurisprudência · calculadoras · certificados.
+- 1 CTA `Ver planos` + microcopy `X de 100 vagas Fundadores restantes`
+- Sem o parágrafo italic atual
 
-### `src/styles.css`
-- Pequeno ajuste em `.calc-form input` para `border-radius: 0.375rem` (mantém leve respiro nos campos sem destoar do `--radius` global).
-- Sem novos tokens — todo o trabalho usa o que já existe (`--ink`, `--paper-soft`, `--rule`, `--accent-ink`, `--state-*`).
+**PROBLEM** — tom provocador e direto, 4 cards hairline (adicionei o quarto com a dor "informação espalhada no Gov" que você pediu)
 
-## Fora de escopo
+- Eyebrow: `Por que isso existe`
+- H2: *"Caso internacional cai na sua mesa. E agora?"*
+- Card 1 — *"Texto do acordo? PDF velho do MPS, sem índice, sem versão atualizada."*
+- Card 2 — *"INSS pede um certificado que você nunca emitiu. Roteiro? Cada hora um."*
+- Card 3 — *"Cliente quer resposta hoje. Você precisa de 3 dias só pra mapear a base legal."*
+- Card 4 (novo) — *"Gov.br, MPS, INSS, Receita, consulados — a mesma informação repartida em 12 abas, cada uma com um nome diferente para a mesma coisa."*
+- Fecho copy "vendável": *"O Hub junta tudo num único lugar coordenado: texto integral comentado, portarias por tema, jurisprudência selecionada, mapas e endereços de órgãos, modelos de documentos prontos para baixar, fluxogramas de procedimento. Você para de garimpar e volta a advogar."*
 
-- Lógica de cálculo, parser CNIS, fluxo de upload, validações, salvar histórico, impressão — tudo permanece igual.
-- Não mexo em `calculadora-form-pro.tsx` `SalvarCalculoButton` (lógica), só visual.
-- Não toco nas rotas (`/calculadora`, `/_authenticated/hub.calculadora.tsx`) — só nos componentes.
+**STORY** (retrato à esquerda · texto à direita, layout 2 colunas md)
 
-## Verificação após implementar
+- Eyebrow: `Quem construiu`
+- Retrato Dr. Marcos (mesma foto que vou adicionar em `/sobre/dr-marcos`)
+- Parágrafo: *"Dr. Marcos Espínola atua há mais de 10 anos exclusivamente em previdência. Cansado de ver advogados refazendo a mesma pesquisa do zero, organizou tudo o que usa no escritório dentro do Hub."*
+- Link discreto: `Conhecer o Dr. Marcos →`
 
-Screenshot das duas calculadoras (pública e pro) lado a lado com a home/`/precos` para confirmar a mesma identidade.
+**PROOF** (banda `secondary`)
+
+- 4 números grandes em Playfair: `40+ países` · `${totalDocs} docs` · `Texto integral comentado` · `Atualização contínua`
+- Linha de credenciais reais (das que você me passou):
+  - Sócio · Pagliuca, Espínola & Lessnau
+  - Diretor Científico Adjunto · IBDP
+  - Membro · Comissão de Direito Previdenciário OAB/PR
+  - Professor e autor em obras coletivas de Direito Previdenciário
+- **Sem depoimentos** (confirmado — entram quando houver reais).
+
+**FEATURES** — grid 8 itens já existente, com 2 ajustes:
+
+- Cada item começa com verbo de ação ("Consulte fichas-país…", "Acesse portarias…", "Baixe modelos…", "Calcule prorata…")
+- Remove o aviso de "Modelos de petição suspenso"
+
+**PLANOS** — intacto (Anual / Fundadores).
+
+**CTA FINAL** — uma ação só
+
+- Eyebrow: `Pronto para entrar?`
+- H2: *"100 vagas vitalícias. Depois, só anual."*
+- 1 botão `Ver planos` (âncora `#planos`)
+- Remove link `Iniciar contato` e link `Conhecer o Dr. Marcos` daqui (foco em conversão)
+
+### Detalhes técnicos
+
+- Arquivo: `src/routes/profissional.tsx` (substituição completa do componente)
+- Tokens semânticos apenas (`--foreground`, `--background`, `--secondary`, `--border`, `--rule`, `--accent-ink`)
+- `font-display` Playfair em títulos e números; `.eyebrow` e `.lede` já existentes
+- Sem emojis, sem `rounded-full` extra
+- SEO: title/description novos refletindo "acordos internacionais resolvidos hoje"
+- Zero mudança em lógica, planos, checkout
+
+---
+
+## 2) Foto do Dr. Marcos em `/sobre/dr-marcos`
+
+- Copiar `user-uploads://foto_marcos.jpeg` → `src/assets/marcos-espinola.jpg`
+- Hero da página passa a ser 2 colunas (md+): coluna esquerda com texto atual (eyebrow + H1 + lede + OAB), coluna direita com retrato em `aspect-[3/4]`, hairline, sutil sombra editorial. Em mobile, retrato fica acima do texto.
+- Mesma imagem reaproveitada no bloco STORY de `/profissional` (importada do mesmo asset)
+
+---
+
+## 3) Biblioteca de imagens realistas pelo site (nova diretriz visual)
+
+Suas referências de LP defendem: **toda seção tem uma imagem que reforça o que ela diz**. Vou criar uma biblioteca progressiva para o site reutilizar — não tudo nesta rodada, mas começamos a estrutura.
+
+### Esta rodada (imagens geradas via `imagegen`, estilo fotográfico realista, paleta Paper & Ink, sem texto sobreposto)
+
+Gero 4 imagens essenciais para o `/profissional`:
+
+1. `src/assets/lp/problem-papers.jpg` — mesa de advogado com pilha de PDFs impressos, monitor com 8 abas abertas (ilustra o caos atual). Banner sutil no bloco PROBLEM.
+2. `src/assets/lp/hub-organized.jpg` — mesma cena reorganizada: 1 laptop, 1 caderno, café (ilustra o "depois"). Aparece junto ao fecho da seção PROBLEM ou no início de FEATURES.
+3. `src/assets/lp/world-map-pins.jpg` — mapa-múndi em papel fosco com pins discretos nos países dos acordos. Aparece como background do PROOF (40+ países).
+4. `src/assets/lp/atlasprev-mark.jpg` — cena editorial neutra (livros de previdência, caneta-tinteiro) para o footer-card da AtlasPrev no CTA final.
+
+### Próximas rodadas (não agora — fica documentado como diretriz)
+
+- Cada `/jornadas/*` ganha 1 imagem editorial no hero
+- Cada bloco grande de `/index.tsx` ganha apoio visual (hero de mundo, prova social, calculadoras em ação)
+- Estilo travado: realista-fotográfico, luz natural, paleta off-white/preto-tinta/borgonha sutil, **nunca** stock genérico de "gente sorrindo apertando mão"
+
+### Salvaguarda
+
+- Cada imagem gerada como `.jpg` em `src/assets/lp/` e importada como ES6 module
+- Memória a salvar: regra de "estilo editorial fotográfico realista, paleta Paper & Ink, sem texto sobreposto, sem stock genérico"
+
+---
+
+## Arquivos tocados
+
+```
+src/routes/profissional.tsx          (reescrito)
+src/routes/sobre.dr-marcos.tsx       (hero ganha 2 colunas + retrato)
+src/assets/marcos-espinola.jpg       (novo — copiado do upload)
+src/assets/lp/problem-papers.jpg     (novo — gerado)
+src/assets/lp/hub-organized.jpg      (novo — gerado)
+src/assets/lp/world-map-pins.jpg     (novo — gerado)
+src/assets/lp/atlasprev-mark.jpg     (novo — gerado)
+.lovable/prd.md                      (registra a diretriz visual)
+ROADMAP.md                           (registra próximas imagens da biblioteca)
+mem://design/imagery-direction       (regra de estilo de imagens)
+mem://index.md                       (referência à nova memory)
+```
+
+Sem mudança em servidor, banco, lógica, planos ou checkout.
+
+Pronto para construir.
