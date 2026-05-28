@@ -227,3 +227,11 @@
 - `CalculadoraForm` (`/calculadora`) deixou de bloquear o cálculo quando o CNIS é lido mas o parser não captura salários — agora calcula o **direito** ao benefício e marca como estimativa (sem valor em R$), mesmo comportamento do modo manual.
 - Mensagem de erro reservada para o caso real: CNIS sem nenhum período de contribuição lido.
 - Parser `src/lib/cnis-parser.ts`: regex de salários reescrito para aceitar valores no padrão brasileiro `1.234,56` standalone (não só prefixados por `R$`), com 2 casas decimais obrigatórias — melhora extração também na Calculadora Pro (`/hub/calculadora`), que reusa `parsearCNIS`.
+
+## LP /profissional + biblioteca de imagens (28/05/2026)
+
+- `/profissional` reestruturado como LP de conversão (Hero → Problem → Story → Proof → Features → Planos → CTA).
+- PROBLEM ganha 4ª dor: informação espalhada nos canais oficiais do Gov.
+- Retrato Dr. Marcos adicionado no hero de `/sobre/dr-marcos` e reutilizado na seção STORY de `/profissional`.
+- Nova pasta `src/assets/lp/` com 4 imagens editoriais (mesa caótica, mesa organizada, mapa-múndi com pins, livros jurídicos). Estilo: fotográfico-editorial Paper & Ink, sem stock genérico, sem texto sobreposto. Diretriz salva em `mem://design/imagery-direction`.
+- Próximos passos (não nesta rodada): estender biblioteca para `/jornadas/*`, hero institucional e blocos da home.
