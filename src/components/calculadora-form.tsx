@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 import {
   FileUp,
-  Calculator,
   AlertTriangle,
   XCircle,
   Clock,
@@ -10,7 +9,7 @@ import {
   ChevronDown,
   FileText,
   PenLine,
-  CheckCircle,
+  Check,
 } from "lucide-react";
 import { CTAMarcos } from "@/components/cta-marcos";
 import {
@@ -47,45 +46,34 @@ interface CnisInfo {
 }
 
 function isoParaBR(iso: string) {
-  // YYYY-MM-DD -> DD/MM/AAAA
   if (!iso) return "";
   const [a, m, d] = iso.split("-");
   if (!a || !m || !d) return "";
   return `${d}/${m}/${a}`;
 }
 
-
 export function CalculadoraForm() {
-  // Tutorial
   const [tutorialOpen, setTutorialOpen] = useState(false);
-
-  // Modo
   const [modo, setModo] = useState<Modo>("cnis");
 
-  // CNIS
   const [carregandoPdf, setCarregandoPdf] = useState(false);
   const [erroPdf, setErroPdf] = useState<string | null>(null);
   const [cnis, setCnis] = useState<CnisInfo | null>(null);
   const [dragOver, setDragOver] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  // Manual
   const [anosBR, setAnosBR] = useState("");
   const [mesesBR, setMesesBR] = useState("");
 
-
-  // Dados gerais
   const [dataNascISO, setDataNascISO] = useState("");
   const [sexo, setSexo] = useState<Sexo | "">("");
   const [tipo, setTipo] = useState<TipoBeneficio | "">("");
   const [pais, setPais] = useState<string>("");
 
-  // Exterior
   const [dataInicExtISO, setDataInicExtISO] = useState("");
   const [dataFimExtISO, setDataFimExtISO] = useState("");
   const [mesesPaisManual, setMesesPaisManual] = useState("");
 
-  // Resultado
   const [resultado, setResultado] = useState<ResultadoCalculo | null>(null);
   const [erroForm, setErroForm] = useState<string | null>(null);
   const [estimativa, setEstimativa] = useState(false);
@@ -102,9 +90,7 @@ export function CalculadoraForm() {
         mediaSalarial: dados.mediasSalarial ?? 0,
         totalMeses: dados.totalMeses ?? 0,
       });
-
       if (dados.dataNasc) {
-        // DD/MM/AAAA -> YYYY-MM-DD
         const [d, m, a] = dados.dataNasc.split("/");
         if (d && m && a && !dataNascISO) setDataNascISO(`${a}-${m}-${d}`);
       }
@@ -133,24 +119,11 @@ export function CalculadoraForm() {
     setErroForm(null);
     setResultado(null);
 
-    if (!tipo) {
-      setErroForm("Selecione o tipo de benefício que você quer calcular.");
-      return;
-    }
-    if (!pais) {
-      setErroForm("Selecione o país onde você trabalhou no exterior.");
-      return;
-    }
-    if (!dataNascISO) {
-      setErroForm("Informe sua data de nascimento.");
-      return;
-    }
-    if (!sexo) {
-      setErroForm("Selecione o sexo (para regra de idade mínima).");
-      return;
-    }
+    if (!tipo) return setErroForm("Selecione o tipo de benefício que você quer calcular.");
+    if (!pais) return setErroForm("Selecione o país onde você trabalhou no exterior.");
+    if (!dataNascISO) return setErroForm("Informe sua data de nascimento.");
+    if (!sexo) return setErroForm("Selecione o sexo (para regra de idade mínima).");
 
-    // Salário e tempo no Brasil
     let sbFinal = 0;
     let tempoBrasilMeses = 0;
     let estimativaLocal = false;
@@ -163,7 +136,7 @@ export function CalculadoraForm() {
         setErroForm("Informe o tempo contribuído no Brasil (anos e/ou meses).");
         return;
       }
-      sbFinal = 0; // sem CNIS, não estimamos valor em reais
+      sbFinal = 0;
       estimativaLocal = true;
     } else {
       if (!cnis || cnis.totalMeses <= 0) {
@@ -177,8 +150,6 @@ export function CalculadoraForm() {
       estimativaLocal = cnis.mediaSalarial <= 0;
     }
 
-
-    // Tempo no exterior
     let tempoPaisMeses = 0;
     if (mesesPaisManual) {
       tempoPaisMeses = parseInt(mesesPaisManual, 10) || 0;
@@ -201,7 +172,6 @@ export function CalculadoraForm() {
     });
     setEstimativa(estimativaLocal);
     setResultado(r);
-    // Scroll suave para o resultado
     setTimeout(() => {
       document.getElementById("resultado-calc")?.scrollIntoView({
         behavior: "smooth",
@@ -211,61 +181,62 @@ export function CalculadoraForm() {
   }
 
   return (
-    <form onSubmit={onCalcular} className="calc-form space-y-8">
-      {/* TUTORIAL CNIS */}
-      <button
-        type="button"
-        onClick={() => setTutorialOpen((v) => !v)}
-        className="flex w-full items-center justify-between rounded-xl border border-[var(--accent-ink-soft)] bg-[var(--accent-ink-soft)]/40 px-5 py-4 text-left text-sm font-semibold text-[var(--accent-ink)] transition hover:bg-[var(--accent-ink-soft)]/70"
-        aria-expanded={tutorialOpen}
-      >
-        <span>📋 Precisa do seu extrato do INSS (CNIS)? Veja como baixar em 3 passos</span>
-        <ChevronDown
-          className={`h-4 w-4 shrink-0 transition-transform ${tutorialOpen ? "rotate-180" : ""}`}
-          aria-hidden
-        />
-      </button>
-      {tutorialOpen && (
-        <div className="-mt-4 space-y-3 rounded-xl border border-border/60 bg-background/70 p-5 text-sm">
-          <TutorialStep n={1} titulo="Acesse o site do INSS">
-            Entre em{" "}
-            <a
-              href="https://meu.inss.gov.br"
-              target="_blank"
-              rel="noreferrer"
-              className="font-medium text-[var(--accent-ink)] underline underline-offset-2"
-            >
-              meu.inss.gov.br
-            </a>{" "}
-            e faça login com sua conta <strong>gov.br</strong>.
-          </TutorialStep>
-          <TutorialStep n={2} titulo="Encontre o Extrato de Contribuição">
-            No menu, clique em <strong>"Extrato de Contribuição"</strong> e depois em{" "}
-            <strong>"Relações Previdenciárias"</strong>.
-          </TutorialStep>
-          <TutorialStep n={3} titulo="Baixe e envie o PDF">
-            Clique em <strong>"Emitir PDF"</strong>, salve o arquivo e envie aqui na calculadora.
-          </TutorialStep>
-        </div>
-      )}
+    <form onSubmit={onCalcular} className="calc-form space-y-10">
+      {/* Tutorial */}
+      <div className="rounded-sm border border-border bg-paper-soft/50">
+        <button
+          type="button"
+          onClick={() => setTutorialOpen((v) => !v)}
+          className="flex w-full items-center justify-between px-5 py-3 text-left text-sm text-foreground/85 transition hover:bg-paper-soft"
+          aria-expanded={tutorialOpen}
+        >
+          <span className="font-medium">
+            Precisa do seu extrato do INSS (CNIS)? Veja como baixar em 3 passos.
+          </span>
+          <ChevronDown
+            className={`h-4 w-4 shrink-0 transition-transform ${tutorialOpen ? "rotate-180" : ""}`}
+            aria-hidden
+          />
+        </button>
+        {tutorialOpen && (
+          <div className="space-y-3 border-t border-border px-5 py-5 text-sm">
+            <TutorialStep n={1} titulo="Acesse o site do INSS">
+              Entre em{" "}
+              <a
+                href="https://meu.inss.gov.br"
+                target="_blank"
+                rel="noreferrer"
+                className="ink-link"
+              >
+                meu.inss.gov.br
+              </a>{" "}
+              e faça login com sua conta <strong>gov.br</strong>.
+            </TutorialStep>
+            <TutorialStep n={2} titulo="Encontre o Extrato de Contribuição">
+              No menu, clique em <strong>Extrato de Contribuição</strong> e depois em{" "}
+              <strong>Relações Previdenciárias</strong>.
+            </TutorialStep>
+            <TutorialStep n={3} titulo="Baixe e envie o PDF">
+              Clique em <strong>Emitir PDF</strong>, salve o arquivo e envie aqui na calculadora.
+            </TutorialStep>
+          </div>
+        )}
+      </div>
 
-      {/* 1️⃣ MODO */}
-      <section className="space-y-4">
-        <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-          1️⃣ Como você quer calcular?
-        </h2>
+      {/* 1. MODO */}
+      <Secao numero="01" titulo="Como você quer calcular?">
         <div className="grid gap-3 sm:grid-cols-2">
           <ModoCard
             ativo={modo === "cnis"}
             onClick={() => setModo("cnis")}
-            icon={<FileText className="h-5 w-5" aria-hidden />}
+            icon={<FileText className="h-4 w-4" aria-hidden />}
             titulo="Com extrato do INSS"
             descricao="Resultado mais preciso"
           />
           <ModoCard
             ativo={modo === "manual"}
             onClick={() => setModo("manual")}
-            icon={<PenLine className="h-5 w-5" aria-hidden />}
+            icon={<PenLine className="h-4 w-4" aria-hidden />}
             titulo="Sem extrato (estimativa)"
             descricao="Preencha os dados manualmente"
           />
@@ -281,26 +252,26 @@ export function CalculadoraForm() {
               }}
               onDragLeave={() => setDragOver(false)}
               onDrop={onDrop}
-              className={`flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed p-8 text-center transition ${
+              className={`flex cursor-pointer flex-col items-center justify-center rounded-sm border border-dashed p-8 text-center transition ${
                 dragOver
-                  ? "border-[var(--accent-ink)] bg-[var(--accent-ink-soft)]/60"
+                  ? "border-[var(--accent-ink)] bg-paper-soft"
                   : cnis
-                  ? "border-[var(--state-success)] bg-[var(--state-success-soft)]/60"
-                  : "border-border/70 bg-background/40 hover:bg-[var(--accent-ink-soft)]/30"
+                  ? "border-[var(--accent-ink)] bg-paper-soft/60"
+                  : "border-border bg-background/40 hover:border-foreground/40 hover:bg-paper-soft/40"
               }`}
             >
               {carregandoPdf ? (
-                <Loader2 className="h-8 w-8 animate-spin text-[var(--accent-ink)]" aria-hidden />
+                <Loader2 className="h-6 w-6 animate-spin text-[var(--accent-ink)]" aria-hidden />
               ) : cnis ? (
-                <CheckCircle className="h-8 w-8 text-[var(--state-success)]" aria-hidden />
+                <Check className="h-6 w-6 text-[var(--accent-ink)]" aria-hidden strokeWidth={1.5} />
               ) : (
-                <FileUp className="h-8 w-8 text-muted-foreground" aria-hidden />
+                <FileUp className="h-6 w-6 text-muted-foreground" aria-hidden strokeWidth={1.5} />
               )}
-              <p className="mt-3 text-sm font-medium">
+              <p className="mt-3 font-serif text-base">
                 {carregandoPdf
-                  ? "Lendo extrato..."
+                  ? "Lendo extrato…"
                   : cnis
-                  ? `✓ Extrato carregado — ${formatarTempo(cnis.totalMeses)} de contribuição`
+                  ? `Extrato carregado — ${formatarTempo(cnis.totalMeses)} de contribuição`
                   : "Clique aqui ou arraste o PDF do CNIS"}
               </p>
               <p className="mt-1 text-xs text-muted-foreground">
@@ -323,10 +294,10 @@ export function CalculadoraForm() {
         )}
 
         {modo === "manual" && (
-          <div className="space-y-4 rounded-xl border border-border/60 bg-background/40 p-5">
-            <p className="rounded-md border-l-4 border-[var(--state-info)] bg-[var(--state-info-soft)]/60 px-4 py-3 text-xs text-[var(--state-info)]">
-              ℹ️ Sem o extrato do INSS calculamos apenas se você tem <strong>tempo suficiente</strong> para o benefício.
-              O <strong>valor em reais</strong> só pode ser estimado com o CNIS.
+          <div className="space-y-4 rounded-sm border border-border bg-paper-soft/40 p-5">
+            <p className="border-l border-[var(--accent-ink)] pl-3 text-xs text-foreground/75">
+              Sem o extrato do INSS calculamos apenas se você tem <strong>tempo suficiente</strong>{" "}
+              para o benefício. O <strong>valor em reais</strong> só pode ser estimado com o CNIS.
             </p>
             <div className="space-y-1.5">
               <Label>Tempo contribuído no Brasil</Label>
@@ -353,14 +324,10 @@ export function CalculadoraForm() {
             </div>
           </div>
         )}
+      </Secao>
 
-      </section>
-
-      {/* 2️⃣ DADOS */}
-      <section className="space-y-4">
-        <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-          2️⃣ Tipo de benefício e seus dados
-        </h2>
+      {/* 2. DADOS */}
+      <Secao numero="02" titulo="Tipo de benefício e seus dados">
         <div className="grid gap-4 md:grid-cols-2">
           <div className="space-y-1.5">
             <Label htmlFor="nasc">Data de nascimento</Label>
@@ -377,7 +344,7 @@ export function CalculadoraForm() {
           <div className="space-y-1.5">
             <Label htmlFor="sexo">Sexo</Label>
             <Select value={sexo} onValueChange={(v) => setSexo(v as Sexo)}>
-              <SelectTrigger id="sexo"><SelectValue placeholder="Selecione..." /></SelectTrigger>
+              <SelectTrigger id="sexo"><SelectValue placeholder="Selecione…" /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="F">Feminino</SelectItem>
                 <SelectItem value="M">Masculino</SelectItem>
@@ -387,7 +354,7 @@ export function CalculadoraForm() {
           <div className="space-y-1.5">
             <Label htmlFor="tipo">O que você quer calcular?</Label>
             <Select value={tipo} onValueChange={(v) => setTipo(v as TipoBeneficio)}>
-              <SelectTrigger id="tipo"><SelectValue placeholder="Selecione..." /></SelectTrigger>
+              <SelectTrigger id="tipo"><SelectValue placeholder="Selecione…" /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="aposentadoria_idade">Aposentadoria por Idade</SelectItem>
                 <SelectItem value="pensao_morte">Pensão por Morte</SelectItem>
@@ -397,7 +364,7 @@ export function CalculadoraForm() {
           <div className="space-y-1.5">
             <Label htmlFor="pais">País onde trabalhou no exterior</Label>
             <Select value={pais} onValueChange={setPais}>
-              <SelectTrigger id="pais"><SelectValue placeholder="Selecione..." /></SelectTrigger>
+              <SelectTrigger id="pais"><SelectValue placeholder="Selecione…" /></SelectTrigger>
               <SelectContent>
                 {PAISES_ACORDO.map((p) => (
                   <SelectItem key={p} value={p}>{p}</SelectItem>
@@ -406,13 +373,10 @@ export function CalculadoraForm() {
             </Select>
           </div>
         </div>
-      </section>
+      </Secao>
 
-      {/* 3️⃣ EXTERIOR */}
-      <section className="space-y-4">
-        <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-          3️⃣ Quanto tempo você trabalhou no exterior?
-        </h2>
+      {/* 3. EXTERIOR */}
+      <Secao numero="03" titulo="Quanto tempo você trabalhou no exterior?">
         <div className="grid gap-4 md:grid-cols-2">
           <div className="space-y-1.5">
             <Label htmlFor="ext-ini">Data de início no exterior</Label>
@@ -445,17 +409,16 @@ export function CalculadoraForm() {
             placeholder="Ex: 51"
           />
         </div>
-      </section>
+      </Secao>
 
       {erroForm && (
-        <p className="rounded-md border border-[var(--state-error-soft)] bg-[var(--state-error-soft)] px-4 py-3 text-sm text-[var(--state-error)]">
+        <p className="border-l-2 border-[var(--state-error)] bg-[var(--state-error-soft)]/40 px-4 py-3 text-sm text-[var(--state-error)]">
           {erroForm}
         </p>
       )}
 
-      <Button type="submit" size="lg" className="w-full gap-2 rounded-full md:w-auto">
-        <Calculator className="h-4 w-4" aria-hidden />
-        🧮 Calcular meu benefício
+      <Button type="submit" size="lg" className="rounded-sm">
+        Calcular benefício
       </Button>
 
       {resultado && (
@@ -474,6 +437,26 @@ export function CalculadoraForm() {
 
 /* ---------- Subcomponentes ---------- */
 
+function Secao({
+  numero,
+  titulo,
+  children,
+}: {
+  numero: string;
+  titulo: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="space-y-5">
+      <header className="flex items-baseline gap-4 border-b border-border pb-3">
+        <span className="eyebrow">{numero}</span>
+        <h2 className="font-display text-xl font-semibold tracking-tight">{titulo}</h2>
+      </header>
+      <div className="space-y-4">{children}</div>
+    </section>
+  );
+}
+
 function TutorialStep({
   n,
   titulo,
@@ -485,7 +468,7 @@ function TutorialStep({
 }) {
   return (
     <div className="flex gap-3">
-      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[var(--accent-ink)] text-xs font-semibold text-[var(--accent-ink-foreground,white)]">
+      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-foreground text-xs font-semibold">
         {n}
       </div>
       <div className="text-sm leading-relaxed text-foreground/85">
@@ -513,23 +496,25 @@ function ModoCard({
     <button
       type="button"
       onClick={onClick}
-      className={`flex flex-col items-start gap-1 rounded-xl border-2 p-4 text-left transition ${
+      className={`flex items-start gap-3 rounded-sm border p-4 text-left transition ${
         ativo
-          ? "border-[var(--accent-ink)] bg-[var(--accent-ink-soft)]/60"
-          : "border-border/60 bg-background/40 hover:border-[var(--accent-ink)]/40"
+          ? "border-[var(--accent-ink)] bg-paper-soft/70"
+          : "border-border bg-background/40 hover:border-foreground/40"
       }`}
     >
       <span
-        className={`flex h-9 w-9 items-center justify-center rounded-lg ${
+        className={`mt-0.5 flex h-7 w-7 items-center justify-center rounded-sm border ${
           ativo
-            ? "bg-[var(--accent-ink)] text-[var(--accent-ink-foreground,white)]"
-            : "bg-muted text-muted-foreground"
+            ? "border-[var(--accent-ink)] text-[var(--accent-ink)]"
+            : "border-border text-muted-foreground"
         }`}
       >
         {icon}
       </span>
-      <span className="mt-1 text-sm font-semibold">{titulo}</span>
-      <span className="text-xs text-muted-foreground">{descricao}</span>
+      <span className="flex flex-col">
+        <span className="font-serif text-sm font-semibold">{titulo}</span>
+        <span className="text-xs text-muted-foreground">{descricao}</span>
+      </span>
     </button>
   );
 }
@@ -551,64 +536,57 @@ function ResultadoView({
 
   return (
     <section
-      className="rounded-2xl border p-6"
-      style={{
-        borderColor: `var(${tone.border})`,
-        backgroundColor: `var(${tone.bg})`,
-      }}
+      className="relative rounded-sm border border-border bg-background p-6 md:p-8"
     >
-      <header className="flex items-start gap-3">
-        <Icon className="mt-0.5 h-6 w-6 shrink-0" style={{ color: `var(${tone.ink})` }} aria-hidden />
+      {/* Filete colorido no topo, identificando o caso */}
+      <span
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-[2px] rounded-t-sm"
+        style={{ backgroundColor: `var(${tone.ink})` }}
+      />
+      <p className="eyebrow" style={{ color: `var(${tone.ink})` }}>
+        Resultado
+        {estimativa && <span className="ml-2 text-muted-foreground">· estimativa</span>}
+      </p>
+      <header className="mt-2 flex items-start gap-3">
+        <Icon
+          className="mt-1 h-5 w-5 shrink-0"
+          style={{ color: `var(${tone.ink})` }}
+          strokeWidth={1.5}
+          aria-hidden
+        />
         <div>
-          <h3 className="text-lg font-semibold leading-tight" style={{ color: `var(${tone.ink})` }}>
+          <h3 className="font-display text-2xl font-semibold leading-tight">
             {tituloAmigavel(resultado.caso)}
-            {estimativa && (
-              <span className="ml-2 inline-block rounded-full bg-[var(--state-warning-soft)] px-2 py-0.5 align-middle text-[10px] font-semibold uppercase tracking-wide text-[var(--state-warning)]">
-                estimativa
-              </span>
-            )}
           </h3>
-          <p className="mt-1.5 text-sm leading-relaxed text-foreground/85">
+          <p className="mt-2 text-base leading-relaxed text-foreground/80">
             {descricaoAmigavel(resultado, pais, carencia)}
           </p>
         </div>
       </header>
 
-      {/* Valor em destaque (caso 3) */}
       {resultado.caso === 3 && resultado.rmiProrata != null && (
-        <div
-          className="mt-5 rounded-xl border bg-background/70 p-5 text-center"
-          style={{ borderColor: `var(${tone.ink})` }}
-        >
-          <div className="text-xs uppercase tracking-wider text-muted-foreground">
-            Valor estimado do benefício no Brasil
-          </div>
-          <div className="mt-1 text-3xl font-bold" style={{ color: `var(${tone.ink})` }}>
+        <div className="mt-6 border-t border-border pt-5">
+          <p className="eyebrow">Valor estimado do benefício no Brasil</p>
+          <p className="mt-1 font-display text-4xl font-semibold tracking-tight md:text-5xl">
             {formatarMoeda(resultado.rmiProrata)}
-          </div>
-          <div className="mt-1 text-xs text-muted-foreground">
+          </p>
+          <p className="mt-1 text-xs text-muted-foreground">
             por mês · parte proporcional paga pelo Brasil
-          </div>
+          </p>
         </div>
       )}
 
-      {/* Destaque "falta idade" (caso 2B) */}
       {resultado.caso === "2B" && resultado.mesesParaIdade != null && (
-        <div
-          className="mt-5 rounded-xl border bg-background/70 p-5 text-center"
-          style={{ borderColor: `var(${tone.ink})` }}
-        >
-          <div className="text-xs uppercase tracking-wider text-muted-foreground">
-            Faltam para atingir a idade mínima
-          </div>
-          <div className="mt-1 text-2xl font-bold" style={{ color: `var(${tone.ink})` }}>
+        <div className="mt-6 border-t border-border pt-5">
+          <p className="eyebrow">Faltam para atingir a idade mínima</p>
+          <p className="mt-1 font-display text-3xl font-semibold tracking-tight md:text-4xl">
             {formatarTempo(resultado.mesesParaIdade)}
-          </div>
+          </p>
         </div>
       )}
 
-      {/* Detalhes resumidos */}
-      <dl className="mt-5 grid gap-2 rounded-lg bg-background/60 p-4 text-sm">
+      <dl className="mt-6 divide-y divide-border border-t border-border text-sm">
         <DetalheLinha label="Tempo no Brasil" valor={formatarTempo(resultado.tempoBrasil)} />
         {resultado.caso !== 1 && (
           <DetalheLinha label={`Tempo no ${pais}`} valor={formatarTempo(resultado.tempoPais)} />
@@ -622,7 +600,7 @@ function ResultadoView({
         {resultado.caso === 2 && resultado.mesesFaltantes != null && (
           <DetalheLinha
             label="Faltam"
-            valor={`⏳ ${formatarTempo(resultado.mesesFaltantes)}`}
+            valor={formatarTempo(resultado.mesesFaltantes)}
             destaque="--state-error"
           />
         )}
@@ -634,28 +612,29 @@ function ResultadoView({
         )}
       </dl>
 
-      {/* Explicação (caso 3) */}
       {resultado.caso === 3 && resultado.tempoTotal > 0 && (
-        <p className="mt-4 rounded-lg bg-background/40 p-4 text-xs leading-relaxed text-foreground/80">
-          <strong>Como funciona:</strong> pelo acordo com {pais}, o Brasil paga apenas
-          a parte proporcional ao tempo contribuído aqui (
-          {((resultado.tempoBrasil / resultado.tempoTotal) * 100).toFixed(1)}%).
-          O {pais} paga separadamente a parte deles. Os dois valores juntos compõem
-          o benefício total ao qual você tem direito.
+        <p className="mt-5 border-t border-border pt-4 text-sm leading-relaxed text-foreground/75">
+          <strong className="font-semibold text-foreground">Como funciona:</strong> pelo acordo com{" "}
+          {pais}, o Brasil paga apenas a parte proporcional ao tempo contribuído aqui (
+          {((resultado.tempoBrasil / resultado.tempoTotal) * 100).toFixed(1)}%). O {pais} paga
+          separadamente a parte deles. Os dois valores juntos compõem o benefício total ao qual
+          você tem direito.
           {estimativa && (
             <>
               <br />
               <br />
-              <strong>⚠️ Este é um cálculo estimado.</strong> Com o extrato do INSS o resultado seria mais preciso.
+              <strong className="font-semibold text-foreground">
+                Este é um cálculo estimado.
+              </strong>{" "}
+              Com o extrato do INSS o resultado seria mais preciso.
             </>
           )}
         </p>
       )}
 
-      <div className="mt-6">
+      <div className="mt-6 border-t border-border pt-6">
         <CTAMarcos variant="result" caso={resultado.caso} contexto={ctaContexto(resultado.caso)} />
       </div>
-
     </section>
   );
 }
@@ -670,11 +649,17 @@ function DetalheLinha({
   destaque?: string;
 }) {
   return (
-    <div className="flex items-center justify-between border-b border-border/40 pb-1.5 last:border-b-0 last:pb-0">
-      <dt className="text-muted-foreground" style={destaque ? { color: `var(${destaque})` } : undefined}>
+    <div className="flex items-center justify-between py-2.5">
+      <dt
+        className="text-muted-foreground"
+        style={destaque ? { color: `var(${destaque})` } : undefined}
+      >
         {label}
       </dt>
-      <dd className="font-semibold" style={destaque ? { color: `var(${destaque})` } : undefined}>
+      <dd
+        className="font-serif font-semibold"
+        style={destaque ? { color: `var(${destaque})` } : undefined}
+      >
         {valor}
       </dd>
     </div>
@@ -704,13 +689,13 @@ function toneFor(caso: ResultadoCalculo["caso"]): Tone {
 function tituloAmigavel(caso: ResultadoCalculo["caso"]): string {
   switch (caso) {
     case 1:
-      return "⚠️ Você já tem direito no Brasil — sem precisar da totalização";
+      return "Você já tem direito no Brasil — sem precisar da totalização";
     case 2:
-      return "❌ Ainda não é possível obter este benefício";
+      return "Ainda não é possível obter este benefício";
     case "2B":
-      return "📋 Você tem o tempo — mas ainda não chegou a hora";
+      return "Você tem o tempo — mas ainda não chegou a hora";
     case 3:
-      return "✅ Você tem direito à totalização!";
+      return "Você tem direito à totalização";
   }
 }
 
