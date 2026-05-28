@@ -235,3 +235,12 @@
 - Retrato Dr. Marcos adicionado no hero de `/sobre/dr-marcos` e reutilizado na seção STORY de `/profissional`.
 - Nova pasta `src/assets/lp/` com 4 imagens editoriais (mesa caótica, mesa organizada, mapa-múndi com pins, livros jurídicos). Estilo: fotográfico-editorial Paper & Ink, sem stock genérico, sem texto sobreposto. Diretriz salva em `mem://design/imagery-direction`.
 - Próximos passos (não nesta rodada): estender biblioteca para `/jornadas/*`, hero institucional e blocos da home.
+
+## Rodada — Tema Premium Dark + Gold (2026-05-28)
+- Snapshot do tema Paper & Ink salvo em `src/styles/themes/paper-ink.css.bak` + doc `.lovable/themes/paper-ink.snapshot.md` (reversível em 1 passo).
+- Nova paleta aplicada em `src/styles.css`: fundo `#0a0a0a`, cards `#121212`, headings `#f5f5f5`, body `#d1d5db`, muted `#a3a3a3`, accent `#d4af37` (gold).
+- Tokens de sombra (`--shadow-soft`, `--shadow-soft-hover`, `--shadow-gold-glow`) + hover de elevação padronizado.
+- Focus ring global passou a gold. `::selection` em gold/paper.
+- Componentes: `cta-button.tsx`, `ui/button.tsx`, `site-header.tsx`, `site-footer.tsx` e rotas públicas (`index`, `profissional`, `precos`, `contato`, `jornadas.*`, `sobre.dr-marcos`, `acordos.*`, `guias.*`) varridos para usar tokens (sem `bg-foreground/text-background` invertidos).
+- Regra de destaque tipográfico: 1–2 palavras gold (`.text-gold`) por heading principal.
+- Fontes, espaçamentos, layout, globos e copy mantidos. Plano anterior de arredondamentos/sombras/hover preservado.
