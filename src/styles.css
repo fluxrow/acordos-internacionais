@@ -38,11 +38,14 @@
 
   --color-ink: var(--ink);
   --color-ink-soft: var(--ink-soft);
+  --color-ink-muted: var(--ink-muted);
   --color-paper: var(--paper);
   --color-paper-soft: var(--paper-soft);
+  --color-card-bg: var(--card-bg);
   --color-rule: var(--rule);
   --color-accent-ink: var(--accent-ink);
   --color-accent-ink-soft: var(--accent-ink-soft);
+
 
   --color-state-warning: var(--state-warning);
   --color-state-warning-soft: var(--state-warning-soft);
