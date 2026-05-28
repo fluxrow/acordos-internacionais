@@ -350,7 +350,7 @@ function AcordoPais() {
                         key={d.nome}
                         className="group flex items-start gap-4 rounded-lg border border-border/40 bg-background/50 p-4 transition-colors hover:border-[var(--accent-ink)]/40 hover:bg-[var(--accent-ink-soft)]/40"
                       >
-                        <span className="mt-0.5 shrink-0 rounded-full bg-[var(--accent-ink-soft)] px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-[var(--accent-ink)]">
+                        <span className="mt-0.5 shrink-0 rounded-full border border-[var(--accent-ink)]/50 bg-[color-mix(in_oklab,var(--accent-ink)_14%,transparent)] px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-[var(--accent-ink)]">
                           {CATEGORIA_LABEL[cat] ?? "Outro"}
                         </span>
                         <div className="min-w-0 flex-1">

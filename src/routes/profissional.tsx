@@ -156,9 +156,9 @@ function Profissional() {
 
       {/* PROOF */}
       <section
-        className="relative border-b border-border bg-card text-card-foreground border border-border"
+        className="relative border-b border-border bg-card text-card-foreground"
         style={{
-          backgroundImage: `linear-gradient(color-mix(in oklab, var(--foreground) 86%, transparent), color-mix(in oklab, var(--foreground) 86%, transparent)), url(${imgMap})`,
+          backgroundImage: `linear-gradient(color-mix(in oklab, var(--background) 88%, transparent), color-mix(in oklab, var(--background) 88%, transparent)), url(${imgMap})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}

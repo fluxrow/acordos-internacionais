@@ -50,18 +50,18 @@ function headlineFor(caso?: Caso): ReactNode {
 export function CTAMarcos({ variant = "card", contexto, caso }: CTAMarcosProps) {
   if (variant === "result") {
     return (
-      <section className="relative overflow-hidden rounded-2xl border border-[var(--accent-ink)]/30 bg-[var(--accent-ink-soft)] p-6 md:p-8">
+      <section className="relative overflow-hidden rounded-2xl border border-[var(--accent-ink)]/40 bg-[var(--card-bg)] p-6 shadow-[var(--shadow-gold-glow)] md:p-8">
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_100%_0%,_color-mix(in_oklab,_var(--accent-ink)_22%,_transparent)_0%,_transparent_55%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_100%_0%,_color-mix(in_oklab,_var(--accent-ink)_18%,_transparent)_0%,_transparent_55%)]"
         />
         <div className="relative z-10">
           <p className="eyebrow text-[var(--accent-ink)]">Próximo passo</p>
-          <h3 className="mt-3 font-display text-2xl leading-tight text-[var(--accent-ink)] md:text-3xl">
+          <h3 className="mt-3 font-display text-2xl leading-tight text-[var(--ink)] md:text-3xl">
             {headlineFor(caso)}
           </h3>
           {contexto && (
-            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-foreground/80 md:text-base">
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-[var(--ink-soft)] md:text-base">
               {contexto}
             </p>
           )}
@@ -74,9 +74,9 @@ export function CTAMarcos({ variant = "card", contexto, caso }: CTAMarcosProps) 
             ].map((item) => (
               <li
                 key={item}
-                className="flex items-center gap-2 text-sm text-foreground/85"
+                className="flex items-center gap-2 text-sm text-[var(--ink-soft)]"
               >
-                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[var(--accent-ink)] text-card-foreground">
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[var(--accent-ink)] text-[var(--paper)]">
                   <Check className="h-3 w-3" aria-hidden />
                 </span>
                 {item}
@@ -105,17 +105,17 @@ export function CTAMarcos({ variant = "card", contexto, caso }: CTAMarcosProps) 
 
   if (variant === "block") {
     return (
-      <section className="relative overflow-hidden border-y border-[var(--accent-ink)]/20 bg-[var(--accent-ink-soft)] py-16">
+      <section className="relative overflow-hidden border-y border-[var(--accent-ink)]/30 bg-[var(--paper-soft)] py-16">
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,_color-mix(in_oklab,_var(--accent-ink)_18%,_transparent)_0%,_transparent_60%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,_color-mix(in_oklab,_var(--accent-ink)_14%,_transparent)_0%,_transparent_60%)]"
         />
         <div className="relative z-10 mx-auto max-w-3xl px-6 text-center">
           <p className="eyebrow">Atendimento direto</p>
-          <h2 className="mt-3 font-display text-3xl">
-            Precisa de orientação no seu caso?
+          <h2 className="mt-3 font-display text-3xl text-[var(--ink)]">
+            Precisa de <span className="text-gold">orientação</span> no seu caso?
           </h2>
-          <p className="lede mx-auto mt-4 max-w-xl">
+          <p className="lede mx-auto mt-4 max-w-xl text-[var(--ink-soft)]">
             {contexto ??
               "O Dr. Marcos Espínola é especialista em acordos internacionais de previdência. Conte sua situação e receba um retorno qualificado."}
           </p>

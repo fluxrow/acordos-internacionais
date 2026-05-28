@@ -101,12 +101,17 @@ function JornadasIndex() {
         </ul>
 
         {/* 04 · Atendimento direto com o Dr. Marcos */}
-        <div className="mt-12 rounded-3xl border-2 border-[var(--accent-ink)] bg-[var(--accent-ink-soft)] p-10 md:p-14">
+        <div className="mt-12 relative overflow-hidden rounded-3xl border-2 border-[var(--accent-ink)] bg-[var(--card-bg)] p-10 shadow-[var(--shadow-gold-glow)] md:p-14">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_85%_0%,_color-mix(in_oklab,_var(--accent-ink)_16%,_transparent)_0%,_transparent_60%)]"
+          />
+          <div className="relative">
           <div className="flex flex-wrap items-baseline gap-3">
             <span className="font-display text-3xl text-[var(--accent-ink)] opacity-70">
               04
             </span>
-            <span className="rounded-full bg-[var(--accent-ink)] px-3 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-card-foreground">
+            <span className="rounded-full bg-[var(--accent-ink)] px-3 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-[var(--paper)]">
               Atendimento direto
             </span>
           </div>
@@ -131,6 +136,7 @@ function JornadasIndex() {
             >
               Conhecer o Dr. Marcos →
             </Link>
+          </div>
           </div>
         </div>
       </section>
