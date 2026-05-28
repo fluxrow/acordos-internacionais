@@ -66,7 +66,7 @@ function Contato() {
                 type="text"
                 value={form.nome}
                 onChange={(e) => setForm({ ...form, nome: e.target.value })}
-                className="w-full border-0 border-b border-border bg-transparent py-3 text-base focus:border-foreground focus:outline-none"
+                className="w-full border-0 border-b border-border bg-transparent py-3 text-base focus:border-[var(--accent-ink)] focus:outline-none"
               />
             </Field>
 
@@ -76,7 +76,7 @@ function Contato() {
                 type="email"
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
-                className="w-full border-0 border-b border-border bg-transparent py-3 text-base focus:border-foreground focus:outline-none"
+                className="w-full border-0 border-b border-border bg-transparent py-3 text-base focus:border-[var(--accent-ink)] focus:outline-none"
               />
             </Field>
 
@@ -84,7 +84,7 @@ function Contato() {
               <select
                 value={form.pais}
                 onChange={(e) => setForm({ ...form, pais: e.target.value })}
-                className="w-full appearance-none border-0 border-b border-border bg-transparent py-3 text-base focus:border-foreground focus:outline-none"
+                className="w-full appearance-none border-0 border-b border-border bg-transparent py-3 text-base focus:border-[var(--accent-ink)] focus:outline-none"
               >
                 <option value="">Selecione…</option>
                 {acordos.map((a) => (
@@ -100,7 +100,7 @@ function Contato() {
                 required
                 value={form.situacao}
                 onChange={(e) => setForm({ ...form, situacao: e.target.value })}
-                className="w-full appearance-none border-0 border-b border-border bg-transparent py-3 text-base focus:border-foreground focus:outline-none"
+                className="w-full appearance-none border-0 border-b border-border bg-transparent py-3 text-base focus:border-[var(--accent-ink)] focus:outline-none"
               >
                 <option value="">Selecione…</option>
                 <option>Vou me mudar para outro país</option>
@@ -128,7 +128,7 @@ function Contato() {
                       "rounded-full border px-3 py-1.5 text-xs font-medium uppercase tracking-[0.14em] transition-colors " +
                       (form.urgencia === v
                         ? "border-[var(--accent-ink)] bg-card text-card-foreground"
-                        : "border-border hover:border-foreground")
+                        : "border-border hover:border-[var(--accent-ink)]")
                     }
                   >
                     {l}
@@ -143,14 +143,14 @@ function Contato() {
                 rows={6}
                 value={form.mensagem}
                 onChange={(e) => setForm({ ...form, mensagem: e.target.value })}
-                className="w-full border border-border bg-transparent p-3 text-base focus:border-foreground focus:outline-none"
+                className="w-full border border-border bg-transparent p-3 text-base focus:border-[var(--accent-ink)] focus:outline-none"
                 placeholder="Período no exterior, contribuições, idade, dúvida específica…"
               />
             </Field>
 
             <button
               type="submit"
-              className="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-foreground/85"
+              className="inline-flex items-center gap-2 rounded-full bg-card px-6 py-3 text-sm font-medium uppercase tracking-[0.14em] text-card-foreground transition-colors hover:bg-card/85"
             >
               Enviar mensagem <span aria-hidden>→</span>
             </button>
@@ -161,7 +161,7 @@ function Contato() {
             </p>
           </form>
         ) : (
-          <div className="border border-foreground/60 bg-background/60 p-8 backdrop-blur-md">
+          <div className="border border-[var(--accent-ink)]/60 bg-background/60 p-8 backdrop-blur-md">
             <p className="eyebrow">Tudo certo</p>
             <h2 className="mt-3 font-display text-3xl">Mensagem em rota</h2>
             <p className="lede mt-4 text-base">

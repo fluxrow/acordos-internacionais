@@ -146,7 +146,7 @@ function Profissional() {
             </p>
             <Link
               to="/sobre/dr-marcos"
-              className="mt-6 inline-flex items-center gap-2 text-sm uppercase tracking-[0.14em] text-foreground underline underline-offset-4 hover:text-destructive"
+              className="mt-6 inline-flex items-center gap-2 text-sm uppercase tracking-[0.14em] text-foreground underline underline-offset-4 hover:text-[var(--accent-ink)]"
             >
               Conhecer o Dr. Marcos →
             </Link>
@@ -178,7 +178,7 @@ function Profissional() {
               ["Integral", "Texto comentado artigo a artigo"],
               ["Contínua", "Atualização regulatória"],
             ].map(([n, l]) => (
-              <div key={l} className="bg-foreground p-8">
+              <div key={l} className="bg-card p-8">
                 <p className="font-display text-5xl tracking-tight md:text-6xl">{n}</p>
                 <p className="mt-3 text-xs uppercase tracking-[0.16em] opacity-70">{l}</p>
               </div>
@@ -252,14 +252,14 @@ function Profissional() {
               <Link
                 to="/precos"
                 hash="anual"
-                className="mt-8 inline-flex w-full items-center justify-center rounded-full border border-foreground bg-background px-6 py-3 text-sm font-medium uppercase tracking-[0.14em] text-foreground transition-colors hover:bg-foreground hover:text-background"
+                className="mt-8 inline-flex w-full items-center justify-center rounded-full border border-[var(--accent-ink)] bg-background px-6 py-3 text-sm font-medium uppercase tracking-[0.14em] text-foreground transition-colors hover:border-[var(--accent-ink)] hover:text-[var(--accent-ink)]"
               >
                 Assinar anual
               </Link>
             </div>
 
             {/* PLANO FUNDADORES */}
-            <div className="flex flex-col border border-foreground bg-foreground p-8 text-background">
+            <div className="flex flex-col border border-[var(--accent-ink)] bg-card p-8 text-card-foreground">
               <p className="text-[10px] uppercase tracking-[0.18em] opacity-70">
                 Fundadores · primeiros 100
               </p>

@@ -96,7 +96,7 @@ function AcordosIndex() {
                     className={
                       "rounded-full border px-3 py-1.5 text-xs font-medium uppercase tracking-[0.14em] transition-colors " +
                       (ativo
-                        ? "border-[var(--accent-ink)] bg-[var(--accent-ink)] text-background"
+                        ? "border-[var(--accent-ink)] bg-[var(--accent-ink)] text-card-foreground"
                         : "border-border/60 text-foreground hover:border-[var(--accent-ink)] hover:text-[var(--accent-ink)]")
                     }
                   >
@@ -130,7 +130,7 @@ function AcordosIndex() {
                 <Link
                   to="/acordos/$pais"
                   params={{ pais: a.slug }}
-                  className="group flex h-full flex-col gap-4 rounded-xl border border-border/60 bg-background/70 p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04)] backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-[var(--accent-ink)] hover:bg-[var(--accent-ink-soft)] hover:shadow-[0_8px_24px_-12px_rgba(122,31,31,0.25)]"
+                  className="group flex h-full flex-col gap-4 rounded-xl border border-border/60 bg-background/70 p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04)] backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-[var(--accent-ink)] hover:bg-[var(--accent-ink-soft)] hover:shadow-[var(--shadow-gold-glow)]"
                 >
                   <div className="flex items-center gap-4">
                     {a.iso ? (
