@@ -1,127 +1,178 @@
-## Escopo desta rodada
+## Objetivo
 
-Três frentes:
+Migrar o site para **Premium Dark + Gold**, mantendo:
+- Fontes atuais (Playfair / Source Serif / Inter), espaçamentos e tipo de botão
+- Plano anterior de arredondamentos, sombras leves e hover de elevação
+- Globos intactos
 
-1. **Reestruturar `/profissional**` como LP de conversão (Hero → Problem → Story → Proof → Features → Planos → CTA).
-2. **Adicionar retrato do Dr. Marcos** no hero de `/sobre/dr-marcos`.
-3. **Estabelecer biblioteca de imagens realistas** para reutilizar pelo site (estilo das suas referências de LP).
+Antes de aplicar, **arquivar o tema atual (Paper & Ink)** para reversão de 1 passo.
 
----
-
-## 1) `/profissional` — nova LP
-
-### Conteúdo por bloco
-
-**HERO** (preto-tinta, hairline)
-
-- Eyebrow: `Hub Profissional · Direito Previdenciário Internacional`
-- H1: *"O fundamento técnico dos acordos internacionais, para você fechar o caso hoje."*
-- Subhead 1 linha: 40+ países · portarias · jurisprudência · calculadoras · certificados.
-- 1 CTA `Ver planos` + microcopy `X de 100 vagas Fundadores restantes`
-- Sem o parágrafo italic atual
-
-**PROBLEM** — tom provocador e direto, 4 cards hairline (adicionei o quarto com a dor "informação espalhada no Gov" que você pediu)
-
-- Eyebrow: `Por que isso existe`
-- H2: *"Caso internacional cai na sua mesa. E agora?"*
-- Card 1 — *"Texto do acordo? PDF velho do MPS, sem índice, sem versão atualizada."*
-- Card 2 — *"INSS pede um certificado que você nunca emitiu. Roteiro? Cada hora um."*
-- Card 3 — *"Cliente quer resposta hoje. Você precisa de 3 dias só pra mapear a base legal."*
-- Card 4 (novo) — *"Gov.br, MPS, INSS, Receita, consulados — a mesma informação repartida em 12 abas, cada uma com um nome diferente para a mesma coisa."*
-- Fecho copy "vendável": *"O Hub junta tudo num único lugar coordenado: texto integral comentado, portarias por tema, jurisprudência selecionada, mapas e endereços de órgãos, modelos de documentos prontos para baixar, fluxogramas de procedimento. Você para de garimpar e volta a advogar."*
-
-**STORY** (retrato à esquerda · texto à direita, layout 2 colunas md)
-
-- Eyebrow: `Quem construiu`
-- Retrato Dr. Marcos (mesma foto que vou adicionar em `/sobre/dr-marcos`)
-- Parágrafo: *"Dr. Marcos Espínola atua há mais de 10 anos exclusivamente em previdência. Cansado de ver advogados refazendo a mesma pesquisa do zero, organizou tudo o que usa no escritório dentro do Hub."*
-- Link discreto: `Conhecer o Dr. Marcos →`
-
-**PROOF** (banda `secondary`)
-
-- 4 números grandes em Playfair: `40+ países` · `${totalDocs} docs` · `Texto integral comentado` · `Atualização contínua`
-- Linha de credenciais reais (das que você me passou):
-  - Sócio · Pagliuca, Espínola & Lessnau
-  - Diretor Científico Adjunto · IBDP
-  - Membro · Comissão de Direito Previdenciário OAB/PR
-  - Professor e autor em obras coletivas de Direito Previdenciário
-- **Sem depoimentos** (confirmado — entram quando houver reais).
-
-**FEATURES** — grid 8 itens já existente, com 2 ajustes:
-
-- Cada item começa com verbo de ação ("Consulte fichas-país…", "Acesse portarias…", "Baixe modelos…", "Calcule prorata…")
-- Remove o aviso de "Modelos de petição suspenso"
-
-**PLANOS** — intacto (Anual / Fundadores).
-
-**CTA FINAL** — uma ação só
-
-- Eyebrow: `Pronto para entrar?`
-- H2: *"100 vagas vitalícias. Depois, só anual."*
-- 1 botão `Ver planos` (âncora `#planos`)
-- Remove link `Iniciar contato` e link `Conhecer o Dr. Marcos` daqui (foco em conversão)
-
-### Detalhes técnicos
-
-- Arquivo: `src/routes/profissional.tsx` (substituição completa do componente)
-- Tokens semânticos apenas (`--foreground`, `--background`, `--secondary`, `--border`, `--rule`, `--accent-ink`)
-- `font-display` Playfair em títulos e números; `.eyebrow` e `.lede` já existentes
-- Sem emojis, sem `rounded-full` extra
-- SEO: title/description novos refletindo "acordos internacionais resolvidos hoje"
-- Zero mudança em lógica, planos, checkout
+A referência enviada serve apenas para **padrão de aplicação de cor** — não para tipografia, botão ou espaçamento.
 
 ---
 
-## 2) Foto do Dr. Marcos em `/sobre/dr-marcos`
+## 1) Backup do tema atual
 
-- Copiar `user-uploads://foto_marcos.jpeg` → `src/assets/marcos-espinola.jpg`
-- Hero da página passa a ser 2 colunas (md+): coluna esquerda com texto atual (eyebrow + H1 + lede + OAB), coluna direita com retrato em `aspect-[3/4]`, hairline, sutil sombra editorial. Em mobile, retrato fica acima do texto.
-- Mesma imagem reaproveitada no bloco STORY de `/profissional` (importada do mesmo asset)
-
----
-
-## 3) Biblioteca de imagens realistas pelo site (nova diretriz visual)
-
-Suas referências de LP defendem: **toda seção tem uma imagem que reforça o que ela diz**. Vou criar uma biblioteca progressiva para o site reutilizar — não tudo nesta rodada, mas começamos a estrutura.
-
-### Esta rodada (imagens geradas via `imagegen`, estilo fotográfico realista, paleta Paper & Ink, sem texto sobreposto)
-
-Gero 4 imagens essenciais para o `/profissional`:
-
-1. `src/assets/lp/problem-papers.jpg` — mesa de advogado com pilha de PDFs impressos, monitor com 8 abas abertas (ilustra o caos atual). Banner sutil no bloco PROBLEM.
-2. `src/assets/lp/hub-organized.jpg` — mesma cena reorganizada: 1 laptop, 1 caderno, café (ilustra o "depois"). Aparece junto ao fecho da seção PROBLEM ou no início de FEATURES.
-3. `src/assets/lp/world-map-pins.jpg` — mapa-múndi em papel fosco com pins discretos nos países dos acordos. Aparece como background do PROOF (40+ países).
-4. `src/assets/lp/atlasprev-mark.jpg` — cena editorial neutra (livros de previdência, caneta-tinteiro) para o footer-card da AtlasPrev no CTA final.
-
-### Próximas rodadas (não agora — fica documentado como diretriz)
-
-- Cada `/jornadas/*` ganha 1 imagem editorial no hero
-- Cada bloco grande de `/index.tsx` ganha apoio visual (hero de mundo, prova social, calculadoras em ação)
-- Estilo travado: realista-fotográfico, luz natural, paleta off-white/preto-tinta/borgonha sutil, **nunca** stock genérico de "gente sorrindo apertando mão"
-
-### Salvaguarda
-
-- Cada imagem gerada como `.jpg` em `src/assets/lp/` e importada como ES6 module
-- Memória a salvar: regra de "estilo editorial fotográfico realista, paleta Paper & Ink, sem texto sobreposto, sem stock genérico"
-
----
-
-## Arquivos tocados
+Antes de qualquer mudança:
 
 ```
-src/routes/profissional.tsx          (reescrito)
-src/routes/sobre.dr-marcos.tsx       (hero ganha 2 colunas + retrato)
-src/assets/marcos-espinola.jpg       (novo — copiado do upload)
-src/assets/lp/problem-papers.jpg     (novo — gerado)
-src/assets/lp/hub-organized.jpg      (novo — gerado)
-src/assets/lp/world-map-pins.jpg     (novo — gerado)
-src/assets/lp/atlasprev-mark.jpg     (novo — gerado)
-.lovable/prd.md                      (registra a diretriz visual)
-ROADMAP.md                           (registra próximas imagens da biblioteca)
-mem://design/imagery-direction       (regra de estilo de imagens)
-mem://index.md                       (referência à nova memory)
+src/styles/themes/paper-ink.css.bak     (cópia dos blocos :root e .dark atuais)
+.lovable/themes/paper-ink.snapshot.md   (doc: tabela token→valor + como reverter em 1 passo)
 ```
 
-Sem mudança em servidor, banco, lógica, planos ou checkout.
+Reverter = copiar os blocos do `.bak` por cima dos blocos correspondentes em `src/styles.css`. Componentes seguem funcionando porque tudo usa tokens semânticos.
 
-Pronto para construir.
+---
+
+## 2) Paleta Premium Dark + Gold (tokens em `src/styles.css`)
+
+| Token | Papel | Hex ref | oklch |
+|---|---|---|---|
+| `--paper` (background) | fundo da página | `#0a0a0a` | `oklch(0.15 0 0)` |
+| `--paper-soft` (section) | bandas / muted | `#0f0f0f` | `oklch(0.18 0 0)` |
+| `--card-bg` (card) | cards / elevação | `#121212` | `oklch(0.21 0 0)` |
+| `--ink` (foreground / headings) | texto principal e títulos | `#f5f5f5` | `oklch(0.97 0 0)` |
+| `--ink-soft` (body) | corpo | `#d1d5db` | `oklch(0.87 0.005 250)` |
+| `--ink-muted` (muted) | subtítulos / lede / dicas | `#a3a3a3` | `oklch(0.72 0 0)` |
+| `--rule` | hairlines | `#6b7280 @ baixa opac` | `oklch(0.50 0.015 255 / 0.35)` |
+| `--accent-ink` (gold) | CTA / destaques tipográficos / bordas hover | `#d4af37` | `oklch(0.78 0.13 86)` |
+| `--accent-ink-soft` (gold light) | wash / gradientes / hover | `#e5c158` | `oklch(0.85 0.13 90)` |
+
+Mapas semânticos (resumo):
+- `--background` = `--paper`; `--foreground` = `--ink`
+- `--card` = `--card-bg`; `--card-foreground` = `--ink`
+- `--secondary` / `--muted` = `--paper-soft`; `--muted-foreground` = `--ink-muted`
+- `--primary` = `--accent-ink`; `--primary-foreground` = `--paper` (preto sobre gold)
+- `--accent` = `--accent-ink-soft`; `--accent-foreground` = `--paper`
+- `--border` / `--input` = `--rule`; `--ring` = `--accent-ink`
+- `--destructive`, `--state-*` recalibrados para luminosidade alta em dark
+- `::selection` invertido (gold + paper)
+- O bloco `.dark` espelha `:root` (site passa a ser dark por padrão; consistência se algum componente forçar `.dark`)
+
+---
+
+## 3) Padrão de aplicação de cor em texto (vindo da referência)
+
+Regra editorial nova:
+
+- **Headings (H1/H2/H3)** em `--ink` (branco quase puro `#f5f5f5`).
+- **1 ou 2 palavras-chave dentro do heading** ficam em `--accent-ink` (gold). Aplicado seletivamente em hero/section titles importantes, **não em todo título**.
+  - Implementação: um span utilitário `.text-gold` ou classe Tailwind `text-[var(--accent-ink)]` envolvendo a palavra a destacar no JSX da rota.
+- **Lede / parágrafos** em `--ink-muted` (`#a3a3a3`) — mesma hierarquia da referência.
+- **Body text denso** (artigos, fichas-país, glossário) em `--ink-soft` (`#d1d5db`) para legibilidade longa.
+- **Eyebrows / labels uppercase** em `--accent-ink` (gold) — substitui o `text-muted-foreground` atual onde o eyebrow precisa puxar atenção.
+- **Links inline** (`.ink-link`) em `--ink` com hover `--accent-ink`.
+- **Números/destaques (Proof, métricas, preços-âncora)** em `--accent-ink` com `font-display`.
+- **Citações / pull-quotes** em `--ink` com barra lateral `--accent-ink`.
+
+Esta regra entra em `mem://design/color-system` e é o guia para o sweep nas rotas.
+
+---
+
+## 4) Sombras + arredondamento + hover (sem mudança)
+
+```css
+--shadow-soft:
+  0 1px 2px rgba(0,0,0,0.45),
+  0 8px 24px -12px rgba(0,0,0,0.55);
+
+--shadow-soft-hover:
+  0 2px 4px rgba(0,0,0,0.55),
+  0 18px 36px -14px rgba(0,0,0,0.65),
+  0 0 0 1px color-mix(in oklab, var(--accent-ink) 30%, transparent);
+
+--shadow-gold-glow:
+  0 0 0 1px color-mix(in oklab, var(--accent-ink) 25%, transparent),
+  0 12px 32px -16px color-mix(in oklab, var(--accent-ink) 35%, transparent);
+```
+
+Hover de elevação em elementos com rota: `transition-all 200ms`, `hover:-translate-y-0.5`, `hover:shadow-[var(--shadow-soft-hover)]`, `hover:border-[var(--accent-ink)]` nos hairlines.
+
+CTA primário: bg `--accent-ink`, text `--paper`. Hover: bg `--accent-ink-soft` + `--shadow-gold-glow`.
+
+Arredondamentos do plano anterior continuam: `rounded-2xl` blocos grandes, `rounded-xl` menores, `rounded-full` apenas CTA/chips.
+
+---
+
+## 5) Globos sobre nova paleta
+
+Globos ficam acima da camada de imagem (plano anterior). Overlay escuro reforçado `bg-[oklch(0.15_0_0)/0.65]` para preto profundo destacar o globo + texto branco. Sem mudança no `Globe` component.
+
+---
+
+## 6) Sweep de visibilidade por arquivo
+
+Em cada arquivo: trocar cores hardcoded por tokens, aplicar regra de destaque tipográfico (§3) onde fizer sentido (1–2 palavras por heading principal).
+
+- `src/components/site-header.tsx` — nav em `--ink`, hover gold; logo em `--ink` (palavra "Internacionais" ou marca em gold se couber).
+- `src/components/site-footer.tsx` — fundo `--paper-soft`, hairline `--rule`, links `--ink-muted` / hover gold.
+- `src/components/ui/button.tsx` — variant `default` = gold-on-black; revisar `outline` (border gold, text gold, hover bg gold/10), `secondary`, `ghost`.
+- `src/components/cta-button.tsx`, `cta-marcos.tsx` — tokens; CTA pill = gold.
+- `src/components/pro-content-lock.tsx` — gradiente de lock `--paper`→transparente.
+- Rotas: `index`, `profissional`, `acordos.index`, `acordos.$pais`, `jornadas.index`, `jornadas.$jornada`, `sobre.dr-marcos`, `precos`, `contato`, `calculadora`, `guias.index`, `guias.$slug`.
+  - Headings principais ganham 1–2 palavras em gold.
+  - Eyebrows passam a gold quando precisam puxar atenção.
+  - Inputs/forms: bg `--card-bg`, border `--rule`, focus ring gold (atualiza `.calc-form`).
+  - Tabelas (acordos.$pais): zebra `--paper-soft`, header `--card-bg`, divisor `--rule`, números em gold.
+  - Badges/chips: bg `--paper-soft`, border `--rule`, hover border gold.
+  - Cards de planos (`precos`, `profissional`): plano destacado com borda gold + `--shadow-gold-glow`.
+- Focus ring global → `outline: 2px solid var(--accent-ink)`.
+
+Para cada rota tocada: snapshot rápido após troca para validar contraste (alvo AA mínimo; AAA para gold sobre preto que já é nativo).
+
+---
+
+## 7) Governança
+
+- Nova memória `mem://design/color-system` com a paleta + regra de destaque tipográfico.
+- `mem://index.md` ganha linha Core: "Tema atual: Premium Dark + Gold. Backup Paper & Ink em `src/styles/themes/paper-ink.css.bak`. Destaques tipográficos com 1–2 palavras gold por heading principal."
+- `.lovable/prd.md` — seção "Identidade visual" reescrita.
+- `ROADMAP.md` — entrada da rodada (troca de paleta + reversibilidade).
+
+---
+
+## 8) Arquivos tocados
+
+```
+src/styles/themes/paper-ink.css.bak       (novo — backup)
+.lovable/themes/paper-ink.snapshot.md     (novo — doc de reversão)
+
+src/styles.css                            (nova paleta + tokens sombra + focus gold)
+
+src/components/site-header.tsx
+src/components/site-footer.tsx
+src/components/ui/button.tsx
+src/components/cta-button.tsx
+src/components/cta-marcos.tsx
+src/components/pro-content-lock.tsx
+
+src/routes/index.tsx
+src/routes/profissional.tsx
+src/routes/acordos.index.tsx
+src/routes/acordos.$pais.tsx
+src/routes/jornadas.index.tsx
+src/routes/jornadas.$jornada.tsx
+src/routes/sobre.dr-marcos.tsx
+src/routes/precos.tsx
+src/routes/contato.tsx
+src/routes/calculadora.tsx
+src/routes/guias.index.tsx
+src/routes/guias.$slug.tsx
+
+mem://design/color-system                 (novo)
+mem://index.md                            (Core + referência)
+.lovable/prd.md                           (identidade visual)
+ROADMAP.md                                (rodada)
+```
+
+## Não-objetivos
+
+- Não trocar fontes, tipo de botão, espaçamento.
+- Não mexer em globos, layout, copy, planos, checkout, server functions, banco.
+- Não adicionar dependências.
+
+## Riscos
+
+- Cards muito escuros podem perder hierarquia — mitigado por sombra + halo gold no hover.
+- Excesso de palavras douradas polui — regra de 1–2 por heading principal evita isso.
+- Estados de form (erro/sucesso) precisam recalibração — incluído.
