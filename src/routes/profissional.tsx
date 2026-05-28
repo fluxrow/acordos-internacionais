@@ -37,7 +37,7 @@ function Profissional() {
   return (
     <article>
       {/* HERO */}
-      <header className="border-b border-border bg-foreground text-background">
+      <header className="border-b border-border bg-card text-card-foreground border border-border">
         <div className="mx-auto max-w-6xl px-6 py-20 md:py-28">
           <p className="text-[10px] uppercase tracking-[0.18em] opacity-70">
             Hub Profissional · Direito Previdenciário Internacional
@@ -146,7 +146,7 @@ function Profissional() {
             </p>
             <Link
               to="/sobre/dr-marcos"
-              className="mt-6 inline-flex items-center gap-2 text-sm uppercase tracking-[0.14em] text-foreground underline underline-offset-4 hover:text-destructive"
+              className="mt-6 inline-flex items-center gap-2 text-sm uppercase tracking-[0.14em] text-foreground underline underline-offset-4 hover:text-[var(--accent-ink)]"
             >
               Conhecer o Dr. Marcos →
             </Link>
@@ -156,7 +156,7 @@ function Profissional() {
 
       {/* PROOF */}
       <section
-        className="relative border-b border-border bg-foreground text-background"
+        className="relative border-b border-border bg-card text-card-foreground border border-border"
         style={{
           backgroundImage: `linear-gradient(color-mix(in oklab, var(--foreground) 86%, transparent), color-mix(in oklab, var(--foreground) 86%, transparent)), url(${imgMap})`,
           backgroundSize: "cover",
@@ -178,14 +178,14 @@ function Profissional() {
               ["Integral", "Texto comentado artigo a artigo"],
               ["Contínua", "Atualização regulatória"],
             ].map(([n, l]) => (
-              <div key={l} className="bg-foreground p-8">
+              <div key={l} className="bg-card p-8">
                 <p className="font-display text-5xl tracking-tight md:text-6xl">{n}</p>
                 <p className="mt-3 text-xs uppercase tracking-[0.16em] opacity-70">{l}</p>
               </div>
             ))}
           </div>
 
-          <div className="mt-14 border-t border-background/20 pt-10">
+          <div className="mt-14 border-t border-border pt-10">
             <p className="text-[10px] uppercase tracking-[0.18em] opacity-70">
               Curadoria de
             </p>
@@ -252,14 +252,14 @@ function Profissional() {
               <Link
                 to="/precos"
                 hash="anual"
-                className="mt-8 inline-flex w-full items-center justify-center rounded-full border border-foreground bg-background px-6 py-3 text-sm font-medium uppercase tracking-[0.14em] text-foreground transition-colors hover:bg-foreground hover:text-background"
+                className="mt-8 inline-flex w-full items-center justify-center rounded-full border border-[var(--accent-ink)] bg-background px-6 py-3 text-sm font-medium uppercase tracking-[0.14em] text-foreground transition-colors hover:border-[var(--accent-ink)] hover:text-[var(--accent-ink)]"
               >
                 Assinar anual
               </Link>
             </div>
 
             {/* PLANO FUNDADORES */}
-            <div className="flex flex-col border border-foreground bg-foreground p-8 text-background">
+            <div className="flex flex-col border border-[var(--accent-ink)] bg-card p-8 text-card-foreground">
               <p className="text-[10px] uppercase tracking-[0.18em] opacity-70">
                 Fundadores · primeiros 100
               </p>
@@ -267,7 +267,7 @@ function Profissional() {
               <p className="mt-1 text-sm opacity-80">
                 Pagamento único · acesso vitalício
               </p>
-              <hr className="my-6 border-background/20" />
+              <hr className="my-6 border-border" />
               <ul className="flex-1 space-y-2 text-sm">
                 <li>· Acesso vitalício a todo o conteúdo</li>
                 <li>· Todas as atualizações futuras incluídas</li>
@@ -304,7 +304,7 @@ function Profissional() {
       </section>
 
       {/* CTA FINAL */}
-      <section className="bg-foreground text-background">
+      <section className="bg-card text-card-foreground border border-border">
         <div className="mx-auto max-w-3xl px-6 py-24 text-center">
           <p className="text-[10px] uppercase tracking-[0.18em] opacity-70">
             Pronto para entrar?

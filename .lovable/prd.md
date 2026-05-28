@@ -246,3 +246,6 @@ Após aprovação do Dr. Marcos, todas as variações do sandbox foram promovida
 
 - Nova pasta `src/assets/lp/` com 4 imagens fotográficas geradas: `problem-papers.jpg`, `hub-organized.jpg`, `world-map-pins.jpg`, `atlasprev-mark.jpg` (esta última ainda não usada — reservada para próximos blocos).
 - Estilo travado em `mem://design/imagery-direction`: realista-fotográfico, paleta Paper & Ink, sem stock genérico, sem texto sobreposto.
+
+## Identidade visual — Premium Dark + Gold (2026-05-28)
+Tema ativo migrado de Paper & Ink para Premium Dark + Gold. Backup do tema anterior em `src/styles/themes/paper-ink.css.bak` (+ `.lovable/themes/paper-ink.snapshot.md`) — reversão em 1 passo. Paleta: fundo #0a0a0a, cards #121212, headings #f5f5f5, body #d1d5db, muted #a3a3a3, accent #d4af37. Headings em branco com 1–2 palavras gold (`.text-gold`). Sombras `--shadow-soft/-hover/-gold-glow` + hover de elevação em qualquer elemento com rota. Fontes, layout, globos e copy preservados.

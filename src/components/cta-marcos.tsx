@@ -76,7 +76,7 @@ export function CTAMarcos({ variant = "card", contexto, caso }: CTAMarcosProps) 
                 key={item}
                 className="flex items-center gap-2 text-sm text-foreground/85"
               >
-                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[var(--accent-ink)] text-background">
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[var(--accent-ink)] text-card-foreground">
                   <Check className="h-3 w-3" aria-hidden />
                 </span>
                 {item}
@@ -138,7 +138,7 @@ export function CTAMarcos({ variant = "card", contexto, caso }: CTAMarcosProps) 
       </p>
       <Link
         to="/contato"
-        className="mt-4 inline-block text-sm underline underline-offset-4 hover:text-destructive"
+        className="mt-4 inline-block text-sm underline underline-offset-4 hover:text-[var(--accent-ink)]"
       >
         Iniciar contato →
       </Link>

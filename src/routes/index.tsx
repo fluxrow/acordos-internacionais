@@ -65,11 +65,12 @@ function Home() {
               <p className="eyebrow">Brasil · Previdência Social Internacional</p>
               <h1 className="mt-6 font-display text-[2.5rem] leading-[1.02] tracking-tight md:text-[3.5rem] lg:text-[4.25rem]">
                 O mapa definitivo dos{" "}
-                <em className="font-normal italic text-destructive">
+                <span className="text-gold">
                   acordos previdenciários
-                </em>{" "}
+                </span>{" "}
                 do Brasil.
               </h1>
+
               <p className="lede mt-8 max-w-xl">
                 Para o brasileiro que trabalha ou trabalhou no exterior e que
                 precisa entender seus direitos previdenciários.
@@ -118,7 +119,7 @@ function Home() {
       <section className="border-b border-border bg-secondary/40">
         <div className="mx-auto grid max-w-6xl gap-6 px-6 py-16 md:grid-cols-2 md:py-20">
           {/* 01 · Cidadão */}
-          <div className="flex flex-col gap-6 rounded-2xl border border-border bg-background p-10 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_-12px_rgba(0,0,0,0.12)] md:p-14">
+          <div className="flex flex-col gap-6 rounded-2xl border border-border bg-background p-10 shadow-[var(--shadow-soft)] md:p-14">
             <div className="flex items-baseline gap-4">
               <span className="font-display text-3xl opacity-50">01</span>
               <span className="text-[10px] uppercase tracking-[0.18em] opacity-70">
@@ -138,7 +139,7 @@ function Home() {
               />
               <Link
                 to="/jornadas"
-                className="rounded-full border border-foreground px-5 py-2.5 text-xs font-medium uppercase tracking-[0.18em] transition-colors hover:bg-foreground hover:text-background"
+                className="rounded-full border border-[var(--accent-ink)] px-5 py-2.5 text-xs font-medium uppercase tracking-[0.18em] transition-colors hover:border-[var(--accent-ink)] hover:text-[var(--accent-ink)]"
               >
                 Explorar por situação / jornadas
               </Link>
@@ -152,7 +153,7 @@ function Home() {
           </div>
 
           {/* 02 · Advogado */}
-          <div className="flex flex-col gap-6 rounded-2xl border border-foreground bg-foreground p-10 text-background shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_-12px_rgba(0,0,0,0.12)] md:p-14">
+          <div className="flex flex-col gap-6 rounded-2xl border border-[var(--accent-ink)] bg-card p-10 text-card-foreground shadow-[var(--shadow-soft)] md:p-14">
             <div className="flex items-baseline gap-4">
               <span className="font-display text-3xl opacity-50">02</span>
               <span className="text-[10px] uppercase tracking-[0.18em] opacity-70">
@@ -184,13 +185,13 @@ function Home() {
               />
               <Link
                 to="/blog"
-                className="rounded-full border border-background/40 px-5 py-2.5 text-xs font-medium uppercase tracking-[0.18em] transition-colors hover:bg-background hover:text-foreground"
+                className="rounded-full border border-[var(--accent-ink)]/40 px-5 py-2.5 text-xs font-medium uppercase tracking-[0.18em] transition-colors hover:bg-[var(--accent-ink)] hover:text-[var(--paper)]"
               >
                 Blog
               </Link>
               <Link
                 to="/sobre/dr-marcos"
-                className="rounded-full border border-background/40 px-5 py-2.5 text-xs font-medium uppercase tracking-[0.18em] transition-colors hover:bg-background hover:text-foreground"
+                className="rounded-full border border-[var(--accent-ink)]/40 px-5 py-2.5 text-xs font-medium uppercase tracking-[0.18em] transition-colors hover:bg-[var(--accent-ink)] hover:text-[var(--paper)]"
               >
                 Sobre o Dr. Marcos
               </Link>
@@ -233,7 +234,7 @@ function Home() {
             </div>
             <Link
               to="/acordos"
-              className="text-sm underline underline-offset-4 hover:text-destructive"
+              className="text-sm underline underline-offset-4 hover:text-[var(--accent-ink)]"
             >
               Ver todos os {totalAcordos} →
             </Link>
@@ -245,7 +246,7 @@ function Home() {
                 <Link
                   to="/acordos/$pais"
                   params={{ pais: a.slug }}
-                  className="group flex h-full items-center gap-5 rounded-xl border border-border/60 bg-background/70 p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04)] backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-[var(--accent-ink)] hover:bg-[var(--accent-ink-soft)] hover:shadow-[0_8px_24px_-12px_rgba(122,31,31,0.25)]"
+                  className="group flex h-full items-center gap-5 rounded-xl border border-border/60 bg-background/70 p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04)] backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-[var(--accent-ink)] hover:bg-[var(--accent-ink-soft)] hover:shadow-[var(--shadow-gold-glow)]"
                 >
                   {a.iso && (
                     <img
@@ -286,7 +287,7 @@ function Home() {
             </div>
             <Link
               to="/profissional"
-              className="text-sm underline underline-offset-4 hover:text-destructive"
+              className="text-sm underline underline-offset-4 hover:text-[var(--accent-ink)]"
             >
               Conhecer o hub →
             </Link>
@@ -314,7 +315,7 @@ function Home() {
                   <Link
                     to="/jornadas/$jornada"
                     params={{ jornada: slug }}
-                    className="group flex items-center justify-between py-4 text-base transition-colors hover:text-destructive"
+                    className="group flex items-center justify-between py-4 text-base transition-colors hover:text-[var(--accent-ink)]"
                   >
                     <span>{label}</span>
                     <span aria-hidden className="opacity-50 group-hover:opacity-100">→</span>
@@ -324,7 +325,7 @@ function Home() {
             </ul>
             <Link
               to="/jornadas"
-              className="mt-4 inline-block text-sm underline underline-offset-4 hover:text-destructive"
+              className="mt-4 inline-block text-sm underline underline-offset-4 hover:text-[var(--accent-ink)]"
             >
               Ver todas as jornadas →
             </Link>
@@ -347,7 +348,7 @@ function Home() {
                   <Link
                     to="/guias/$slug"
                     params={{ slug }}
-                    className="group flex items-center justify-between py-4 text-base transition-colors hover:text-destructive"
+                    className="group flex items-center justify-between py-4 text-base transition-colors hover:text-[var(--accent-ink)]"
                   >
                     <span>{label}</span>
                     <span aria-hidden className="opacity-50 group-hover:opacity-100">→</span>
@@ -357,7 +358,7 @@ function Home() {
             </ul>
             <Link
               to="/guias"
-              className="mt-6 inline-block text-sm underline underline-offset-4 hover:text-destructive"
+              className="mt-6 inline-block text-sm underline underline-offset-4 hover:text-[var(--accent-ink)]"
             >
               Ver todos os guias →
             </Link>

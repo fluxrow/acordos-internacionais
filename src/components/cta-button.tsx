@@ -53,38 +53,37 @@ export function CTAButton(props: CTAButtonProps) {
   const { label, variant = "dark", size = "md", className } = props;
   const s = sizes[size];
 
-  // Variant tokens — define background context + colors
-  // dark         : solid foreground on light bg. Circle = background. Hover label -> foreground.
-  // light        : outline foreground on light bg. Circle = foreground. Hover label -> background.
-  // solid-light  : solid background on dark bg (inverse of dark). Circle = foreground. Hover label -> background.
-  // ghost-light  : outline background on dark bg. Circle = background. Hover label -> foreground.
+  // Premium Dark + Gold — todas as variantes convivem em fundo escuro.
+  // Primary (dark, solid-light) : pill gold com texto preto.
+  // Secondary (light, ghost-light): pill outline gold com texto gold.
   const styles: Record<Variant, { wrap: string; circle: string }> = {
     dark: {
-      wrap: "border-foreground bg-foreground text-background hover:text-foreground",
-      circle: "bg-background",
+      wrap: "border-[var(--accent-ink)] bg-[var(--accent-ink)] text-[var(--paper)] hover:text-[var(--accent-ink)] shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-gold-glow)]",
+      circle: "bg-[var(--paper)]",
     },
     light: {
-      wrap: "border-foreground bg-transparent text-foreground hover:text-background",
-      circle: "bg-foreground",
+      wrap: "border-[var(--accent-ink)] bg-transparent text-[var(--accent-ink)] hover:text-[var(--paper)] hover:shadow-[var(--shadow-gold-glow)]",
+      circle: "bg-[var(--accent-ink)]",
     },
     "solid-light": {
-      wrap: "border-background bg-background text-foreground hover:text-background",
-      circle: "bg-foreground",
+      wrap: "border-[var(--accent-ink)] bg-[var(--accent-ink)] text-[var(--paper)] hover:text-[var(--accent-ink)] shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-gold-glow)]",
+      circle: "bg-[var(--paper)]",
     },
     "ghost-light": {
-      wrap: "border-background bg-transparent text-background hover:text-foreground",
-      circle: "bg-background",
+      wrap: "border-[var(--accent-ink)] bg-transparent text-[var(--accent-ink)] hover:text-[var(--paper)] hover:shadow-[var(--shadow-gold-glow)]",
+      circle: "bg-[var(--accent-ink)]",
     },
   };
 
   const base = cn(
-    "group relative inline-flex items-center overflow-hidden rounded-full border transition-colors duration-300 ease-out motion-reduce:transition-none",
+    "group relative inline-flex items-center overflow-hidden rounded-full border transition-all duration-300 ease-out motion-reduce:transition-none hover:-translate-y-0.5",
     s.wrap,
     s.pad,
     styles[variant].wrap,
-    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-ink)] focus-visible:ring-offset-2 focus-visible:ring-offset-background",
     className,
   );
+
 
   const circleColor = styles[variant].circle;
 

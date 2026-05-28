@@ -92,7 +92,7 @@ function JornadasIndex() {
                   {j.titulo}
                 </h2>
                 <p className="text-base text-muted-foreground">{j.resumo}</p>
-                <span className="mt-auto pt-2 text-sm underline underline-offset-4 group-hover:text-destructive">
+                <span className="mt-auto pt-2 text-sm underline underline-offset-4 group-hover:text-[var(--accent-ink)]">
                   Ver jornada →
                 </span>
               </Link>
@@ -106,7 +106,7 @@ function JornadasIndex() {
             <span className="font-display text-3xl text-[var(--accent-ink)] opacity-70">
               04
             </span>
-            <span className="rounded-full bg-[var(--accent-ink)] px-3 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-background">
+            <span className="rounded-full bg-[var(--accent-ink)] px-3 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-card-foreground">
               Atendimento direto
             </span>
           </div>

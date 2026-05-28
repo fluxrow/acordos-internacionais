@@ -137,13 +137,13 @@ function PrecosPage() {
             <Link
               to="/login"
               search={{ redirect: "/precos" }}
-              className="rounded-full bg-foreground px-4 py-2 text-sm font-medium uppercase tracking-[0.12em] text-background hover:bg-foreground/85"
+              className="rounded-full bg-card px-4 py-2 text-sm font-medium uppercase tracking-[0.12em] text-card-foreground hover:bg-card/85"
             >
               Entrar
             </Link>
             <Link
               to="/cadastro"
-              className="rounded-full border border-foreground px-4 py-2 text-sm font-medium uppercase tracking-[0.12em] hover:bg-secondary"
+              className="rounded-full border border-[var(--accent-ink)] px-4 py-2 text-sm font-medium uppercase tracking-[0.12em] hover:bg-secondary"
             >
               Criar conta
             </Link>
@@ -164,18 +164,18 @@ function PrecosPage() {
               key={plan.id}
               className={`relative flex flex-col rounded-sm border p-6 ${
                 plan.destaque
-                  ? "border-foreground"
+                  ? "border-[var(--accent-ink)]"
                   : "border-border"
               }`}
             >
               {plan.destaque && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-sm bg-foreground px-3 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-background">
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-sm bg-card px-3 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-card-foreground">
                   Mais popular
                 </span>
               )}
 
               {plan.isFounder && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-sm bg-foreground px-3 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-background">
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-sm bg-card px-3 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-card-foreground">
                   Lançamento
                 </span>
               )}
@@ -215,8 +215,8 @@ function PrecosPage() {
                 }
                 className={`mt-6 w-full rounded-full px-5 py-2.5 text-sm font-medium uppercase tracking-[0.14em] transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
                   plan.destaque || plan.isFounder
-                    ? "bg-foreground text-background hover:bg-foreground/85"
-                    : "border border-foreground hover:bg-secondary"
+                    ? "bg-card text-card-foreground border border-border hover:bg-card/85"
+                    : "border border-[var(--accent-ink)] hover:bg-secondary"
                 }`}
               >
                 {checkoutMutation.isPending && selectedPlan === plan.id

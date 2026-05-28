@@ -38,11 +38,14 @@
 
   --color-ink: var(--ink);
   --color-ink-soft: var(--ink-soft);
+  --color-ink-muted: var(--ink-muted);
   --color-paper: var(--paper);
   --color-paper-soft: var(--paper-soft);
+  --color-card-bg: var(--card-bg);
   --color-rule: var(--rule);
   --color-accent-ink: var(--accent-ink);
   --color-accent-ink-soft: var(--accent-ink-soft);
+
 
   --color-state-warning: var(--state-warning);
   --color-state-warning-soft: var(--state-warning-soft);
@@ -73,104 +76,126 @@
   --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
 }
 
-/* Paper & Ink — light editorial */
+/* Premium Dark + Gold — tema ativo
+ * Backup do tema anterior (Paper & Ink) em
+ * src/styles/themes/paper-ink.css.bak para reversão de 1 passo.
+ */
 :root {
-  --radius: 0.25rem;
+  --radius: 0.625rem;
 
-  /* Domain tokens */
-  --paper: oklch(0.965 0.008 85);          /* #f5f3ee */
-  --paper-soft: oklch(0.928 0.011 80);     /* #e8e4dd */
-  --ink: oklch(0.16 0 0);                  /* #0d0d0d */
-  --ink-soft: oklch(0.30 0 0);             /* #2d2d2d */
-  --rule: oklch(0.84 0.012 80);            /* hairline */
-  --accent-ink: oklch(0.40 0.13 28);       /* #7a1f1f wine */
-  --accent-ink-soft: oklch(0.92 0.04 28);  /* wine wash claro */
+  /* Domain tokens — Premium Dark + Gold */
+  --paper: oklch(0.15 0 0);                /* #0a0a0a — background */
+  --paper-soft: oklch(0.18 0 0);           /* #0f0f0f — section bands */
+  --card-bg: oklch(0.21 0 0);              /* #121212 — cards */
+  --ink: oklch(0.97 0 0);                  /* #f5f5f5 — headings/foreground */
+  --ink-soft: oklch(0.87 0.005 250);       /* #d1d5db — body */
+  --ink-muted: oklch(0.72 0 0);            /* #a3a3a3 — muted/lede */
+  --rule: oklch(0.50 0.015 255 / 0.32);    /* #6b7280 @ low alpha — hairlines */
+  --accent-ink: oklch(0.78 0.13 86);       /* #d4af37 — gold accent */
+  --accent-ink-soft: oklch(0.85 0.13 90);  /* #e5c158 — gold light */
 
-  /* State tokens (editorial muted palette) */
-  --state-warning: oklch(0.50 0.10 75);       /* amber ink */
-  --state-warning-soft: oklch(0.94 0.05 80);  /* amber wash */
-  --state-error: oklch(0.42 0.15 25);         /* deep red */
-  --state-error-soft: oklch(0.93 0.05 25);    /* red wash */
-  --state-info: oklch(0.42 0.10 290);         /* muted purple */
-  --state-info-soft: oklch(0.93 0.04 290);    /* purple wash */
-  --state-success: oklch(0.42 0.10 155);      /* forest */
-  --state-success-soft: oklch(0.93 0.05 155); /* green wash */
+  /* State tokens — calibrados para fundo escuro (luminosidade alta) */
+  --state-warning: oklch(0.82 0.14 80);
+  --state-warning-soft: oklch(0.30 0.05 80);
+  --state-error: oklch(0.70 0.18 25);
+  --state-error-soft: oklch(0.28 0.07 25);
+  --state-info: oklch(0.72 0.12 250);
+  --state-info-soft: oklch(0.28 0.05 250);
+  --state-success: oklch(0.75 0.13 155);
+  --state-success-soft: oklch(0.28 0.05 155);
 
-  /* Semantic tokens mapped to Paper & Ink */
+  /* Sombras (preto profundo + halo gold no hover) */
+  --shadow-soft:
+    0 1px 2px rgba(0, 0, 0, 0.45),
+    0 8px 24px -12px rgba(0, 0, 0, 0.55);
+  --shadow-soft-hover:
+    0 2px 4px rgba(0, 0, 0, 0.55),
+    0 18px 36px -14px rgba(0, 0, 0, 0.65),
+    0 0 0 1px color-mix(in oklab, var(--accent-ink) 30%, transparent);
+  --shadow-gold-glow:
+    0 0 0 1px color-mix(in oklab, var(--accent-ink) 25%, transparent),
+    0 12px 32px -16px color-mix(in oklab, var(--accent-ink) 35%, transparent);
+
+  /* Semantic tokens mapped to Premium Dark + Gold */
   --background: var(--paper);
   --foreground: var(--ink);
-  --card: var(--paper);
+  --card: var(--card-bg);
   --card-foreground: var(--ink);
-  --popover: var(--paper);
+  --popover: var(--card-bg);
   --popover-foreground: var(--ink);
-  --primary: var(--ink);
+  --primary: var(--accent-ink);
   --primary-foreground: var(--paper);
   --secondary: var(--paper-soft);
   --secondary-foreground: var(--ink);
   --muted: var(--paper-soft);
-  --muted-foreground: var(--ink-soft);
-  --accent: var(--paper-soft);
-  --accent-foreground: var(--ink);
-  --destructive: var(--accent-ink);
+  --muted-foreground: var(--ink-muted);
+  --accent: var(--accent-ink-soft);
+  --accent-foreground: var(--paper);
+  --destructive: var(--state-error);
   --destructive-foreground: var(--paper);
   --border: var(--rule);
   --input: var(--rule);
-  --ring: var(--ink);
+  --ring: var(--accent-ink);
 
-  --chart-1: oklch(0.40 0.13 28);
-  --chart-2: oklch(0.30 0 0);
-  --chart-3: oklch(0.55 0 0);
-  --chart-4: oklch(0.70 0 0);
-  --chart-5: oklch(0.84 0.012 80);
+  --chart-1: oklch(0.78 0.13 86);
+  --chart-2: oklch(0.85 0.13 90);
+  --chart-3: oklch(0.72 0 0);
+  --chart-4: oklch(0.55 0 0);
+  --chart-5: oklch(0.40 0 0);
 
-  --sidebar: var(--paper);
+  --sidebar: var(--paper-soft);
   --sidebar-foreground: var(--ink);
-  --sidebar-primary: var(--ink);
+  --sidebar-primary: var(--accent-ink);
   --sidebar-primary-foreground: var(--paper);
-  --sidebar-accent: var(--paper-soft);
+  --sidebar-accent: var(--card-bg);
   --sidebar-accent-foreground: var(--ink);
   --sidebar-border: var(--rule);
-  --sidebar-ring: var(--ink);
+  --sidebar-ring: var(--accent-ink);
 }
 
-/* Inverted variant — used in /app (Fase 2) */
+/* O site é dark por padrão. .dark espelha :root para consistência caso
+ * algum componente force a classe. */
 .dark {
-  --paper: oklch(0.16 0 0);
-  --paper-soft: oklch(0.22 0 0);
-  --ink: oklch(0.965 0.008 85);
-  --ink-soft: oklch(0.84 0.012 80);
-  --rule: oklch(0.30 0 0);
-  --accent-ink: oklch(0.70 0.16 28);
+  --paper: oklch(0.15 0 0);
+  --paper-soft: oklch(0.18 0 0);
+  --card-bg: oklch(0.21 0 0);
+  --ink: oklch(0.97 0 0);
+  --ink-soft: oklch(0.87 0.005 250);
+  --ink-muted: oklch(0.72 0 0);
+  --rule: oklch(0.50 0.015 255 / 0.32);
+  --accent-ink: oklch(0.78 0.13 86);
+  --accent-ink-soft: oklch(0.85 0.13 90);
 
   --background: var(--paper);
   --foreground: var(--ink);
-  --card: var(--paper);
+  --card: var(--card-bg);
   --card-foreground: var(--ink);
-  --popover: var(--paper);
+  --popover: var(--card-bg);
   --popover-foreground: var(--ink);
-  --primary: var(--ink);
+  --primary: var(--accent-ink);
   --primary-foreground: var(--paper);
   --secondary: var(--paper-soft);
   --secondary-foreground: var(--ink);
   --muted: var(--paper-soft);
-  --muted-foreground: var(--ink-soft);
-  --accent: var(--paper-soft);
-  --accent-foreground: var(--ink);
-  --destructive: var(--accent-ink);
+  --muted-foreground: var(--ink-muted);
+  --accent: var(--accent-ink-soft);
+  --accent-foreground: var(--paper);
+  --destructive: var(--state-error);
   --destructive-foreground: var(--paper);
   --border: var(--rule);
   --input: var(--rule);
-  --ring: var(--ink);
+  --ring: var(--accent-ink);
 
-  --sidebar: var(--paper);
+  --sidebar: var(--paper-soft);
   --sidebar-foreground: var(--ink);
-  --sidebar-primary: var(--ink);
+  --sidebar-primary: var(--accent-ink);
   --sidebar-primary-foreground: var(--paper);
-  --sidebar-accent: var(--paper-soft);
+  --sidebar-accent: var(--card-bg);
   --sidebar-accent-foreground: var(--ink);
   --sidebar-border: var(--rule);
-  --sidebar-ring: var(--ink);
+  --sidebar-ring: var(--accent-ink);
 }
+
 
 @layer base {
   * {
@@ -206,7 +231,7 @@
   h4 { font-size: 1.0625rem; font-weight: 700; }
 
   ::selection {
-    background: var(--color-foreground);
+    background: var(--color-accent-ink);
     color: var(--color-background);
   }
 
@@ -215,11 +240,12 @@
   button:focus-visible,
   [role="button"]:focus-visible,
   summary:focus-visible {
-    outline: 2px solid var(--color-foreground);
+    outline: 2px solid var(--color-accent-ink);
     outline-offset: 2px;
     border-radius: 2px;
   }
 }
+
 
 /* Editorial utilities */
 @layer components {
@@ -229,7 +255,7 @@
     letter-spacing: 0.18em;
     font-size: 0.6875rem;
     font-weight: 600;
-    color: var(--color-muted-foreground);
+    color: var(--color-accent-ink);
   }
 
   .rule {
@@ -251,8 +277,25 @@
     transition: color 0.15s ease;
   }
   .ink-link:hover {
-    color: var(--color-destructive);
+    color: var(--color-accent-ink);
   }
+
+  /* Destaque tipográfico — palavra-chave em ouro dentro de heading branco.
+   * Uso pontual: 1–2 palavras por heading principal. */
+  .text-gold {
+    color: var(--color-accent-ink);
+  }
+
+  /* Card clicável: hover de elevação + halo gold. Aplicar em <Link>/<a>/cards. */
+  .card-hover {
+    transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+  }
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-soft-hover);
+    border-color: var(--color-accent-ink);
+  }
+
 }
 
 @keyframes globe-enter-left {

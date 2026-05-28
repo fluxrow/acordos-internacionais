@@ -168,24 +168,24 @@ function JornadaPage() {
                   <Link
                     to="/guias/$slug"
                     params={{ slug: guia.slug }}
-                    className="mt-5 inline-block text-sm underline underline-offset-4 hover:text-destructive"
+                    className="mt-5 inline-block text-sm underline underline-offset-4 hover:text-[var(--accent-ink)]"
                   >
                     Abrir guia →
                   </Link>
                 </div>
               )}
 
-              <div className="md:col-span-3 bg-foreground text-background p-6">
-                <p className="eyebrow text-background/70">Ferramenta</p>
+              <div className="md:col-span-3 bg-card text-card-foreground border border-border p-6">
+                <p className="eyebrow text-card-foreground/70">Ferramenta</p>
                 <p className="mt-3 font-display text-2xl leading-tight">
                   Calculadora prorata
                 </p>
-                <p className="mt-2 text-sm text-background/70">
+                <p className="mt-2 text-sm text-card-foreground/70">
                   Estime sua parte proporcional em cada país acordante.
                 </p>
                 <Link
                   to="/calculadora"
-                  className="mt-5 inline-block text-sm underline underline-offset-4 text-background hover:text-[var(--accent-ink-soft)]"
+                  className="mt-5 inline-block text-sm underline underline-offset-4 text-card-foreground hover:text-[var(--accent-ink-soft)]"
                 >
                   Abrir calculadora →
                 </Link>

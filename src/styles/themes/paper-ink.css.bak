@@ -1,0 +1,106 @@
+/* ========================================================================
+ * BACKUP — Paper & Ink theme (tema original do site)
+ *
+ * Para reverter: copie os blocos :root { ... } e .dark { ... } abaixo
+ * por cima dos blocos correspondentes em src/styles.css.
+ * Tokens semânticos não mudam de nome, então componentes seguem funcionando.
+ * ======================================================================== */
+
+/* Paper & Ink — light editorial */
+:root {
+  --radius: 0.25rem;
+
+  /* Domain tokens */
+  --paper: oklch(0.965 0.008 85);          /* #f5f3ee */
+  --paper-soft: oklch(0.928 0.011 80);     /* #e8e4dd */
+  --ink: oklch(0.16 0 0);                  /* #0d0d0d */
+  --ink-soft: oklch(0.30 0 0);             /* #2d2d2d */
+  --rule: oklch(0.84 0.012 80);            /* hairline */
+  --accent-ink: oklch(0.40 0.13 28);       /* #7a1f1f wine */
+  --accent-ink-soft: oklch(0.92 0.04 28);  /* wine wash claro */
+
+  /* State tokens (editorial muted palette) */
+  --state-warning: oklch(0.50 0.10 75);
+  --state-warning-soft: oklch(0.94 0.05 80);
+  --state-error: oklch(0.42 0.15 25);
+  --state-error-soft: oklch(0.93 0.05 25);
+  --state-info: oklch(0.42 0.10 290);
+  --state-info-soft: oklch(0.93 0.04 290);
+  --state-success: oklch(0.42 0.10 155);
+  --state-success-soft: oklch(0.93 0.05 155);
+
+  /* Semantic tokens mapped to Paper & Ink */
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--paper);
+  --card-foreground: var(--ink);
+  --popover: var(--paper);
+  --popover-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: var(--paper);
+  --secondary: var(--paper-soft);
+  --secondary-foreground: var(--ink);
+  --muted: var(--paper-soft);
+  --muted-foreground: var(--ink-soft);
+  --accent: var(--paper-soft);
+  --accent-foreground: var(--ink);
+  --destructive: var(--accent-ink);
+  --destructive-foreground: var(--paper);
+  --border: var(--rule);
+  --input: var(--rule);
+  --ring: var(--ink);
+
+  --chart-1: oklch(0.40 0.13 28);
+  --chart-2: oklch(0.30 0 0);
+  --chart-3: oklch(0.55 0 0);
+  --chart-4: oklch(0.70 0 0);
+  --chart-5: oklch(0.84 0.012 80);
+
+  --sidebar: var(--paper);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--ink);
+  --sidebar-primary-foreground: var(--paper);
+  --sidebar-accent: var(--paper-soft);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: var(--rule);
+  --sidebar-ring: var(--ink);
+}
+
+/* Inverted variant — used in /app (Fase 2) */
+.dark {
+  --paper: oklch(0.16 0 0);
+  --paper-soft: oklch(0.22 0 0);
+  --ink: oklch(0.965 0.008 85);
+  --ink-soft: oklch(0.84 0.012 80);
+  --rule: oklch(0.30 0 0);
+  --accent-ink: oklch(0.70 0.16 28);
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--paper);
+  --card-foreground: var(--ink);
+  --popover: var(--paper);
+  --popover-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: var(--paper);
+  --secondary: var(--paper-soft);
+  --secondary-foreground: var(--ink);
+  --muted: var(--paper-soft);
+  --muted-foreground: var(--ink-soft);
+  --accent: var(--paper-soft);
+  --accent-foreground: var(--ink);
+  --destructive: var(--accent-ink);
+  --destructive-foreground: var(--paper);
+  --border: var(--rule);
+  --input: var(--rule);
+  --ring: var(--ink);
+
+  --sidebar: var(--paper);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--ink);
+  --sidebar-primary-foreground: var(--paper);
+  --sidebar-accent: var(--paper-soft);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: var(--rule);
+  --sidebar-ring: var(--ink);
+}

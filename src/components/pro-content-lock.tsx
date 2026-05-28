@@ -64,7 +64,7 @@ export function ProContentLock({
         <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3">
           <Link
             to="/profissional"
-            className="inline-flex items-center gap-2 rounded-full bg-[var(--accent-ink)] px-5 py-2.5 text-xs font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-foreground"
+            className="inline-flex items-center gap-2 rounded-full bg-[var(--accent-ink)] px-5 py-2.5 text-xs font-medium uppercase tracking-[0.14em] text-card-foreground transition-colors hover:bg-card"
           >
             Acessar o hub <span aria-hidden>→</span>
           </Link>

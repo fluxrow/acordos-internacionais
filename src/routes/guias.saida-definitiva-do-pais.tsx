@@ -115,7 +115,7 @@ function SaidaFiscalPage() {
           <div className="mt-8 flex flex-wrap gap-4">
             <Link
               to="/contato"
-              className="inline-flex items-center rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-colors hover:bg-foreground/85"
+              className="inline-flex items-center rounded-full bg-card px-5 py-2.5 text-sm font-medium text-card-foreground transition-colors hover:bg-card/85"
             >
               Falar com especialista
             </Link>

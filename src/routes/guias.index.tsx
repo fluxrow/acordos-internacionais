@@ -78,7 +78,7 @@ function GuiasIndex() {
                   {g.titulo}
                 </h2>
                 <p className="text-base text-muted-foreground">{g.resumo}</p>
-                <span className="mt-auto pt-2 text-sm underline underline-offset-4 group-hover:text-destructive">
+                <span className="mt-auto pt-2 text-sm underline underline-offset-4 group-hover:text-[var(--accent-ink)]">
                   Abrir guia →
                 </span>
               </>
@@ -122,7 +122,7 @@ function GuiasIndex() {
               <p className="mt-2 text-sm text-muted-foreground">
                 Vou me mudar, moro fora, voltando, ou perto de aposentar.
               </p>
-              <span className="mt-4 inline-block text-sm underline underline-offset-4 group-hover:text-destructive">
+              <span className="mt-4 inline-block text-sm underline underline-offset-4 group-hover:text-[var(--accent-ink)]">
                 Ver jornadas →
               </span>
             </Link>
@@ -135,7 +135,7 @@ function GuiasIndex() {
               <p className="mt-2 text-sm text-muted-foreground">
                 25 países e três acordos multilaterais.
               </p>
-              <span className="mt-4 inline-block text-sm underline underline-offset-4 group-hover:text-destructive">
+              <span className="mt-4 inline-block text-sm underline underline-offset-4 group-hover:text-[var(--accent-ink)]">
                 Ver índice →
               </span>
             </Link>
@@ -148,7 +148,7 @@ function GuiasIndex() {
               <p className="mt-2 text-sm text-muted-foreground">
                 Estime sua parte proporcional em cada país.
               </p>
-              <span className="mt-4 inline-block text-sm underline underline-offset-4 group-hover:text-destructive">
+              <span className="mt-4 inline-block text-sm underline underline-offset-4 group-hover:text-[var(--accent-ink)]">
                 Abrir calculadora →
               </span>
             </Link>

@@ -52,21 +52,21 @@ export function SiteHeader() {
         <nav className="hidden items-center gap-7 text-sm md:flex">
           <Link
             to="/acordos"
-            className="text-foreground/80 transition-colors hover:text-foreground"
+            className="text-[var(--ink-soft)] transition-colors hover:text-foreground"
             activeProps={{ className: "text-foreground underline underline-offset-8" }}
           >
             Países
           </Link>
           <Link
             to="/jornadas"
-            className="text-foreground/80 transition-colors hover:text-foreground"
+            className="text-[var(--ink-soft)] transition-colors hover:text-foreground"
             activeProps={{ className: "text-foreground underline underline-offset-8" }}
           >
             Jornadas
           </Link>
           <Link
             to="/calculadora"
-            className="text-foreground/80 transition-colors hover:text-foreground"
+            className="text-[var(--ink-soft)] transition-colors hover:text-foreground"
             activeProps={{ className: "text-foreground underline underline-offset-8" }}
           >
             Calculadora
@@ -74,7 +74,7 @@ export function SiteHeader() {
           <div className="group relative">
             <Link
               to="/guias"
-              className="inline-flex items-center gap-1 text-foreground/80 transition-colors hover:text-foreground"
+              className="inline-flex items-center gap-1 text-[var(--ink-soft)] transition-colors hover:text-foreground"
               activeProps={{ className: "text-foreground underline underline-offset-8" }}
             >
               Guias
@@ -128,7 +128,7 @@ export function SiteHeader() {
 
           <Link
             to="/profissional"
-            className="text-foreground/80 transition-colors hover:text-foreground"
+            className="text-[var(--ink-soft)] transition-colors hover:text-foreground"
             activeProps={{ className: "text-foreground underline underline-offset-8" }}
           >
             Hub Profissional
@@ -138,7 +138,7 @@ export function SiteHeader() {
             <>
               <Link
                 to="/hub"
-                className="rounded-full border border-foreground bg-foreground px-4 py-1.5 text-xs font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-background hover:text-foreground"
+                className="rounded-full border border-[var(--accent-ink)] bg-[var(--accent-ink)] px-4 py-1.5 text-xs font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-[var(--accent-ink)] hover:text-[var(--paper)]"
               >
                 Meu Hub
               </Link>
@@ -154,14 +154,14 @@ export function SiteHeader() {
             <>
               <Link
                 to="/login"
-                className="text-foreground/80 transition-colors hover:text-foreground"
+                className="text-[var(--ink-soft)] transition-colors hover:text-foreground"
                 activeProps={{ className: "text-foreground underline underline-offset-8" }}
               >
                 Entrar
               </Link>
               <Link
                 to="/cadastro"
-                className="rounded-full border border-foreground bg-foreground px-4 py-1.5 text-xs font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-background hover:text-foreground"
+                className="rounded-full border border-[var(--accent-ink)] bg-[var(--accent-ink)] px-4 py-1.5 text-xs font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-[var(--accent-ink)] hover:text-[var(--paper)]"
               >
                 Criar conta
               </Link>
@@ -242,7 +242,7 @@ export function SiteHeader() {
                     <Link
                       to="/hub"
                       onClick={closeMobile}
-                      className="mx-4 mt-2 inline-flex items-center justify-center rounded-full border border-foreground bg-foreground px-4 py-2.5 text-xs font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-background hover:text-foreground"
+                      className="mx-4 mt-2 inline-flex items-center justify-center rounded-full border border-[var(--accent-ink)] bg-[var(--accent-ink)] px-4 py-2.5 text-xs font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-[var(--accent-ink)] hover:text-[var(--paper)]"
                     >
                       Meu Hub
                     </Link>
@@ -265,7 +265,7 @@ export function SiteHeader() {
                     <Link
                       to="/cadastro"
                       onClick={closeMobile}
-                      className="mx-4 mt-2 inline-flex items-center justify-center rounded-full border border-foreground bg-foreground px-4 py-2.5 text-xs font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-background hover:text-foreground"
+                      className="mx-4 mt-2 inline-flex items-center justify-center rounded-full border border-[var(--accent-ink)] bg-[var(--accent-ink)] px-4 py-2.5 text-xs font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-[var(--accent-ink)] hover:text-[var(--paper)]"
                     >
                       Criar conta
                     </Link>
