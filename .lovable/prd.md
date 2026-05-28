@@ -227,3 +227,22 @@ Após aprovação do Dr. Marcos, todas as variações do sandbox foram promovida
 
 - Cards de destaque (CTA Marcos, "próximos passos", aside de curiosidade em `/acordos/[país]`, artigos em `/sobre/dr-marcos`, banners do Hub, card de garantia em `/precos`, card de contato) usam `bg-background/60 backdrop-blur-md border-border/60` em vez de `bg-secondary` chapado.
 - Motivo: o cinza sólido destoava da paleta editorial; o vidro deixa o radial gradient do hero atravessar o card e mantém a identidade.
+
+## LP /profissional reestruturada (28/05/2026)
+
+- `/profissional` reescrito como LP de conversão para advogados: Hero → Problem → Story → Proof → Features → Planos → CTA.
+- PROBLEM em 4 cards (textos+certificado+prazo+informação espalhada nos canais oficiais do Gov) + closer "vendável" sobre tudo num único lugar coordenado.
+- STORY com retrato do Dr. Marcos (`src/assets/marcos-espinola.jpg`) à esquerda, link discreto para `/sobre/dr-marcos`.
+- PROOF: banda foreground com mapa-múndi como background sutil + 4 números (países, docs, integral, contínua) + credenciais reais (sócio escritório, IBDP, OAB/PR, professor/autor). Zero depoimentos inventados.
+- FEATURES mantida em grid 8 itens; cada item passou a começar por verbo de ação. Removido o aviso "modelos de petição suspenso".
+- CTA final passa a ter UMA ação só (`Ver planos`); link "Iniciar contato" e "Conhecer o Dr. Marcos" daqui foram removidos (foco em conversão).
+
+## Foto do Dr. Marcos em /sobre/dr-marcos
+
+- Hero passou a ser grid 2 colunas (md+) com retrato à direita em `aspect-[3/4]`, hairline border. Em mobile, a foto vai acima do texto.
+- Asset reaproveitado em `/profissional` (STORY).
+
+## Biblioteca de imagens editorial para LP
+
+- Nova pasta `src/assets/lp/` com 4 imagens fotográficas geradas: `problem-papers.jpg`, `hub-organized.jpg`, `world-map-pins.jpg`, `atlasprev-mark.jpg` (esta última ainda não usada — reservada para próximos blocos).
+- Estilo travado em `mem://design/imagery-direction`: realista-fotográfico, paleta Paper & Ink, sem stock genérico, sem texto sobreposto.
