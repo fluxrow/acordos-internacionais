@@ -127,8 +127,8 @@ function Contato() {
                     className={
                       "rounded-full border px-3 py-1.5 text-xs font-medium uppercase tracking-[0.14em] transition-colors " +
                       (form.urgencia === v
-                        ? "border-[var(--accent-ink)] bg-card text-card-foreground"
-                        : "border-border hover:border-[var(--accent-ink)]")
+                        ? "border-[var(--accent-ink)] bg-[var(--accent-ink)] text-[var(--paper)]"
+                        : "border-border hover:border-[var(--accent-ink)] hover:text-[var(--accent-ink)]")
                     }
                   >
                     {l}
