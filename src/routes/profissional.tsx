@@ -116,7 +116,7 @@ function Profissional() {
                 Texto integral do acordo comentado artigo a artigo. Portarias agrupadas por tema. Jurisprudência por país e ponto controvertido. Mapas e endereços dos órgãos. Modelos de documentos prontos pra baixar. Fluxogramas de procedimento.
               </p>
               <p className="mt-4 text-foreground">
-                Você para de garimpar — e volta a advogar.
+                Você para de garimpar e volta a advogar.
               </p>
             </div>
           </div>
