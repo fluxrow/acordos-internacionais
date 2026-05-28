@@ -57,7 +57,7 @@ function AcordosIndex() {
         <div className="relative z-10 mx-auto max-w-6xl px-6 py-16 md:py-20">
           <p className="eyebrow">Mapa</p>
           <h1 className="mt-5 font-display text-4xl md:text-6xl">
-            {totalAcordos} países, três multilaterais.
+            <span className="text-gold">{totalAcordos} países</span>, três multilaterais.
           </h1>
           <p className="lede mt-6 max-w-2xl">
             Acordos previdenciários firmados pelo Brasil. Use a busca ou os
