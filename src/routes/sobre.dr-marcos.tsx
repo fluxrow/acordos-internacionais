@@ -12,6 +12,7 @@ import imgProvaVida from "@/assets/atuacao/prova-vida.jpg";
 import imgCdt from "@/assets/atuacao/cdt.jpg";
 import imgCsdp from "@/assets/atuacao/csdp.jpg";
 import imgPlanejamento from "@/assets/atuacao/planejamento.jpg";
+import imgMarcos from "@/assets/marcos-espinola.jpg";
 
 const TITLE = "Dr. Marcos Espínola — Advogado em previdência internacional";
 const DESC =
