@@ -48,7 +48,7 @@ function Contato() {
         <div className="mx-auto max-w-4xl px-6 py-16 md:py-20">
           <p className="eyebrow">Atendimento direto</p>
           <h1 className="mt-4 font-display text-4xl md:text-6xl">
-            Falar com o Dr. Marcos Espínola
+            Falar com o <span className="text-gold">Dr. Marcos</span> Espínola
           </h1>
           <p className="lede mt-6 max-w-2xl">
             Conte sua situação. Quanto mais contexto, melhor o retorno. Cada
@@ -127,8 +127,8 @@ function Contato() {
                     className={
                       "rounded-full border px-3 py-1.5 text-xs font-medium uppercase tracking-[0.14em] transition-colors " +
                       (form.urgencia === v
-                        ? "border-[var(--accent-ink)] bg-card text-card-foreground"
-                        : "border-border hover:border-[var(--accent-ink)]")
+                        ? "border-[var(--accent-ink)] bg-[var(--accent-ink)] text-[var(--paper)]"
+                        : "border-border hover:border-[var(--accent-ink)] hover:text-[var(--accent-ink)]")
                     }
                   >
                     {l}
@@ -150,7 +150,7 @@ function Contato() {
 
             <button
               type="submit"
-              className="inline-flex items-center gap-2 rounded-full bg-card px-6 py-3 text-sm font-medium uppercase tracking-[0.14em] text-card-foreground transition-colors hover:bg-card/85"
+              className="inline-flex items-center gap-2 rounded-full bg-[var(--accent-ink)] px-6 py-3 text-sm font-medium uppercase tracking-[0.14em] text-[var(--paper)] shadow-[var(--shadow-soft)] transition-all hover:-translate-y-0.5 hover:bg-[var(--accent-ink-soft)] hover:shadow-[var(--shadow-gold-glow)]"
             >
               Enviar mensagem <span aria-hidden>→</span>
             </button>

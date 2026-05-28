@@ -53,7 +53,7 @@ function GuiasIndex() {
             <span aria-hidden className="h-px w-10 bg-[var(--accent-ink)]" />
             <p className="eyebrow">Biblioteca · Por tema</p>
           </div>
-          <h1 className="mt-5 font-display text-4xl md:text-6xl">Guias.</h1>
+          <h1 className="mt-5 font-display text-4xl md:text-6xl"><span className="text-gold">Guias</span>.</h1>
           <p className="lede mt-6 max-w-2xl">
             Os conceitos que voltam em quase todo processo internacional —
             explicados de forma direta, com exemplos práticos.
@@ -111,7 +111,7 @@ function GuiasIndex() {
       <section className="border-t border-border bg-secondary/40">
         <div className="mx-auto max-w-6xl px-6 py-16">
           <p className="eyebrow">Procurando outra entrada?</p>
-          <h2 className="mt-3 font-display text-3xl">Outros caminhos</h2>
+          <h2 className="mt-3 font-display text-3xl">Outros <span className="text-gold">caminhos</span></h2>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             <Link
               to="/jornadas"
