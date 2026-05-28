@@ -48,7 +48,7 @@ function Contato() {
         <div className="mx-auto max-w-4xl px-6 py-16 md:py-20">
           <p className="eyebrow">Atendimento direto</p>
           <h1 className="mt-4 font-display text-4xl md:text-6xl">
-            Falar com o Dr. Marcos Espínola
+            Falar com o <span className="text-gold">Dr. Marcos</span> Espínola
           </h1>
           <p className="lede mt-6 max-w-2xl">
             Conte sua situação. Quanto mais contexto, melhor o retorno. Cada
