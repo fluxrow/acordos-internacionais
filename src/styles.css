@@ -255,7 +255,7 @@
     letter-spacing: 0.18em;
     font-size: 0.6875rem;
     font-weight: 600;
-    color: var(--color-muted-foreground);
+    color: var(--color-accent-ink);
   }
 
   .rule {
@@ -277,8 +277,25 @@
     transition: color 0.15s ease;
   }
   .ink-link:hover {
-    color: var(--color-destructive);
+    color: var(--color-accent-ink);
   }
+
+  /* Destaque tipográfico — palavra-chave em ouro dentro de heading branco.
+   * Uso pontual: 1–2 palavras por heading principal. */
+  .text-gold {
+    color: var(--color-accent-ink);
+  }
+
+  /* Card clicável: hover de elevação + halo gold. Aplicar em <Link>/<a>/cards. */
+  .card-hover {
+    transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+  }
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-soft-hover);
+    border-color: var(--color-accent-ink);
+  }
+
 }
 
 @keyframes globe-enter-left {
