@@ -67,7 +67,7 @@ function Profissional() {
                 Caso internacional cai na sua mesa. E agora?
               </h2>
               <p className="lede mt-6">
-                Você abre o Gov.br, o site do MPS, o do INSS, a Receita, o consulado — e em todos a mesma informação aparece repartida, com nomes diferentes, em PDFs de 2008. Três dias só pra mapear a base legal de um caso que o cliente quer resolvido hoje.
+                Você abre o Gov.br, o site do MPS, o do INSS, a Receita, o consulado, e em todos a mesma informação aparece repartida, com nomes diferentes, em PDFs de 2008. Três dias só pra mapear a base legal de um caso que o cliente quer resolvido hoje.
               </p>
             </div>
             <div className="overflow-hidden border border-border">
