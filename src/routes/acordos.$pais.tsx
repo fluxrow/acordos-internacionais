@@ -642,7 +642,7 @@ function BeneficiosComparativo({
   const linhas = Math.max(brasil.length, parceiro.length);
   return (
     <div className="overflow-hidden rounded-xl border border-border/60 bg-background/50">
-      <div className="grid grid-cols-2 border-b border-border/60 bg-[var(--accent-ink-soft)]/40">
+      <div className="grid grid-cols-2 border-b border-[var(--accent-ink)]/40 bg-[var(--card-bg)]">
         <p className="border-r border-border/60 px-4 py-3 text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--accent-ink)]">
           Lado Brasil
         </p>
@@ -652,7 +652,13 @@ function BeneficiosComparativo({
       </div>
       <ul className="divide-y divide-border/40">
         {Array.from({ length: linhas }).map((_, i) => (
-          <li key={i} className="grid grid-cols-2">
+          <li
+            key={i}
+            className={
+              "grid grid-cols-2 " +
+              (i % 2 === 1 ? "bg-[var(--paper-soft)]/40" : "")
+            }
+          >
             <div className="border-r border-border/40 px-4 py-3 text-sm leading-snug">
               {brasil[i] ? (
                 <span className="flex items-start gap-2.5">
