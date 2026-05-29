@@ -44,7 +44,7 @@ export async function salvarLaudoHistorico(payload: LaudoPayload): Promise<strin
       tipo: payload.cliente.especie || null,
       rmi_valor: rmiDoPayload(payload),
       caso: casoStr(payload.resultado.caso),
-      payload: payload as unknown as Record<string, unknown>,
+      payload: JSON.parse(JSON.stringify(payload)),
     })
     .select("id")
     .single();
