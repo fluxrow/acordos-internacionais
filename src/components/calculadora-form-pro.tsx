@@ -494,12 +494,13 @@ function Laudo({
       </header>
 
       {/* QUADRO DESTAQUE — caso 3 */}
-      {resultado.caso === 3 && resultado.rmiProrata != null && resultado.rmiTeorica != null && (
+      {resultado.caso === 3 && resultado.rmiProrata != null && resultado.prestacaoTeorica != null && (
         <div className="mt-6 grid gap-4 md:grid-cols-2">
           <Destaque label="RMI Pro-rata (Brasil)" sub="parte proporcional paga pelo INSS" value={formatarMoeda(resultado.rmiProrata)} tone={tone} highlight />
-          <Destaque label="RMI Teórica" sub={`SB × ${(coef * 100).toFixed(0)}%`} value={formatarMoeda(resultado.rmiTeorica)} tone={tone} />
+          <Destaque label="Prestação teórica" sub={`max(SB × ${(coef * 100).toFixed(0)}%, salário-mínimo)`} value={formatarMoeda(resultado.prestacaoTeorica)} tone={tone} />
         </div>
       )}
+
 
       {/* CONTADOR — caso 2B */}
       {resultado.caso === "2B" && resultado.mesesParaIdade != null && cliente.dataNasc && cliente.sexo && (
