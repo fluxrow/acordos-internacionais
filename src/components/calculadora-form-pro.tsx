@@ -475,7 +475,15 @@ export function CalculadoraFormPro() {
             />
           </>
         )}
-        <Button type="button" variant="ghost" onClick={limpar} className="gap-2 ml-auto rounded-sm">
+        <a
+          href="/hub/laudos"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="ml-auto inline-flex items-center gap-2 rounded-sm border border-border/70 bg-background/60 px-3 py-1.5 text-sm font-medium transition-all hover:border-foreground hover:bg-foreground hover:text-background"
+        >
+          <FileText className="h-4 w-4" aria-hidden /> Meus laudos
+        </a>
+        <Button type="button" variant="ghost" onClick={limpar} className="gap-2 rounded-sm">
           <Eraser className="h-4 w-4" aria-hidden /> Limpar
         </Button>
       </div>
