@@ -265,3 +265,13 @@ Ao final do cálculo (pública e Pro), exibimos um bloco "Análise estratégica"
 - **Tabela `public.calc_leads`** (Lovable Cloud): id, nome, email, telefone, pais, tipo, tempo_brasil_meses, tempo_pais_meses, data_nasc, sexo, resultado_caso, user_agent, referer, created_at. RLS: insert público (anon + auth), select/update/delete somente admin (`has_role`).
 - **E-mail comercial oficial**: `marcos@acordosinternacionais.com` — usar como destino padrão de `mailto:` em todo o site. Atualizado em `src/routes/contato.tsx`. E-mails de órgãos públicos estrangeiros em `acordos.$pais.tsx`/`hub.$pais.tsx` permanecem.
 
+
+## Atualização — Testes automatizados (2026-05-29)
+
+Suíte Vitest em `src/lib/__tests__/` cobre as regras críticas das três funções centrais:
+
+- **`calcularTriagem`** — 4 cenários (BR_SOLO, INSUFICIENTE, AGUARDA_IDADE, TOTALIZACAO_OK), idade mínima por sexo (62/65) e ausência de quaisquer campos monetários no retorno (garante que triagem nunca vaze SB/RMI/coeficiente).
+- **`calcularResultado`** — coeficiente capped em 1.0, pensão por morte = 1.0, **piso aplica antes do pro-rata**, pro-rata pode ficar abaixo do SMmin sem re-piso, indice = tBR / (tBR + tPais).
+- **`parsearCNIS`** — extração de nome/CPF/data, soma de períodos (descarta negativos e > 600m), filtro de ano < 1994, range de valores [100, 50000], média dos 80% maiores SC, fallback global quando nenhuma competência é casada, CNIS vazio retorna zeros.
+
+Comando: `bun run test`. 25 testes — qualquer regressão nas regras de piso, pro-rata ou filtros de CNIS quebra o build de testes.
