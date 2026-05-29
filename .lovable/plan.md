@@ -1,87 +1,84 @@
 ## Objetivo
 
-Adicionar suíte de testes para travar as regras de negócio das três funções centrais (`calcularTriagem`, `calcularResultado`, `parsearCNIS`), evitando regressões em piso do salário mínimo, pro-rata e filtros de competências do CNIS.
+Aumentar a precisão da extração de **competência** e **salário de contribuição** no parser CNIS quando o layout do PDF varia (Meu INSS web, Dataprev impressão, CNIS exportado por advogado, OCR), preservando o filtro a partir de **07/1994** e a média dos 80% maiores.
 
-## Stack de testes
+## Diagnóstico do parser atual
 
-- **Vitest** (alinhado com Vite 7 do projeto) + `@vitest/coverage-v8`.
-- Ambiente `node` (funções puras, sem DOM).
-- Script `test` no `package.json`: `vitest run` e `test:watch`: `vitest`.
-- Config mínima em `vitest.config.ts` com alias `@` apontando para `src/`.
+`src/lib/cnis-parser.ts` tem três pontos frágeis:
 
-## Arquivos a criar
+1. **Filtro por ano apenas** — `extrairAnoCompetencia` devolve só o ano, então `06/1994` passa pelo filtro. A regra correta é "competência ≥ 07/1994".
+2. **Pareamento competência↔valor linha-a-linha** — quando o `pdfjs-dist` quebra a tabela em linhas separadas (competência numa linha, salário em outra), nada casa e o parser cai no fallback global que perde precisão.
+3. **Confusão com outros valores monetários** — "Indicadores", "Remuneração consolidada", "Total" e datas de pagamento podem ser capturados como SC. Hoje o filtro é só de range [100, 50000].
 
-```
-vitest.config.ts
-src/lib/__tests__/calculadora.test.ts
-src/lib/__tests__/calculadora-resultado.test.ts
-src/lib/__tests__/cnis-parser.test.ts
-src/lib/__tests__/fixtures/cnis-sample.txt
-src/lib/__tests__/fixtures/cnis-pre-1994.txt
-```
+## Mudanças no parser (`src/lib/cnis-parser.ts`)
 
-## Cobertura de testes
+### 1. Competência como `mm/aaaa` (não apenas ano)
 
-### 1. `calcularTriagem` — triagem comercial (sem valores)
+Substituir `extrairAnoCompetencia` por `extrairCompetencia(linha) → { ano, mes } | null` aceitando:
+- `mm/aaaa` (Meu INSS): `07/1994`
+- `aaaa-mm` (export Dataprev): `1994-07`
+- `aaaa/mm`
+- Nome do mês em PT: `jul/1994`, `Julho/1994`, `JUL 1994` (tabela de mês → número)
 
-- **BR_SOLO**: `tempoBrasilMeses ≥ carencia` → retorna caso `BR_SOLO`, ignora país.
-- **INSUFICIENTE**: Brasil + país < carência → retorna `mesesFaltantes` correto.
-- **AGUARDA_IDADE**: aposentadoria por idade, carência somada OK, idade < mínima (62 F / 65 M) → retorna `mesesParaIdadeMin > 0`.
-- **TOTALIZACAO_OK**: idade suficiente + tempo somado suficiente, Brasil sozinho não basta.
-- **Pensão por morte** ignora idade mesmo com idade baixa (não cai em AGUARDA_IDADE).
-- Garante que `ResultadoTriagem` NÃO contém chaves `sb`, `rmi`, `coeficiente`, `prestacaoTeorica` (regra: triagem é sem valores).
+Filtro passa a ser `(ano > 1994) || (ano === 1994 && mes >= 7)`. Trava o teste atual de "06/1994 descarta" sem regressar nos casos já cobertos.
 
-### 2. `calcularResultado` — cálculo técnico (Pro)
+### 2. Pareamento robusto competência↔valor (multi-estratégia)
 
-Foco em **piso**, **pro-rata** e **ordem da aplicação**:
+Nova função `extrairCompetenciasESalarios(texto)` com 3 estratégias em cascata. A primeira que casar ≥ 12 pares vence:
 
-- **Caso 1 (BR solo)**: Brasil cumpre carência → `rmiTeorica = max(SB×coef, SMmin)`; sem `indiceProrata` nem `rmiProrata`.
-- **Caso 2 (insuficiente)**: tempo total < carência → `mesesFaltantes` correto; sem campos monetários.
-- **Caso 2B (aguarda idade)**: carência ok, idade pendente → `indiceProrata = tBR/tTotal`, `rmiProrata` projetada usando prestação COM piso.
-- **Caso 3 com SB informado**:
-  - **Piso aplica ANTES do pro-rata**: `prestacaoTeorica = max(SB×coef, SMmin)`, depois `rmiProrata = prestacaoTeorica × tBR/tTotal`. Cenário: SB baixo que ativa piso → conferir que `rmiProrata = SMmin × indice` (e não `SB×coef×indice`).
-  - **Pro-rata não tem piso pós-aplicação**: cenário em que `rmiProrata < SMmin` deve ser retornado como tal (sem re-piso).
-  - `indiceProrata = tBR/(tBR+tPais)` com precisão.
-- **Caso 3 sem SB**: retorna coeficiente mas sem `sb`/`rmiProrata` e com descrição pedindo o SB.
-- **Coeficiente da aposentadoria por idade**: 0.70 + 0.01 × anos, capped em 1.0.
-- **Pensão por morte**: coeficiente fixo 1.0 independente do tempo.
+- **A. Linha única** (layout atual): competência + valor na mesma linha. Mantém comportamento de hoje.
+- **B. Tabela colunar** (layout Meu INSS PDF): varre janelas de N linhas consecutivas; se houver uma sequência de competências `mm/aaaa` seguida de uma sequência igual de valores monetários, pareia por índice.
+- **C. Token-stream** (PDFs sem quebras claras): tokeniza o texto inteiro em `[COMPETENCIA, VALOR, COMPETENCIA, VALOR, ...]` ignorando ruído, com janela máxima de N tokens entre competência e próximo valor (default 3) para garantir adjacência.
 
-### 3. `parsearCNIS` — extração e filtros
+Cada estratégia retorna `Array<{ ano: number; mes: number; valor: number }>`. O caller aplica o filtro ≥ 07/1994 + range [100, 50000].
 
-Usando texto sintético em fixtures (não PDF):
+### 3. Filtros para evitar falsos positivos de valor
 
-- **Extração de nome/CPF/data de nascimento** com layout padrão.
-- **Soma de períodos** via pares `dd/mm/aaaa dd/mm/aaaa`, descartando intervalos negativos ou > 600 meses.
-- **Filtro ≥ 07/1994 (Plano Real)**: linha com competência `06/1994` + valor é DESCARTADA; competência `07/1994` é incluída.
-- **Filtro de valores absurdos** (`< 100` ou `> 50000`) descartados.
-- **Média dos 80% maiores SC**: dada uma lista conhecida, validar que o quintil inferior é descartado e a média bate com cálculo manual.
-- **Fallback sem competência casada**: texto só com valores em `R$` → usa fallback global, ainda aplica filtros de range.
-- **CNIS vazio / sem dados**: retorna zeros e strings vazias sem lançar erro.
-- **Limite de amostra 600**: lista com 800 valores → considera somente 600.
+Antes de aceitar um valor como SC:
 
-## Detalhes técnicos
+- Descartar linhas cujo contexto contenha palavras-chave de "não-SC": `Indicadores`, `Total`, `Consolidad`, `13º`, `Décimo`, `Devido`, `Pago em`, `Vencimento`, `Multa`, `Juros`.
+- Descartar valores que aparecem em **linhas com 2+ valores monetários sem competência** (provavelmente totais ou pagamentos).
+- Manter range [100, 50000].
 
-- `vitest.config.ts` simples:
-  ```ts
-  import { defineConfig } from 'vitest/config'
-  import path from 'path'
-  export default defineConfig({
-    test: { environment: 'node', include: ['src/**/*.test.ts'] },
-    resolve: { alias: { '@': path.resolve(__dirname, 'src') } },
-  })
-  ```
-- Datas de nascimento dependentes de "hoje" (`calcIdade`, `mesesParaIdade`): usar `vi.setSystemTime(new Date('2026-05-29'))` em `beforeEach` para tornar os testes determinísticos.
-- Sem mocks de Supabase nem de PDF.js — `parsearCNIS` recebe `string` pronta, e as fixtures simulam o texto que o `pdfjs-dist` produziria.
-- Não tocar em `calculadora-form.tsx`, `calculadora-form-pro.tsx`, nem em rotas — somente lógica pura.
+### 4. De-duplicação por competência
 
-## Documentação
+Se a mesma competência aparecer duas vezes (ex.: vínculos paralelos), **somar** os SC da competência (regra do INSS para concorrência de vínculos no mesmo mês), respeitando o teto. Como não temos o teto vigente por competência, aplicar apenas a soma e capar em 50.000 (limite atual de sanidade).
 
-- `ROADMAP.md`: marcar "Suíte de testes das regras de cálculo" como concluída.
-- `.lovable/prd.md`: nota curta de que as regras (piso → pro-rata, filtro 07/1994, 80% maiores) estão cobertas por Vitest.
+### 5. Fallback mantido
+
+Se nenhuma das 3 estratégias retornar ≥ 1 par válido, mantém o fallback global atual (todos os valores em `R$` ou em formato `BR`, filtrados por range) — assim CNIS muito degradados (OCR ruim) ainda produzem estimativa.
+
+### 6. Cabeçalho mais tolerante
+
+- Nome: aceitar variações com acentos minúsculos (`Nome do Segurado:`, `NOME:`), parar em quebra de linha.
+- CPF: aceitar `Nº do CPF` e `CPF/MF`.
+- Data nasc: aceitar `DN:`, `Data de Nascimento:`, `Nasc.:`, `Nascido(a) em:`.
+
+Sem mudar a assinatura de `DadosCNIS` — só melhorando a robustez dos matchers.
+
+## Testes (novos / atualizados em `src/lib/__tests__/cnis-parser.test.ts`)
+
+Substituir o teste "filtro por ano < 1994" pelo teste real "filtro por competência ≥ 07/1994":
+
+- `06/1994` é descartado, `07/1994` entra.
+- `aaaa-mm` e `jul/1994` reconhecidos.
+
+Novos testes:
+
+- **Tabela colunar**: bloco com 6 competências seguidas + 6 valores na ordem → todos pareados corretamente.
+- **Token-stream**: texto sem quebras de linha com competências e valores intercalados.
+- **Falsos positivos**: linha com `Total: R$ 99.000,00` (sem competência) é ignorada.
+- **Dedup/concorrência de vínculos**: mesma competência aparece 2× com 1.000 e 1.500 → contabiliza 2.500 (uma entrada por competência).
+- **Mês por extenso**: `Jul/1994 R$ 800,00` reconhecido como 07/1994 (entra).
+- Manter os testes verdes hoje (range, 80% maiores, fallback global, CNIS vazio).
 
 ## Fora de escopo
 
-- Testes de componentes React / formulários.
-- Testes E2E.
-- Mock de `pdfjs-dist` (apenas o texto extraído é testado).
-- CI/pipeline — apenas script local `bun run test`.
+- Correção monetária pelo INPC (já documentado como estimativa).
+- Aplicar teto previdenciário por competência (precisaria tabela histórica).
+- Extração de vínculos individualizados (empregador, NIT). Hoje só o agregado importa.
+- Mudar a UI ou os componentes da calculadora.
+
+## Documentação
+
+- `ROADMAP.md` + `.lovable/prd.md`: nota da rodada de hardening do parser e do filtro corrigido para competência (não ano).

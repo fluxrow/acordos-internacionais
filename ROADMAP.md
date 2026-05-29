@@ -271,3 +271,10 @@
 ## 2026-05-29 — Suíte de testes das regras de cálculo
 - Vitest configurado (`vitest.config.ts`, scripts `test` e `test:watch`).
 - 25 testes em `src/lib/__tests__/` cobrindo: triagem (4 casos + ausência de campos monetários), cálculo técnico (piso ANTES do pro-rata, pro-rata sem re-piso, coeficiente capped em 1.0, pensão por morte = 1.0), parser CNIS (filtro de ano < 1994, range de valores, 80% maiores SC, fallback global, intervalos absurdos).
+
+## 2026-05-29 — Hardening do parser CNIS (variação de layout)
+- `src/lib/cnis-parser.ts` refatorado: extrai **competência mm/aaaa** (não apenas ano) aceitando `mm/aaaa`, `aaaa-mm`, `aaaa/mm` e mês por extenso (`jul/1994`, `Julho/1994`). Filtro real `≥ 07/1994`.
+- Três estratégias de pareamento competência↔valor em cascata (linha única → tabela colunar → token-stream), cobrindo layouts Meu INSS / Dataprev / OCR.
+- Filtro anti-falsos-positivos por palavras-chave (`Total`, `Indicador`, `13º`, `Consolidado`…). Vínculos paralelos: soma SCs na mesma competência (cap 50k).
+- Cabeçalho aceita `Nome do Segurado`, `CPF/MF`, `DN`, `Nascido(a) em`.
+- Testes atualizados: 31/31 passando (14 cobrindo o parser, incl. layout colunar, mês por extenso, dedup de vínculos, filtro 06/1994 vs 07/1994).
