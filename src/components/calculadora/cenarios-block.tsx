@@ -73,20 +73,18 @@ function CenarioCard({ cenario, defaultOpen }: { cenario: Cenario; defaultOpen: 
         />
       </button>
 
-      {(open || true) && (
-        <div
-          className={`grid gap-4 border-t border-[var(--border)] px-5 py-5 md:grid-cols-2 ${
-            open ? "" : "hidden print:grid"
-          }`}
-        >
-          <PainelSegurado texto={cenario.segurado} />
-          <PainelAdvogado
-            chamada={cenario.advogado.chamada}
-            bullets={cenario.advogado.bullets}
-            citacoes={cenario.citacoes}
-          />
-        </div>
-      )}
+      <div
+        className={`grid gap-4 border-t border-[var(--border)] px-5 py-5 md:grid-cols-2 ${
+          open ? "" : "hidden print:grid"
+        }`}
+      >
+        <PainelSegurado texto={cenario.segurado} />
+        <PainelAdvogado
+          chamada={cenario.advogado.chamada}
+          bullets={cenario.advogado.bullets}
+          citacoes={cenario.citacoes}
+        />
+      </div>
     </article>
   );
 }
