@@ -252,3 +252,9 @@ Tema ativo migrado de Paper & Ink para Premium Dark + Gold. Backup do tema anter
 
 ## Calculadoras (atualização)
 Ao final do cálculo (pública e Pro), exibimos um bloco "Análise estratégica" com cartões por cenário detectado (G1/G2/G2B/G2F/G3/G4). Cada cartão tem duas colunas: "Segurado vê" (linguagem leiga) e "Advogado vê" (chamada técnica + bullets de recomendação + chips com citações legais — decreto do acordo bilateral, base normativa). O texto é gerado dinamicamente a partir dos números reais do usuário. Garante que o advogado consiga avaliar viabilidade da totalização e o segurado entenda o caso.
+
+
+## Atualização — Calculadoras
+
+- **Calculadora pública (segurado)** — triagem comercial. Coleta CNIS/manual, tempo exterior, tipo, país, idade/sexo. Mostra apenas indícios de direito (4 cenários textuais) + CTAs para `/contato`. **Não exibe** SB, média, prestação, coeficiente, pro-rata, RMI ou valor em R$.
+- **Calculadora Pro (advogado)** — laudo técnico. SMmin = R$ 1.621. Coeficiente aposentadoria por idade = min(1.00, 0.70 + anos·0.01). Piso (SM) aplica na **prestação teórica antes** do pro-rata. Parser CNIS filtra competências ≥ 07/1994 e usa média dos **80% maiores** SC. Drop-zone aceita drag&drop de PDF.
