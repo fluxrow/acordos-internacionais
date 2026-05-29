@@ -293,3 +293,9 @@
 - Rota `/_authenticated/hub/laudo` agora aceita `?id=<uuid>` e carrega o payload do banco, permitindo reabrir e reimprimir laudos antigos.
 - Nova rota `/_authenticated/hub/laudos` (`src/routes/_authenticated/hub.laudos.tsx`) lista os laudos do usuário (cliente, ref, país, CPF, data/hora, caso, RMI), com ações **Abrir** (nova aba para reimprimir) e **Excluir** (confirm + delete + invalidate).
 - Atalhos adicionados: card "Histórico de laudos" no `/hub` e botão "Meus laudos" na calculadora Pro.
+
+## 2026-05-29 — Plano Mensal reintroduzido em /precos
+- ✅ Produto Stripe `hub_mensal_plan` + price `hub_mensal` (BRL 97,00/mês, recurring, tax_code `txcd_10103001`) criados via `payments--create_product`.
+- ✅ `/precos` agora tem **toggle Mensal/Anual** no card principal + card Fundadores ao lado (grid 2 colunas). Anual default com badge "Mais popular" e microcopy "Economize ~32% vs. mensal". Mensal mostra "Cancele quando quiser".
+- ✅ Nenhuma mudança em `createCheckoutSession` — segue resolvendo por `lookup_key` (`hub_mensal`, `hub_anual`, `hub_fundadores`).
+- ✅ PRD §6 atualizado (oferta = mensal + anual + fundadores; "mensal descartado" removido).
