@@ -395,8 +395,13 @@ export function CalculadoraFormPro() {
         </Button>
         {resultado && (
           <>
-            <Button type="button" variant="outline" onClick={() => window.print()} className="gap-2 rounded-sm">
-              <Printer className="h-4 w-4" aria-hidden /> Imprimir / PDF
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => gerarLaudoPdf()}
+              className="gap-2 rounded-sm"
+            >
+              <FileText className="h-4 w-4" aria-hidden /> Gerar laudo PDF
             </Button>
             <SalvarCalculoButton
               pais={pais}
