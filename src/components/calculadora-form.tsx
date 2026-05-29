@@ -447,6 +447,32 @@ export function CalculadoraForm() {
           <TriagemView resultado={resultado} pais={pais} tipo={tipo as TipoBeneficio} />
         </div>
       )}
+
+      <LeadCaptureDialog
+        open={leadOpen}
+        onOpenChange={(v) => {
+          setLeadOpen(v);
+          if (!v) setPendingCalc(null);
+        }}
+        contexto={
+          {
+            pais,
+            tipo,
+            tempo_brasil_meses: pendingCalc?.tempoBrasilMeses,
+            tempo_pais_meses: pendingCalc?.tempoPaisMeses,
+            data_nasc: dataNascISO || null,
+            sexo,
+          } satisfies LeadContexto
+        }
+        onSubmitted={() => {
+          setLeadOpen(false);
+          if (pendingCalc) {
+            const p = pendingCalc;
+            setPendingCalc(null);
+            executarCalculo(p);
+          }
+        }}
+      />
     </form>
   );
 }
