@@ -38,7 +38,7 @@ function Contato() {
     const assunto = encodeURIComponent(
       `[Acordos Internacionais] Contato — ${form.nome || "novo lead"}`,
     );
-    window.location.href = `mailto:contato@acordosinternacionais.com?subject=${assunto}&body=${corpo}`;
+    window.location.href = `mailto:marcos@acordosinternacionais.com?subject=${assunto}&body=${corpo}`;
     setEnviado(true);
   }
 

@@ -1,79 +1,51 @@
-# Reescrita das duas calculadoras + fixes pendentes
+## 1. Lead-gate antes do resultado (calculadora do segurado)
 
-## Objetivo
-Separar de vez as duas calculadoras: **segurado = triagem comercial sem valores**, **advogado = laudo técnico completo**. Resolver no mesmo ciclo o drag&drop do Pro e o ícone de calendário invisível no tema dark.
+Em `src/components/calculadora-form.tsx`:
 
-## Mudanças no núcleo — `src/lib/calculadora.ts`
+- Adicionar estado `leadModalAberto` e `lead` (`{ nome, email, telefone }`) e um flag `leadEnviado` (persistido em `sessionStorage` como `triagem_lead_v1` para não pedir de novo na mesma sessão).
+- Em `onCalcular`: após toda a validação dos campos, se `!leadEnviado`, guardar o payload de cálculo num ref e abrir o modal — **não** chamar `calcularTriagem` ainda. Só rodar o cálculo e exibir resultado depois do envio do lead.
+- Criar componente `LeadCaptureDialog` (usa `Dialog` do shadcn já presente) com:
+  - Título: "Falta só um passo para ver seu resultado"
+  - Subtítulo curto: "Para liberar a análise preencha os dados abaixo.
+  - Campos obrigatórios: Nome, E-mail, Telefone/WhatsApp (com máscara simples BR).
+  - Validação zod (nome 2–100, email válido, telefone 10–15 dígitos).
+  - Checkbox "Aceito ser contatado pela equipe do Acordo Internacional sobre meu caso" (obrigatório).
+  - Botão "Ver meu resultado" → grava em Supabase e, no sucesso, fecha modal, marca `leadEnviado`, roda `calcularTriagem` e exibe.
+  - Botão secundário "Cancelar" fecha sem calcular.
+- O modal não pode ser fechado clicando fora enquanto o cálculo está pendente (apenas no botão Cancelar) — evita pular o gate.
 
-Reescrever para suportar dois modos sem regressão de tipos:
+## 2. Persistência do lead (Supabase via Lovable Cloud)
 
-- `SMmin = 1621` (era 1412).
-- Nova função `calcularTriagem(params)` → retorna apenas `{ caso, titulo, mensagem, tempoBrasil, tempoPais, tempoTotal, carencia, idadeAtual, idadeMin, mesesFaltantes?, mesesParaIdade? }`. Sem `SB`, sem `rmiTeorica`, sem `rmiProrata`, sem moeda. Mapeia os 4 cenários do brief (Brasil já cumpre / total insuficiente / idade pendente / totalização viável).
-- Reescrever `calcularResultado` (usado só pelo Pro) seguindo o brief:
-  - `tempoTotal = tempoBrasil + tempoPais`
-  - `coeficiente`: aposentadoria por idade → `min(1.00, 0.70 + floor(tempoTotal/12) * 0.01)`; pensão por morte → `1.00`
-  - `prestacaoTeoricaSemPiso = SB * coeficiente`
-  - `prestacaoTeorica = max(prestacaoTeoricaSemPiso, SMmin)` **antes** do pro-rata (hoje é depois — corrigir)
-  - `indiceProrata = tempoBrasil / tempoTotal`
-  - `rmiProrata = prestacaoTeorica * indiceProrata` (sem piso pós pro-rata)
-  - 4 cenários A/B/C/D conforme brief, incluindo cenário A retornando RMI integral (sem pro-rata) com aviso de que totalização reduziria o valor
-- Tipo `ResultadoTriagem` (novo, sem campos monetários) e `ResultadoCalculo` (mantém campos monetários + `prestacaoTeoricaSemPiso`, `coeficiente`, `indiceProrata` expostos para o laudo).
+Nova tabela pública `calc_leads` (migração separada, a ser aprovada):
 
-## `src/components/calculadora-form.tsx` (público — segurado)
+- Colunas: `id uuid pk`, `nome text`, `email text`, `telefone text`, `pais text`, `tipo text`, `tempo_brasil_meses int`, `tempo_pais_meses int`, `data_nasc date`, `sexo text`, `resultado_caso text`, `user_agent text`, `referer text`, `created_at timestamptz default now()`.
+- RLS habilitada. Policies:
+  - `INSERT` permitido para `anon` e `authenticated` (formulário público).
+  - `SELECT/UPDATE/DELETE` somente para `admin` via `has_role(auth.uid(),'admin')`.
+- GRANTs: `INSERT` para `anon`, `INSERT/SELECT/UPDATE/DELETE` para `authenticated`, `ALL` para `service_role`.
 
-Reescrita enxuta. Remover qualquer referência a `SMmin`, `mediaSalarial`, `formatarMoeda`, `CenariosBlock`, `estimativa`, `sbFinal`.
+O front grava direto via `supabase.from('calc_leads').insert(...)` (sem expor PII via select). Se a inserção falhar, mostra erro mas **permite** seguir com cálculo (não bloquear o usuário por falha de backend) — log no console.
 
-**Coleta**:
-- CNIS PDF: usar `parsearCNIS` mas consumir apenas `nome`, `cpf`, `dataNasc`, `totalMeses`. Ignorar `mediasSalarial`.
-- Manual: tempo Brasil em anos + meses (já existe).
-- Tempo exterior: datas ou meses (já existe).
-- Tipo de benefício, país acordante, data nascimento, sexo (já existem).
+## 3. E-mail comercial unificado: `marcos@acordosinternacionais.com`
 
-**Resultado**: novo `ResultadoTriagemView` que mostra apenas:
-- Título do cenário + badge (gold) com a `mensagem` exata do brief para cada caso.
-- Resumo factual de input (tempo BR, tempo exterior, tempo total, carência exigida, idade atual quando relevante).
-- Bloco CTA com três botões: "Falar com especialista", "Analisar meu caso", "Quero verificar meu direito" — todos apontando para `/contato` (mesmo destino do `CTAMarcos` atual; manter o `<CTAMarcos>` abaixo como reforço editorial).
-- Remover `CenariosBlock` desta tela (era um híbrido que vazava conteúdo técnico para o público).
+Substituir em todos os pontos:
 
-**Sem**: SB, média, prestação teórica, coeficiente, pro-rata, RMI, valor em R$, fórmula.
+- `src/routes/contato.tsx` linha 41: `mailto:contato@acordosinternacionais.com` → `mailto:marcos@acordosinternacionais.com`.
+- Buscar e atualizar quaisquer outras strings `contato@acordosinternacionais.com` / `contato@acordos…` no projeto (footer, página de contato, CTAs, página "Sobre", legais, JSON-LD, head metadata). Rodar `rg "acordosinternacionais\.com"` e revisar cada ocorrência que represente e-mail comercial — manter URLs do domínio (`https://acordosinternacionais.com`) intactas.
+- Atualizar JSON-LD/Schema.org (se houver `contactPoint.email`) e Open Graph que cite e-mail.
+- `mailto:` de órgãos públicos em `acordos.$pais.tsx` / `hub.$pais.tsx` permanecem (são e-mails de instituições estrangeiras, não da empresa).
 
-## `src/components/calculadora-form-pro.tsx` (Pro — advogado)
+## 4. Governança
 
-**A. Drag & drop do CNIS** (fix pendente, ainda não aplicado):
-- Adicionar `dragOver` state. Trocar `<label>` por `<div role="button" tabIndex={0}>` com `onClick`/`onKeyDown` disparando `fileRef.current?.click()`, mantendo `<input type="file" className="sr-only">`.
-- `onDragOver`/`onDragLeave`/`onDrop` com `e.preventDefault()`, valida `application/pdf`, chama `lerCnis(file)`. Erro amigável se não for PDF.
-
-**B. Cálculo técnico**:
-- Trocar `SMmin = 1412` → `1621` (via `src/lib/calculadora.ts`).
-- Expor no laudo: SB, PBC (início efetivo a partir de 07/1994), média, coeficiente, prestação teórica **sem piso**, salário mínimo aplicado, prestação teórica final, tempo BR, tempo exterior, tempo total, índice pro-rata, RMI pro-rata, fórmula renderizada (`RMI pro-rata = Prestação teórica × Tempo Brasil / Tempo total`) e o parágrafo técnico do brief.
-- Quando SB vem do CNIS, mostrar tag "estimativa sem correção INPC oficial" abaixo do campo SB; permitir override manual do SB já corrigido (campo `sbManual` que sobrepõe o do CNIS — provavelmente já existe; revisar e rotular).
-- No parser CNIS (`src/lib/cnis-parser.ts`): filtrar salários por competência ≥ 07/1994. Hoje o parser captura valores sem janela temporal — adicionar regex/competência por linha e ignorar anteriores. Calcular média dos 80% maiores (descartar o quintil inferior) em vez da média simples.
-- Quatro cenários A/B/C/D conforme brief, com mensagens-padrão e blocos visuais distintos (já temos `CenariosBlock` — adaptar/renomear para alimentar com `ResultadoCalculo` enriquecido).
-
-**C. Manter**: identificação do cliente, botão Imprimir/PDF, rodapé identificável, `print:` styles.
-
-## `src/styles.css` — calendário visível no dark
-Adicionar regra global:
-```css
-input[type="date"], input[type="datetime-local"], input[type="time"], input[type="month"] {
-  color-scheme: dark;
-}
-```
-Restaura o ícone nativo do picker em todos os campos de data (calculadoras + futuras telas) sem mexer em componente nenhum.
-
-## Detalhes técnicos
-- Nenhuma mudança de backend, schema, server fn ou auth.
-- `ResultadoCalculo` mantém compatibilidade com `cenarios-block.tsx`; adicionar campos novos (`prestacaoTeoricaSemPiso`, `coeficiente`, `indiceProrata`) opcionais.
-- Remover do segurado: import de `SMmin`, `formatarMoeda`, `CenariosBlock`.
-- Sem `<input type="date">` será substituído (a regra `color-scheme: dark` resolve sem trocar componente).
-- Garantir que `calcularTriagem` e `calcularResultado` compartilhem os mesmos blocos de cálculo de tempo/carência/idade para evitar divergência entre as duas telas.
-
-## Governança
-- `ROADMAP.md`: entrada do dia com "Segurado = triagem; Advogado = laudo (SMmin 1621, PBC 07/1994, piso pré pro-rata, parser 80% maiores)".
-- `.lovable/prd.md`: atualizar seção das calculadoras descrevendo a nova separação de responsabilidades e o conjunto de outputs permitidos em cada uma.
-- README/stack: sem mudança.
+- Atualizar `.lovable/prd.md` (nova feature: lead-gate na triagem; e-mail oficial) e `ROADMAP.md`.
+- Sem mudanças na calculadora Pro (advogado): ela continua sem lead-gate.
 
 ## Fora de escopo
-- Tabela INPC oficial de correção (mantém override manual; sinalizar como roadmap).
-- Persistir resultados de triagem em `calc_history` (Pro continua persistindo).
-- Tradução/i18n.
+
+- Envio automático de e-mail/notificação para Marcos (fica para fase 2 — pode ser um trigger ou Resend depois).
+- Painel admin para listar leads (fase 2). fase 2
+- Integração com WhatsApp Business / CRM. fase
+
+## Aprovações necessárias
+
+- Migração SQL da tabela `calc_leads` (vai pedir aprovação ao executar).

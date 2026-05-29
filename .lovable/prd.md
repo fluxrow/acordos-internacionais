@@ -258,3 +258,10 @@ Ao final do cálculo (pública e Pro), exibimos um bloco "Análise estratégica"
 
 - **Calculadora pública (segurado)** — triagem comercial. Coleta CNIS/manual, tempo exterior, tipo, país, idade/sexo. Mostra apenas indícios de direito (4 cenários textuais) + CTAs para `/contato`. **Não exibe** SB, média, prestação, coeficiente, pro-rata, RMI ou valor em R$.
 - **Calculadora Pro (advogado)** — laudo técnico. SMmin = R$ 1.621. Coeficiente aposentadoria por idade = min(1.00, 0.70 + anos·0.01). Piso (SM) aplica na **prestação teórica antes** do pro-rata. Parser CNIS filtra competências ≥ 07/1994 e usa média dos **80% maiores** SC. Drop-zone aceita drag&drop de PDF.
+
+## Atualização — Lead gate (segurado) e e-mail oficial
+
+- **Lead gate**: na calculadora pública, após validar os campos e antes de exibir o resultado, abre um modal exigindo **nome, e-mail e telefone** + checkbox de consentimento. O cálculo só roda após o envio do lead. Persistido em `sessionStorage` (`triagem_lead_v1`) para não repetir na mesma sessão. Falha na gravação não bloqueia o resultado (apenas log).
+- **Tabela `public.calc_leads`** (Lovable Cloud): id, nome, email, telefone, pais, tipo, tempo_brasil_meses, tempo_pais_meses, data_nasc, sexo, resultado_caso, user_agent, referer, created_at. RLS: insert público (anon + auth), select/update/delete somente admin (`has_role`).
+- **E-mail comercial oficial**: `marcos@acordosinternacionais.com` — usar como destino padrão de `mailto:` em todo o site. Atualizado em `src/routes/contato.tsx`. E-mails de órgãos públicos estrangeiros em `acordos.$pais.tsx`/`hub.$pais.tsx` permanecem.
+

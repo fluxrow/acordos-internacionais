@@ -261,3 +261,9 @@
 - Segurado = triagem sem valores (CalcularTriagem; 4 cenários textuais + CTAs).
 - Advogado = laudo técnico (SMmin 1621, coef 0,70 + anos·0,01, piso pré pro-rata, parser CNIS 80% maiores ≥ 07/1994).
 - Fix: drop-zone do Pro (drag&drop) + color-scheme dark nos <input type="date">.
+
+## 2026-05-29 — Lead gate na calculadora do segurado + e-mail oficial
+- Antes de mostrar o resultado da triagem, abre modal pedindo nome, e-mail e telefone (zod + checkbox de consentimento). Sem o lead, o cálculo não é executado. Reenvio dispensado na mesma sessão (`sessionStorage`).
+- Nova tabela `public.calc_leads` (RLS: insert público anon/auth, select/update/delete só admin). Grava também país, tipo, tempo Brasil/exterior, data nasc, sexo, caso da triagem, user-agent e referer.
+- E-mail comercial unificado: `marcos@acordosinternacionais.com` (substitui `contato@…` no mailto da página /contato).
+

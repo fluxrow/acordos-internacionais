@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { CTAMarcos } from "@/components/cta-marcos";
+import { LeadCaptureDialog, type LeadContexto } from "@/components/lead-capture-dialog";
 import {
   PAISES_ACORDO,
   calcMesesEntreDatas,
@@ -75,6 +76,14 @@ export function CalculadoraForm() {
 
   const [resultado, setResultado] = useState<ResultadoTriagem | null>(null);
   const [erroForm, setErroForm] = useState<string | null>(null);
+  const [leadOpen, setLeadOpen] = useState(false);
+  const [pendingCalc, setPendingCalc] = useState<{
+    tempoBrasilMeses: number;
+    tempoPaisMeses: number;
+    tipo: TipoBeneficio;
+    nascInput: string;
+    sexo: Sexo;
+  } | null>(null);
 
   async function processarArquivo(file: File) {
     setCarregandoPdf(true);
@@ -109,6 +118,23 @@ export function CalculadoraForm() {
     setDragOver(false);
     const file = e.dataTransfer.files?.[0];
     if (file) void processarArquivo(file);
+  }
+
+  function executarCalculo(payload: {
+    tempoBrasilMeses: number;
+    tempoPaisMeses: number;
+    tipo: TipoBeneficio;
+    nascInput: string;
+    sexo: Sexo;
+  }) {
+    const r = calcularTriagem(payload);
+    setResultado(r);
+    setTimeout(() => {
+      document.getElementById("resultado-calc")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }, 60);
   }
 
   function onCalcular(e: React.FormEvent) {
@@ -151,20 +177,28 @@ export function CalculadoraForm() {
       return;
     }
 
-    const r = calcularTriagem({
+    const payload = {
       tempoBrasilMeses,
       tempoPaisMeses,
       tipo: tipo as TipoBeneficio,
       nascInput: isoParaBR(dataNascISO),
       sexo: sexo as Sexo,
-    });
-    setResultado(r);
-    setTimeout(() => {
-      document.getElementById("resultado-calc")?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }, 60);
+    };
+
+    let jaEnviou = false;
+    try {
+      jaEnviou = sessionStorage.getItem("triagem_lead_v1") === "1";
+    } catch {
+      /* noop */
+    }
+
+    if (jaEnviou) {
+      executarCalculo(payload);
+      return;
+    }
+
+    setPendingCalc(payload);
+    setLeadOpen(true);
   }
 
   return (
@@ -413,6 +447,35 @@ export function CalculadoraForm() {
           <TriagemView resultado={resultado} pais={pais} tipo={tipo as TipoBeneficio} />
         </div>
       )}
+
+      <LeadCaptureDialog
+        open={leadOpen}
+        onOpenChange={(v) => {
+          setLeadOpen(v);
+          if (!v) setPendingCalc(null);
+        }}
+        contexto={
+          {
+            pais,
+            tipo,
+            tempo_brasil_meses: pendingCalc?.tempoBrasilMeses,
+            tempo_pais_meses: pendingCalc?.tempoPaisMeses,
+            data_nasc: dataNascISO || null,
+            sexo,
+            resultado_caso: pendingCalc
+              ? calcularTriagem(pendingCalc).caso
+              : undefined,
+          } satisfies LeadContexto
+        }
+        onSubmitted={() => {
+          setLeadOpen(false);
+          if (pendingCalc) {
+            const p = pendingCalc;
+            setPendingCalc(null);
+            executarCalculo(p);
+          }
+        }}
+      />
     </form>
   );
 }
