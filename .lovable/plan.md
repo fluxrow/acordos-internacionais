@@ -1,75 +1,101 @@
-## Ultrareview — o que encontrei em cada rota
+## Objetivo
 
-Varri todas as rotas públicas após a migração para Premium Dark + Gold. A estrutura ficou ótima, mas alguns blocos ainda usam combinações ouro-sobre-ouro ou claro-sobre-claro herdadas do tema Paper & Ink — texto fica ilegível. Abaixo o que ajustar, agrupado por tipo, sem mexer em globos, fontes, copy ou layout.
+Alinhar nossas duas calculadoras com as referências do Marcos, mantendo a identidade **Premium Dark + Gold** (sem copiar o visual azul/lilás dos HTMLs).
 
-### Pontos críticos (legibilidade)
+1. Após o cálculo, exibir um bloco com **duas colunas** (Segurado vê / Advogado vê) cujo conteúdo é gerado dinamicamente a partir dos dados do usuário, no padrão das imagens G1–G4.
+2. Esse bloco aparece **tanto na calculadora pública** (`/calculadora`) **quanto na do hub** (`/hub/calculadora`).
+3. Complementar a calculadora pública com o tutorial CNIS expandido e a numeração 1/2/3 do HTML segurado.
 
-**1. Banda CTA "Falar com o Dr. Marcos" (rodapé de várias páginas)**
-- Sintoma: faixa amarela ocupa a largura toda; título, subtítulo e botão somem (gold-sobre-gold).
-- Onde aparece: `/jornadas/$jornada`, `/sobre/dr-marcos`, possivelmente outras que usam `CtaMarcos`.
-- Fix: trocar fundo da banda para `--paper-soft` (ou `--card-bg`), título em `--ink` com 1–2 palavras `--accent-ink`, botão pílula dourada com `text-paper`. Mantém o destaque sem o "muro de ouro".
+## Cenários a detectar (matriz)
 
-**2. Card "Hub Profissional" / ProContentLock**
-- Sintoma: CTA "Acessar o hub" usa `bg-[var(--accent-ink)]` + `text-card-foreground` (que ficou claro) → texto some. Eyebrow "PARA ADVOGADOS" em gold sobre gold.
-- Onde: `pro-content-lock.tsx`, `/acordos/$pais`, `/sobre/dr-marcos`, `/profissional`.
-- Fix: `text-card-foreground` → `text-[var(--paper)]` no CTA; revisar lista de bullets para usar `bg-[var(--paper-soft)]` em vez de `bg-background/40`.
+A partir do `ResultadoCalculo` + inputs, classificar em **um ou mais** cenários (podem combinar, ex.: G1+G4):
 
-**3. Lista de documentos em `/acordos/$pais`**
-- Sintoma: badges/pílulas de "DOWNLOAD" e códigos (BR/PT 15 etc.) aparecem como retângulos dourados sólidos sem texto visível.
-- Fix: badges com `bg-[color-mix(in_oklab,var(--accent-ink)_18%,transparent)]` + borda gold + `text-[var(--accent-ink)]`, ou inverter para `bg-[var(--accent-ink)]` + `text-[var(--paper)]` quando for ação principal.
+| ID | Gatilho | Quando | Texto guiado pelas imagens |
+|----|---------|--------|----------------------------|
+| G1 | `caso === 1` | Brasil já cumpre carência solo | "Carência já cumprida solo" |
+| G2 | `caso === 3` e ambos `tempoBrasil` e `tempoPais` ≥ ~96 meses (8 anos) e `tempoBrasil < carencia` | Dupla elegibilidade potencial | "Tempo relevante nos dois países" |
+| G3 | `caso === 3` e `(rmiTeorica − rmiProrata) / rmiTeorica > 0.20` | Pro-rata penaliza >20% | "Pro-rata reduz RMI em mais de 20%" |
+| G4 | `tempoPais < 180` (independente do caso) e país tem carência conhecida | Tempo no exterior insuficiente para benefício autônomo no país | "Tempo no exterior insuficiente" |
 
-**4. Bloco "internacional" do `/sobre/dr-marcos` (card amarelo "Brasileiros entre dois sistemas")**
-- Sintoma: fundo `--accent-ink-soft` + texto que ficou claro = ilegível.
-- Fix: trocar para fundo `--card-bg` com borda `--accent-ink` + eyebrow gold + corpo `--ink`. Mantém o pareamento "card neutro / card destaque" sem perder texto.
+`caso === 2` e `caso === "2B"` ganham variantes específicas (G2-faltam-meses e G2B-aguardar-idade) com mesmo formato dois-cards.
 
-**5. Hero da `/calculadora`**
-- Sintoma: gradiente dourado por cima do hero apaga eyebrow ("FERRAMENTA GRATUITA") e subtítulo.
-- Fix: reduzir intensidade do glow (opacity ~30%) e/ou aplicar `text-shadow` sutil; subtítulo em `text-foreground/85` em vez de muted.
+## Componente único
 
-**6. Seção "world map" do `/profissional`**
-- Sintoma: dois blocos brancos (mapa + bio do Dr. Marcos) com texto claro = invisível.
-- Fix: aplicar fundo `--paper-soft` com overlay escuro sobre o mapa (mesma técnica que usamos para os globos), texto `--ink`, números em `--accent-ink`.
+Criar `src/components/calculadora/cenarios-block.tsx`:
 
-**7. Badges "MAIS POPULAR" / "LANÇAMENTO" em `/precos`**
-- Sintoma: badges atuais dark sobre fundo escuro, perdem o status. Plano Fundadores não tem o "halo" gold que o plan dele merece.
-- Fix: badge "Mais popular" pill `bg-[var(--accent-ink)] text-[var(--paper)]`; card Fundadores com `border-[var(--accent-ink)]` + `shadow-[var(--shadow-gold-glow)]`; preço em `--accent-ink` com `font-display`.
+```text
+<CenariosBlock resultado={...} inputs={{ pais, sexo, tipo, dataNasc, sbFinal }} variant="publico" | "advogado" />
+```
 
-### Consistência (refinos rápidos)
+- Internamente roda `detectarCenarios(resultado, inputs)` (puro, em `src/lib/calculadora-cenarios.ts`) → array de `Cenario`.
+- Para cada cenário renderiza um cartão expansível com header (badge G1/G2/G3/G4 em gold, título, exemplo factual com os números reais do usuário) e dois painéis lado a lado:
+  - **Segurado vê** — texto humano, sem jargão, com CTA para Marcos.
+  - **Advogado vê** — análise técnica, recomendações em bullets, e chips com citações legais (Dec. 4.729/2003, Art. 35 Dec. 3.048/99, etc.). Os chips usam variantes outline com `--accent-ink`.
 
-**8. Header — chip "PREVIDÊNCIA · BR"**
-- Está em duas linhas no desktop e parece label órfão ao lado da marca. Sugerir `whitespace-nowrap` + tracking maior, ou mover para baixo do logotipo em coluna.
+Visual: cartões `bg-[var(--card-bg)]`, borda sutil `border-[var(--border)]`, header com ícone gold; nada de azul/lilás das imagens — só a estrutura.
 
-**9. Regra tipográfica de headings**
-- Vários H2/H3 ainda 100% brancos. Aplicar a regra "1–2 palavras em `--accent-ink`" nas seções principais de `/acordos/index`, `/jornadas/index`, `/guias/index`, `/precos`, `/contato`, `/calculadora`, `/profissional`.
+Na pública, `variant="publico"` ainda mostra a coluna do advogado, mas com header "Por que o Dr. Marcos pode ajudar" e CTA reforçado no fim — assim o segurado vê o valor do especialista.
 
-**10. Tabelas em `/acordos/$pais` (Benefícios cobertos, Lado Brasil/Portugal)**
-- Header de tabela ficou dourado puro com texto invisível. Aplicar `bg-[var(--card-bg)]` no cabeçalho, zebra `--paper-soft`, números/destaques em gold.
+## Pesquisa de citações por país
 
-**11. Hover/foco em links da sidebar "Nesta página" e "Próximos passos"**
-- Já dourados; adicionar `hover:translate-x-0.5` + sublinhado gold para reforçar interatividade conforme regra de hover de elevação.
+Adicionar mini-tabela em `src/lib/calculadora-cenarios.ts`:
 
-**12. Globos (preservados)**
-- Confirmar que as overlays escuras dos globos seguem suficientes em todas as rotas (`/`, `/acordos/index`, `/jornadas/index`). Sem mexer na estética, só ajustar opacidade do véu quando necessário.
+```text
+PAIS_CITACOES = {
+  "Espanha": { acordo: "Dec. 4.729/2003", carencia: 180 },
+  "Portugal": { acordo: "Dec. 1.457/95", carencia: 180 },
+  ...
+}
+```
 
-### Páginas auth/internas (varredura rápida)
+Cobrir os 24 países já listados em `PAISES_ACORDO`. Fonte: dados de `src/data/acordos.generated.ts` (reutilizar quando possível).
 
-- `/login`, `/cadastro`, `/reset-password`: revisar inputs (border `--rule`, focus ring `--accent-ink`), CTA primário gold com `text-paper`.
-- `/_authenticated/hub.*` e `/_authenticated/conta`: garantir cards `--card-bg` com bordas `--rule`, hover de elevação consistente, métricas em gold.
+## Calculadora pública — gaps adicionais
 
-### Fora de escopo nesta rodada
-- Globos (mantidos como estão, só ajuste de overlay se necessário).
-- Fontes, copy, planos, checkout, dados, server functions.
-- Estrutura/layout das páginas.
+Em `src/components/calculadora-form.tsx`:
 
-### Governança
-- `mem://design/color-system`: registrar regras "nunca gold-sobre-gold em CTAs/badges" e "CTAs em ouro sempre com `text-paper`".
-- `ROADMAP.md`: entrada "Ultrareview de contraste pós Premium Dark + Gold".
-- `.lovable/prd.md`: nota sobre banda CTA reformulada (sem fundo gold full-bleed).
+1. **Tutorial CNIS expandido** (substitui o `<details>` curto):
+   - 3 passos com numeração: meu.inss.gov.br → Extrato de Contribuição → Emitir PDF.
+   - Cartão recolhível, ícone gold, mesma estrutura visual de cards do site.
+2. **Numeração de etapas**: badges "1", "2", "3" gold antes de cada bloco (Como calcular / Dados do benefício / Tempo no exterior).
+3. **Toggle visual CNIS vs Manual** no topo do passo 1 (dois cartões clicáveis), em vez do drop implícito atual. Mantém o upload PDF que já temos.
+4. No final, inserir `<CenariosBlock variant="publico" />` antes do `<CTAMarcos>`.
 
-### Como vamos atacar
-Tudo em paralelo nesta rodada, em três frentes:
-1. **Componentes compartilhados** (`pro-content-lock`, `cta-marcos`, `cta-button`, badges, header chip) — corrige 5+ páginas de uma vez.
-2. **Páginas com seções legadas** (`/profissional` mapa, `/sobre/dr-marcos` card amarelo, `/calculadora` hero, `/precos` badges/destaque).
-3. **Sweep tipográfico** (gold-keyword em H2/H3 das rotas listadas) + tabelas de `/acordos/$pais`.
+## Calculadora Pro — ajustes
 
-Após implementar, faço um segundo passe visual em `/`, `/profissional`, `/sobre/dr-marcos`, `/precos`, `/calculadora`, `/acordos/portugal` e `/jornadas/estou-voltando` para confirmar contraste.
+Em `src/components/calculadora-form-pro.tsx`:
+
+1. Inserir `<CenariosBlock variant="advogado" />` no bloco de resultado (antes do CTA / depois da tabela RMI da imagem 1).
+2. Garantir que o botão **Imprimir/PDF** já existente também imprima o bloco de cenários (ajustar `print:` classes — esconder controles, mostrar tudo do resultado).
+3. Rodapé "Calculadora de RMI Pro-rata — acordosinternacionais.com · Documento gerado em {data}" no modo impressão (já parece existir parcialmente — verificar e padronizar).
+
+## Identidade visual (não negociável)
+
+- Zero hex literal nos componentes — só tokens (`--accent-ink`, `--ink`, `--paper`, `--paper-soft`, `--card-bg`, `--border`, `--shadow-soft`).
+- Badge G1/G2/G3/G4 = circular gold com ícone/letra branca.
+- Header "SEGURADO VÊ" / "ADVOGADO VÊ" = eyebrow uppercase tracking-wide; "ADVOGADO VÊ" recebe `.text-gold`.
+- Chips de citação legal = outline pill `border-[var(--accent-ink)]/40 text-[var(--ink-soft)]`.
+- Cards com `rounded-2xl`, `shadow-[var(--shadow-soft)]`, hover-elevation conforme regra Core.
+
+## Governança
+
+- Atualizar `.lovable/prd.md` e `ROADMAP.md` na mesma rodada (regra Core).
+- Sem mudanças em backend, schema, server fns ou auth.
+- Cálculo financeiro (RMI/pro-rata) **não** muda — só consumimos `ResultadoCalculo` para classificar cenários.
+
+## Arquivos tocados
+
+```text
+src/lib/calculadora-cenarios.ts                 (novo — detector + textos)
+src/components/calculadora/cenarios-block.tsx   (novo — UI dois-cards)
+src/components/calculadora-form.tsx             (insere bloco + tutorial + numeração)
+src/components/calculadora-form-pro.tsx         (insere bloco + ajustes print)
+.lovable/prd.md                                  (registro)
+ROADMAP.md                                       (registro)
+```
+
+## Fora de escopo (próxima rodada se quiser)
+
+- Geração de PDF estilizado (hoje usa `window.print()`).
+- Persistir snapshot dos cenários no `calc_history` para reabrir depois.
+- Tradução dos textos / variantes regionais.
