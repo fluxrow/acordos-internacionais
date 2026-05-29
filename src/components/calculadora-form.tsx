@@ -10,17 +10,16 @@ import {
   FileText,
   PenLine,
   Check,
+  ArrowRight,
 } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { CTAMarcos } from "@/components/cta-marcos";
-import { CenariosBlock } from "@/components/calculadora/cenarios-block";
 import {
   PAISES_ACORDO,
-  SMmin,
   calcMesesEntreDatas,
-  calcularResultado,
-  formatarMoeda,
+  calcularTriagem,
   formatarTempo,
-  type ResultadoCalculo,
+  type ResultadoTriagem,
   type Sexo,
   type TipoBeneficio,
 } from "@/lib/calculadora";
@@ -42,7 +41,6 @@ type Modo = "cnis" | "manual";
 interface CnisInfo {
   nome: string;
   cpf: string;
-  mediaSalarial: number;
   totalMeses: number;
 }
 
@@ -75,9 +73,8 @@ export function CalculadoraForm() {
   const [dataFimExtISO, setDataFimExtISO] = useState("");
   const [mesesPaisManual, setMesesPaisManual] = useState("");
 
-  const [resultado, setResultado] = useState<ResultadoCalculo | null>(null);
+  const [resultado, setResultado] = useState<ResultadoTriagem | null>(null);
   const [erroForm, setErroForm] = useState<string | null>(null);
-  const [estimativa, setEstimativa] = useState(false);
 
   async function processarArquivo(file: File) {
     setCarregandoPdf(true);
@@ -88,7 +85,6 @@ export function CalculadoraForm() {
       setCnis({
         nome: dados.nome ?? "",
         cpf: dados.cpf ?? "",
-        mediaSalarial: dados.mediasSalarial ?? 0,
         totalMeses: dados.totalMeses ?? 0,
       });
       if (dados.dataNasc) {
@@ -120,15 +116,12 @@ export function CalculadoraForm() {
     setErroForm(null);
     setResultado(null);
 
-    if (!tipo) return setErroForm("Selecione o tipo de benefício que você quer calcular.");
+    if (!tipo) return setErroForm("Selecione o tipo de benefício que você quer verificar.");
     if (!pais) return setErroForm("Selecione o país onde você trabalhou no exterior.");
     if (!dataNascISO) return setErroForm("Informe sua data de nascimento.");
     if (!sexo) return setErroForm("Selecione o sexo (para regra de idade mínima).");
 
-    let sbFinal = 0;
     let tempoBrasilMeses = 0;
-    let estimativaLocal = false;
-
     if (modo === "manual") {
       const anos = parseInt(anosBR, 10) || 0;
       const mesesExtra = parseInt(mesesBR, 10) || 0;
@@ -137,8 +130,6 @@ export function CalculadoraForm() {
         setErroForm("Informe o tempo contribuído no Brasil (anos e/ou meses).");
         return;
       }
-      sbFinal = 0;
-      estimativaLocal = true;
     } else {
       if (!cnis || cnis.totalMeses <= 0) {
         setErroForm(
@@ -146,9 +137,7 @@ export function CalculadoraForm() {
         );
         return;
       }
-      sbFinal = cnis.mediaSalarial > 0 ? Math.max(cnis.mediaSalarial, SMmin) : 0;
       tempoBrasilMeses = cnis.totalMeses;
-      estimativaLocal = cnis.mediaSalarial <= 0;
     }
 
     let tempoPaisMeses = 0;
@@ -162,16 +151,13 @@ export function CalculadoraForm() {
       return;
     }
 
-    const r = calcularResultado({
+    const r = calcularTriagem({
       tempoBrasilMeses,
       tempoPaisMeses,
-      sbFinal,
       tipo: tipo as TipoBeneficio,
       nascInput: isoParaBR(dataNascISO),
       sexo: sexo as Sexo,
-      nomePais: pais,
     });
-    setEstimativa(estimativaLocal);
     setResultado(r);
     setTimeout(() => {
       document.getElementById("resultado-calc")?.scrollIntoView({
@@ -225,21 +211,21 @@ export function CalculadoraForm() {
       </div>
 
       {/* 1. MODO */}
-      <Secao numero="01" titulo="Como você quer calcular?">
+      <Secao numero="01" titulo="Como você quer informar o seu tempo no Brasil?">
         <div className="grid gap-3 sm:grid-cols-2">
           <ModoCard
             ativo={modo === "cnis"}
             onClick={() => setModo("cnis")}
             icon={<FileText className="h-4 w-4" aria-hidden />}
             titulo="Com extrato do INSS"
-            descricao="Resultado mais preciso"
+            descricao="Triagem mais precisa"
           />
           <ModoCard
             ativo={modo === "manual"}
             onClick={() => setModo("manual")}
             icon={<PenLine className="h-4 w-4" aria-hidden />}
-            titulo="Sem extrato (estimativa)"
-            descricao="Preencha os dados manualmente"
+            titulo="Sem extrato"
+            descricao="Informe o tempo manualmente"
           />
         </div>
 
@@ -297,8 +283,8 @@ export function CalculadoraForm() {
         {modo === "manual" && (
           <div className="space-y-4 rounded-sm border border-border bg-paper-soft/40 p-5">
             <p className="border-l border-[var(--accent-ink)] pl-3 text-xs text-foreground/75">
-              Sem o extrato do INSS calculamos apenas se você tem <strong>tempo suficiente</strong>{" "}
-              para o benefício. O <strong>valor em reais</strong> só pode ser estimado com o CNIS.
+              Esta é uma triagem para identificar <strong>indícios de direito</strong>. O valor do
+              benefício é calculado na análise técnica do advogado.
             </p>
             <div className="space-y-1.5">
               <Label>Tempo contribuído no Brasil</Label>
@@ -353,7 +339,7 @@ export function CalculadoraForm() {
             </Select>
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="tipo">O que você quer calcular?</Label>
+            <Label htmlFor="tipo">O que você quer verificar?</Label>
             <Select value={tipo} onValueChange={(v) => setTipo(v as TipoBeneficio)}>
               <SelectTrigger id="tipo"><SelectValue placeholder="Selecione…" /></SelectTrigger>
               <SelectContent>
@@ -419,17 +405,12 @@ export function CalculadoraForm() {
       )}
 
       <Button type="submit" size="lg" className="rounded-sm">
-        Calcular benefício
+        Verificar meu direito
       </Button>
 
       {resultado && (
         <div id="resultado-calc">
-          <ResultadoView
-            resultado={resultado}
-            pais={pais}
-            tipo={tipo as TipoBeneficio}
-            estimativa={estimativa}
-          />
+          <TriagemView resultado={resultado} pais={pais} tipo={tipo as TipoBeneficio} />
         </div>
       )}
     </form>
@@ -520,34 +501,29 @@ function ModoCard({
   );
 }
 
-function ResultadoView({
+// ─── Resultado da triagem (sem valores monetários) ───────────────────────────
+
+function TriagemView({
   resultado,
   pais,
   tipo,
-  estimativa,
 }: {
-  resultado: ResultadoCalculo;
+  resultado: ResultadoTriagem;
   pais: string;
   tipo: TipoBeneficio;
-  estimativa: boolean;
 }) {
   const tone = toneFor(resultado.caso);
   const Icon = tone.icon;
-  const carencia = tipo === "pensao_morte" ? 18 : 180;
 
   return (
-    <section
-      className="relative rounded-sm border border-border bg-background p-6 md:p-8"
-    >
-      {/* Filete colorido no topo, identificando o caso */}
+    <section className="relative rounded-sm border border-border bg-background p-6 md:p-8">
       <span
         aria-hidden
         className="absolute inset-x-0 top-0 h-[2px] rounded-t-sm"
         style={{ backgroundColor: `var(${tone.ink})` }}
       />
       <p className="eyebrow" style={{ color: `var(${tone.ink})` }}>
-        Resultado
-        {estimativa && <span className="ml-2 text-muted-foreground">· estimativa</span>}
+        Resultado da triagem
       </p>
       <header className="mt-2 flex items-start gap-3">
         <Icon
@@ -558,89 +534,71 @@ function ResultadoView({
         />
         <div>
           <h3 className="font-display text-2xl font-semibold leading-tight">
-            {tituloAmigavel(resultado.caso)}
+            {resultado.titulo}
           </h3>
           <p className="mt-2 text-base leading-relaxed text-foreground/80">
-            {descricaoAmigavel(resultado, pais, carencia)}
+            {resultado.mensagem}
           </p>
         </div>
       </header>
 
-      {resultado.caso === 3 && resultado.rmiProrata != null && (
-        <div className="mt-6 border-t border-border pt-5">
-          <p className="eyebrow">Valor estimado do benefício no Brasil</p>
-          <p className="mt-1 font-display text-4xl font-semibold tracking-tight md:text-5xl">
-            {formatarMoeda(resultado.rmiProrata)}
-          </p>
-          <p className="mt-1 text-xs text-muted-foreground">
-            por mês · parte proporcional paga pelo Brasil
-          </p>
-        </div>
-      )}
-
-      {resultado.caso === "2B" && resultado.mesesParaIdade != null && (
-        <div className="mt-6 border-t border-border pt-5">
-          <p className="eyebrow">Faltam para atingir a idade mínima</p>
-          <p className="mt-1 font-display text-3xl font-semibold tracking-tight md:text-4xl">
-            {formatarTempo(resultado.mesesParaIdade)}
-          </p>
-        </div>
-      )}
-
       <dl className="mt-6 divide-y divide-border border-t border-border text-sm">
         <DetalheLinha label="Tempo no Brasil" valor={formatarTempo(resultado.tempoBrasil)} />
-        {resultado.caso !== 1 && (
-          <DetalheLinha label={`Tempo no ${pais}`} valor={formatarTempo(resultado.tempoPais)} />
-        )}
-        {resultado.caso !== 1 && (
-          <DetalheLinha label="Total combinado" valor={formatarTempo(resultado.tempoTotal)} />
-        )}
-        {resultado.caso === 1 && (
-          <DetalheLinha label="Carência mínima" valor={formatarTempo(carencia)} />
-        )}
-        {resultado.caso === 2 && resultado.mesesFaltantes != null && (
+        <DetalheLinha label={`Tempo no ${pais}`} valor={formatarTempo(resultado.tempoPais)} />
+        <DetalheLinha label="Total combinado" valor={formatarTempo(resultado.tempoTotal)} />
+        <DetalheLinha
+          label="Carência mínima"
+          valor={`${formatarTempo(resultado.carencia)} (${resultado.carencia} meses)`}
+        />
+        {tipo === "aposentadoria_idade" && (
           <DetalheLinha
-            label="Faltam"
+            label="Idade atual / mínima"
+            valor={`${resultado.idadeAtual} / ${resultado.idadeMin} anos`}
+          />
+        )}
+        {resultado.mesesFaltantes != null && (
+          <DetalheLinha
+            label="Faltam de contribuição"
             valor={formatarTempo(resultado.mesesFaltantes)}
             destaque="--state-error"
           />
         )}
-        {resultado.caso === 3 && resultado.tempoTotal > 0 && (
+        {resultado.mesesParaIdadeMin != null && (
           <DetalheLinha
-            label="Proporção Brasil"
-            valor={`${((resultado.tempoBrasil / resultado.tempoTotal) * 100).toFixed(1)}% do total`}
+            label="Faltam para a idade mínima"
+            valor={formatarTempo(resultado.mesesParaIdadeMin)}
+            destaque="--state-info"
           />
         )}
       </dl>
 
-      {resultado.caso === 3 && resultado.tempoTotal > 0 && (
-        <p className="mt-5 border-t border-border pt-4 text-sm leading-relaxed text-foreground/75">
-          <strong className="font-semibold text-foreground">Como funciona:</strong> pelo acordo com{" "}
-          {pais}, o Brasil paga apenas a parte proporcional ao tempo contribuído aqui (
-          {((resultado.tempoBrasil / resultado.tempoTotal) * 100).toFixed(1)}%). O {pais} paga
-          separadamente a parte deles. Os dois valores juntos compõem o benefício total ao qual
-          você tem direito.
-          {estimativa && (
-            <>
-              <br />
-              <br />
-              <strong className="font-semibold text-foreground">
-                Este é um cálculo estimado.
-              </strong>{" "}
-              Com o extrato do INSS o resultado seria mais preciso.
-            </>
-          )}
+      {/* CTA — sempre ao final, sem valores monetários */}
+      <div className="mt-8 rounded-sm border border-[color-mix(in_oklab,var(--accent-ink)_35%,transparent)] bg-[color-mix(in_oklab,var(--accent-ink)_8%,var(--card-bg))] p-5">
+        <p className="text-xs font-medium uppercase tracking-[0.18em] text-gold">
+          Próximo passo
         </p>
-      )}
-
-      <CenariosBlock
-        resultado={resultado}
-        inputs={{ pais, tipo, carencia }}
-        variant="publico"
-      />
+        <p className="mt-2 text-sm leading-relaxed text-[var(--ink)]">
+          Esta é uma triagem inicial. Para confirmar o direito, calcular o valor estimado e
+          preparar o requerimento, fale com o atendimento especializado.
+        </p>
+        <div className="mt-4 flex flex-wrap gap-2">
+          <Button asChild size="sm" className="rounded-sm">
+            <Link to="/contato">
+              Falar com especialista
+              <ArrowRight className="ml-1 h-3.5 w-3.5" aria-hidden />
+            </Link>
+          </Button>
+          <Button asChild size="sm" variant="outline" className="rounded-sm">
+            <Link to="/contato">Analisar meu caso</Link>
+          </Button>
+          <Button asChild size="sm" variant="ghost" className="rounded-sm">
+            <Link to="/contato">Quero verificar meu direito</Link>
+          </Button>
+        </div>
+      </div>
 
       <div className="mt-6 border-t border-border pt-6">
-        <CTAMarcos variant="result" caso={resultado.caso} contexto={ctaContexto(resultado.caso)} />
+        <CTAMarcos variant="result" caso={mapCasoCta(resultado.caso)} contexto={ctaContexto(resultado.caso)} />
       </div>
     </section>
   );
@@ -675,59 +633,40 @@ function DetalheLinha({
 
 type Tone = {
   ink: string;
-  bg: string;
-  border: string;
   icon: typeof AlertTriangle;
 };
 
-function toneFor(caso: ResultadoCalculo["caso"]): Tone {
+function toneFor(caso: ResultadoTriagem["caso"]): Tone {
   switch (caso) {
-    case 1:
-      return { ink: "--state-warning", bg: "--state-warning-soft", border: "--state-warning", icon: AlertTriangle };
-    case 2:
-      return { ink: "--state-error", bg: "--state-error-soft", border: "--state-error", icon: XCircle };
-    case "2B":
-      return { ink: "--state-info", bg: "--state-info-soft", border: "--state-info", icon: Clock };
-    case 3:
-      return { ink: "--state-success", bg: "--state-success-soft", border: "--state-success", icon: CheckCircle2 };
+    case "BR_SOLO":
+      return { ink: "--state-warning", icon: AlertTriangle };
+    case "INSUFICIENTE":
+      return { ink: "--state-error", icon: XCircle };
+    case "AGUARDA_IDADE":
+      return { ink: "--state-info", icon: Clock };
+    case "TOTALIZACAO_OK":
+      return { ink: "--state-success", icon: CheckCircle2 };
   }
 }
 
-function tituloAmigavel(caso: ResultadoCalculo["caso"]): string {
+function mapCasoCta(caso: ResultadoTriagem["caso"]): 1 | 2 | "2B" | 3 {
   switch (caso) {
-    case 1:
-      return "Você já tem direito no Brasil — sem precisar da totalização";
-    case 2:
-      return "Ainda não é possível obter este benefício";
-    case "2B":
-      return "Você tem o tempo — mas ainda não chegou a hora";
-    case 3:
-      return "Você tem direito à totalização";
+    case "BR_SOLO": return 1;
+    case "INSUFICIENTE": return 2;
+    case "AGUARDA_IDADE": return "2B";
+    case "TOTALIZACAO_OK": return 3;
   }
 }
 
-function descricaoAmigavel(r: ResultadoCalculo, pais: string, carencia: number): string {
-  switch (r.caso) {
-    case 1:
-      return `Com ${formatarTempo(r.tempoBrasil)} de contribuição no Brasil, você já cumpre o tempo mínimo exigido (${formatarTempo(carencia)}). Não é necessário juntar com o tempo no exterior — fazer isso reduziria o valor do seu benefício.`;
-    case 2:
-      return `Mesmo somando o tempo no Brasil com o tempo no ${pais}, o total ainda não alcança o mínimo necessário.`;
-    case "2B":
-      return `Boa notícia: somando seu tempo no Brasil com o ${pais}, você já cumpre o tempo mínimo necessário para o benefício. O que ainda falta é atingir a idade mínima.`;
-    case 3:
-      return `Somando seu tempo no Brasil com o tempo no ${pais}, você cumpre o tempo mínimo e tem direito ao benefício no Brasil.`;
-  }
-}
-
-function ctaContexto(caso: ResultadoCalculo["caso"]): string {
+function ctaContexto(caso: ResultadoTriagem["caso"]): string {
   switch (caso) {
-    case 1:
+    case "BR_SOLO":
       return "Você pode requerer seu benefício diretamente no INSS. O Dr. Marcos Espínola pode te orientar para garantir o melhor valor possível.";
-    case 2:
+    case "INSUFICIENTE":
       return "Mesmo sem cumprir a carência hoje, um planejamento previdenciário pode indicar a melhor estratégia — contribuição voluntária, mudança de benefício ou a data ideal de requerimento.";
-    case "2B":
-      return "Enquanto você aguarda a idade mínima, cada mês contribuído pode aumentar seu benefício futuro. O Dr. Marcos Espínola monta um planejamento personalizado para você chegar na melhor renda possível.";
-    case 3:
-      return "Você tem direito à totalização internacional. O Dr. Marcos Espínola cuida de todo o processo — do requerimento à concessão — para garantir o melhor resultado.";
+    case "AGUARDA_IDADE":
+      return "Enquanto você aguarda a idade mínima, cada mês contribuído pode aumentar seu benefício futuro. O Dr. Marcos Espínola monta um planejamento personalizado.";
+    case "TOTALIZACAO_OK":
+      return "Há indícios de direito à totalização internacional. O Dr. Marcos Espínola cuida de todo o processo — do requerimento à concessão.";
   }
 }
