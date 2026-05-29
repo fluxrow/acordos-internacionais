@@ -82,9 +82,12 @@ export function CalculadoraFormPro() {
   const [carregandoPdf, setCarregandoPdf] = useState(false);
   const [cnisStatus, setCnisStatus] = useState<{ ok?: boolean; msg: string } | null>(null);
   const [cnisCarregado, setCnisCarregado] = useState(false);
+  const [sbVeioDoCnis, setSbVeioDoCnis] = useState(false);
+  const [dragOver, setDragOver] = useState(false);
   const [salarioManual, setSalarioManual] = useState("");
   const [anos, setAnos] = useState("");
   const [meses, setMeses] = useState("");
+
 
   // Exterior
   const [dataInicPais, setDataInicPais] = useState("");
@@ -98,6 +101,10 @@ export function CalculadoraFormPro() {
 
   // ─── upload CNIS ─────────────────────────────────────────────────────────
   async function lerCnis(file: File) {
+    if (file.type !== "application/pdf" && !file.name.toLowerCase().endsWith(".pdf")) {
+      setCnisStatus({ ok: false, msg: "Envie um PDF do CNIS." });
+      return;
+    }
     setCarregandoPdf(true);
     setCnisStatus({ msg: "Processando CNIS..." });
     try {
@@ -110,7 +117,10 @@ export function CalculadoraFormPro() {
         setAnos(String(Math.floor(dados.totalMeses / 12)));
         setMeses(String(dados.totalMeses % 12));
       }
-      if (dados.mediasSalarial > 0) setSalarioManual(dados.mediasSalarial.toFixed(2));
+      if (dados.mediasSalarial > 0) {
+        setSalarioManual(dados.mediasSalarial.toFixed(2));
+        setSbVeioDoCnis(true);
+      }
       setCnisCarregado(true);
       const nomeMsg = dados.nome ? ` · ${dados.nome}` : "";
       setCnisStatus({
@@ -124,6 +134,7 @@ export function CalculadoraFormPro() {
       setCarregandoPdf(false);
     }
   }
+
 
   // ─── calcular ────────────────────────────────────────────────────────────
   function onCalcular(e: React.FormEvent) {
