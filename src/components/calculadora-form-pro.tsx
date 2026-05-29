@@ -454,8 +454,9 @@ function Laudo({
   resultado, tipo, pais, cliente,
 }: { resultado: ResultadoCalculo; tipo: TipoBeneficio; pais: string; cliente: ClienteInfo }) {
   const carencia = CARENCIAS[tipo];
-  const coef = COEFICIENTES[tipo];
+  const coef = resultado.coeficiente ?? COEFICIENTES[tipo];
   const tipoLabel = tipo === "pensao_morte" ? "Pensão por Morte" : "Aposentadoria por Idade";
+
 
   const tone = toneFor(resultado.caso);
   const Icon = tone.icon;
@@ -529,11 +530,24 @@ function Laudo({
               <td className="text-muted-foreground">Status carência</td>
               <td>{resultado.tempoTotal >= carencia ? "Atingida" : `Faltam ${carencia - resultado.tempoTotal} meses`}</td>
             </tr>
-            {resultado.rmiTeorica != null && (
-              <tr><td className="text-muted-foreground">RMI Teórica</td><td>{formatarMoeda(resultado.rmiTeorica)}</td></tr>
+            {resultado.sb != null && (
+              <tr><td className="text-muted-foreground">SB (Salário de Benefício)</td><td>{formatarMoeda(resultado.sb)}</td></tr>
             )}
-            {resultado.tempoTotal > 0 && (
-              <tr><td className="text-muted-foreground">Índice Pro-rata (BR ÷ Total)</td><td>{((resultado.tempoBrasil / resultado.tempoTotal) * 100).toFixed(4)}%</td></tr>
+            {resultado.coeficiente != null && (
+              <tr><td className="text-muted-foreground">Coeficiente</td><td>{(resultado.coeficiente * 100).toFixed(0)}%{tipo === "aposentadoria_idade" ? ` (0,70 + ${Math.floor(resultado.tempoTotal / 12)} × 0,01)` : ""}</td></tr>
+            )}
+            {resultado.prestacaoTeoricaSemPiso != null && (
+              <tr><td className="text-muted-foreground">Prestação teórica (sem piso)</td><td>{formatarMoeda(resultado.prestacaoTeoricaSemPiso)}</td></tr>
+            )}
+            <tr><td className="text-muted-foreground">Salário-mínimo (piso)</td><td>{formatarMoeda(SMmin)}</td></tr>
+            {resultado.prestacaoTeorica != null && (
+              <tr><td className="text-muted-foreground">Prestação teórica usada</td><td>{formatarMoeda(resultado.prestacaoTeorica)}</td></tr>
+            )}
+            {resultado.indiceProrata != null && (
+              <tr><td className="text-muted-foreground">Índice Pro-rata (BR ÷ Total)</td><td>{(resultado.indiceProrata * 100).toFixed(4)}%</td></tr>
+            )}
+            {resultado.rmiTeorica != null && resultado.caso === 1 && (
+              <tr><td className="text-muted-foreground"><strong>RMI integral (sem pro-rata)</strong></td><td><strong style={{ color: `var(${tone.ink})` }}>{formatarMoeda(resultado.rmiTeorica)}</strong></td></tr>
             )}
             {resultado.rmiProrata != null && (
               <tr>
@@ -541,20 +555,24 @@ function Laudo({
                 <td><strong style={{ color: `var(${tone.ink})` }}>{formatarMoeda(resultado.rmiProrata)}</strong></td>
               </tr>
             )}
-            <tr><td className="text-muted-foreground">Piso (Salário-mínimo)</td><td>{formatarMoeda(SMmin)}</td></tr>
+
           </tbody>
         </table>
       </div>
 
       {/* FÓRMULA */}
-      {resultado.caso === 3 && resultado.rmiTeorica != null && resultado.rmiProrata != null && (
+      {resultado.caso === 3 && resultado.sb != null && resultado.prestacaoTeorica != null && resultado.rmiProrata != null && resultado.indiceProrata != null && (
         <div className="mt-5 border-t border-border pt-4 font-mono text-xs leading-relaxed text-foreground/75">
-          <div>RMI teórica = SB × coef = {formatarMoeda(resultado.rmiTeorica / coef)} × {(coef * 100).toFixed(0)}% = <strong className="text-foreground">{formatarMoeda(resultado.rmiTeorica)}</strong></div>
+          <div>Prestação teórica = max(SB × coef, SM) = max({formatarMoeda(resultado.sb)} × {(coef * 100).toFixed(0)}%, {formatarMoeda(SMmin)}) = <strong className="text-foreground">{formatarMoeda(resultado.prestacaoTeorica)}</strong></div>
           <div className="mt-1">
-            RMI pro-rata = RMI teórica × (meses_BR ÷ total) = {formatarMoeda(resultado.rmiTeorica)} × ({resultado.tempoBrasil} ÷ {resultado.tempoTotal}) = <strong className="text-foreground">{formatarMoeda(resultado.rmiProrata)}</strong>
+            RMI pro-rata = Prestação teórica × (Tempo BR ÷ Total) = {formatarMoeda(resultado.prestacaoTeorica)} × ({resultado.tempoBrasil} ÷ {resultado.tempoTotal}) = <strong className="text-foreground">{formatarMoeda(resultado.rmiProrata)}</strong>
           </div>
+          <p className="mt-3 font-sans text-[11px] leading-relaxed text-muted-foreground">
+            O valor proporcional é calculado sobre a prestação teórica, mediante a razão entre o tempo de contribuição no Brasil e o tempo totalizado Brasil + país acordante.
+          </p>
         </div>
       )}
+
 
       {/* CENÁRIOS — visão Segurado/Advogado */}
       <div className="mt-2 print:mt-6">
