@@ -76,6 +76,14 @@ export function CalculadoraForm() {
 
   const [resultado, setResultado] = useState<ResultadoTriagem | null>(null);
   const [erroForm, setErroForm] = useState<string | null>(null);
+  const [leadOpen, setLeadOpen] = useState(false);
+  const [pendingCalc, setPendingCalc] = useState<{
+    tempoBrasilMeses: number;
+    tempoPaisMeses: number;
+    tipo: TipoBeneficio;
+    nascInput: string;
+    sexo: Sexo;
+  } | null>(null);
 
   async function processarArquivo(file: File) {
     setCarregandoPdf(true);
