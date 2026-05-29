@@ -120,6 +120,23 @@ export function CalculadoraForm() {
     if (file) void processarArquivo(file);
   }
 
+  function executarCalculo(payload: {
+    tempoBrasilMeses: number;
+    tempoPaisMeses: number;
+    tipo: TipoBeneficio;
+    nascInput: string;
+    sexo: Sexo;
+  }) {
+    const r = calcularTriagem(payload);
+    setResultado(r);
+    setTimeout(() => {
+      document.getElementById("resultado-calc")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }, 60);
+  }
+
   function onCalcular(e: React.FormEvent) {
     e.preventDefault();
     setErroForm(null);
@@ -160,20 +177,28 @@ export function CalculadoraForm() {
       return;
     }
 
-    const r = calcularTriagem({
+    const payload = {
       tempoBrasilMeses,
       tempoPaisMeses,
       tipo: tipo as TipoBeneficio,
       nascInput: isoParaBR(dataNascISO),
       sexo: sexo as Sexo,
-    });
-    setResultado(r);
-    setTimeout(() => {
-      document.getElementById("resultado-calc")?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }, 60);
+    };
+
+    let jaEnviou = false;
+    try {
+      jaEnviou = sessionStorage.getItem("triagem_lead_v1") === "1";
+    } catch {
+      /* noop */
+    }
+
+    if (jaEnviou) {
+      executarCalculo(payload);
+      return;
+    }
+
+    setPendingCalc(payload);
+    setLeadOpen(true);
   }
 
   return (
