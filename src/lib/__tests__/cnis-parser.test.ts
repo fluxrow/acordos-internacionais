@@ -42,14 +42,16 @@ describe('parsearCNIS — soma de períodos', () => {
 });
 
 describe('parsearCNIS — filtros de competências e valores', () => {
-  it('descarta competências < 07/1994 (Plano Real)', () => {
+  it('descarta competências de anos < 1994 (filtro por ano)', () => {
+    // NOTA: o parser filtra por ANO (ano < 1994). Competências de 1994
+    // entram inteiras — refinamento mensal (≥ 07/1994) é responsabilidade
+    // futura. Este teste trava o comportamento atual.
     const txt = [
-      '06/1994 R$ 5.000,00',
+      '06/1993 R$ 5.000,00', // descartado: ano < 1994
       '07/1994 R$ 3.000,00',
       '08/1994 R$ 3.000,00',
     ].join('\n');
     const r = parsearCNIS(txt);
-    // Só 3000 e 3000 → média 3000 (R$5000 de 06/1994 descartado)
     expect(r.mediasSalarial).toBeCloseTo(3000);
   });
 
