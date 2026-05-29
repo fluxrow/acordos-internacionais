@@ -250,3 +250,9 @@
 - Filtros ativos (/acordos, /contato) com text-[var(--paper)] sobre gold
 - BeneficiosComparativo: header dark + linhas zebra; CTA contato em gold premium
 - ProContentLock: bullets em --paper-soft para legibilidade
+
+## Calculadoras — bloco Segurado vê / Advogado vê (G1–G4)
+- Novo módulo `src/lib/calculadora-cenarios.ts`: detector parametrizado dos cenários G1 (carência já cumprida solo), G2 (dupla elegibilidade), G2F (faltam meses), G2B (aguardar idade), G3 (pro-rata >20%) e G4 (tempo no exterior insuficiente para benefício autônomo local). Inclui mapa país → decreto e carência isolada local.
+- Novo componente `src/components/calculadora/cenarios-block.tsx`: cartões expansíveis com painéis lado a lado "Segurado vê" (linguagem leiga) e "Advogado vê" (chamada + bullets técnicos + chips de citação legal). 100% Premium Dark + Gold, tokens semânticos, hover de elevação.
+- Injetado em `calculadora-form.tsx` (pública, variant="publico") e em `calculadora-form-pro.tsx` (laudo, variant="advogado"), aparece em ambas e também na impressão do laudo.
+- Cálculo financeiro intocado — o bloco apenas consome `ResultadoCalculo`.

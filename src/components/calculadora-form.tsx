@@ -12,6 +12,7 @@ import {
   Check,
 } from "lucide-react";
 import { CTAMarcos } from "@/components/cta-marcos";
+import { CenariosBlock } from "@/components/calculadora/cenarios-block";
 import {
   PAISES_ACORDO,
   SMmin,
@@ -631,6 +632,12 @@ function ResultadoView({
           )}
         </p>
       )}
+
+      <CenariosBlock
+        resultado={resultado}
+        inputs={{ pais, tipo, carencia }}
+        variant="publico"
+      />
 
       <div className="mt-6 border-t border-border pt-6">
         <CTAMarcos variant="result" caso={resultado.caso} contexto={ctaContexto(resultado.caso)} />

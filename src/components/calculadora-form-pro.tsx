@@ -39,6 +39,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { CenariosBlock } from "@/components/calculadora/cenarios-block";
 
 // ─── helpers ───────────────────────────────────────────────────────────────
 const formatarCpf = (raw: string) =>
@@ -508,6 +509,15 @@ function Laudo({
           </div>
         </div>
       )}
+
+      {/* CENÁRIOS — visão Segurado/Advogado */}
+      <div className="mt-2 print:mt-6">
+        <CenariosBlock
+          resultado={resultado}
+          inputs={{ pais, tipo, carencia }}
+          variant="advogado"
+        />
+      </div>
 
       {/* RODAPÉ */}
       <footer className="mt-6 border-t border-border pt-3 text-[11px] text-muted-foreground">
