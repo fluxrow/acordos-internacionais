@@ -19,6 +19,7 @@ import {
   gerarRef,
   type LaudoPayload,
 } from "@/lib/laudo-payload";
+import { salvarLaudoHistorico } from "@/lib/laudo-historico";
 import { useMutation } from "@tanstack/react-query";
 import { saveCalc } from "@/lib/hub-personal.functions";
 import {
@@ -232,6 +233,10 @@ export function CalculadoraFormPro() {
     };
 
     saveLaudoPayload(payload);
+    // Persiste no histórico (não bloqueia abertura do PDF)
+    salvarLaudoHistorico(payload).catch((err) => {
+      console.warn("Falha ao salvar laudo no histórico:", err);
+    });
     window.open("/hub/laudo", "_blank", "noopener");
   }
 
