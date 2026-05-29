@@ -633,6 +633,12 @@ function ResultadoView({
         </p>
       )}
 
+      <CenariosBlock
+        resultado={resultado}
+        inputs={{ pais, tipo, carencia }}
+        variant="publico"
+      />
+
       <div className="mt-6 border-t border-border pt-6">
         <CTAMarcos variant="result" caso={resultado.caso} contexto={ctaContexto(resultado.caso)} />
       </div>
