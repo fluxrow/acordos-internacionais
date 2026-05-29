@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { CTAMarcos } from "@/components/cta-marcos";
+import { LeadCaptureDialog, type LeadContexto } from "@/components/lead-capture-dialog";
 import {
   PAISES_ACORDO,
   calcMesesEntreDatas,
