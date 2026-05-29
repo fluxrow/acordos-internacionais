@@ -19,7 +19,6 @@ import {
   gerarRef,
   type LaudoPayload,
 } from "@/lib/laudo-payload";
-import { CARENCIAS as CARENCIAS_LAUDO } from "@/lib/calculadora";
 import { useMutation } from "@tanstack/react-query";
 import { saveCalc } from "@/lib/hub-personal.functions";
 import {
