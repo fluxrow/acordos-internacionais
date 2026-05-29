@@ -11,7 +11,9 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "check:og": "bun scripts/check-og.ts",
-    "check:brand": "bun scripts/check-brand.ts"
+    "check:brand": "bun scripts/check-brand.ts",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@cloudflare/vite-plugin": "^1.25.5",
