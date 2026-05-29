@@ -112,7 +112,7 @@ Base **já importada** do repo externo `marcosespinola1379/Mapa-de-Acordos`:
 
 ## 6. Decisões (resolvidas em 2026-05-22)
 
-- ✅ **Oferta comercial**: híbrido — Anual R$ 797/ano + Fundadores R$ 1.297 vitalício (100 vagas). Plano mensal descartado.
+- ✅ **Oferta comercial**: Mensal R$ 97/mês + Anual R$ 797/ano + Fundadores R$ 1.297 vitalício (100 vagas). Mensal reintroduzido em 2026-05-29.
 - ✅ **Nome do produto pago**: "Hub Profissional".
 - ✅ **Tiers**: dois planos, sem segmentação por país.
 - ✅ **Documentos por país**: iguais para todos os assinantes; sem material premium destacado no MVP.
