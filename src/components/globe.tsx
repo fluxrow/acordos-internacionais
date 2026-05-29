@@ -3,26 +3,27 @@ import createGlobe, { type COBEOptions } from "cobe";
 import { cn } from "@/lib/utils";
 import { BRASIL, PAISES_ACORDO, DESTAQUES_SLUGS } from "@/data/paises-coords";
 
-// Paleta casada com tokens Paper & Ink
-// base paper ~ #f5f3ee, accent-ink (wine) ~ #7a1f1f
+// Paleta casada com tokens Premium Dark + Gold
+// paper ~ #0a0a0a, accent gold ~ oklch(0.78 0.13 80)
 const PAPER: {
   base: [number, number, number];
   marker: [number, number, number];
   glow: [number, number, number];
   brightness: number;
 } = {
-  base: [0.96, 0.95, 0.93],
-  marker: [0.48, 0.12, 0.12],
-  glow: [0.94, 0.92, 0.88],
-  brightness: 1.15,
+  // base dark com leve tom quente, markers e glow em gold
+  base: [0.12, 0.12, 0.14],
+  marker: [0.86, 0.68, 0.28],
+  glow: [0.55, 0.42, 0.18],
+  brightness: 0.55,
 };
 
-// Wine — base wine claro/dessaturado, markers wine puro, glow rosado
+// Wine — variante mais avermelhada (mantida para compat)
 const WINE: typeof PAPER = {
-  base: [0.66, 0.35, 0.32],
-  marker: [0.48, 0.12, 0.12],
-  glow: [0.96, 0.86, 0.83],
-  brightness: 1.4,
+  base: [0.18, 0.10, 0.10],
+  marker: [0.86, 0.68, 0.28],
+  glow: [0.55, 0.22, 0.18],
+  brightness: 0.6,
 };
 
 const MARKERS: COBEOptions["markers"] = [
