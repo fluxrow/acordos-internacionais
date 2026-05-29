@@ -168,29 +168,86 @@ function PrecosPage() {
       )}
 
       <div className="grid gap-4 md:grid-cols-2">
-        {PLANS.map((plan) => {
-          const isFoundersUnavailable = plan.isFounder && foundersFull;
-
+        {/* Card principal — Mensal / Anual com toggle */}
+        {(() => {
+          const main = MAIN_OPTIONS[billing];
+          const isAnual = billing === "anual";
+          const isPending = checkoutMutation.isPending && selectedPlan === main.id;
           return (
-            <div
-              key={plan.id}
-              className={`relative flex flex-col rounded-2xl border bg-[var(--card-bg)] p-6 transition-all hover:-translate-y-0.5 ${
-                plan.destaque || plan.isFounder
-                  ? "border-[var(--accent-ink)] shadow-[var(--shadow-gold-glow)]"
-                  : "border-border shadow-[var(--shadow-soft)] hover:border-[var(--accent-ink)]/60 hover:shadow-[var(--shadow-soft-hover)]"
-              }`}
-            >
-              {plan.destaque && (
+            <div className="relative flex flex-col rounded-2xl border border-[var(--accent-ink)] bg-[var(--card-bg)] p-6 shadow-[var(--shadow-gold-glow)] transition-all hover:-translate-y-0.5">
+              {isAnual && (
                 <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-[var(--accent-ink)] px-3 py-1 text-[10px] font-medium uppercase tracking-[0.14em] text-[var(--paper)] shadow-[var(--shadow-soft)]">
                   Mais popular
                 </span>
               )}
 
-              {plan.isFounder && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full border border-[var(--accent-ink)] bg-[var(--paper)] px-3 py-1 text-[10px] font-medium uppercase tracking-[0.14em] text-[var(--accent-ink)]">
-                  Lançamento · 100 vagas
-                </span>
-              )}
+              {/* Segmented toggle Mensal / Anual */}
+              <div
+                role="tablist"
+                aria-label="Periodicidade de cobrança"
+                className="mb-5 inline-flex self-start rounded-full border border-[var(--accent-ink)]/40 bg-[var(--paper)] p-1"
+              >
+                {(Object.keys(MAIN_OPTIONS) as MainKey[]).map((k) => {
+                  const active = k === billing;
+                  return (
+                    <button
+                      key={k}
+                      role="tab"
+                      aria-selected={active}
+                      onClick={() => {
+                        setBilling(k);
+                        setAuthError(false);
+                        setCheckoutError(null);
+                      }}
+                      className={`rounded-full px-4 py-1.5 text-xs font-medium uppercase tracking-[0.12em] transition-colors ${
+                        active
+                          ? "bg-[var(--accent-ink)] text-[var(--paper)] shadow-[var(--shadow-soft)]"
+                          : "text-[var(--accent-ink)] hover:bg-[color-mix(in_oklab,var(--accent-ink)_10%,transparent)]"
+                      }`}
+                    >
+                      {MAIN_OPTIONS[k].label}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="mb-4">
+                <p className="eyebrow">{main.label}</p>
+                <div className="mt-2 flex items-end gap-1">
+                  <span className="font-display text-4xl text-[var(--accent-ink)]">{main.preco}</span>
+                  <span className="mb-1 text-sm text-muted-foreground">{main.periodo}</span>
+                </div>
+                <p className="mt-1 text-xs font-medium text-[var(--accent-ink)]">{main.micro}</p>
+              </div>
+
+              <p className="flex-1 text-sm text-[var(--ink-soft)]">{main.desc}</p>
+
+              <button
+                onClick={() => {
+                  setAuthError(false);
+                  setCheckoutError(null);
+                  setSelectedPlan(main.id);
+                  checkoutMutation.mutate(main.id);
+                }}
+                disabled={isPending}
+                className="mt-6 w-full rounded-full bg-[var(--accent-ink)] px-5 py-2.5 text-sm font-medium uppercase tracking-[0.14em] text-[var(--paper)] shadow-[var(--shadow-soft)] transition-all hover:bg-[var(--accent-ink-soft)] hover:shadow-[var(--shadow-gold-glow)] disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {isPending ? "Aguarde…" : "Assinar"}
+              </button>
+            </div>
+          );
+        })()}
+
+        {/* Card Fundadores */}
+        {(() => {
+          const plan = FOUNDERS_PLAN;
+          const unavailable = foundersFull;
+          const isPending = checkoutMutation.isPending && selectedPlan === plan.id;
+          return (
+            <div className="relative flex flex-col rounded-2xl border border-[var(--accent-ink)] bg-[var(--card-bg)] p-6 shadow-[var(--shadow-gold-glow)] transition-all hover:-translate-y-0.5">
+              <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full border border-[var(--accent-ink)] bg-[var(--paper)] px-3 py-1 text-[10px] font-medium uppercase tracking-[0.14em] text-[var(--accent-ink)]">
+                Lançamento · 100 vagas
+              </span>
 
               <div className="mb-4">
                 <p className="eyebrow">{plan.nome}</p>
@@ -202,13 +259,11 @@ function PrecosPage() {
 
               <p className="flex-1 text-sm text-[var(--ink-soft)]">{plan.desc}</p>
 
-              {plan.isFounder && !foundersFull && (
+              {!unavailable ? (
                 <p className="mt-3 text-xs font-medium text-[var(--accent-ink)]">
                   {foundersRemaining} de {FOUNDERS_LIMIT} vagas restantes
                 </p>
-              )}
-
-              {plan.isFounder && foundersFull && (
+              ) : (
                 <p className="mt-3 text-xs font-medium text-muted-foreground">
                   Esgotado — todas as {FOUNDERS_LIMIT} vagas preenchidas
                 </p>
@@ -221,25 +276,14 @@ function PrecosPage() {
                   setSelectedPlan(plan.id);
                   checkoutMutation.mutate(plan.id);
                 }}
-                disabled={
-                  isFoundersUnavailable ||
-                  (checkoutMutation.isPending && selectedPlan === plan.id)
-                }
-                className={`mt-6 w-full rounded-full px-5 py-2.5 text-sm font-medium uppercase tracking-[0.14em] transition-all disabled:cursor-not-allowed disabled:opacity-50 ${
-                  plan.destaque || plan.isFounder
-                    ? "bg-[var(--accent-ink)] text-[var(--paper)] shadow-[var(--shadow-soft)] hover:bg-[var(--accent-ink-soft)] hover:shadow-[var(--shadow-gold-glow)]"
-                    : "border border-[var(--accent-ink)] text-[var(--accent-ink)] hover:bg-[color-mix(in_oklab,var(--accent-ink)_12%,transparent)]"
-                }`}
+                disabled={unavailable || isPending}
+                className="mt-6 w-full rounded-full bg-[var(--accent-ink)] px-5 py-2.5 text-sm font-medium uppercase tracking-[0.14em] text-[var(--paper)] shadow-[var(--shadow-soft)] transition-all hover:bg-[var(--accent-ink-soft)] hover:shadow-[var(--shadow-gold-glow)] disabled:cursor-not-allowed disabled:opacity-50"
               >
-                {checkoutMutation.isPending && selectedPlan === plan.id
-                  ? "Aguarde…"
-                  : isFoundersUnavailable
-                  ? "Esgotado"
-                  : "Assinar"}
+                {isPending ? "Aguarde…" : unavailable ? "Esgotado" : "Garantir vaga"}
               </button>
             </div>
           );
-        })}
+        })()}
       </div>
 
       <div className="mt-10 text-center">
