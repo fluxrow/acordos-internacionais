@@ -11,26 +11,35 @@ import { supabase } from "@/integrations/supabase/client";
 //   hub_fundadores  → R$ 797,00      pagamento único (acesso vitalício)
 const STRIPE_ENV = "sandbox" as const;
 
-const PLANS = [
-  {
+// Plano principal (assinatura) — alternável via toggle Mensal/Anual.
+const MAIN_OPTIONS = {
+  mensal: {
+    id: "hub_mensal",
+    label: "Mensal",
+    preco: "R$ 97",
+    periodo: "/mês",
+    desc: "Acesso completo ao Hub com cobrança mensal. Cancele quando quiser, sem multa.",
+    micro: "Cancele quando quiser",
+  },
+  anual: {
     id: "hub_anual",
-    nome: "Anual",
+    label: "Anual",
     preco: "R$ 797",
     periodo: "/ano",
     desc: "Acesso completo ao Hub por 12 meses. Equivale a R$ 66,40/mês. Renovação opcional.",
-    destaque: true,
-    isFounder: false,
+    micro: "Economize ~32% vs. mensal (R$ 1.164/ano)",
   },
-  {
-    id: "hub_fundadores",
-    nome: "Fundadores",
-    preco: "R$ 1.297",
-    periodo: "único",
-    desc: "Acesso vitalício para os 100 primeiros. Pague uma vez, acesse para sempre, com todas as atualizações futuras incluídas.",
-    destaque: false,
-    isFounder: true,
-  },
-] as const;
+} as const;
+
+type MainKey = keyof typeof MAIN_OPTIONS;
+
+const FOUNDERS_PLAN = {
+  id: "hub_fundadores",
+  nome: "Fundadores",
+  preco: "R$ 1.297",
+  periodo: "único",
+  desc: "Acesso vitalício para os 100 primeiros. Pague uma vez, acesse para sempre, com todas as atualizações futuras incluídas.",
+} as const;
 
 export const Route = createFileRoute("/precos")({
   component: PrecosPage,
