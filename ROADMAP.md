@@ -285,3 +285,11 @@
 - Botão "Imprimir / PDF" da calculadora Pro substituído por "Gerar laudo PDF": serializa estado em `LaudoPayload`, grava no `sessionStorage` (`laudo:pending`) e abre `/hub/laudo` em nova aba.
 - `src/lib/laudo-payload.ts`: tipo + helpers (`saveLaudoPayload`, `loadLaudoPayload`, `clearLaudoPayload`, `gerarRef`, `bandeiraDoPais`, `acordoMetaDoPais`).
 - Geração via `window.print()` com `@page A4 margin:0` e `print-color-adjust: exact` — sem dependências novas (jsPDF/html2canvas/react-pdf descartados).
+
+## 2026-05-29 — Histórico de Laudos (Hub Profissional)
+- Nova tabela `public.hub_laudos` (RLS por user_id: select/insert/delete próprios; admin não tem visão automática). Campos: ref, cliente_nome, cliente_cpf, pais, tipo, rmi_valor, caso, payload (jsonb), created_at. Índice composto (user_id, created_at desc).
+- `src/lib/laudo-historico.ts`: `salvarLaudoHistorico`, `listarLaudosHistorico`, `carregarLaudoHistorico`, `excluirLaudoHistorico` via supabase client.
+- Ao clicar **Gerar laudo PDF** na calculadora Pro, o laudo é inserido automaticamente em `hub_laudos` (não bloqueia a abertura do PDF se falhar).
+- Rota `/_authenticated/hub/laudo` agora aceita `?id=<uuid>` e carrega o payload do banco, permitindo reabrir e reimprimir laudos antigos.
+- Nova rota `/_authenticated/hub/laudos` (`src/routes/_authenticated/hub.laudos.tsx`) lista os laudos do usuário (cliente, ref, país, CPF, data/hora, caso, RMI), com ações **Abrir** (nova aba para reimprimir) e **Excluir** (confirm + delete + invalidate).
+- Atalhos adicionados: card "Histórico de laudos" no `/hub` e botão "Meus laudos" na calculadora Pro.

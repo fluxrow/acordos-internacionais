@@ -1,9 +1,19 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { LaudoPdf } from "@/components/laudo/LaudoPdf";
-import { loadLaudoPayload, type LaudoPayload } from "@/lib/laudo-payload";
+import {
+  loadLaudoPayload,
+  saveLaudoPayload,
+  type LaudoPayload,
+} from "@/lib/laudo-payload";
+import { carregarLaudoHistorico } from "@/lib/laudo-historico";
+
+type Search = { id?: string };
 
 export const Route = createFileRoute("/_authenticated/hub/laudo")({
+  validateSearch: (search: Record<string, unknown>): Search => ({
+    id: typeof search.id === "string" ? search.id : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "Laudo RMI Pro-rata — Acordos Internacionais" },
@@ -23,17 +33,40 @@ export const Route = createFileRoute("/_authenticated/hub/laudo")({
 });
 
 function LaudoPage() {
+  const { id } = Route.useSearch();
   const [payload, setPayload] = useState<LaudoPayload | null>(null);
   const [pronto, setPronto] = useState(false);
+  const [erro, setErro] = useState<string | null>(null);
 
   useEffect(() => {
-    setPayload(loadLaudoPayload());
-    setPronto(true);
-  }, []);
+    let ativo = true;
+    (async () => {
+      try {
+        if (id) {
+          const reg = await carregarLaudoHistorico(id);
+          if (!ativo) return;
+          if (!reg) {
+            setErro("Laudo não encontrado ou já foi excluído.");
+          } else {
+            // Sincroniza o sessionStorage para que reimpressões funcionem se a aba for recarregada
+            saveLaudoPayload(reg.payload);
+            setPayload(reg.payload);
+          }
+        } else {
+          setPayload(loadLaudoPayload());
+        }
+      } catch (e) {
+        if (ativo) setErro(e instanceof Error ? e.message : "Falha ao carregar o laudo.");
+      } finally {
+        if (ativo) setPronto(true);
+      }
+    })();
+    return () => { ativo = false; };
+  }, [id]);
 
   if (!pronto) return null;
 
-  if (!payload) {
+  if (erro || !payload) {
     return (
       <div style={{
         minHeight: "100vh", display: "flex", alignItems: "center",
@@ -43,11 +76,16 @@ function LaudoPage() {
       }}>
         <div style={{ maxWidth: 480, textAlign: "center" }}>
           <h1 style={{ fontSize: 20, marginBottom: 12, color: "#C9A44A" }}>
-            Nenhum laudo carregado
+            {erro ? "Não foi possível abrir o laudo" : "Nenhum laudo carregado"}
           </h1>
           <p style={{ fontSize: 14, color: "#A89880", lineHeight: 1.6 }}>
-            Volte à <a href="/hub/calculadora" style={{ color: "#E2BC6A" }}>calculadora Pro</a>,
-            calcule um cenário e clique em <strong>Gerar laudo PDF</strong>.
+            {erro ?? (
+              <>
+                Volte à <a href="/hub/calculadora" style={{ color: "#E2BC6A" }}>calculadora Pro</a>,
+                calcule um cenário e clique em <strong>Gerar laudo PDF</strong>. Você também pode
+                acessar seu <a href="/hub/laudos" style={{ color: "#E2BC6A" }}>histórico de laudos</a>.
+              </>
+            )}
           </p>
         </div>
       </div>

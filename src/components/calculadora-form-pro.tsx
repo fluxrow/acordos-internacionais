@@ -19,6 +19,7 @@ import {
   gerarRef,
   type LaudoPayload,
 } from "@/lib/laudo-payload";
+import { salvarLaudoHistorico } from "@/lib/laudo-historico";
 import { useMutation } from "@tanstack/react-query";
 import { saveCalc } from "@/lib/hub-personal.functions";
 import {
@@ -232,6 +233,10 @@ export function CalculadoraFormPro() {
     };
 
     saveLaudoPayload(payload);
+    // Persiste no histórico (não bloqueia abertura do PDF)
+    salvarLaudoHistorico(payload).catch((err) => {
+      console.warn("Falha ao salvar laudo no histórico:", err);
+    });
     window.open("/hub/laudo", "_blank", "noopener");
   }
 
@@ -470,7 +475,15 @@ export function CalculadoraFormPro() {
             />
           </>
         )}
-        <Button type="button" variant="ghost" onClick={limpar} className="gap-2 ml-auto rounded-sm">
+        <a
+          href="/hub/laudos"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="ml-auto inline-flex items-center gap-2 rounded-sm border border-border/70 bg-background/60 px-3 py-1.5 text-sm font-medium transition-all hover:border-foreground hover:bg-foreground hover:text-background"
+        >
+          <FileText className="h-4 w-4" aria-hidden /> Meus laudos
+        </a>
+        <Button type="button" variant="ghost" onClick={limpar} className="gap-2 rounded-sm">
           <Eraser className="h-4 w-4" aria-hidden /> Limpar
         </Button>
       </div>

@@ -227,6 +227,48 @@ export type Database = {
         }
         Relationships: []
       }
+      hub_laudos: {
+        Row: {
+          caso: string | null
+          cliente_cpf: string | null
+          cliente_nome: string | null
+          created_at: string
+          id: string
+          pais: string | null
+          payload: Json
+          ref: string
+          rmi_valor: number | null
+          tipo: string | null
+          user_id: string
+        }
+        Insert: {
+          caso?: string | null
+          cliente_cpf?: string | null
+          cliente_nome?: string | null
+          created_at?: string
+          id?: string
+          pais?: string | null
+          payload: Json
+          ref: string
+          rmi_valor?: number | null
+          tipo?: string | null
+          user_id: string
+        }
+        Update: {
+          caso?: string | null
+          cliente_cpf?: string | null
+          cliente_nome?: string | null
+          created_at?: string
+          id?: string
+          pais?: string | null
+          payload?: Json
+          ref?: string
+          rmi_valor?: number | null
+          tipo?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       hub_notas: {
         Row: {
           conteudo: string

@@ -282,3 +282,11 @@ Comando: `bun run test`. 31 testes — qualquer regressão nas regras de piso, p
 - Estado passa por `sessionStorage` (chave `laudo:pending`) — payload contém cliente, país + bandeira, acordo (decreto + dispositivo + carência), advogado, períodos, tempos, carência exigida e o `ResultadoCalculo` completo.
 - Geração via `window.print()` com `@page A4 margin:0` + `print-color-adjust: exact`. CSS escopado em `.laudo-root` para não interferir no app. Sem dependências novas.
 - Layout adapta-se a cada caso de resultado: caso 1 (integral, sem pro-rata), caso 2 (insuficiente — oculta memória, chip vermelho), caso 2B (aguarda idade — chip âmbar), caso 3 (pro-rata completo). Detalhamento do pro-rata (T_BR, T_Pais, T_Total, índice) renderizado em grid de 4 colunas para os casos 2B e 3.
+
+## Atualização — Histórico de Laudos (2026-05-29)
+
+- Cada laudo PDF gerado na calculadora Pro é gravado em `public.hub_laudos` (RLS escopada ao próprio user_id) com cliente, CPF, país, RMI, caso e o payload completo.
+- Nova página **/hub/laudos** lista os laudos do advogado em ordem cronológica. Cada item exibe cliente, referência (`#YYYY-MMDD-XXXX`), país, CPF, data/hora, caso e RMI. Ações: **Abrir** (reabre o laudo em `/hub/laudo?id=<uuid>` em nova aba — pronto para reimprimir/salvar como PDF de novo) e **Excluir** (com confirmação).
+- Rota `/hub/laudo` aceita `?id=` e carrega o payload do banco, sincronizando o `sessionStorage` para que recargas da aba também funcionem.
+- Atalhos: card "Histórico de laudos" no dashboard `/hub` e link "Meus laudos" na barra de ações da calculadora Pro.
+- Falha ao salvar no banco não bloqueia a abertura do PDF — o sessionStorage garante que a aba sempre abre.
