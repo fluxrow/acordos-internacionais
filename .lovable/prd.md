@@ -112,7 +112,7 @@ Base **já importada** do repo externo `marcosespinola1379/Mapa-de-Acordos`:
 
 ## 6. Decisões (resolvidas em 2026-05-22)
 
-- ✅ **Oferta comercial**: híbrido — Anual R$ 797/ano + Fundadores R$ 1.297 vitalício (100 vagas). Plano mensal descartado.
+- ✅ **Oferta comercial**: Mensal R$ 97/mês + Anual R$ 797/ano + Fundadores R$ 1.297 vitalício (100 vagas). Mensal reintroduzido em 2026-05-29.
 - ✅ **Nome do produto pago**: "Hub Profissional".
 - ✅ **Tiers**: dois planos, sem segmentação por país.
 - ✅ **Documentos por país**: iguais para todos os assinantes; sem material premium destacado no MVP.
@@ -290,3 +290,10 @@ Comando: `bun run test`. 31 testes — qualquer regressão nas regras de piso, p
 - Rota `/hub/laudo` aceita `?id=` e carrega o payload do banco, sincronizando o `sessionStorage` para que recargas da aba também funcionem.
 - Atalhos: card "Histórico de laudos" no dashboard `/hub` e link "Meus laudos" na barra de ações da calculadora Pro.
 - Falha ao salvar no banco não bloqueia a abertura do PDF — o sessionStorage garante que a aba sempre abre.
+
+## Atualização — Plano Mensal reintroduzido em /precos (2026-05-29)
+
+- `/precos` agora exibe **2 cards**: card principal com **toggle Mensal/Anual** (Anual = default, badge "Mais popular") e card **Fundadores** (R$ 1.297 vitalício, 100 vagas) ao lado.
+- Plano **Mensal**: `hub_mensal` · R$ 97,00/mês BRL, recorrente, `quantity_min/max = 1`, `tax_code: txcd_10103001` (SaaS). Criado via `payments--create_product`.
+- Microcopy dinâmica no card principal: Anual → "Economize ~32% vs. mensal (R$ 1.164/ano)"; Mensal → "Cancele quando quiser".
+- Lógica de checkout (`createCheckoutSession`) e Stripe embedded inalteradas — o priceId muda conforme o toggle (`hub_mensal` ou `hub_anual`).
