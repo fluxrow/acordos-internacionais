@@ -162,12 +162,13 @@ export function CalculadoraFormPro() {
     const r = calcularResultado({
       tempoBrasilMeses: tb,
       tempoPaisMeses: tp,
-      sbFinal: Math.max(sb, SMmin),
+      sbFinal: sb, // o piso (SMmin) aplica na prestação teórica, não no SB
       tipo,
       nascInput: isoToBr(dataNasc),
       sexo,
       nomePais: pais,
     });
+
     setResultado(r);
   }
 
@@ -190,11 +191,13 @@ export function CalculadoraFormPro() {
     setErroForm(null);
     setCnisStatus(null);
     setCnisCarregado(false);
+    setSbVeioDoCnis(false);
     if (fileRef.current) fileRef.current.value = "";
   }
 
   const tb = (parseInt(anos, 10) || 0) * 12 + (parseInt(meses, 10) || 0);
-  const sbFinal = Math.max(parseFloat((salarioManual || "0").replace(",", ".")) || 0, SMmin);
+  const sbFinal = parseFloat((salarioManual || "0").replace(",", ".")) || 0;
+
 
   return (
     <form onSubmit={onCalcular} className="calc-form space-y-10">
