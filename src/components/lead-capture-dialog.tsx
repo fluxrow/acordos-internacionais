@@ -21,6 +21,7 @@ export interface LeadContexto {
   tempo_pais_meses?: number;
   data_nasc?: string | null;
   sexo?: string;
+  resultado_caso?: string;
 }
 
 export interface LeadData {
