@@ -12,6 +12,7 @@ import {
   Check,
 } from "lucide-react";
 import { CTAMarcos } from "@/components/cta-marcos";
+import { CenariosBlock } from "@/components/calculadora/cenarios-block";
 import {
   PAISES_ACORDO,
   SMmin,
