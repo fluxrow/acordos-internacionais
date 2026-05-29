@@ -267,3 +267,7 @@
 - Nova tabela `public.calc_leads` (RLS: insert público anon/auth, select/update/delete só admin). Grava também país, tipo, tempo Brasil/exterior, data nasc, sexo, caso da triagem, user-agent e referer.
 - E-mail comercial unificado: `marcos@acordosinternacionais.com` (substitui `contato@…` no mailto da página /contato).
 
+
+## 2026-05-29 — Suíte de testes das regras de cálculo
+- Vitest configurado (`vitest.config.ts`, scripts `test` e `test:watch`).
+- 25 testes em `src/lib/__tests__/` cobrindo: triagem (4 casos + ausência de campos monetários), cálculo técnico (piso ANTES do pro-rata, pro-rata sem re-piso, coeficiente capped em 1.0, pensão por morte = 1.0), parser CNIS (filtro de ano < 1994, range de valores, 80% maiores SC, fallback global, intervalos absurdos).
