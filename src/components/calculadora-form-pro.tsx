@@ -8,10 +8,17 @@ import {
   Loader2,
   Save,
   Check,
-  Printer,
+  FileText,
   Eraser,
   Scale,
 } from "lucide-react";
+import {
+  saveLaudoPayload,
+  bandeiraDoPais,
+  acordoMetaDoPais,
+  gerarRef,
+  type LaudoPayload,
+} from "@/lib/laudo-payload";
 import { useMutation } from "@tanstack/react-query";
 import { saveCalc } from "@/lib/hub-personal.functions";
 import {
@@ -170,6 +177,62 @@ export function CalculadoraFormPro() {
     });
 
     setResultado(r);
+  }
+
+  function gerarLaudoPdf() {
+    if (!resultado) return;
+    const tbLocal = (parseInt(anos, 10) || 0) * 12 + (parseInt(meses, 10) || 0);
+    let tpLocal = parseInt(periodoMesesPais, 10) || 0;
+    if (!tpLocal && dataInicPais && dataFimPais) {
+      tpLocal = calcMesesEntreDatas(dataInicPais, dataFimPais);
+    }
+    const carencia = tipo ? CARENCIAS[tipo] : 180;
+
+    const periodos: LaudoPayload["periodos"] = [
+      {
+        sistema: "RGPS — Brasil",
+        inicio: "—",
+        fim: "—",
+        meses: tbLocal,
+        computaCarencia: true,
+        fonte: cnisCarregado ? "CNIS extraído" : "Declarado",
+      },
+    ];
+    if (tpLocal > 0) {
+      periodos.push({
+        sistema: pais ? `Sistema previdenciário — ${pais}` : "Sistema previdenciário — Exterior",
+        inicio: dataInicPais ? isoToBr(dataInicPais) : "—",
+        fim: dataFimPais ? isoToBr(dataFimPais) : "—",
+        meses: tpLocal,
+        computaCarencia: false,
+        fonte: "Declarado",
+      });
+    }
+
+    const payload: LaudoPayload = {
+      cliente: {
+        nome: clienteNome,
+        cpf: clienteCpf,
+        dataNasc,
+        sexo,
+        especie: tipo,
+      },
+      pais,
+      paisBandeira: bandeiraDoPais(pais),
+      acordo: acordoMetaDoPais(pais, tipo),
+      advogado: { nome: advogado, oab: "" },
+      periodos,
+      tempoBrasil: tbLocal,
+      tempoPais: tpLocal,
+      tempoTotal: tbLocal + tpLocal,
+      carenciaExigida: carencia,
+      resultado,
+      dataAnalise,
+      ref: gerarRef(),
+    };
+
+    saveLaudoPayload(payload);
+    window.open("/hub/laudo", "_blank", "noopener");
   }
 
   function limpar() {
@@ -388,8 +451,13 @@ export function CalculadoraFormPro() {
         </Button>
         {resultado && (
           <>
-            <Button type="button" variant="outline" onClick={() => window.print()} className="gap-2 rounded-sm">
-              <Printer className="h-4 w-4" aria-hidden /> Imprimir / PDF
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => gerarLaudoPdf()}
+              className="gap-2 rounded-sm"
+            >
+              <FileText className="h-4 w-4" aria-hidden /> Gerar laudo PDF
             </Button>
             <SalvarCalculoButton
               pais={pais}
