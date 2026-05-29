@@ -8,10 +8,18 @@ import {
   Loader2,
   Save,
   Check,
-  Printer,
+  FileText,
   Eraser,
   Scale,
 } from "lucide-react";
+import {
+  saveLaudoPayload,
+  bandeiraDoPais,
+  acordoMetaDoPais,
+  gerarRef,
+  type LaudoPayload,
+} from "@/lib/laudo-payload";
+import { CARENCIAS as CARENCIAS_LAUDO } from "@/lib/calculadora";
 import { useMutation } from "@tanstack/react-query";
 import { saveCalc } from "@/lib/hub-personal.functions";
 import {
