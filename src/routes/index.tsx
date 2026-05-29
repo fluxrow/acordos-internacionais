@@ -53,10 +53,10 @@ function Home() {
             <Globe />
           </div>
 
-          {/* Overlay paper para legibilidade */}
+          {/* Overlay para legibilidade do texto sobre o globo */}
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,_var(--paper)_0%,_var(--paper)_45%,_transparent_75%)] md:bg-[linear-gradient(to_right,_var(--paper)_0%,_var(--paper)_35%,_transparent_70%)]"
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,_var(--paper)_0%,_color-mix(in_oklab,_var(--paper)_85%,_transparent)_30%,_transparent_70%)] md:bg-[linear-gradient(to_right,_var(--paper)_0%,_color-mix(in_oklab,_var(--paper)_70%,_transparent)_25%,_transparent_55%)]"
           />
 
           {/* Conteúdo */}
