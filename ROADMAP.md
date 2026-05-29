@@ -278,3 +278,10 @@
 - Filtro anti-falsos-positivos por palavras-chave (`Total`, `Indicador`, `13º`, `Consolidado`…). Vínculos paralelos: soma SCs na mesma competência (cap 50k).
 - Cabeçalho aceita `Nome do Segurado`, `CPF/MF`, `DN`, `Nascido(a) em`.
 - Testes atualizados: 31/31 passando (14 cobrindo o parser, incl. layout colunar, mês por extenso, dedup de vínculos, filtro 06/1994 vs 07/1994).
+
+## 2026-05-29 — Laudo PDF Premium Dark + Gold (Calculadora Pro)
+- Nova rota `/_authenticated/hub/laudo` (`src/routes/_authenticated/hub.laudo.tsx`) renderiza o laudo profissional em A4 fiel à referência aprovada pelo cliente: header com marca + ref, hero de 3 colunas (RMI / Fator Pro-rata / Carência), identificação do segurado, tabela de períodos contributivos com totalização, parâmetros do cálculo, memória de cálculo (fórmulas), detalhamento do pro-rata, fundamento legal, nota técnica e rodapé com bloco de assinatura.
+- Componente `src/components/laudo/LaudoPdf.tsx` + CSS escopado `laudo-pdf.css` (Playfair Display + Source Serif 4 + Inter, tokens próprios isolados em `.laudo-root` para não vazar no app). Variações automáticas por caso (1: integral, 2: oculta cálculo + chip vermelho, 2B: chip âmbar "aguarda idade", 3: padrão pro-rata).
+- Botão "Imprimir / PDF" da calculadora Pro substituído por "Gerar laudo PDF": serializa estado em `LaudoPayload`, grava no `sessionStorage` (`laudo:pending`) e abre `/hub/laudo` em nova aba.
+- `src/lib/laudo-payload.ts`: tipo + helpers (`saveLaudoPayload`, `loadLaudoPayload`, `clearLaudoPayload`, `gerarRef`, `bandeiraDoPais`, `acordoMetaDoPais`).
+- Geração via `window.print()` com `@page A4 margin:0` e `print-color-adjust: exact` — sem dependências novas (jsPDF/html2canvas/react-pdf descartados).
