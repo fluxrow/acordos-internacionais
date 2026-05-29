@@ -46,6 +46,7 @@ export const Route = createFileRoute("/precos")({
 });
 
 function PrecosPage() {
+  const [billing, setBilling] = useState<MainKey>("anual");
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [authError, setAuthError] = useState(false);
