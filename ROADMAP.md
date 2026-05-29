@@ -256,3 +256,8 @@
 - Novo componente `src/components/calculadora/cenarios-block.tsx`: cartões expansíveis com painéis lado a lado "Segurado vê" (linguagem leiga) e "Advogado vê" (chamada + bullets técnicos + chips de citação legal). 100% Premium Dark + Gold, tokens semânticos, hover de elevação.
 - Injetado em `calculadora-form.tsx` (pública, variant="publico") e em `calculadora-form-pro.tsx` (laudo, variant="advogado"), aparece em ambas e também na impressão do laudo.
 - Cálculo financeiro intocado — o bloco apenas consome `ResultadoCalculo`.
+
+## 2026-05-29 — Calculadoras: triagem vs laudo
+- Segurado = triagem sem valores (CalcularTriagem; 4 cenários textuais + CTAs).
+- Advogado = laudo técnico (SMmin 1621, coef 0,70 + anos·0,01, piso pré pro-rata, parser CNIS 80% maiores ≥ 07/1994).
+- Fix: drop-zone do Pro (drag&drop) + color-scheme dark nos <input type="date">.

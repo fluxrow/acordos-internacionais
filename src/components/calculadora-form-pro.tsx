@@ -82,9 +82,12 @@ export function CalculadoraFormPro() {
   const [carregandoPdf, setCarregandoPdf] = useState(false);
   const [cnisStatus, setCnisStatus] = useState<{ ok?: boolean; msg: string } | null>(null);
   const [cnisCarregado, setCnisCarregado] = useState(false);
+  const [sbVeioDoCnis, setSbVeioDoCnis] = useState(false);
+  const [dragOver, setDragOver] = useState(false);
   const [salarioManual, setSalarioManual] = useState("");
   const [anos, setAnos] = useState("");
   const [meses, setMeses] = useState("");
+
 
   // Exterior
   const [dataInicPais, setDataInicPais] = useState("");
@@ -98,6 +101,10 @@ export function CalculadoraFormPro() {
 
   // ─── upload CNIS ─────────────────────────────────────────────────────────
   async function lerCnis(file: File) {
+    if (file.type !== "application/pdf" && !file.name.toLowerCase().endsWith(".pdf")) {
+      setCnisStatus({ ok: false, msg: "Envie um PDF do CNIS." });
+      return;
+    }
     setCarregandoPdf(true);
     setCnisStatus({ msg: "Processando CNIS..." });
     try {
@@ -110,7 +117,10 @@ export function CalculadoraFormPro() {
         setAnos(String(Math.floor(dados.totalMeses / 12)));
         setMeses(String(dados.totalMeses % 12));
       }
-      if (dados.mediasSalarial > 0) setSalarioManual(dados.mediasSalarial.toFixed(2));
+      if (dados.mediasSalarial > 0) {
+        setSalarioManual(dados.mediasSalarial.toFixed(2));
+        setSbVeioDoCnis(true);
+      }
       setCnisCarregado(true);
       const nomeMsg = dados.nome ? ` · ${dados.nome}` : "";
       setCnisStatus({
@@ -124,6 +134,7 @@ export function CalculadoraFormPro() {
       setCarregandoPdf(false);
     }
   }
+
 
   // ─── calcular ────────────────────────────────────────────────────────────
   function onCalcular(e: React.FormEvent) {
@@ -151,12 +162,13 @@ export function CalculadoraFormPro() {
     const r = calcularResultado({
       tempoBrasilMeses: tb,
       tempoPaisMeses: tp,
-      sbFinal: Math.max(sb, SMmin),
+      sbFinal: sb, // o piso (SMmin) aplica na prestação teórica, não no SB
       tipo,
       nascInput: isoToBr(dataNasc),
       sexo,
       nomePais: pais,
     });
+
     setResultado(r);
   }
 
@@ -179,11 +191,13 @@ export function CalculadoraFormPro() {
     setErroForm(null);
     setCnisStatus(null);
     setCnisCarregado(false);
+    setSbVeioDoCnis(false);
     if (fileRef.current) fileRef.current.value = "";
   }
 
   const tb = (parseInt(anos, 10) || 0) * 12 + (parseInt(meses, 10) || 0);
-  const sbFinal = Math.max(parseFloat((salarioManual || "0").replace(",", ".")) || 0, SMmin);
+  const sbFinal = parseFloat((salarioManual || "0").replace(",", ".")) || 0;
+
 
   return (
     <form onSubmit={onCalcular} className="calc-form space-y-10">
@@ -248,11 +262,33 @@ export function CalculadoraFormPro() {
 
       {/* ============ 3. BRASIL ============ */}
       <Secao titulo="Tempo de Contribuição — Brasil (RGPS)">
-        <label
+        <div
+          role="button"
+          tabIndex={0}
+          onClick={() => fileRef.current?.click()}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              fileRef.current?.click();
+            }
+          }}
+          onDragOver={(e) => {
+            e.preventDefault();
+            setDragOver(true);
+          }}
+          onDragLeave={() => setDragOver(false)}
+          onDrop={(e) => {
+            e.preventDefault();
+            setDragOver(false);
+            const f = e.dataTransfer.files?.[0];
+            if (f) void lerCnis(f);
+          }}
           className={`block rounded-sm border border-dashed p-6 text-center cursor-pointer transition ${
-            cnisCarregado
-              ? "border-[var(--accent-ink)] bg-paper-soft/60"
-              : "border-border bg-background/40 hover:border-foreground/40 hover:bg-paper-soft/40"
+            dragOver
+              ? "border-[var(--accent-ink)] bg-paper-soft"
+              : cnisCarregado
+                ? "border-[var(--accent-ink)] bg-paper-soft/60"
+                : "border-border bg-background/40 hover:border-foreground/40 hover:bg-paper-soft/40"
           }`}
         >
           {cnisCarregado ? (
@@ -260,7 +296,7 @@ export function CalculadoraFormPro() {
           ) : (
             <FileUp className="mx-auto h-6 w-6 text-muted-foreground" strokeWidth={1.5} aria-hidden />
           )}
-          <p className="mt-2 font-serif text-base">Carregar CNIS em PDF</p>
+          <p className="mt-2 font-serif text-base">Clique ou arraste o CNIS em PDF</p>
           <p className="text-xs text-muted-foreground">Extrato de Contribuição do INSS · até 20 MB</p>
           <input
             ref={fileRef}
@@ -269,10 +305,11 @@ export function CalculadoraFormPro() {
             className="sr-only"
             onChange={(e) => {
               const f = e.target.files?.[0];
-              if (f) lerCnis(f);
+              if (f) void lerCnis(f);
             }}
           />
-        </label>
+        </div>
+
 
         {(carregandoPdf || cnisStatus) && (
           <p
@@ -295,9 +332,18 @@ export function CalculadoraFormPro() {
         <p className="my-4 text-center text-[11px] uppercase tracking-[0.18em] text-muted-foreground">— ou inserir manualmente —</p>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <Campo label="Salário de Benefício médio (SB) — R$" htmlFor="sb" dica="Média dos SC corrigidos pelo IPCA-E (80% maiores)">
-            <Input id="sb" type="number" min={0} step="0.01" value={salarioManual} onChange={(e) => setSalarioManual(e.target.value)} placeholder="Ex: 4200.00" />
+          <Campo
+            label="Salário de Benefício médio (SB) — R$"
+            htmlFor="sb"
+            dica={
+              sbVeioDoCnis
+                ? "Estimado pelo CNIS (média dos 80% maiores SC ≥ 07/1994, SEM correção INPC). Substitua pelo SB corrigido se tiver."
+                : "Média dos 80% maiores SC ≥ 07/1994, corrigidos pelo INPC."
+            }
+          >
+            <Input id="sb" type="number" min={0} step="0.01" value={salarioManual} onChange={(e) => { setSalarioManual(e.target.value); setSbVeioDoCnis(false); }} placeholder="Ex: 4200.00" />
           </Campo>
+
           <Campo label="Tempo contribuído no Brasil" htmlFor="anos" dica="Total de vínculos computados no RGPS">
             <div className="grid grid-cols-2 gap-2">
               <Input id="anos" type="number" min={0} value={anos} onChange={(e) => setAnos(e.target.value)} placeholder="Anos" />
@@ -408,8 +454,9 @@ function Laudo({
   resultado, tipo, pais, cliente,
 }: { resultado: ResultadoCalculo; tipo: TipoBeneficio; pais: string; cliente: ClienteInfo }) {
   const carencia = CARENCIAS[tipo];
-  const coef = COEFICIENTES[tipo];
+  const coef = resultado.coeficiente ?? COEFICIENTES[tipo];
   const tipoLabel = tipo === "pensao_morte" ? "Pensão por Morte" : "Aposentadoria por Idade";
+
 
   const tone = toneFor(resultado.caso);
   const Icon = tone.icon;
@@ -447,12 +494,13 @@ function Laudo({
       </header>
 
       {/* QUADRO DESTAQUE — caso 3 */}
-      {resultado.caso === 3 && resultado.rmiProrata != null && resultado.rmiTeorica != null && (
+      {resultado.caso === 3 && resultado.rmiProrata != null && resultado.prestacaoTeorica != null && (
         <div className="mt-6 grid gap-4 md:grid-cols-2">
           <Destaque label="RMI Pro-rata (Brasil)" sub="parte proporcional paga pelo INSS" value={formatarMoeda(resultado.rmiProrata)} tone={tone} highlight />
-          <Destaque label="RMI Teórica" sub={`SB × ${(coef * 100).toFixed(0)}%`} value={formatarMoeda(resultado.rmiTeorica)} tone={tone} />
+          <Destaque label="Prestação teórica" sub={`max(SB × ${(coef * 100).toFixed(0)}%, salário-mínimo)`} value={formatarMoeda(resultado.prestacaoTeorica)} tone={tone} />
         </div>
       )}
+
 
       {/* CONTADOR — caso 2B */}
       {resultado.caso === "2B" && resultado.mesesParaIdade != null && cliente.dataNasc && cliente.sexo && (
@@ -483,11 +531,24 @@ function Laudo({
               <td className="text-muted-foreground">Status carência</td>
               <td>{resultado.tempoTotal >= carencia ? "Atingida" : `Faltam ${carencia - resultado.tempoTotal} meses`}</td>
             </tr>
-            {resultado.rmiTeorica != null && (
-              <tr><td className="text-muted-foreground">RMI Teórica</td><td>{formatarMoeda(resultado.rmiTeorica)}</td></tr>
+            {resultado.sb != null && (
+              <tr><td className="text-muted-foreground">SB (Salário de Benefício)</td><td>{formatarMoeda(resultado.sb)}</td></tr>
             )}
-            {resultado.tempoTotal > 0 && (
-              <tr><td className="text-muted-foreground">Índice Pro-rata (BR ÷ Total)</td><td>{((resultado.tempoBrasil / resultado.tempoTotal) * 100).toFixed(4)}%</td></tr>
+            {resultado.coeficiente != null && (
+              <tr><td className="text-muted-foreground">Coeficiente</td><td>{(resultado.coeficiente * 100).toFixed(0)}%{tipo === "aposentadoria_idade" ? ` (0,70 + ${Math.floor(resultado.tempoTotal / 12)} × 0,01)` : ""}</td></tr>
+            )}
+            {resultado.prestacaoTeoricaSemPiso != null && (
+              <tr><td className="text-muted-foreground">Prestação teórica (sem piso)</td><td>{formatarMoeda(resultado.prestacaoTeoricaSemPiso)}</td></tr>
+            )}
+            <tr><td className="text-muted-foreground">Salário-mínimo (piso)</td><td>{formatarMoeda(SMmin)}</td></tr>
+            {resultado.prestacaoTeorica != null && (
+              <tr><td className="text-muted-foreground">Prestação teórica usada</td><td>{formatarMoeda(resultado.prestacaoTeorica)}</td></tr>
+            )}
+            {resultado.indiceProrata != null && (
+              <tr><td className="text-muted-foreground">Índice Pro-rata (BR ÷ Total)</td><td>{(resultado.indiceProrata * 100).toFixed(4)}%</td></tr>
+            )}
+            {resultado.rmiTeorica != null && resultado.caso === 1 && (
+              <tr><td className="text-muted-foreground"><strong>RMI integral (sem pro-rata)</strong></td><td><strong style={{ color: `var(${tone.ink})` }}>{formatarMoeda(resultado.rmiTeorica)}</strong></td></tr>
             )}
             {resultado.rmiProrata != null && (
               <tr>
@@ -495,20 +556,24 @@ function Laudo({
                 <td><strong style={{ color: `var(${tone.ink})` }}>{formatarMoeda(resultado.rmiProrata)}</strong></td>
               </tr>
             )}
-            <tr><td className="text-muted-foreground">Piso (Salário-mínimo)</td><td>{formatarMoeda(SMmin)}</td></tr>
+
           </tbody>
         </table>
       </div>
 
       {/* FÓRMULA */}
-      {resultado.caso === 3 && resultado.rmiTeorica != null && resultado.rmiProrata != null && (
+      {resultado.caso === 3 && resultado.sb != null && resultado.prestacaoTeorica != null && resultado.rmiProrata != null && resultado.indiceProrata != null && (
         <div className="mt-5 border-t border-border pt-4 font-mono text-xs leading-relaxed text-foreground/75">
-          <div>RMI teórica = SB × coef = {formatarMoeda(resultado.rmiTeorica / coef)} × {(coef * 100).toFixed(0)}% = <strong className="text-foreground">{formatarMoeda(resultado.rmiTeorica)}</strong></div>
+          <div>Prestação teórica = max(SB × coef, SM) = max({formatarMoeda(resultado.sb)} × {(coef * 100).toFixed(0)}%, {formatarMoeda(SMmin)}) = <strong className="text-foreground">{formatarMoeda(resultado.prestacaoTeorica)}</strong></div>
           <div className="mt-1">
-            RMI pro-rata = RMI teórica × (meses_BR ÷ total) = {formatarMoeda(resultado.rmiTeorica)} × ({resultado.tempoBrasil} ÷ {resultado.tempoTotal}) = <strong className="text-foreground">{formatarMoeda(resultado.rmiProrata)}</strong>
+            RMI pro-rata = Prestação teórica × (Tempo BR ÷ Total) = {formatarMoeda(resultado.prestacaoTeorica)} × ({resultado.tempoBrasil} ÷ {resultado.tempoTotal}) = <strong className="text-foreground">{formatarMoeda(resultado.rmiProrata)}</strong>
           </div>
+          <p className="mt-3 font-sans text-[11px] leading-relaxed text-muted-foreground">
+            O valor proporcional é calculado sobre a prestação teórica, mediante a razão entre o tempo de contribuição no Brasil e o tempo totalizado Brasil + país acordante.
+          </p>
         </div>
       )}
+
 
       {/* CENÁRIOS — visão Segurado/Advogado */}
       <div className="mt-2 print:mt-6">

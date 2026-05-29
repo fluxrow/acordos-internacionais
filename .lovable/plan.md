@@ -1,101 +1,79 @@
+# Reescrita das duas calculadoras + fixes pendentes
+
 ## Objetivo
+Separar de vez as duas calculadoras: **segurado = triagem comercial sem valores**, **advogado = laudo técnico completo**. Resolver no mesmo ciclo o drag&drop do Pro e o ícone de calendário invisível no tema dark.
 
-Alinhar nossas duas calculadoras com as referências do Marcos, mantendo a identidade **Premium Dark + Gold** (sem copiar o visual azul/lilás dos HTMLs).
+## Mudanças no núcleo — `src/lib/calculadora.ts`
 
-1. Após o cálculo, exibir um bloco com **duas colunas** (Segurado vê / Advogado vê) cujo conteúdo é gerado dinamicamente a partir dos dados do usuário, no padrão das imagens G1–G4.
-2. Esse bloco aparece **tanto na calculadora pública** (`/calculadora`) **quanto na do hub** (`/hub/calculadora`).
-3. Complementar a calculadora pública com o tutorial CNIS expandido e a numeração 1/2/3 do HTML segurado.
+Reescrever para suportar dois modos sem regressão de tipos:
 
-## Cenários a detectar (matriz)
+- `SMmin = 1621` (era 1412).
+- Nova função `calcularTriagem(params)` → retorna apenas `{ caso, titulo, mensagem, tempoBrasil, tempoPais, tempoTotal, carencia, idadeAtual, idadeMin, mesesFaltantes?, mesesParaIdade? }`. Sem `SB`, sem `rmiTeorica`, sem `rmiProrata`, sem moeda. Mapeia os 4 cenários do brief (Brasil já cumpre / total insuficiente / idade pendente / totalização viável).
+- Reescrever `calcularResultado` (usado só pelo Pro) seguindo o brief:
+  - `tempoTotal = tempoBrasil + tempoPais`
+  - `coeficiente`: aposentadoria por idade → `min(1.00, 0.70 + floor(tempoTotal/12) * 0.01)`; pensão por morte → `1.00`
+  - `prestacaoTeoricaSemPiso = SB * coeficiente`
+  - `prestacaoTeorica = max(prestacaoTeoricaSemPiso, SMmin)` **antes** do pro-rata (hoje é depois — corrigir)
+  - `indiceProrata = tempoBrasil / tempoTotal`
+  - `rmiProrata = prestacaoTeorica * indiceProrata` (sem piso pós pro-rata)
+  - 4 cenários A/B/C/D conforme brief, incluindo cenário A retornando RMI integral (sem pro-rata) com aviso de que totalização reduziria o valor
+- Tipo `ResultadoTriagem` (novo, sem campos monetários) e `ResultadoCalculo` (mantém campos monetários + `prestacaoTeoricaSemPiso`, `coeficiente`, `indiceProrata` expostos para o laudo).
 
-A partir do `ResultadoCalculo` + inputs, classificar em **um ou mais** cenários (podem combinar, ex.: G1+G4):
+## `src/components/calculadora-form.tsx` (público — segurado)
 
-| ID | Gatilho | Quando | Texto guiado pelas imagens |
-|----|---------|--------|----------------------------|
-| G1 | `caso === 1` | Brasil já cumpre carência solo | "Carência já cumprida solo" |
-| G2 | `caso === 3` e ambos `tempoBrasil` e `tempoPais` ≥ ~96 meses (8 anos) e `tempoBrasil < carencia` | Dupla elegibilidade potencial | "Tempo relevante nos dois países" |
-| G3 | `caso === 3` e `(rmiTeorica − rmiProrata) / rmiTeorica > 0.20` | Pro-rata penaliza >20% | "Pro-rata reduz RMI em mais de 20%" |
-| G4 | `tempoPais < 180` (independente do caso) e país tem carência conhecida | Tempo no exterior insuficiente para benefício autônomo no país | "Tempo no exterior insuficiente" |
+Reescrita enxuta. Remover qualquer referência a `SMmin`, `mediaSalarial`, `formatarMoeda`, `CenariosBlock`, `estimativa`, `sbFinal`.
 
-`caso === 2` e `caso === "2B"` ganham variantes específicas (G2-faltam-meses e G2B-aguardar-idade) com mesmo formato dois-cards.
+**Coleta**:
+- CNIS PDF: usar `parsearCNIS` mas consumir apenas `nome`, `cpf`, `dataNasc`, `totalMeses`. Ignorar `mediasSalarial`.
+- Manual: tempo Brasil em anos + meses (já existe).
+- Tempo exterior: datas ou meses (já existe).
+- Tipo de benefício, país acordante, data nascimento, sexo (já existem).
 
-## Componente único
+**Resultado**: novo `ResultadoTriagemView` que mostra apenas:
+- Título do cenário + badge (gold) com a `mensagem` exata do brief para cada caso.
+- Resumo factual de input (tempo BR, tempo exterior, tempo total, carência exigida, idade atual quando relevante).
+- Bloco CTA com três botões: "Falar com especialista", "Analisar meu caso", "Quero verificar meu direito" — todos apontando para `/contato` (mesmo destino do `CTAMarcos` atual; manter o `<CTAMarcos>` abaixo como reforço editorial).
+- Remover `CenariosBlock` desta tela (era um híbrido que vazava conteúdo técnico para o público).
 
-Criar `src/components/calculadora/cenarios-block.tsx`:
+**Sem**: SB, média, prestação teórica, coeficiente, pro-rata, RMI, valor em R$, fórmula.
 
-```text
-<CenariosBlock resultado={...} inputs={{ pais, sexo, tipo, dataNasc, sbFinal }} variant="publico" | "advogado" />
-```
+## `src/components/calculadora-form-pro.tsx` (Pro — advogado)
 
-- Internamente roda `detectarCenarios(resultado, inputs)` (puro, em `src/lib/calculadora-cenarios.ts`) → array de `Cenario`.
-- Para cada cenário renderiza um cartão expansível com header (badge G1/G2/G3/G4 em gold, título, exemplo factual com os números reais do usuário) e dois painéis lado a lado:
-  - **Segurado vê** — texto humano, sem jargão, com CTA para Marcos.
-  - **Advogado vê** — análise técnica, recomendações em bullets, e chips com citações legais (Dec. 4.729/2003, Art. 35 Dec. 3.048/99, etc.). Os chips usam variantes outline com `--accent-ink`.
+**A. Drag & drop do CNIS** (fix pendente, ainda não aplicado):
+- Adicionar `dragOver` state. Trocar `<label>` por `<div role="button" tabIndex={0}>` com `onClick`/`onKeyDown` disparando `fileRef.current?.click()`, mantendo `<input type="file" className="sr-only">`.
+- `onDragOver`/`onDragLeave`/`onDrop` com `e.preventDefault()`, valida `application/pdf`, chama `lerCnis(file)`. Erro amigável se não for PDF.
 
-Visual: cartões `bg-[var(--card-bg)]`, borda sutil `border-[var(--border)]`, header com ícone gold; nada de azul/lilás das imagens — só a estrutura.
+**B. Cálculo técnico**:
+- Trocar `SMmin = 1412` → `1621` (via `src/lib/calculadora.ts`).
+- Expor no laudo: SB, PBC (início efetivo a partir de 07/1994), média, coeficiente, prestação teórica **sem piso**, salário mínimo aplicado, prestação teórica final, tempo BR, tempo exterior, tempo total, índice pro-rata, RMI pro-rata, fórmula renderizada (`RMI pro-rata = Prestação teórica × Tempo Brasil / Tempo total`) e o parágrafo técnico do brief.
+- Quando SB vem do CNIS, mostrar tag "estimativa sem correção INPC oficial" abaixo do campo SB; permitir override manual do SB já corrigido (campo `sbManual` que sobrepõe o do CNIS — provavelmente já existe; revisar e rotular).
+- No parser CNIS (`src/lib/cnis-parser.ts`): filtrar salários por competência ≥ 07/1994. Hoje o parser captura valores sem janela temporal — adicionar regex/competência por linha e ignorar anteriores. Calcular média dos 80% maiores (descartar o quintil inferior) em vez da média simples.
+- Quatro cenários A/B/C/D conforme brief, com mensagens-padrão e blocos visuais distintos (já temos `CenariosBlock` — adaptar/renomear para alimentar com `ResultadoCalculo` enriquecido).
 
-Na pública, `variant="publico"` ainda mostra a coluna do advogado, mas com header "Por que o Dr. Marcos pode ajudar" e CTA reforçado no fim — assim o segurado vê o valor do especialista.
+**C. Manter**: identificação do cliente, botão Imprimir/PDF, rodapé identificável, `print:` styles.
 
-## Pesquisa de citações por país
-
-Adicionar mini-tabela em `src/lib/calculadora-cenarios.ts`:
-
-```text
-PAIS_CITACOES = {
-  "Espanha": { acordo: "Dec. 4.729/2003", carencia: 180 },
-  "Portugal": { acordo: "Dec. 1.457/95", carencia: 180 },
-  ...
+## `src/styles.css` — calendário visível no dark
+Adicionar regra global:
+```css
+input[type="date"], input[type="datetime-local"], input[type="time"], input[type="month"] {
+  color-scheme: dark;
 }
 ```
+Restaura o ícone nativo do picker em todos os campos de data (calculadoras + futuras telas) sem mexer em componente nenhum.
 
-Cobrir os 24 países já listados em `PAISES_ACORDO`. Fonte: dados de `src/data/acordos.generated.ts` (reutilizar quando possível).
-
-## Calculadora pública — gaps adicionais
-
-Em `src/components/calculadora-form.tsx`:
-
-1. **Tutorial CNIS expandido** (substitui o `<details>` curto):
-   - 3 passos com numeração: meu.inss.gov.br → Extrato de Contribuição → Emitir PDF.
-   - Cartão recolhível, ícone gold, mesma estrutura visual de cards do site.
-2. **Numeração de etapas**: badges "1", "2", "3" gold antes de cada bloco (Como calcular / Dados do benefício / Tempo no exterior).
-3. **Toggle visual CNIS vs Manual** no topo do passo 1 (dois cartões clicáveis), em vez do drop implícito atual. Mantém o upload PDF que já temos.
-4. No final, inserir `<CenariosBlock variant="publico" />` antes do `<CTAMarcos>`.
-
-## Calculadora Pro — ajustes
-
-Em `src/components/calculadora-form-pro.tsx`:
-
-1. Inserir `<CenariosBlock variant="advogado" />` no bloco de resultado (antes do CTA / depois da tabela RMI da imagem 1).
-2. Garantir que o botão **Imprimir/PDF** já existente também imprima o bloco de cenários (ajustar `print:` classes — esconder controles, mostrar tudo do resultado).
-3. Rodapé "Calculadora de RMI Pro-rata — acordosinternacionais.com · Documento gerado em {data}" no modo impressão (já parece existir parcialmente — verificar e padronizar).
-
-## Identidade visual (não negociável)
-
-- Zero hex literal nos componentes — só tokens (`--accent-ink`, `--ink`, `--paper`, `--paper-soft`, `--card-bg`, `--border`, `--shadow-soft`).
-- Badge G1/G2/G3/G4 = circular gold com ícone/letra branca.
-- Header "SEGURADO VÊ" / "ADVOGADO VÊ" = eyebrow uppercase tracking-wide; "ADVOGADO VÊ" recebe `.text-gold`.
-- Chips de citação legal = outline pill `border-[var(--accent-ink)]/40 text-[var(--ink-soft)]`.
-- Cards com `rounded-2xl`, `shadow-[var(--shadow-soft)]`, hover-elevation conforme regra Core.
+## Detalhes técnicos
+- Nenhuma mudança de backend, schema, server fn ou auth.
+- `ResultadoCalculo` mantém compatibilidade com `cenarios-block.tsx`; adicionar campos novos (`prestacaoTeoricaSemPiso`, `coeficiente`, `indiceProrata`) opcionais.
+- Remover do segurado: import de `SMmin`, `formatarMoeda`, `CenariosBlock`.
+- Sem `<input type="date">` será substituído (a regra `color-scheme: dark` resolve sem trocar componente).
+- Garantir que `calcularTriagem` e `calcularResultado` compartilhem os mesmos blocos de cálculo de tempo/carência/idade para evitar divergência entre as duas telas.
 
 ## Governança
+- `ROADMAP.md`: entrada do dia com "Segurado = triagem; Advogado = laudo (SMmin 1621, PBC 07/1994, piso pré pro-rata, parser 80% maiores)".
+- `.lovable/prd.md`: atualizar seção das calculadoras descrevendo a nova separação de responsabilidades e o conjunto de outputs permitidos em cada uma.
+- README/stack: sem mudança.
 
-- Atualizar `.lovable/prd.md` e `ROADMAP.md` na mesma rodada (regra Core).
-- Sem mudanças em backend, schema, server fns ou auth.
-- Cálculo financeiro (RMI/pro-rata) **não** muda — só consumimos `ResultadoCalculo` para classificar cenários.
-
-## Arquivos tocados
-
-```text
-src/lib/calculadora-cenarios.ts                 (novo — detector + textos)
-src/components/calculadora/cenarios-block.tsx   (novo — UI dois-cards)
-src/components/calculadora-form.tsx             (insere bloco + tutorial + numeração)
-src/components/calculadora-form-pro.tsx         (insere bloco + ajustes print)
-.lovable/prd.md                                  (registro)
-ROADMAP.md                                       (registro)
-```
-
-## Fora de escopo (próxima rodada se quiser)
-
-- Geração de PDF estilizado (hoje usa `window.print()`).
-- Persistir snapshot dos cenários no `calc_history` para reabrir depois.
-- Tradução dos textos / variantes regionais.
+## Fora de escopo
+- Tabela INPC oficial de correção (mantém override manual; sinalizar como roadmap).
+- Persistir resultados de triagem em `calc_history` (Pro continua persistindo).
+- Tradução/i18n.
