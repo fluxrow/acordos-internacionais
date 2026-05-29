@@ -40,6 +40,35 @@
   flex-direction: column;
 }
 
+/* Pagination defaults — applied both on screen preview and print so layout
+   behaves identically. Browsers (esp. Safari) ignore page-break-* inside
+   flex children, so blocks that must stay together use break-inside on
+   themselves and live as block-level elements. */
+.laudo-hero,
+.laudo-formula,
+.laudo-nota,
+.laudo-country,
+.laudo-footer,
+.laudo-header {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.laudo-section {
+  break-inside: auto;
+  page-break-inside: auto;
+}
+.laudo-section__title {
+  break-after: avoid;
+  page-break-after: avoid;
+}
+.laudo-table { break-inside: auto; page-break-inside: auto; }
+.laudo-table thead { display: table-header-group; }
+.laudo-table tfoot { display: table-footer-group; }
+.laudo-table tr, .laudo-table td, .laudo-table th {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
 /* Header */
 .laudo-header {
   background: var(--bg-card);
