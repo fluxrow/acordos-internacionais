@@ -94,6 +94,7 @@ export function LeadCaptureDialog({
         tempo_pais_meses: contexto.tempo_pais_meses ?? null,
         data_nasc: contexto.data_nasc ?? null,
         sexo: contexto.sexo ?? null,
+        resultado_caso: contexto.resultado_caso ?? null,
         user_agent:
           typeof navigator !== "undefined" ? navigator.userAgent : null,
         referer:
