@@ -462,6 +462,9 @@ export function CalculadoraForm() {
             tempo_pais_meses: pendingCalc?.tempoPaisMeses,
             data_nasc: dataNascISO || null,
             sexo,
+            resultado_caso: pendingCalc
+              ? calcularTriagem(pendingCalc).caso
+              : undefined,
           } satisfies LeadContexto
         }
         onSubmitted={() => {
