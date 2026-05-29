@@ -30,6 +30,7 @@ import { Route as GuiasSlugRouteImport } from './routes/guias.$slug'
 import { Route as AcordosPaisRouteImport } from './routes/acordos.$pais'
 import { Route as AuthenticatedContaRouteImport } from './routes/_authenticated/conta'
 import { Route as AuthenticatedHubIndexRouteImport } from './routes/_authenticated/hub.index'
+import { Route as AuthenticatedHubLaudosRouteImport } from './routes/_authenticated/hub.laudos'
 import { Route as AuthenticatedHubLaudoRouteImport } from './routes/_authenticated/hub.laudo'
 import { Route as AuthenticatedHubCalculadoraRouteImport } from './routes/_authenticated/hub.calculadora'
 import { Route as AuthenticatedHubPaisRouteImport } from './routes/_authenticated/hub.$pais'
@@ -140,6 +141,11 @@ const AuthenticatedHubIndexRoute = AuthenticatedHubIndexRouteImport.update({
   path: '/hub/',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedHubLaudosRoute = AuthenticatedHubLaudosRouteImport.update({
+  id: '/hub/laudos',
+  path: '/hub/laudos',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedHubLaudoRoute = AuthenticatedHubLaudoRouteImport.update({
   id: '/hub/laudo',
   path: '/hub/laudo',
@@ -186,6 +192,7 @@ export interface FileRoutesByFullPath {
   '/hub/$pais': typeof AuthenticatedHubPaisRoute
   '/hub/calculadora': typeof AuthenticatedHubCalculadoraRoute
   '/hub/laudo': typeof AuthenticatedHubLaudoRoute
+  '/hub/laudos': typeof AuthenticatedHubLaudosRoute
   '/hub/': typeof AuthenticatedHubIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -212,6 +219,7 @@ export interface FileRoutesByTo {
   '/hub/$pais': typeof AuthenticatedHubPaisRoute
   '/hub/calculadora': typeof AuthenticatedHubCalculadoraRoute
   '/hub/laudo': typeof AuthenticatedHubLaudoRoute
+  '/hub/laudos': typeof AuthenticatedHubLaudosRoute
   '/hub': typeof AuthenticatedHubIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -240,6 +248,7 @@ export interface FileRoutesById {
   '/_authenticated/hub/$pais': typeof AuthenticatedHubPaisRoute
   '/_authenticated/hub/calculadora': typeof AuthenticatedHubCalculadoraRoute
   '/_authenticated/hub/laudo': typeof AuthenticatedHubLaudoRoute
+  '/_authenticated/hub/laudos': typeof AuthenticatedHubLaudosRoute
   '/_authenticated/hub/': typeof AuthenticatedHubIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -268,6 +277,7 @@ export interface FileRouteTypes {
     | '/hub/$pais'
     | '/hub/calculadora'
     | '/hub/laudo'
+    | '/hub/laudos'
     | '/hub/'
     | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
@@ -294,6 +304,7 @@ export interface FileRouteTypes {
     | '/hub/$pais'
     | '/hub/calculadora'
     | '/hub/laudo'
+    | '/hub/laudos'
     | '/hub'
     | '/api/public/payments/webhook'
   id:
@@ -321,6 +332,7 @@ export interface FileRouteTypes {
     | '/_authenticated/hub/$pais'
     | '/_authenticated/hub/calculadora'
     | '/_authenticated/hub/laudo'
+    | '/_authenticated/hub/laudos'
     | '/_authenticated/hub/'
     | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
@@ -497,6 +509,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedHubIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/hub/laudos': {
+      id: '/_authenticated/hub/laudos'
+      path: '/hub/laudos'
+      fullPath: '/hub/laudos'
+      preLoaderRoute: typeof AuthenticatedHubLaudosRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/hub/laudo': {
       id: '/_authenticated/hub/laudo'
       path: '/hub/laudo'
@@ -533,6 +552,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedHubPaisRoute: typeof AuthenticatedHubPaisRoute
   AuthenticatedHubCalculadoraRoute: typeof AuthenticatedHubCalculadoraRoute
   AuthenticatedHubLaudoRoute: typeof AuthenticatedHubLaudoRoute
+  AuthenticatedHubLaudosRoute: typeof AuthenticatedHubLaudosRoute
   AuthenticatedHubIndexRoute: typeof AuthenticatedHubIndexRoute
 }
 
@@ -541,6 +561,7 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedHubPaisRoute: AuthenticatedHubPaisRoute,
   AuthenticatedHubCalculadoraRoute: AuthenticatedHubCalculadoraRoute,
   AuthenticatedHubLaudoRoute: AuthenticatedHubLaudoRoute,
+  AuthenticatedHubLaudosRoute: AuthenticatedHubLaudosRoute,
   AuthenticatedHubIndexRoute: AuthenticatedHubIndexRoute,
 }
 
