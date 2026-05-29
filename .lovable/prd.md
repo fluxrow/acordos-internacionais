@@ -249,3 +249,6 @@ Após aprovação do Dr. Marcos, todas as variações do sandbox foram promovida
 
 ## Identidade visual — Premium Dark + Gold (2026-05-28)
 Tema ativo migrado de Paper & Ink para Premium Dark + Gold. Backup do tema anterior em `src/styles/themes/paper-ink.css.bak` (+ `.lovable/themes/paper-ink.snapshot.md`) — reversão em 1 passo. Paleta: fundo #0a0a0a, cards #121212, headings #f5f5f5, body #d1d5db, muted #a3a3a3, accent #d4af37. Headings em branco com 1–2 palavras gold (`.text-gold`). Sombras `--shadow-soft/-hover/-gold-glow` + hover de elevação em qualquer elemento com rota. Fontes, layout, globos e copy preservados.
+
+## Calculadoras (atualização)
+Ao final do cálculo (pública e Pro), exibimos um bloco "Análise estratégica" com cartões por cenário detectado (G1/G2/G2B/G2F/G3/G4). Cada cartão tem duas colunas: "Segurado vê" (linguagem leiga) e "Advogado vê" (chamada técnica + bullets de recomendação + chips com citações legais — decreto do acordo bilateral, base normativa). O texto é gerado dinamicamente a partir dos números reais do usuário. Garante que o advogado consiga avaliar viabilidade da totalização e o segurado entenda o caso.
