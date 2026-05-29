@@ -354,18 +354,46 @@
   }
 }
 
+@page {
+  size: A4;
+  margin: 12mm 0;
+}
+
 @media print {
-  html, body { background: var(--laudo-bg) !important; }
-  .laudo-root { background: var(--laudo-bg); padding: 0; }
+  html, body {
+    background: var(--laudo-bg) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .laudo-root {
+    background: var(--laudo-bg);
+    padding: 0;
+    margin: 0;
+    display: block;
+  }
   .laudo-page {
     width: 210mm;
-    min-height: 297mm;
-    margin: 0;
+    min-height: 0;
+    margin: 0 auto;
     box-shadow: none;
     border: none;
     border-radius: 0;
+    /* Flexbox can break Safari pagination — fall back to block flow in print */
+    display: block;
   }
-  @page { size: A4; margin: 0; }
+  .laudo-body {
+    display: block;
+    padding: 0 14mm;
+  }
+  .laudo-body > * { margin-bottom: 8mm; }
+  .laudo-body > *:last-child { margin-bottom: 0; }
+  .laudo-header,
+  .laudo-footer {
+    /* Keep header/footer atomic on their own pages — don't try to repeat */
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
   .laudo-no-print { display: none !important; }
-  .laudo-hero, .laudo-section, .laudo-formula, .laudo-nota { page-break-inside: avoid; }
 }
