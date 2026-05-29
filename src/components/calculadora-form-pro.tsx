@@ -262,11 +262,33 @@ export function CalculadoraFormPro() {
 
       {/* ============ 3. BRASIL ============ */}
       <Secao titulo="Tempo de Contribuição — Brasil (RGPS)">
-        <label
+        <div
+          role="button"
+          tabIndex={0}
+          onClick={() => fileRef.current?.click()}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              fileRef.current?.click();
+            }
+          }}
+          onDragOver={(e) => {
+            e.preventDefault();
+            setDragOver(true);
+          }}
+          onDragLeave={() => setDragOver(false)}
+          onDrop={(e) => {
+            e.preventDefault();
+            setDragOver(false);
+            const f = e.dataTransfer.files?.[0];
+            if (f) void lerCnis(f);
+          }}
           className={`block rounded-sm border border-dashed p-6 text-center cursor-pointer transition ${
-            cnisCarregado
-              ? "border-[var(--accent-ink)] bg-paper-soft/60"
-              : "border-border bg-background/40 hover:border-foreground/40 hover:bg-paper-soft/40"
+            dragOver
+              ? "border-[var(--accent-ink)] bg-paper-soft"
+              : cnisCarregado
+                ? "border-[var(--accent-ink)] bg-paper-soft/60"
+                : "border-border bg-background/40 hover:border-foreground/40 hover:bg-paper-soft/40"
           }`}
         >
           {cnisCarregado ? (
@@ -274,7 +296,7 @@ export function CalculadoraFormPro() {
           ) : (
             <FileUp className="mx-auto h-6 w-6 text-muted-foreground" strokeWidth={1.5} aria-hidden />
           )}
-          <p className="mt-2 font-serif text-base">Carregar CNIS em PDF</p>
+          <p className="mt-2 font-serif text-base">Clique ou arraste o CNIS em PDF</p>
           <p className="text-xs text-muted-foreground">Extrato de Contribuição do INSS · até 20 MB</p>
           <input
             ref={fileRef}
@@ -283,10 +305,11 @@ export function CalculadoraFormPro() {
             className="sr-only"
             onChange={(e) => {
               const f = e.target.files?.[0];
-              if (f) lerCnis(f);
+              if (f) void lerCnis(f);
             }}
           />
-        </label>
+        </div>
+
 
         {(carregandoPdf || cnisStatus) && (
           <p
@@ -309,9 +332,18 @@ export function CalculadoraFormPro() {
         <p className="my-4 text-center text-[11px] uppercase tracking-[0.18em] text-muted-foreground">— ou inserir manualmente —</p>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <Campo label="Salário de Benefício médio (SB) — R$" htmlFor="sb" dica="Média dos SC corrigidos pelo IPCA-E (80% maiores)">
-            <Input id="sb" type="number" min={0} step="0.01" value={salarioManual} onChange={(e) => setSalarioManual(e.target.value)} placeholder="Ex: 4200.00" />
+          <Campo
+            label="Salário de Benefício médio (SB) — R$"
+            htmlFor="sb"
+            dica={
+              sbVeioDoCnis
+                ? "Estimado pelo CNIS (média dos 80% maiores SC ≥ 07/1994, SEM correção INPC). Substitua pelo SB corrigido se tiver."
+                : "Média dos 80% maiores SC ≥ 07/1994, corrigidos pelo INPC."
+            }
+          >
+            <Input id="sb" type="number" min={0} step="0.01" value={salarioManual} onChange={(e) => { setSalarioManual(e.target.value); setSbVeioDoCnis(false); }} placeholder="Ex: 4200.00" />
           </Campo>
+
           <Campo label="Tempo contribuído no Brasil" htmlFor="anos" dica="Total de vínculos computados no RGPS">
             <div className="grid grid-cols-2 gap-2">
               <Input id="anos" type="number" min={0} value={anos} onChange={(e) => setAnos(e.target.value)} placeholder="Anos" />
