@@ -39,6 +39,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { CenariosBlock } from "@/components/calculadora/cenarios-block";
 
 // ─── helpers ───────────────────────────────────────────────────────────────
 const formatarCpf = (raw: string) =>
