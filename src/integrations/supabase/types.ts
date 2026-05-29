@@ -131,6 +131,57 @@ export type Database = {
         }
         Relationships: []
       }
+      calc_leads: {
+        Row: {
+          created_at: string
+          data_nasc: string | null
+          email: string
+          id: string
+          nome: string
+          pais: string | null
+          referer: string | null
+          resultado_caso: string | null
+          sexo: string | null
+          telefone: string
+          tempo_brasil_meses: number | null
+          tempo_pais_meses: number | null
+          tipo: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          created_at?: string
+          data_nasc?: string | null
+          email: string
+          id?: string
+          nome: string
+          pais?: string | null
+          referer?: string | null
+          resultado_caso?: string | null
+          sexo?: string | null
+          telefone: string
+          tempo_brasil_meses?: number | null
+          tempo_pais_meses?: number | null
+          tipo?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          created_at?: string
+          data_nasc?: string | null
+          email?: string
+          id?: string
+          nome?: string
+          pais?: string | null
+          referer?: string | null
+          resultado_caso?: string | null
+          sexo?: string | null
+          telefone?: string
+          tempo_brasil_meses?: number | null
+          tempo_pais_meses?: number | null
+          tipo?: string | null
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       downloads_log: {
         Row: {
           country: string
