@@ -510,6 +510,15 @@ function Laudo({
         </div>
       )}
 
+      {/* CENÁRIOS — visão Segurado/Advogado */}
+      <div className="mt-2 print:mt-6">
+        <CenariosBlock
+          resultado={resultado}
+          inputs={{ pais, tipo, carencia }}
+          variant="advogado"
+        />
+      </div>
+
       {/* RODAPÉ */}
       <footer className="mt-6 border-t border-border pt-3 text-[11px] text-muted-foreground">
         <div className="flex flex-wrap justify-between gap-2">
