@@ -60,6 +60,11 @@ function CalculadoraPublicaPage() {
 
       <section className="mx-auto max-w-4xl px-6 py-10 md:py-14">
         <CalculadoraForm />
+        <p className="mt-6 rounded-xl border border-border bg-[var(--paper-soft)] px-4 py-3 text-xs text-muted-foreground">
+          <strong className="text-foreground">Resultado estimado.</strong>{" "}
+          A análise oficial depende dos dados completos do CNIS, documentos
+          estrangeiros, regras do país acordante e da decisão do INSS.
+        </p>
       </section>
     </main>
   );
