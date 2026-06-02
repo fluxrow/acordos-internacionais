@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { getFoundersCount, FOUNDERS_LIMIT } from "@/lib/founders.functions";
 import { createCheckoutSession } from "@/lib/checkout.functions";
+import { siteStats } from "@/data/site-stats";
 import { supabase } from "@/integrations/supabase/client";
 
 // Lookup keys que o Lovable precisa criar via payments--batch_create_product:
@@ -288,8 +289,10 @@ function PrecosPage() {
 
       <div className="mt-10 text-center">
         <p className="text-sm text-muted-foreground">
-          Todos os planos incluem acesso completo aos 24 acordos previdenciários,
-          documentos oficiais, formulários e modelos. Dúvidas?{" "}
+          Todos os planos incluem acesso completo aos {siteStats.acordosMapeados} acordos
+          previdenciários mapeados ({siteStats.acordosVigentes} em vigor +{" "}
+          {siteStats.acordosEmRatificacao} em ratificação), documentos oficiais,
+          formulários e modelos. Dúvidas?{" "}
           <Link to="/contato" className="underline hover:text-foreground">
             Fale conosco
           </Link>
