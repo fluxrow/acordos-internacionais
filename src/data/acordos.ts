@@ -9,6 +9,7 @@
 
 import { acordosImportados } from "./acordos.generated";
 import type { AcordoImportado } from "./acordos.types";
+import { applyTooltipsToBeneficios } from "./acordo-tooltips";
 
 export type { AcordoImportado } from "./acordos.types";
 export type StatusAcordo = "vigente" | "ratificacao" | "incompleto";
