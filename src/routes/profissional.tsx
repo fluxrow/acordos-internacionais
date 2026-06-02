@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { totalAcordos, totalDocs } from "@/data/acordos";
+import { siteStats } from "@/data/site-stats";
 import { CTAButton } from "@/components/cta-button";
 import { getFoundersCount, FOUNDERS_LIMIT } from "@/lib/founders.functions";
 import imgMarcos from "@/assets/marcos-espinola.jpg";

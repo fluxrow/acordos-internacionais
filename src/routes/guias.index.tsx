@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { guias } from "@/data/guias";
+import { siteStats } from "@/data/site-stats";
 
 const TITLE = "Guias — conceitos centrais dos acordos previdenciários";
 const DESC =
