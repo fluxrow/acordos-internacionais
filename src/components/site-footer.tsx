@@ -25,11 +25,7 @@ export function SiteFooter() {
                 </Link>
               </li>
               <li>
-                <Link
-                  to="/jornadas/$jornada"
-                  params={{ jornada: "moro-fora" }}
-                  className="hover:underline underline-offset-4"
-                >
+                <Link to="/jornadas" className="hover:underline underline-offset-4">
                   Jornadas
                 </Link>
               </li>
