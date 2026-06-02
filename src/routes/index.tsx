@@ -1,13 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-  acordos,
-  totalAcordos,
-  totalBilaterais,
-  totalDocs,
-  totalMultilaterais,
-} from "@/data/acordos";
+import { acordos } from "@/data/acordos";
+import { siteStats } from "@/data/site-stats";
 import { Globe } from "@/components/globe";
 import { CTAButton } from "@/components/cta-button";
+
 
 const TITLE = "Acordos Internacionais — Acordos previdenciários para brasileiros no exterior";
 const DESC =
@@ -87,7 +83,7 @@ function Home() {
                   to="/acordos"
                   variant="light"
                   size="lg"
-                  label={`Ver os ${totalAcordos} países`}
+                  label={`Ver os ${siteStats.acordosMapeados} países`}
                 />
               </div>
               <p className="mt-4 text-xs text-muted-foreground">
@@ -102,10 +98,10 @@ function Home() {
       <section className="border-b border-border">
         <div className="mx-auto grid max-w-6xl grid-cols-2 gap-8 px-6 py-10 md:grid-cols-4 md:py-12">
           {[
-            { n: totalAcordos, l: "Acordos vigentes" },
-            { n: totalBilaterais, l: "Bilaterais" },
-            { n: totalMultilaterais, l: "Multilaterais" },
-            { n: `${totalDocs}+`, l: "Documentos organizados" },
+            { n: siteStats.acordosVigentes, l: "Acordos em vigor" },
+            { n: siteStats.acordosBilateraisVigentes, l: "Bilaterais em vigor" },
+            { n: siteStats.acordosEmRatificacao, l: "Em ratificação" },
+            { n: `${siteStats.documentosOrganizados}+`, l: "Documentos organizados" },
           ].map((s) => (
             <div key={s.l}>
               <p className="font-display text-3xl tracking-tight md:text-4xl">{s.n}</p>
@@ -135,7 +131,7 @@ function Home() {
                 to="/acordos"
                 variant="dark"
                 size="md"
-                label={`Ver os ${totalAcordos} países`}
+                label={`Ver os ${siteStats.acordosMapeados} países`}
               />
               <Link
                 to="/jornadas"
@@ -236,7 +232,7 @@ function Home() {
               to="/acordos"
               className="text-sm underline underline-offset-4 hover:text-[var(--accent-ink)]"
             >
-              Ver todos os {totalAcordos} →
+              Ver todos os {siteStats.acordosMapeados} →
             </Link>
           </div>
 

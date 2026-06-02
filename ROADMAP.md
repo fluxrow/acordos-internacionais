@@ -299,3 +299,14 @@
 - ✅ `/precos` agora tem **toggle Mensal/Anual** no card principal + card Fundadores ao lado (grid 2 colunas). Anual default com badge "Mais popular" e microcopy "Economize ~32% vs. mensal". Mensal mostra "Cancele quando quiser".
 - ✅ Nenhuma mudança em `createCheckoutSession` — segue resolvendo por `lookup_key` (`hub_mensal`, `hub_anual`, `hub_fundadores`).
 - ✅ PRD §6 atualizado (oferta = mensal + anual + fundadores; "mensal descartado" removido).
+
+## 2026-06-02 — Briefing Marcos: Fase 1 (fonte única de números + status dos acordos)
+- ✅ Novo `src/data/site-stats.ts` exporta `siteStats` derivado de `acordos.ts` — fonte única para todas as contagens do site.
+- ✅ Novas derivadas em `acordos.ts`: `totalVigentes`, `totalBilateraisVigentes`, `totalMultilateraisVigentes`, `totalIncompletos`.
+- ✅ CPLP reclassificada como `status: "ratificacao"` (Cabo Verde e Israel já estavam). Site não conta mais CPLP como "vigente".
+- ✅ Stats da home reescritos: "Acordos em vigor" / "Bilaterais em vigor" / "Em ratificação" / "Documentos organizados" (em vez de "Acordos vigentes" + "Bilaterais" + "Multilaterais" misturando ratificação).
+- ✅ `/acordos` H1 mostra `{vigentes} em vigor + {ratificação} em ratificação`. Descrição SEO e meta reescritas com contagens corretas.
+- ✅ `/guias`, `/profissional`, `/precos` passam a usar `siteStats` em vez de hardcodes ("24 acordos", "25 países", "25 países e três multilaterais").
+- ✅ Página `/acordos/:pais` não diz mais "vigente desde X" para acordos em ratificação ou incompletos — passa a indicar o status real no eyebrow.
+- 📋 Próximas fases do briefing: tooltips (Fase 2), jornadas + siglas + prova de vida (Fase 3), SEO/menu/contato/calculadora (Fase 4).
+

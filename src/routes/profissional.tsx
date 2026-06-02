@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { totalAcordos, totalDocs } from "@/data/acordos";
+import { siteStats } from "@/data/site-stats";
 import { CTAButton } from "@/components/cta-button";
 import { getFoundersCount, FOUNDERS_LIMIT } from "@/lib/founders.functions";
 import imgMarcos from "@/assets/marcos-espinola.jpg";
@@ -46,7 +46,7 @@ function Profissional() {
             O fundamento técnico dos acordos internacionais, para você fechar o caso hoje.
           </h1>
           <p className="mt-8 max-w-2xl text-lg opacity-80">
-            {totalAcordos}+ países · portarias estruturadas · jurisprudência selecionada · calculadoras de totalização · certificados (CDT, CSDP, prorrogação) — tudo num só lugar.
+            {siteStats.acordosMapeados}+ países · portarias estruturadas · jurisprudência selecionada · calculadoras de totalização · certificados (CDT, CSDP, prorrogação) — tudo num só lugar.
           </p>
           <div className="mt-10 flex flex-wrap items-center gap-4">
             <CTAButton href="#planos" variant="solid-light" size="lg" label="Ver planos" />
@@ -173,8 +173,8 @@ function Profissional() {
 
           <div className="mt-12 grid gap-px overflow-hidden border border-background/15 bg-background/15 md:grid-cols-4">
             {[
-              [`${totalAcordos}+`, "Países cobertos"],
-              [`${totalDocs}`, "Documentos organizados"],
+              [`${siteStats.acordosMapeados}+`, "Países cobertos"],
+              [`${siteStats.documentosOrganizados}`, "Documentos organizados"],
               ["Integral", "Texto comentado artigo a artigo"],
               ["Contínua", "Atualização regulatória"],
             ].map(([n, l]) => (
@@ -203,14 +203,14 @@ function Profissional() {
           <h2 className="mt-3 font-display text-4xl">Para o trabalho do dia a dia.</h2>
           <ul className="mt-12 grid gap-px overflow-hidden border border-border bg-border md:grid-cols-2">
             {[
-              ["Consulte fichas-país completas", `Os ${totalAcordos} acordos com base legal, formulários, particularidades e jurisprudência relevante.`],
+              ["Consulte fichas-país completas", `Os ${siteStats.acordosMapeados} acordos com base legal, formulários, particularidades e jurisprudência relevante.`],
               ["Leia acordos comentados", "Texto integral de cada acordo internacional comentado artigo a artigo."],
               ["Acesse portarias por tema", "Atos do INSS sobre acordos internacionais, estruturados por tema."],
               ["Pesquise jurisprudência organizada", "Decisões selecionadas por país, tipo de benefício e ponto controvertido."],
               ["Calcule totalização e prorata", "Totalização, conversão de tempo e cálculo prorata em segundos."],
               ["Baixe modelos de certificado", "Saída fiscal, deslocamento temporário, prorrogação — modelos e fluxos."],
               ["Siga fluxogramas de procedimento", "CDT, totalização, prova de vida: passo a passo visual."],
-              [`Tenha +${totalDocs} documentos à mão`, "Organizado, buscável e atualizado quando há mudança regulatória."],
+              [`Tenha +${siteStats.documentosOrganizados} documentos à mão`, "Organizado, buscável e atualizado quando há mudança regulatória."],
             ].map(([t, d]) => (
               <li key={t} className="bg-background p-8">
                 <h3 className="font-display text-xl">{t}</h3>
