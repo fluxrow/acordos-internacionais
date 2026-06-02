@@ -9,6 +9,7 @@
 
 import { acordosImportados } from "./acordos.generated";
 import type { AcordoImportado } from "./acordos.types";
+import { applyTooltipsToBeneficios } from "./acordo-tooltips";
 
 export type { AcordoImportado } from "./acordos.types";
 export type StatusAcordo = "vigente" | "ratificacao" | "incompleto";
@@ -390,7 +391,12 @@ for (const a of acordos) {
   if (c) a.conteudo = c;
   const imp = acordosImportados[a.slug];
   if (imp) {
-    a.importado = imp;
+    // Clona para não mutar o objeto gerado caso ele seja reusado em testes.
+    const beneficios = {
+      brasil: applyTooltipsToBeneficios(a.slug, "brasil", imp.beneficios.brasil),
+      parceiro: applyTooltipsToBeneficios(a.slug, "parceiro", imp.beneficios.parceiro),
+    };
+    a.importado = { ...imp, beneficios };
     // docs no catálogo passa a refletir a contagem real do repo quando houver
     if (imp.documentos?.length) a.docs = imp.documentos.length;
   }

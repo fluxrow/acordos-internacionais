@@ -1,10 +1,12 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { Lock, Mail, Phone, MapPin, Building2 } from "lucide-react";
+import { Lock, Mail, Phone, MapPin, Building2, Info } from "lucide-react";
 import { acordos, getAcordo } from "@/data/acordos";
 import type { DocumentoImportado, OrgaoLigacao } from "@/data/acordos.types";
+import { findTooltipFor } from "@/data/acordo-tooltips";
 import { CTAMarcos } from "@/components/cta-marcos";
 import { ProContentLock } from "@/components/pro-content-lock";
 import { Highlight } from "@/lib/highlight";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 export const Route = createFileRoute("/acordos/$pais")({
   head: ({ params }) => {
@@ -280,6 +282,7 @@ function AcordoPais() {
                   lede={`O que cada país reconhece sob o acordo Brasil–${a.nome}.`}
                 >
                   <BeneficiosComparativo
+                    slug={a.slug}
                     brasil={a.importado.beneficios.brasil}
                     parceiro={a.importado.beneficios.parceiro}
                     paisParceiro={a.nome}
@@ -633,10 +636,12 @@ function OrgaoCard({ orgao, lado }: { orgao: OrgaoLigacao; lado?: string }) {
 }
 
 function BeneficiosComparativo({
+  slug,
   brasil,
   parceiro,
   paisParceiro,
 }: {
+  slug: string;
   brasil: string[];
   parceiro: string[];
   paisParceiro: string;
@@ -661,29 +666,63 @@ function BeneficiosComparativo({
               (i % 2 === 1 ? "bg-[var(--paper-soft)]/40" : "")
             }
           >
-            <div className="border-r border-border/40 px-4 py-3 text-sm leading-snug">
-              {brasil[i] ? (
-                <span className="flex items-start gap-2.5">
-                  <span aria-hidden className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--accent-ink)]" />
-                  {brasil[i]}
-                </span>
-              ) : (
-                <span className="text-muted-foreground/40">—</span>
-              )}
-            </div>
-            <div className="px-4 py-3 text-sm leading-snug">
-              {parceiro[i] ? (
-                <span className="flex items-start gap-2.5">
-                  <span aria-hidden className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--accent-ink)]" />
-                  {parceiro[i]}
-                </span>
-              ) : (
-                <span className="text-muted-foreground/40">—</span>
-              )}
-            </div>
+            <BeneficioCell
+              nome={brasil[i]}
+              tooltip={brasil[i] ? findTooltipFor(slug, "brasil", brasil[i])?.tooltip : undefined}
+              borderRight
+            />
+            <BeneficioCell
+              nome={parceiro[i]}
+              tooltip={parceiro[i] ? findTooltipFor(slug, "parceiro", parceiro[i])?.tooltip : undefined}
+            />
           </li>
         ))}
       </ul>
+    </div>
+  );
+}
+
+function BeneficioCell({
+  nome,
+  tooltip,
+  borderRight,
+}: {
+  nome?: string;
+  tooltip?: string;
+  borderRight?: boolean;
+}) {
+  return (
+    <div
+      className={
+        "px-4 py-3 text-sm leading-snug " +
+        (borderRight ? "border-r border-border/40" : "")
+      }
+    >
+      {nome ? (
+        <span className="flex items-start gap-2.5">
+          <span aria-hidden className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--accent-ink)]" />
+          <span className="flex-1">{nome}</span>
+          {tooltip && (
+            <Popover>
+              <PopoverTrigger
+                aria-label={`Detalhes sobre ${nome}`}
+                className="mt-0.5 inline-flex shrink-0 items-center justify-center rounded-full p-0.5 text-muted-foreground transition-colors hover:text-[var(--accent-ink)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-ink)]/40"
+              >
+                <Info className="h-3.5 w-3.5" />
+              </PopoverTrigger>
+              <PopoverContent
+                side="top"
+                align="start"
+                className="max-w-[min(420px,calc(100vw-2rem))] whitespace-pre-line text-sm leading-relaxed"
+              >
+                {tooltip}
+              </PopoverContent>
+            </Popover>
+          )}
+        </span>
+      ) : (
+        <span className="text-muted-foreground/40">—</span>
+      )}
     </div>
   );
 }
