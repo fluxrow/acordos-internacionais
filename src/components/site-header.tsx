@@ -157,13 +157,13 @@ export function SiteHeader() {
                 className="text-[var(--ink-soft)] transition-colors hover:text-foreground"
                 activeProps={{ className: "text-foreground underline underline-offset-8" }}
               >
-                Entrar
+                Entrar no Hub
               </Link>
               <Link
                 to="/cadastro"
                 className="rounded-full border border-[var(--accent-ink)] bg-[var(--accent-ink)] px-4 py-1.5 text-xs font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-[var(--accent-ink)] hover:text-[var(--paper)]"
               >
-                Criar conta
+                Criar conta no Hub
               </Link>
             </>
           )}
