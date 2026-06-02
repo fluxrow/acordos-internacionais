@@ -171,13 +171,38 @@ function Contato() {
           </div>
         )}
 
-        <aside className="md:sticky md:top-6 md:self-start">
-          <div className="border border-border p-6">
+        <aside className="md:sticky md:top-6 md:self-start space-y-6">
+          <div className="rounded-xl border border-border bg-background p-6">
+            <p className="eyebrow">O que esperar</p>
+            <ul className="mt-4 space-y-3 text-sm text-foreground/85">
+              <li>
+                <span className="font-medium text-foreground">Prazo de resposta:</span>{" "}
+                até 3 dias úteis.
+              </li>
+              <li>
+                <span className="font-medium text-foreground">Sem contrato:</span> o
+                envio desta mensagem não cria contrato de honorários nem relação
+                cliente–advogado.
+              </li>
+              <li>
+                <span className="font-medium text-foreground">Sigilo:</span> sua
+                mensagem é lida pessoalmente pelo Dr. Marcos Espínola.
+              </li>
+            </ul>
+          </div>
+
+          <div className="rounded-xl border border-border p-6">
             <p className="eyebrow">Outras formas</p>
             <p className="mt-3 text-sm">
               Para advogados interessados no hub profissional, existe uma
-              página dedicada com preview e checkout (em breve).
+              página dedicada com preview e checkout.
             </p>
+            <a
+              href="mailto:marcos@acordosinternacionais.com"
+              className="mt-4 inline-block text-sm underline underline-offset-4 hover:text-[var(--accent-ink)]"
+            >
+              marcos@acordosinternacionais.com
+            </a>
           </div>
         </aside>
       </section>
