@@ -28,8 +28,24 @@ const termos: { termo: string; def: string }[] = [
     def: "Agência da Previdência Social: unidade local do INSS para atendimento presencial.",
   },
   {
+    termo: "APSAI",
+    def: "Agência da Previdência Social de Atendimento a Acordos Internacionais. Unidades especializadas do INSS que processam pedidos de totalização e benefícios com base em acordos.",
+  },
+  {
+    termo: "Atestado de vida",
+    def: "Documento que comprova que o beneficiário está vivo. Pode ser feito por consulado, biometria Gov.br, notário com Apostila de Haia ou procurador. Validade de 90 dias até a entrega ao INSS.",
+  },
+  {
+    termo: "Benefício teórico",
+    def: "Valor hipotético do benefício calculado como se todo o tempo (Brasil + país acordante) tivesse sido contribuído sob a legislação brasileira. Base para o cálculo prorata.",
+  },
+  {
+    termo: "Benefício pro-rata",
+    def: "Parte proporcional do benefício teórico paga pelo Brasil, calculada na razão entre o tempo contribuído no Brasil e o tempo total considerado. Cada país acordante paga sua própria fração.",
+  },
+  {
     termo: "Carência",
-    def: "Número mínimo de contribuições mensais exigido para que o segurado tenha direito a um benefício.",
+    def: "Número mínimo de contribuições mensais exigido para que o segurado tenha direito a um benefício. Em acordos, o tempo no exterior conta para atingir a carência (totalização).",
   },
   {
     termo: "CDT",
@@ -40,12 +56,32 @@ const termos: { termo: string; def: string }[] = [
     def: "Cadastro Nacional de Informações Sociais: base de dados das contribuições previdenciárias no Brasil.",
   },
   {
-    termo: "Formulários de ligação",
+    termo: "CSDP",
+    def: "Comunicação de Saída Definitiva do País. Comunica à Receita Federal a saída fiscal do Brasil — passo prévio à DSDP. Marco para residência fiscal e contribuição como facultativo.",
+  },
+  {
+    termo: "DSDP",
+    def: "Declaração de Saída Definitiva do País. Declaração entregue à Receita Federal no ano seguinte ao da saída, consolidando o encerramento da residência fiscal brasileira.",
+  },
+  {
+    termo: "Dupla contribuição",
+    def: "Situação em que o trabalhador recolhe previdência simultaneamente em dois países pelo mesmo período. Os acordos existem justamente para evitar isso (via CDT ou regra de filiação única).",
+  },
+  {
+    termo: "Formulário de ligação",
     def: "Documentos padronizados (PT-BR1, US/BR, JP/BR etc.) usados para comunicação oficial entre as autoridades previdenciárias dos países acordantes.",
+  },
+  {
+    termo: "Órgão de ligação",
+    def: "Autoridade designada por cada país para operacionalizar o acordo: trocar formulários, certificar tempo de contribuição e processar pedidos. No Brasil é o INSS via APSAI.",
   },
   {
     termo: "Prorata (cálculo prorata)",
     def: "Forma de calcular o benefício quando há totalização: cada país paga a parte proporcional ao tempo contribuído sob sua legislação.",
+  },
+  {
+    termo: "Residência fiscal",
+    def: "País onde a pessoa é considerada contribuinte fiscal. Encerrar a residência fiscal brasileira (CSDP + DSDP) é independente da residência previdenciária e tem efeitos próprios.",
   },
   {
     termo: "Totalização",
