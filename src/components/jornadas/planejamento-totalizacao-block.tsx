@@ -5,7 +5,7 @@ export function PlanejamentoTotalizacaoBlock() {
     <section className="border-y border-[var(--accent-ink)]/30 bg-[var(--accent-ink-soft)]/40">
       <div className="mx-auto max-w-4xl px-6 py-16 md:py-20 space-y-12">
         <header>
-          <p className="eyebrow">Conteúdo novo · proposta</p>
+          <p className="eyebrow">Planejamento da totalização</p>
           <h2 className="mt-3 font-display text-3xl md:text-4xl">
             Planejamento da totalização
           </h2>
