@@ -316,5 +316,11 @@
 - ✅ `src/data/acordos.ts` aplica o transform sobre `importado.beneficios` ao montar o catálogo — sem mutar o objeto gerado.
 - ✅ `BeneficiosComparativo` em `acordos.$pais.tsx` refatorado: nova célula `BeneficioCell` com ícone `Info` (lucide) e Popover shadcn. Tap no mobile, hover/click no desktop. `whitespace-pre-line` preserva os parágrafos do tooltip longo da França.
 
-
+## 2026-06-02 — Briefing Marcos: Fase 3 (jornadas + siglas + prova de vida + glossário)
+- ✅ Jornada `moro-fora` ganha **duas trilhas via Tabs** (`Já recebo benefício do INSS` × `Trabalho fora e quero planejar`). Tipo `Jornada` agora aceita `trilhas?: JornadaTrilha[]` (compat: `passos` consolidado segue alimentando o TOC).
+- ✅ Demais jornadas (`vou-me-mudar`, `estou-voltando`, `quero-me-aposentar`) reordenadas para o padrão **diagnóstico → acordo → docs → contribuições → planejamento → simulação → requerimento → acompanhamento**.
+- ✅ Bloco `ProvaDeVidaBlock` ganha quadro objetivo de 5 itens (Quando / Como / Validade 90 dias / Nunca enviar por e-mail / Risco do atraso) acima das modalidades.
+- ✅ Sigla padronizada: `CDSP` → `CSDP` em `planejamento-totalizacao-block.tsx` (4 ocorrências). Nenhum arquivo do site usa mais `CDSP`.
+- ✅ Glossário ampliado para 18 termos: novos verbetes `APSAI`, `Atestado de vida`, `Benefício teórico`, `Benefício pro-rata`, `CSDP`, `DSDP`, `Dupla contribuição`, `Órgão de ligação`, `Residência fiscal` + redefinição de `Carência` mencionando totalização.
+- 📋 Próxima fase: Fase 4 — SEO PT-BR / menu Hub / contato / calculadora / blog / contador de fundadores.
 
