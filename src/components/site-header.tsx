@@ -260,14 +260,14 @@ export function SiteHeader() {
                 ) : (
                   <>
                     <MobileLink to="/login" onClick={closeMobile}>
-                      Entrar
+                      Entrar no Hub
                     </MobileLink>
                     <Link
                       to="/cadastro"
                       onClick={closeMobile}
                       className="mx-4 mt-2 inline-flex items-center justify-center rounded-full border border-[var(--accent-ink)] bg-[var(--accent-ink)] px-4 py-2.5 text-xs font-medium uppercase tracking-[0.14em] text-background transition-colors hover:bg-[var(--accent-ink)] hover:text-[var(--paper)]"
                     >
-                      Criar conta
+                      Criar conta no Hub
                     </Link>
                   </>
                 )}
