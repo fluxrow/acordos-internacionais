@@ -282,6 +282,7 @@ function AcordoPais() {
                   lede={`O que cada país reconhece sob o acordo Brasil–${a.nome}.`}
                 >
                   <BeneficiosComparativo
+                    slug={a.slug}
                     brasil={a.importado.beneficios.brasil}
                     parceiro={a.importado.beneficios.parceiro}
                     paisParceiro={a.nome}
