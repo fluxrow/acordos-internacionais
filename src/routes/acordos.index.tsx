@@ -1,11 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { acordos, totalAcordos } from "@/data/acordos";
+import { acordos } from "@/data/acordos";
+import { siteStats } from "@/data/site-stats";
 import { MULTI_LOGOS } from "@/lib/multi-logos";
 
 const TITLE = "Países com acordo previdenciário com o Brasil";
-const DESC =
-  "Lista completa dos 25 países com acordo internacional de previdência social com o Brasil: bilaterais e multilaterais (CPLP, Mercosul, Iberoamericano).";
+const DESC = `Lista completa dos ${siteStats.acordosMapeados} acordos previdenciários mapeados pelo Brasil — ${siteStats.acordosVigentes} em vigor e ${siteStats.acordosEmRatificacao} em ratificação, incluindo bilaterais e multilaterais (CPLP, Mercosul, Iberoamericano).`;
 
 export const Route = createFileRoute("/acordos/")({
   head: () => ({
@@ -57,11 +57,17 @@ function AcordosIndex() {
         <div className="relative z-10 mx-auto max-w-6xl px-6 py-16 md:py-20">
           <p className="eyebrow">Mapa</p>
           <h1 className="mt-5 font-display text-4xl md:text-6xl">
-            <span className="text-gold">{totalAcordos} países</span>, três multilaterais.
+            <span className="text-gold">{siteStats.acordosVigentes} em vigor</span>
+            {siteStats.acordosEmRatificacao > 0 && (
+              <>
+                {" "}+ {siteStats.acordosEmRatificacao} em ratificação
+              </>
+            )}.
           </h1>
           <p className="lede mt-6 max-w-2xl">
-            Acordos previdenciários firmados pelo Brasil. Use a busca ou os
-            filtros para encontrar o país que importa para você.
+            {siteStats.acordosMapeados} acordos previdenciários mapeados pelo
+            Brasil — bilaterais e multilaterais. Use a busca ou os filtros para
+            encontrar o que importa para você.
           </p>
         </div>
       </section>
