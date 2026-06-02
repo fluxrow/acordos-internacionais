@@ -260,9 +260,9 @@ export const acordos: Acordo[] = [
     nome: "CPLP",
     tipo: "multilateral",
     docs: 1,
-    status: "vigente",
+    status: "ratificacao",
     resumo:
-      "Convenção Multilateral da Comunidade dos Países de Língua Portuguesa.",
+      "Convenção Multilateral da Comunidade dos Países de Língua Portuguesa — assinada, em fase de ratificação.",
   },
   {
     slug: "mercosul",
@@ -397,10 +397,18 @@ for (const a of acordos) {
 }
 
 export const totalDocs = acordos.reduce((s, a) => s + a.docs, 0);
-export const totalAcordos = acordos.length;
+export const totalAcordos = acordos.length; // total mapeados (vigentes + em ratificação + incompletos)
 export const totalBilaterais = acordos.filter((a) => a.tipo === "bilateral").length;
 export const totalMultilaterais = acordos.filter((a) => a.tipo === "multilateral").length;
 export const totalRatificacao = acordos.filter((a) => a.status === "ratificacao").length;
+export const totalIncompletos = acordos.filter((a) => a.status === "incompleto").length;
+export const totalVigentes = acordos.filter((a) => a.status === "vigente").length;
+export const totalBilateraisVigentes = acordos.filter(
+  (a) => a.tipo === "bilateral" && a.status === "vigente",
+).length;
+export const totalMultilateraisVigentes = acordos.filter(
+  (a) => a.tipo === "multilateral" && a.status === "vigente",
+).length;
 
 export function getAcordo(slug: string): Acordo | undefined {
   return acordos.find((a) => a.slug === slug);
