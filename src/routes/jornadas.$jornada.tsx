@@ -33,6 +33,28 @@ function slugify(s: string) {
   return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
 
+function PassosList({ passos, idPrefix }: { passos: JornadaPasso[]; idPrefix?: string }) {
+  return (
+    <ol className="space-y-12">
+      {passos.map((p, i) => (
+        <li
+          key={p.titulo}
+          id={`${idPrefix ? `${idPrefix}-` : ""}passo-${i + 1}`}
+          className="scroll-mt-24 grid grid-cols-[auto_1fr] gap-6 border-b border-border/60 pb-12 last:border-0"
+        >
+          <span className="font-display text-5xl text-[var(--accent-ink)]">
+            {String(i + 1).padStart(2, "0")}
+          </span>
+          <div>
+            <h2 className="font-display text-2xl md:text-3xl">{p.titulo}</h2>
+            <p className="mt-3 text-base leading-relaxed">{p.descricao}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
 function JornadaPage() {
   const { jornada: j } = Route.useLoaderData() as { jornada: Jornada };
   const paises = (j.paisesRelacionados ?? [])
