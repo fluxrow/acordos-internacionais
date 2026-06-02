@@ -1,6 +1,6 @@
 # PRD — Acordo Internacional
 
-> Documento vivo. **Toda mudança no projeto deve atualizar este PRD na mesma rodada.** Última revisão: 2026-05-19.
+> Documento vivo. **Toda mudança no projeto deve atualizar este PRD na mesma rodada.** Última revisão: 2026-06-02.
 >
 > Coordenação Lovable ↔ Claude (GitHub): ver [`COLLAB.md`](../COLLAB.md). Status cronológico: ver [`ROADMAP.md`](../ROADMAP.md). Convenções de código: ver [`README.md`](../README.md).
 
