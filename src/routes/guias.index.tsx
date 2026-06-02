@@ -131,9 +131,9 @@ function GuiasIndex() {
               className="group block border border-border bg-background p-6 transition-colors hover:border-[var(--accent-ink)]"
             >
               <p className="eyebrow">Por país</p>
-              <p className="mt-2 font-display text-xl">Acordos vigentes</p>
+              <p className="mt-2 font-display text-xl">Acordos mapeados</p>
               <p className="mt-2 text-sm text-muted-foreground">
-                25 países e três acordos multilaterais.
+                {siteStats.acordosVigentes} em vigor + {siteStats.acordosEmRatificacao} em ratificação.
               </p>
               <span className="mt-4 inline-block text-sm underline underline-offset-4 group-hover:text-[var(--accent-ink)]">
                 Ver índice →
