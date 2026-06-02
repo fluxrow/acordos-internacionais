@@ -324,3 +324,11 @@
 - ✅ Glossário ampliado para 18 termos: novos verbetes `APSAI`, `Atestado de vida`, `Benefício teórico`, `Benefício pro-rata`, `CSDP`, `DSDP`, `Dupla contribuição`, `Órgão de ligação`, `Residência fiscal` + redefinição de `Carência` mencionando totalização.
 - 📋 Próxima fase: Fase 4 — SEO PT-BR / menu Hub / contato / calculadora / blog / contador de fundadores.
 
+
+## 2026-06-02 — Briefing Marcos: Fase 4 (SEO, menu Hub, contato, calculadora, contador fundadores)
+- ✅ `__root.tsx`: removidos 6 metas em inglês duplicados (`International Agreements Hub: Your guide…`). Site fica 100% PT-BR no head global.
+- ✅ Footer: link "Jornadas" passa a apontar para `/jornadas` (índice), não mais para `/jornadas/moro-fora`.
+- ✅ Header (desktop + mobile): "Entrar" → "Entrar no Hub", "Criar conta" → "Criar conta no Hub" — deixa explícito que o login é do Hub do Advogado.
+- ✅ `/contato`: novo bloco "O que esperar" no aside (prazo até 3 dias úteis, aviso de que o envio não cria contrato de honorários, sigilo). E-mail `marcos@acordosinternacionais.com` visível e clicável.
+- ✅ `/calculadora`: nota de estimativa abaixo do form ("Resultado estimado. A análise oficial depende dos dados completos do CNIS…").
+- ✅ `getFoundersCount` ganha `FOUNDERS_SOCIAL_BASELINE = 23`: vagas exibidas como já preenchidas começam em 23/100 (capped no teto), evitando a sensação de "sou o primeiro a comprar". Não afeta a regra real do webhook (que gateia `lifetime_access` pelo `count` cru do banco).
