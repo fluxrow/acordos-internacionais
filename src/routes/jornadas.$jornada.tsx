@@ -1,10 +1,11 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { jornadas, getJornada, type Jornada } from "@/data/jornadas";
+import { jornadas, getJornada, type Jornada, type JornadaPasso } from "@/data/jornadas";
 import { acordos } from "@/data/acordos";
 import { getGuia } from "@/data/guias";
 import { CTAMarcos } from "@/components/cta-marcos";
 import { ProvaDeVidaBlock } from "@/components/jornadas/prova-de-vida-block";
 import { PlanejamentoTotalizacaoBlock } from "@/components/jornadas/planejamento-totalizacao-block";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const Route = createFileRoute("/jornadas/$jornada")({
   head: ({ params }) => {
@@ -30,6 +31,28 @@ export const Route = createFileRoute("/jornadas/$jornada")({
 
 function slugify(s: string) {
   return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
+function PassosList({ passos, idPrefix }: { passos: JornadaPasso[]; idPrefix?: string }) {
+  return (
+    <ol className="space-y-12">
+      {passos.map((p, i) => (
+        <li
+          key={p.titulo}
+          id={`${idPrefix ? `${idPrefix}-` : ""}passo-${i + 1}`}
+          className="scroll-mt-24 grid grid-cols-[auto_1fr] gap-6 border-b border-border/60 pb-12 last:border-0"
+        >
+          <span className="font-display text-5xl text-[var(--accent-ink)]">
+            {String(i + 1).padStart(2, "0")}
+          </span>
+          <div>
+            <h2 className="font-display text-2xl md:text-3xl">{p.titulo}</h2>
+            <p className="mt-3 text-base leading-relaxed">{p.descricao}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  );
 }
 
 function JornadaPage() {
@@ -65,29 +88,37 @@ function JornadaPage() {
 
       {/* PASSOS + TOC */}
       <section className="mx-auto grid max-w-6xl gap-12 px-6 py-16 md:grid-cols-[1fr_280px]">
-        <ol className="space-y-12">
-          {j.passos.map((p: Jornada["passos"][number], i: number) => (
-            <li
-              key={p.titulo}
-              id={`passo-${i + 1}`}
-              className="scroll-mt-24 grid grid-cols-[auto_1fr] gap-6 border-b border-border/60 pb-12 last:border-0"
-            >
-              <span className="font-display text-5xl text-[var(--accent-ink)]">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <div>
-                <h2 className="font-display text-2xl md:text-3xl">{p.titulo}</h2>
-                <p className="mt-3 text-base leading-relaxed">{p.descricao}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
+        <div>
+          {j.trilhas && j.trilhas.length > 0 ? (
+            <Tabs defaultValue={j.trilhas[0].id}>
+              <TabsList className="mb-8 flex flex-wrap gap-2 bg-transparent p-0">
+                {j.trilhas.map((t) => (
+                  <TabsTrigger
+                    key={t.id}
+                    value={t.id}
+                    className="rounded-xl border border-border bg-background px-4 py-2 text-sm data-[state=active]:border-[var(--accent-ink)] data-[state=active]:bg-[var(--accent-ink-soft)]/40"
+                  >
+                    {t.titulo}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+              {j.trilhas.map((t) => (
+                <TabsContent key={t.id} value={t.id} className="space-y-8">
+                  <p className="lede max-w-2xl">{t.resumo}</p>
+                  <PassosList passos={t.passos} idPrefix={t.id} />
+                </TabsContent>
+              ))}
+            </Tabs>
+          ) : (
+            <PassosList passos={j.passos} />
+          )}
+        </div>
 
         <aside className="md:sticky md:top-6 md:self-start">
           <div className="border border-border p-6">
             <p className="eyebrow">Nesta jornada</p>
             <ol className="mt-4 space-y-3 text-sm">
-              {j.passos.map((p: Jornada["passos"][number], i: number) => (
+              {j.passos.map((p: JornadaPasso, i: number) => (
                 <li key={p.titulo}>
                   <a
                     href={`#passo-${i + 1}`}

@@ -5,7 +5,7 @@ export function PlanejamentoTotalizacaoBlock() {
     <section className="border-y border-[var(--accent-ink)]/30 bg-[var(--accent-ink-soft)]/40">
       <div className="mx-auto max-w-4xl px-6 py-16 md:py-20 space-y-12">
         <header>
-          <p className="eyebrow">Conteúdo novo · proposta</p>
+          <p className="eyebrow">Planejamento da totalização</p>
           <h2 className="mt-3 font-display text-3xl md:text-4xl">
             Planejamento da totalização
           </h2>
@@ -15,11 +15,11 @@ export function PlanejamentoTotalizacaoBlock() {
           </p>
         </header>
 
-        {/* ETAPA 1 — CDT vs CDSP */}
+        {/* ETAPA 1 — CDT vs CSDP */}
         <article className="rounded-2xl border border-border bg-background p-6 md:p-8">
           <p className="eyebrow">Etapa 1</p>
           <h3 className="mt-2 font-display text-2xl">
-            CDT × CDSP — qual é a minha situação?
+            CDT × CSDP — qual é a minha situação?
           </h3>
           <div className="mt-6 grid gap-5 md:grid-cols-2">
             <div className="rounded-xl border border-[var(--accent-ink)]/40 bg-background p-5">
@@ -41,7 +41,7 @@ export function PlanejamentoTotalizacaoBlock() {
             </div>
             <div className="rounded-xl border border-destructive/40 bg-background p-5">
               <p className="text-xs font-medium uppercase tracking-[0.14em] text-destructive">
-                CDSP · Comunicação de Saída Definitiva
+                CSDP · Comunicação de Saída Definitiva
               </p>
               <p className="mt-2 text-sm">
                 Para quem vai ficar <strong>mais de 12 meses</strong> no exterior.
@@ -117,7 +117,7 @@ export function PlanejamentoTotalizacaoBlock() {
               },
               {
                 titulo: "Cenário B · Fico fora indefinidamente (10+ anos)",
-                estrategia: "CDSP + totalização ao final",
+                estrategia: "CSDP + totalização ao final",
                 resultado: "Aposentadoria em 1 ou 2 países",
               },
               {

@@ -1,9 +1,26 @@
+export interface JornadaPasso {
+  titulo: string;
+  descricao: string;
+}
+
+export interface JornadaTrilha {
+  id: string;
+  titulo: string;
+  resumo: string;
+  passos: JornadaPasso[];
+}
+
 export interface Jornada {
   slug: string;
   titulo: string;
   publico: string;
   resumo: string;
-  passos: { titulo: string; descricao: string }[];
+  passos: JornadaPasso[];
+  /**
+   * Quando presente, a página renderiza um Tabs com cada trilha.
+   * `passos` continua sendo a versão "consolidada" usada em listagens.
+   */
+  trilhas?: JornadaTrilha[];
   cta: string;
   paisesRelacionados?: string[];
   guiaRelacionado?: string;
@@ -18,24 +35,39 @@ export const jornadas: Jornada[] = [
       "Antes de embarcar, garanta que seus anos de contribuição no Brasil contem lá fora, e vice-versa.",
     passos: [
       {
-        titulo: "Confirme se há acordo",
+        titulo: "Diagnóstico — temporário ou definitivo?",
         descricao:
-          "Verifique no índice se o país de destino tem acordo previdenciário com o Brasil.",
+          "Defina se é deslocamento temporário (com vínculo brasileiro) ou mudança definitiva. A trilha muda inteiramente a partir daí.",
       },
       {
-        titulo: "Solicite o CDT",
+        titulo: "Verifique o acordo com o país de destino",
         descricao:
-          "Se for trabalho temporário com vínculo brasileiro, solicite o Certificado de Deslocamento Temporário (CDT) para evitar dupla contribuição.",
+          "Consulte o índice de acordos e identifique a base legal (decreto, vigência, status).",
       },
       {
         titulo: "Organize seus documentos",
         descricao:
-          "Extrato CNIS, carteiras de trabalho, contratos. Tradução juramentada quando exigida.",
+          "Extrato CNIS, carteiras de trabalho, contratos. Tradução juramentada quando exigida pelo país acordante.",
       },
       {
-        titulo: "Mantenha contribuições ativas",
+        titulo: "Solicite o CDT (se temporário)",
         descricao:
-          "Estude se vale manter recolhimento como facultativo no Brasil enquanto estiver fora.",
+          "Trabalho com vínculo brasileiro: peça o Certificado de Deslocamento Temporário para evitar dupla contribuição.",
+      },
+      {
+        titulo: "Planeje suas contribuições",
+        descricao:
+          "Avalie manter recolhimento como facultativo no Brasil; estime o impacto no benefício futuro.",
+      },
+      {
+        titulo: "Simule cenários de totalização",
+        descricao:
+          "Use a calculadora prorata com diferentes horizontes (5, 10, 20 anos) antes de decidir.",
+      },
+      {
+        titulo: "Formalize a saída fiscal (se definitivo)",
+        descricao:
+          "CSDP + DSDP na Receita Federal encerram a residência fiscal — passo independente da previdência.",
       },
     ],
     cta: "Tem dúvidas no seu caso? Fale com o Dr. Marcos Espínola.",
@@ -47,26 +79,100 @@ export const jornadas: Jornada[] = [
     titulo: "Já moro no exterior",
     publico: "Brasileiros que vivem fora do Brasil",
     resumo:
-      "Da prova de vida ao planejamento da aposentadoria: o que muda quando o INSS é acessado de outro país.",
+      "Duas trilhas conforme a sua situação: quem já recebe benefício do INSS no exterior e quem ainda está em fase de planejamento.",
     passos: [
       {
-        titulo: "Faça a prova de vida certa",
+        titulo: "Mantenha a prova de vida em dia",
         descricao:
-          "Brasileiros no exterior podem fazer a prova de vida em consulados, biometria facial ou via Meu INSS.",
+          "A cada 12 meses. Atraso bloqueia o pagamento. Veja modalidades abaixo.",
       },
       {
-        titulo: "Mantenha o cadastro atualizado",
-        descricao: "Endereço, conta bancária e e-mail atualizados no Meu INSS.",
+        titulo: "Confirme o acordo do país onde mora",
+        descricao:
+          "Identifique acordo, status e órgão de ligação local responsável pelo seu caso.",
       },
       {
-        titulo: "Compute seu tempo lá fora",
+        titulo: "Cuide das contribuições onde estiver",
         descricao:
-          "Confirme periodicamente que suas contribuições no país de residência estão registradas corretamente.",
+          "Acompanhe se as contribuições no país de residência estão registradas — você precisará desse histórico no futuro.",
       },
       {
         titulo: "Planeje a totalização",
         descricao:
-          "Entenda como o tempo contribuído fora se combinará com o INSS quando chegar a hora.",
+          "Entenda como o tempo lá fora vai se combinar com o INSS no momento certo.",
+      },
+    ],
+    trilhas: [
+      {
+        id: "ja-recebo",
+        titulo: "Já recebo benefício do INSS",
+        resumo:
+          "Manutenção do benefício no exterior: prova de vida, conta bancária, cadastro e como reagir se o pagamento for bloqueado.",
+        passos: [
+          {
+            titulo: "Faça a prova de vida no prazo",
+            descricao:
+              "A cada 12 meses. Consulado, biometria Gov.br, notário + Apostila de Haia ou procurador no Brasil — escolha conforme o seu país.",
+          },
+          {
+            titulo: "Mantenha o cadastro atualizado",
+            descricao:
+              "Endereço, e-mail e telefone no Meu INSS. Mudança de país sem atualização causa problemas no pagamento.",
+          },
+          {
+            titulo: "Conta bancária para receber",
+            descricao:
+              "Conta no Brasil (titular ou procurador) ou conta no exterior conforme acordo. Confirme se o banco aceita crédito do INSS.",
+          },
+          {
+            titulo: "Se o benefício for bloqueado",
+            descricao:
+              "Atestado de vida com Apostila de Haia, envio físico ao INSS Brasília e acompanhamento do desbloqueio. Não envie por e-mail.",
+          },
+        ],
+      },
+      {
+        id: "planejando",
+        titulo: "Trabalho fora e quero planejar",
+        resumo:
+          "Da verificação do acordo ao requerimento futuro: como construir um histórico contributivo sólido morando no exterior.",
+        passos: [
+          {
+            titulo: "Confirme o acordo do país onde mora",
+            descricao:
+              "Verifique status (vigente / em ratificação / multilateral) e qual é o órgão de ligação local.",
+          },
+          {
+            titulo: "Decida onde contribuir",
+            descricao:
+              "Sistema do país de residência, facultativo no Brasil, ou ambos. Cada combinação afeta o benefício final.",
+          },
+          {
+            titulo: "Organize seus documentos",
+            descricao:
+              "Carteira de trabalho local, comprovantes de filiação, contracheques e CNIS brasileiro periodicamente.",
+          },
+          {
+            titulo: "Acompanhe o tempo registrado",
+            descricao:
+              "Confirme anualmente que as contribuições aparecem no histórico do país acordante — corrigir depois é caro.",
+          },
+          {
+            titulo: "Planeje a totalização",
+            descricao:
+              "Simule cenários de carência e prorata; entenda quando o tempo somado começa a destravar o direito ao benefício.",
+          },
+          {
+            titulo: "Simulação prévia",
+            descricao:
+              "Use a calculadora prorata com horizontes diferentes antes de tomar decisões de longo prazo.",
+          },
+          {
+            titulo: "Requerimento (no momento certo)",
+            descricao:
+              "Pode ser feito no país de residência. O órgão local oficia o INSS via formulários de ligação.",
+          },
+        ],
       },
     ],
     cta: "Quer revisar seu plano? Fale com o Dr. Marcos Espínola.",
@@ -81,9 +187,19 @@ export const jornadas: Jornada[] = [
       "Como aproveitar o tempo contribuído fora ao retomar a vida (e a aposentadoria) no Brasil.",
     passos: [
       {
+        titulo: "Diagnóstico — qual era o seu vínculo lá fora?",
+        descricao:
+          "Trabalho local, deslocamento temporário ou contribuição voluntária. A documentação pedida muda em cada caso.",
+      },
+      {
+        titulo: "Identifique o acordo aplicável",
+        descricao:
+          "Confirme país, vigência e órgão de ligação responsável pelo seu histórico estrangeiro.",
+      },
+      {
         titulo: "Reúna comprovantes do exterior",
         descricao:
-          "Histórico contributivo, formulários de ligação e comprovantes de filiação ao sistema estrangeiro.",
+          "Histórico contributivo, contratos, contracheques e comprovantes de filiação ao sistema estrangeiro.",
       },
       {
         titulo: "Solicite os formulários de ligação",
@@ -91,14 +207,24 @@ export const jornadas: Jornada[] = [
           "Cada acordo tem formulários próprios (PT-BR1, US/BR, DE/BR etc.) emitidos pela autoridade estrangeira.",
       },
       {
-        titulo: "Protocole a totalização no INSS",
+        titulo: "Planeje a totalização",
         descricao:
-          "Pelo Meu INSS ou em uma APS, o INSS oficia o país acordante e calcula a parte proporcional brasileira.",
+          "Some os tempos antes de protocolar — ajuda a escolher entre acordo bilateral e regras puramente brasileiras.",
+      },
+      {
+        titulo: "Simule o benefício prorata",
+        descricao:
+          "Estime quanto cada país pagará na sua parte proporcional para evitar surpresas.",
+      },
+      {
+        titulo: "Protocole o requerimento no INSS",
+        descricao:
+          "Pelo Meu INSS ou em uma APS. O INSS oficia o país acordante e calcula a parte proporcional brasileira.",
       },
       {
         titulo: "Acompanhe o processo",
         descricao:
-          "Processos internacionais são mais lentos. Acompanhe e tenha apoio jurídico se houver demora indevida.",
+          "Processos internacionais são lentos. Acompanhe e tenha apoio jurídico se houver demora indevida.",
       },
     ],
     cta: "Demora ou indeferimento? Fale com o Dr. Marcos Espínola.",
@@ -113,14 +239,34 @@ export const jornadas: Jornada[] = [
       "Totalização, cálculo prorata e o passo a passo de quem vai pedir aposentadoria com tempo dos dois países.",
     passos: [
       {
-        titulo: "Faça a contagem de tempo total",
+        titulo: "Diagnóstico — quais países entram na conta?",
         descricao:
-          "Some os períodos contribuídos no Brasil e no país acordante para verificar se atinge a carência.",
+          "Liste todos os países onde contribuiu. Mais de dois exige acordos encadeados — análise especializada.",
+      },
+      {
+        titulo: "Confirme os acordos e a base legal",
+        descricao:
+          "Para cada país, verifique decreto, vigência e o que pode ser totalizado (aposentadoria, pensão, auxílio).",
+      },
+      {
+        titulo: "Reúna os documentos",
+        descricao:
+          "CNIS atualizado + comprovantes contributivos de cada país. Tradução juramentada quando exigida.",
+      },
+      {
+        titulo: "Some o tempo total",
+        descricao:
+          "Verifique se a soma atinge a carência exigida (180 meses para aposentadoria por idade).",
       },
       {
         titulo: "Entenda o cálculo prorata",
         descricao:
-          "Cada país paga a parte proporcional ao tempo contribuído sob sua legislação. Não é cumulativo, é proporcional.",
+          "Cada país paga a parte proporcional ao tempo contribuído sob sua legislação. Não é cumulativo.",
+      },
+      {
+        titulo: "Simule cenários",
+        descricao:
+          "Em alguns casos vale aposentar pelas regras de cada país separadamente. Calculadora prorata + análise técnica.",
       },
       {
         titulo: "Escolha onde requerer",
@@ -128,9 +274,9 @@ export const jornadas: Jornada[] = [
           "É possível requerer no país de residência. O órgão local oficia os demais países envolvidos.",
       },
       {
-        titulo: "Avalie cenários",
+        titulo: "Acompanhe o processo",
         descricao:
-          "Em alguns casos vale mais aposentar pelas regras de cada país separadamente. Análise técnica é essencial.",
+          "Espere meses, não semanas. Mantenha comprovantes, atualize cadastro e cobre se houver demora indevida.",
       },
     ],
     cta: "Quer simular seu caso? Fale com o Dr. Marcos Espínola.",

@@ -93,23 +93,30 @@ export function ProvaDeVidaBlock() {
   return (
     <section className="border-y border-[var(--accent-ink)]/30 bg-[var(--accent-ink-soft)]/40">
       <div className="mx-auto max-w-4xl px-6 py-16 md:py-20">
-        <p className="eyebrow">Conteúdo novo · proposta</p>
+        <p className="eyebrow">Prova de vida no exterior</p>
         <h2 className="mt-3 font-display text-3xl md:text-4xl">
           Prova de vida — como comprovar que está vivo
         </h2>
-        <div className="mt-5 grid gap-3 sm:grid-cols-2">
-          <div className="rounded-xl border border-border bg-background px-4 py-3 text-sm">
-            <p className="font-medium">Prazo crítico</p>
-            <p className="text-muted-foreground">
-              A cada 12 meses, contados a partir da última prova ou do aniversário.
-            </p>
-          </div>
-          <div className="rounded-xl border border-destructive/40 bg-background px-4 py-3 text-sm">
-            <p className="font-medium text-destructive">Consequência do atraso</p>
-            <p className="text-muted-foreground">
-              Bloqueio automático → suspensão do benefício se mantido.
-            </p>
-          </div>
+
+        {/* Quadro objetivo (5 itens) */}
+        <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+          {[
+            { t: "Quando", d: "A cada 12 meses, a partir da última prova ou do aniversário." },
+            { t: "Como", d: "Consulado, biometria Gov.br, notário + Apostila de Haia ou procurador." },
+            { t: "Validade", d: "Atestado de vida assinado vale 90 dias até chegar ao INSS." },
+            { t: "Nunca", d: "Não enviar atestado por e-mail. INSS exige documento original." },
+            { t: "Risco", d: "Atraso bloqueia o benefício; persistência leva à suspensão." },
+          ].map((f) => (
+            <div
+              key={f.t}
+              className="rounded-xl border border-border bg-background px-4 py-3 text-sm"
+            >
+              <p className="text-xs font-medium uppercase tracking-[0.14em] text-[var(--accent-ink)]">
+                {f.t}
+              </p>
+              <p className="mt-1.5 text-muted-foreground">{f.d}</p>
+            </div>
+          ))}
         </div>
 
         <div className="mt-10 space-y-5">
