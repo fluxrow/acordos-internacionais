@@ -167,7 +167,9 @@ function AcordoPais() {
               </nav>
               <p className="eyebrow mt-6">
                 {tipoLabel}
-                {a.vigencia && ` · vigente desde ${a.vigencia}`}
+                {a.status === "vigente" && a.vigencia && ` · vigente desde ${a.vigencia}`}
+                {a.status === "ratificacao" && ` · em ratificação`}
+                {a.status === "incompleto" && ` · documentação em organização`}
               </p>
               <h1 className="mt-4 font-display text-5xl md:text-7xl">{a.nome}</h1>
               <p className="lede mt-6 max-w-2xl">
