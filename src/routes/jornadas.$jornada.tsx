@@ -1,10 +1,11 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { jornadas, getJornada, type Jornada } from "@/data/jornadas";
+import { jornadas, getJornada, type Jornada, type JornadaPasso } from "@/data/jornadas";
 import { acordos } from "@/data/acordos";
 import { getGuia } from "@/data/guias";
 import { CTAMarcos } from "@/components/cta-marcos";
 import { ProvaDeVidaBlock } from "@/components/jornadas/prova-de-vida-block";
 import { PlanejamentoTotalizacaoBlock } from "@/components/jornadas/planejamento-totalizacao-block";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const Route = createFileRoute("/jornadas/$jornada")({
   head: ({ params }) => {
