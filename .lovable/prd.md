@@ -195,6 +195,17 @@ Após aprovação do Dr. Marcos, todas as variações do sandbox foram promovida
 - Componentes movidos: `src/components/preview/{prova-de-vida,planejamento-totalizacao}-block.tsx` → `src/components/jornadas/`.
 
 
+## 14. Briefing Marcos — Fonte única de números + status dos acordos (2026-06-02)
+
+Resposta à Parte 1 do relatório do Marcos (prioridades 1, 2 e 7 — números inconsistentes e mistura "vigente" × "em ratificação"):
+
+- **Fonte única:** novo `src/data/site-stats.ts` exporta `siteStats` derivado automaticamente de `acordos.ts`. Nenhum componente pode hardcodar contagens — sempre importar de `siteStats`.
+- **Status reclassificado:** CPLP passa a `status: "ratificacao"` (Cabo Verde e Israel já estavam). Site agora separa claramente "em vigor" de "em ratificação".
+- **Novas derivadas em `acordos.ts`:** `totalVigentes`, `totalBilateraisVigentes`, `totalMultilateraisVigentes`, `totalIncompletos` (além das antigas, mantidas para compatibilidade interna).
+- **Páginas atualizadas:** `/` (stats reescritos), `/acordos` (H1 com vigentes + em ratificação, meta SEO recontada), `/guias` (card "Acordos mapeados"), `/profissional` (números via siteStats), `/precos` (texto final), `/acordos/:pais` (eyebrow respeita status, não diz "vigente desde" para acordos em ratificação).
+- **Próximas fases do briefing (em andamento):** Fase 2 tooltips dos 8 acordos, Fase 3 jornadas/siglas/prova de vida/glossário, Fase 4 SEO PT-BR / menu Hub / contato / calculadora / blog / contador.
+
+
 
 ## Calculadora Pro — versão "laudo" (Hub do Advogado)
 
