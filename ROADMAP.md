@@ -308,5 +308,13 @@
 - ✅ `/acordos` H1 mostra `{vigentes} em vigor + {ratificação} em ratificação`. Descrição SEO e meta reescritas com contagens corretas.
 - ✅ `/guias`, `/profissional`, `/precos` passam a usar `siteStats` em vez de hardcodes ("24 acordos", "25 países", "25 países e três multilaterais").
 - ✅ Página `/acordos/:pais` não diz mais "vigente desde X" para acordos em ratificação ou incompletos — passa a indicar o status real no eyebrow.
-- 📋 Próximas fases do briefing: tooltips (Fase 2), jornadas + siglas + prova de vida (Fase 3), SEO/menu/contato/calculadora (Fase 4).
+- 📋 Próximas fases do briefing: jornadas + siglas + prova de vida (Fase 3), SEO/menu/contato/calculadora (Fase 4).
+
+## 2026-06-02 — Briefing Marcos: Fase 2 (tooltips curados em 8 acordos)
+- ✅ Novo `src/data/acordo-tooltips.ts` com tooltips revisados por Marcos para 8 acordos: França, Suíça, Portugal, Bulgária, Canadá, Alemanha, Quebec, Itália.
+- ✅ Helpers `findTooltipFor` (lookup case/acento-insensitive) e `applyTooltipsToBeneficios` (rename + `insertIfMissing` para benefícios ausentes no dataset gerado, ex.: Suíça inteira, "Pensão de sobreviventes" búlgara, "Seguro de Acidentes" alemão, "Seguro de Deslocamento" do Québec, "Benefícios contra tuberculose" italiano, leis canadenses).
+- ✅ `src/data/acordos.ts` aplica o transform sobre `importado.beneficios` ao montar o catálogo — sem mutar o objeto gerado.
+- ✅ `BeneficiosComparativo` em `acordos.$pais.tsx` refatorado: nova célula `BeneficioCell` com ícone `Info` (lucide) e Popover shadcn. Tap no mobile, hover/click no desktop. `whitespace-pre-line` preserva os parágrafos do tooltip longo da França.
+
+
 
