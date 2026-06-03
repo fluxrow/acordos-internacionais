@@ -78,7 +78,7 @@ export const jornadas: Jornada[] = [
   },
   {
     slug: "moro-fora",
-    titulo: "Já moro no exterior",
+    titulo: "Moro no exterior",
     publico: "Brasileiros que vivem fora do Brasil",
     resumo:
       "Duas trilhas conforme a sua situação: quem já recebe benefício do INSS no exterior e quem ainda está em fase de planejamento.",

@@ -442,7 +442,7 @@ function AcordoPais() {
                     params={{ jornada: "moro-fora" }}
                     className="ink-link hover:text-[var(--accent-ink)]"
                   >
-                    Já moro no exterior →
+                    Moro no exterior →
                   </Link>
                 </li>
                 <li>
