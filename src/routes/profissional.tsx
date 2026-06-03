@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { siteStats } from "@/data/site-stats";
 import { CTAButton } from "@/components/cta-button";
