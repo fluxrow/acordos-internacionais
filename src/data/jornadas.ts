@@ -266,7 +266,7 @@ export const jornadas: Jornada[] = [
       {
         titulo: "Verifique se o seu caso tem direito à totalização ou ao planejamento.",
         descricao:
-          "Em alguns casos vale aposentar pelas regras de cada país separadamente. Calculadora prorata + análise técnica.",
+          "Em alguns casos vale aposentar pelas regras de cada país separadamente. Calculadora Totalização + análise técnica.",
       },
       {
         titulo: "Escolha onde requerer",
