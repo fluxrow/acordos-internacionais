@@ -342,3 +342,12 @@
 - ✅ `/contato`: novo bloco "O que esperar" no aside (prazo até 3 dias úteis, aviso de que o envio não cria contrato de honorários, sigilo). E-mail `marcos@acordosinternacionais.com` visível e clicável.
 - ✅ `/calculadora`: nota de estimativa abaixo do form ("Resultado estimado. A análise oficial depende dos dados completos do CNIS…").
 - ✅ `getFoundersCount` ganha `FOUNDERS_SOCIAL_BASELINE = 23`: vagas exibidas como já preenchidas começam em 23/100 (capped no teto), evitando a sensação de "sou o primeiro a comprar". Não afeta a regra real do webhook (que gateia `lifetime_access` pelo `count` cru do banco).
+
+## 2026-06-03 — Notificação de leads (Marcos + cliente) e painel admin no Hub
+- ✅ Nova rota pública `/api/public/calc-lead` (`createFileRoute`) substitui o insert direto do `LeadCaptureDialog`. Insere via `supabaseAdmin` e dispara `notifyLead` em background.
+- ✅ `src/lib/lead-notify.server.ts` envia dois e-mails Lovable Emails: `novo-lead-calculadora` para Marcos (com link WhatsApp + link `/hub/leads`) e `confirmacao-lead` para o próprio lead (com link WhatsApp do Marcos). Falha é apenas logada — lead nunca se perde.
+- ✅ Migration `calc_leads`: campos `status` (default `novo`) e `notas`, mais índice em `status`. Tipos do Supabase regenerados.
+- ✅ `src/lib/admin-leads.functions.ts`: `listAdminLeads` + `updateAdminLead` protegidos por `requireSupabaseAuth` + checagem `has_role('admin')`.
+- ✅ Nova página `/hub/leads` (`src/routes/_authenticated/hub.leads.tsx`): tabela com badge de status, busca por nome/e-mail/país, filtro de status, botão WhatsApp, copiar e-mail, mudar status e editar notas internas. Não-admin vê tela de "acesso restrito".
+- ✅ `src/routes/_authenticated/hub.index.tsx`: card "Leads da calculadora" (dourado, eyebrow "Admin") aparece só quando `isAdmin`.
+- ⏳ Pendente: configurar `notify.acordosinternacionais.com` (NS no DNS) e rodar `setup_email_infra` + `scaffold_transactional_email` para o envio de e-mail entrar no ar.

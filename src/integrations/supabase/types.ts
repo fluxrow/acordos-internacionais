@@ -138,10 +138,12 @@ export type Database = {
           email: string
           id: string
           nome: string
+          notas: string | null
           pais: string | null
           referer: string | null
           resultado_caso: string | null
           sexo: string | null
+          status: string
           telefone: string
           tempo_brasil_meses: number | null
           tempo_pais_meses: number | null
@@ -154,10 +156,12 @@ export type Database = {
           email: string
           id?: string
           nome: string
+          notas?: string | null
           pais?: string | null
           referer?: string | null
           resultado_caso?: string | null
           sexo?: string | null
+          status?: string
           telefone: string
           tempo_brasil_meses?: number | null
           tempo_pais_meses?: number | null
@@ -170,10 +174,12 @@ export type Database = {
           email?: string
           id?: string
           nome?: string
+          notas?: string | null
           pais?: string | null
           referer?: string | null
           resultado_caso?: string | null
           sexo?: string | null
+          status?: string
           telefone?: string
           tempo_brasil_meses?: number | null
           tempo_pais_meses?: number | null

@@ -312,3 +312,14 @@ Comando: `bun run test`. 31 testes — qualquer regressão nas regras de piso, p
 - Plano **Mensal**: `hub_mensal` · R$ 97,00/mês BRL, recorrente, `quantity_min/max = 1`, `tax_code: txcd_10103001` (SaaS). Criado via `payments--create_product`.
 - Microcopy dinâmica no card principal: Anual → "Economize ~32% vs. mensal (R$ 1.164/ano)"; Mensal → "Cancele quando quiser".
 - Lógica de checkout (`createCheckoutSession`) e Stripe embedded inalteradas — o priceId muda conforme o toggle (`hub_mensal` ou `hub_anual`).
+
+## Atualização — Notificação de leads + Painel admin (2026-06-03)
+
+- **Captação migrou para rota server-side** `POST /api/public/calc-lead` (`src/routes/api/public/calc-lead.ts`). Valida payload com Zod, insere via `supabaseAdmin` e dispara notificação por e-mail em background sem bloquear a resposta. O `LeadCaptureDialog` não fala mais direto com a tabela.
+- **Notificação de lead** (`src/lib/lead-notify.server.ts`) envia dois e-mails via Lovable Emails (`/lovable/email/transactional/send`):
+  - `novo-lead-calculadora` → `marcos@acordosinternacionais.com` com nome, e-mail/telefone clicáveis, WhatsApp do lead, país, tipo, tempos BR/exterior, resultado da triagem e link para `/hub/leads`.
+  - `confirmacao-lead` → o próprio lead, com mensagem amigável e link WhatsApp do Marcos.
+  - Falha de envio é apenas logada — o lead continua salvo e visível no painel.
+- **Migration `calc_leads`**: novos campos `status` (`novo` padrão, `contatado`, `convertido`, `descartado`) e `notas` (text) + índice em `status`.
+- **Painel admin `/hub/leads`** (`src/routes/_authenticated/hub.leads.tsx`) restrito a `has_role('admin')`. Lista todos os leads com busca, filtro por status, botões WhatsApp + copiar e-mail, mudança de status e notas internas inline. Card de atalho aparece no `/hub` apenas para admins.
+- **Pendência operacional**: cadastrar `notify.acordosinternacionais.com` no diálogo de e-mail (NS records no DNS de acordosinternacionais.com) e rodar `setup_email_infra` + `scaffold_transactional_email` para a infra de envio entrar no ar. Até lá, leads chegam no painel mas e-mails não saem.
