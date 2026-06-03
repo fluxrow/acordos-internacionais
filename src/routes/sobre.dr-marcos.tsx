@@ -231,17 +231,17 @@ function SobreMarcos() {
         </h2>
         <hr className="rule mt-4" />
 
-        <blockquote className="relative mt-8 max-w-2xl">
+        <blockquote className="relative mt-8 max-w-2xl pl-10 md:pl-14">
           <span
             aria-hidden
-            className="absolute -left-2 -top-6 font-display text-7xl leading-none text-[var(--accent-ink)]/35 select-none md:-left-6 md:text-8xl"
+            className="pointer-events-none absolute -top-4 left-0 font-display text-7xl leading-none text-[var(--accent-ink)]/35 select-none md:text-8xl"
           >
             “
           </span>
           <p className="font-display text-xl italic leading-snug md:text-2xl">
             A informação sobre acordos internacionais do INSS está dispersa —
             no gov.br, em portarias que não se falam, em literatura técnica
-            inacessível para quem mais precisa.
+            inacessível para quem mais precisa.”
           </p>
         </blockquote>
 
