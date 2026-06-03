@@ -60,7 +60,7 @@ export const jornadas: Jornada[] = [
           "Avalie manter recolhimento como facultativo no Brasil; estime o impacto no benefício futuro.",
       },
       {
-        titulo: "Simule cenários de totalização",
+        titulo: "Verifique se o seu caso tem direito à totalização ou ao planejamento.",
         descricao:
           "Use a calculadora prorata com diferentes horizontes (5, 10, 20 anos) antes de decidir.",
       },
@@ -163,9 +163,9 @@ export const jornadas: Jornada[] = [
               "Simule cenários de carência e prorata; entenda quando o tempo somado começa a destravar o direito ao benefício.",
           },
           {
-            titulo: "Simulação prévia",
+            titulo: "Verifique se o seu caso tem direito à totalização ou ao planejamento.",
             descricao:
-              "Use a calculadora prorata com horizontes diferentes antes de tomar decisões de longo prazo.",
+              "Use a calculadora prorata com diferentes horizontes diferentes antes de tomar decisões de longo prazo.",
           },
           {
             titulo: "Requerimento (no momento certo)",
@@ -212,7 +212,7 @@ export const jornadas: Jornada[] = [
           "Some os tempos antes de protocolar — ajuda a escolher entre acordo bilateral e regras puramente brasileiras.",
       },
       {
-        titulo: "Simule o benefício prorata",
+        titulo: "Verifique se o seu caso tem direito à totalização ou ao planejamento.",
         descricao:
           "Estime quanto cada país pagará na sua parte proporcional para evitar surpresas.",
       },
@@ -264,7 +264,7 @@ export const jornadas: Jornada[] = [
           "Cada país paga a parte proporcional ao tempo contribuído sob sua legislação. Não é cumulativo.",
       },
       {
-        titulo: "Simule cenários",
+        titulo: "Verifique se o seu caso tem direito à totalização ou ao planejamento.",
         descricao:
           "Em alguns casos vale aposentar pelas regras de cada país separadamente. Calculadora prorata + análise técnica.",
       },
