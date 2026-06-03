@@ -19,21 +19,28 @@ export const Route = createFileRoute("/guias/")({
 });
 
 function GuiasIndex() {
-  const items = [
-    ...guias.map((g) => ({
-      slug: g.slug,
-      titulo: g.titulo,
-      resumo: g.resumo,
-      novo: false as const,
-    })),
+  const ordemSlugs = [
+    "totalizacao",
+    "prova-de-vida-no-exterior",
+    "saida-definitiva-do-pais",
+    "certificado-deslocamento-temporario",
+    "aposentadoria-morando-fora",
+  ];
+  const novos = new Set(["saida-definitiva-do-pais"]);
+  const base = [
+    ...guias.map((g) => ({ slug: g.slug, titulo: g.titulo, resumo: g.resumo })),
     {
       slug: "saida-definitiva-do-pais",
       titulo: "Comunicação de Saída Definitiva do País",
       resumo:
         "Entenda a saída fiscal do Brasil, a DSDP, os prazos e os riscos de manter residência fiscal indevida.",
-      novo: true as const,
     },
   ];
+  const items = ordemSlugs
+    .map((slug) => base.find((b) => b.slug === slug))
+    .filter((b): b is (typeof base)[number] => !!b)
+    .map((b) => ({ ...b, novo: novos.has(b.slug) }));
+
 
   return (
     <>
