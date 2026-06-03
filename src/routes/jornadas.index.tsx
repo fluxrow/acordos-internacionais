@@ -100,7 +100,7 @@ function JornadasIndex() {
           ))}
         </ul>
 
-        {/* 04 · Atendimento direto com o Dr. Marcos */}
+        {/* 04 · Atendimento Personalizado */}
         <div className="mt-12 relative overflow-hidden rounded-3xl border-2 border-[var(--accent-ink)] bg-[var(--card-bg)] p-10 shadow-[var(--shadow-gold-glow)] md:p-14">
           <div
             aria-hidden
