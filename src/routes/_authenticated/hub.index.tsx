@@ -125,7 +125,7 @@ function HubDashboard() {
         </span>
         <div className="flex-1">
           <p className="eyebrow mb-1">Ferramenta inclusa</p>
-          <p className="font-display text-lg">Calculadora RMI Pro-rata</p>
+          <p className="font-display text-lg">Calculadora Totalização</p>
           <p className="mt-0.5 text-sm text-muted-foreground">
             Laudo técnico com tabela detalhada, fórmulas e rodapé identificável — pronto para anexar ao processo.
           </p>

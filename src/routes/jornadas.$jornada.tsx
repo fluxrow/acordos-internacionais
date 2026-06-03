@@ -209,7 +209,7 @@ function JornadaPage() {
               <div className="md:col-span-3 bg-card text-card-foreground border border-border p-6">
                 <p className="eyebrow text-card-foreground/70">Ferramenta</p>
                 <p className="mt-3 font-display text-2xl leading-tight">
-                  Calculadora prorata
+                  Calculadora Totalização
                 </p>
                 <p className="mt-2 text-sm text-card-foreground/70">
                   Estime sua parte proporcional em cada país acordante.

@@ -145,7 +145,7 @@ function GuiasIndex() {
               className="group block border border-border bg-background p-6 transition-colors hover:border-[var(--accent-ink)]"
             >
               <p className="eyebrow">Ferramenta</p>
-              <p className="mt-2 font-display text-xl">Calculadora prorata</p>
+              <p className="mt-2 font-display text-xl">Calculadora Totalização</p>
               <p className="mt-2 text-sm text-muted-foreground">
                 Estime sua parte proporcional em cada país.
               </p>

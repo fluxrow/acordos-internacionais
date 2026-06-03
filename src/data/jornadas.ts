@@ -62,7 +62,7 @@ export const jornadas: Jornada[] = [
       {
         titulo: "Verifique se o seu caso tem direito à totalização ou ao planejamento.",
         descricao:
-          "Use a calculadora prorata com diferentes horizontes (5, 10, 20 anos) antes de decidir.",
+          "Use a calculadora Totalização com diferentes horizontes (5, 10, 20 anos) antes de decidir.",
       },
       {
         titulo: "Formalize a saída fiscal (se definitivo)",
@@ -160,12 +160,12 @@ export const jornadas: Jornada[] = [
           {
             titulo: "Planeje a totalização",
             descricao:
-              "Simule cenários de carência e prorata; entenda quando o tempo somado começa a destravar o direito ao benefício.",
+              "Simule cenários de carência e totalização; entenda quando o tempo somado começa a destravar o direito ao benefício.",
           },
           {
             titulo: "Verifique se o seu caso tem direito à totalização ou ao planejamento.",
             descricao:
-              "Use a calculadora prorata com diferentes horizontes diferentes antes de tomar decisões de longo prazo.",
+              "Use a calculadora Totalização com diferentes horizontes diferentes antes de tomar decisões de longo prazo.",
           },
           {
             titulo: "Requerimento (no momento certo)",
@@ -259,14 +259,14 @@ export const jornadas: Jornada[] = [
           "Verifique se a soma atinge a carência exigida (180 meses para aposentadoria por idade).",
       },
       {
-        titulo: "Entenda o cálculo prorata",
+        titulo: "Entenda a parte proporcional",
         descricao:
           "Cada país paga a parte proporcional ao tempo contribuído sob sua legislação. Não é cumulativo.",
       },
       {
         titulo: "Verifique se o seu caso tem direito à totalização ou ao planejamento.",
         descricao:
-          "Em alguns casos vale aposentar pelas regras de cada país separadamente. Calculadora prorata + análise técnica.",
+          "Em alguns casos vale aposentar pelas regras de cada país separadamente. Calculadora Totalização + análise técnica.",
       },
       {
         titulo: "Escolha onde requerer",
