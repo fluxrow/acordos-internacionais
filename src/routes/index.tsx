@@ -303,7 +303,7 @@ function Home() {
             <ul className="mt-6 divide-y divide-border border-y border-border">
               {[
                 ["vou-me-mudar", "Vou me mudar para outro país"],
-                ["moro-fora", "Já moro no exterior"],
+                ["moro-fora", "Moro no exterior"],
                 ["estou-voltando", "Estou voltando ao Brasil"],
                 ["quero-me-aposentar", "Quero me aposentar usando o acordo"],
               ].map(([slug, label]) => (
