@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { siteStats } from "@/data/site-stats";
 import { CTAButton } from "@/components/cta-button";
@@ -222,86 +223,11 @@ function Profissional() {
       </section>
 
       {/* PLANOS */}
-      <section id="planos" className="border-b border-border bg-secondary">
-        <div className="mx-auto max-w-6xl px-6 py-20">
-          <div className="max-w-2xl">
-            <p className="eyebrow">Planos</p>
-            <h2 className="mt-3 font-display text-4xl">
-              Anual para quem trabalha. Vitalício para os 100 primeiros.
-            </h2>
-            <p className="lede mt-6 text-base">
-              Dois caminhos para entrar no Hub. Conteúdo idêntico — muda só a forma de pagar.
-            </p>
-          </div>
+      <PlanosSection
+        foundersFull={foundersFull}
+        foundersRemaining={foundersRemaining}
+      />
 
-          <div className="mt-12 grid gap-6 md:grid-cols-2">
-            {/* PLANO ANUAL */}
-            <div className="flex flex-col border border-border bg-background p-8">
-              <p className="eyebrow">Anual</p>
-              <p className="mt-3 font-display text-6xl tracking-tight">R$ 797</p>
-              <p className="mt-1 text-sm text-muted-foreground">
-                /ano · equivale a R$ 66,40/mês
-              </p>
-              <hr className="rule my-6" />
-              <ul className="flex-1 space-y-2 text-sm">
-                <li>· Acesso completo ao Hub por 12 meses</li>
-                <li>· Atualizações regulatórias incluídas</li>
-                <li>· Newsletter interna do Dr. Marcos Espínola</li>
-                <li>· Renovação opcional ao fim do período</li>
-              </ul>
-              <Link
-                to="/precos"
-                hash="anual"
-                className="mt-8 inline-flex w-full items-center justify-center rounded-full border border-[var(--accent-ink)] bg-background px-6 py-3 text-sm font-medium uppercase tracking-[0.14em] text-foreground transition-colors hover:border-[var(--accent-ink)] hover:text-[var(--accent-ink)]"
-              >
-                Assinar anual
-              </Link>
-            </div>
-
-            {/* PLANO FUNDADORES */}
-            <div className="flex flex-col border border-[var(--accent-ink)] bg-card p-8 text-card-foreground">
-              <p className="text-[10px] uppercase tracking-[0.18em] opacity-70">
-                Fundadores · primeiros 100
-              </p>
-              <p className="mt-3 font-display text-6xl tracking-tight">R$ 1.297</p>
-              <p className="mt-1 text-sm opacity-80">
-                Pagamento único · acesso vitalício
-              </p>
-              <hr className="my-6 border-border" />
-              <ul className="flex-1 space-y-2 text-sm">
-                <li>· Acesso vitalício a todo o conteúdo</li>
-                <li>· Todas as atualizações futuras incluídas</li>
-                <li>· Newsletter interna do Dr. Marcos Espínola</li>
-                <li>· Comunidade fechada (em breve)</li>
-                <li className="pt-2 text-xs opacity-70">
-                  {foundersFull
-                    ? `Esgotado — todas as ${FOUNDERS_LIMIT} vagas preenchidas`
-                    : `${foundersRemaining} de ${FOUNDERS_LIMIT} vagas restantes`}
-                </li>
-              </ul>
-              {foundersFull ? (
-                <span className="mt-8 inline-flex w-full cursor-not-allowed items-center justify-center rounded-full bg-background/20 px-6 py-3 text-sm font-medium uppercase tracking-[0.14em] opacity-70">
-                  Vagas esgotadas
-                </span>
-              ) : (
-                <Link
-                  to="/precos"
-                  hash="fundadores"
-                  className="mt-8 inline-flex w-full items-center justify-center rounded-full bg-background px-6 py-3 text-sm font-medium uppercase tracking-[0.14em] text-foreground transition-colors hover:bg-background/85"
-                >
-                  Garantir vaga vitalícia
-                </Link>
-              )}
-            </div>
-          </div>
-
-          <p className="mt-10 text-center text-xs text-muted-foreground">
-            Pagamento processado com segurança. Você precisa de uma conta para
-            finalizar — <Link to="/cadastro" className="underline">criar conta</Link>{" "}
-            ou <Link to="/login" className="underline">entrar</Link>.
-          </p>
-        </div>
-      </section>
 
       {/* CTA FINAL */}
       <section className="bg-card text-card-foreground border border-border">
@@ -323,5 +249,162 @@ function Profissional() {
         </div>
       </section>
     </article>
+  );
+}
+
+// ============================================================================
+// Planos — espelha o esquema do /precos (toggle Mensal/Anual + Fundadores),
+// mas com botões que levam para /precos para finalizar a assinatura.
+// ============================================================================
+
+const MAIN_OPTIONS = {
+  mensal: {
+    label: "Mensal",
+    preco: "R$ 87",
+    periodo: "/mês",
+    desc: "Acesso completo ao Hub com cobrança mensal. Cancele quando quiser, sem multa.",
+    micro: "Cancele quando quiser",
+    hash: "mensal",
+  },
+  anual: {
+    label: "Anual",
+    preco: "R$ 837",
+    periodo: "/ano",
+    desc: "Acesso completo ao Hub por 12 meses. Equivale a R$ 69,75/mês. Renovação opcional.",
+    micro: "Economize ~20% vs. mensal (R$ 1.044/ano)",
+    hash: "anual",
+  },
+} as const;
+
+type MainKey = keyof typeof MAIN_OPTIONS;
+
+function PlanosSection({
+  foundersFull,
+  foundersRemaining,
+}: {
+  foundersFull: boolean;
+  foundersRemaining: number;
+}) {
+  const [billing, setBilling] = useState<MainKey>("anual");
+  const main = MAIN_OPTIONS[billing];
+  const isAnual = billing === "anual";
+
+  return (
+    <section id="planos" className="border-b border-border bg-secondary">
+      <div className="mx-auto max-w-6xl px-6 py-20">
+        <div className="max-w-2xl">
+          <p className="eyebrow">Planos</p>
+          <h2 className="mt-3 font-display text-4xl">
+            Mensal, anual ou vitalício para os 100 primeiros.
+          </h2>
+          <p className="lede mt-6 text-base">
+            Conteúdo idêntico em todos os planos — escolha apenas como prefere pagar.
+          </p>
+        </div>
+
+        <div className="mt-12 grid gap-4 md:grid-cols-2">
+          {/* Card principal — Mensal / Anual com toggle */}
+          <div className="relative flex flex-col rounded-2xl border border-[var(--accent-ink)] bg-[var(--card-bg)] p-6 shadow-[var(--shadow-gold-glow)] transition-all hover:-translate-y-0.5">
+            {isAnual && (
+              <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-[var(--accent-ink)] px-3 py-1 text-[10px] font-medium uppercase tracking-[0.14em] text-[var(--paper)] shadow-[var(--shadow-soft)]">
+                Mais popular
+              </span>
+            )}
+
+            <div
+              role="tablist"
+              aria-label="Periodicidade de cobrança"
+              className="mb-5 inline-flex self-start rounded-full border border-[var(--accent-ink)]/40 bg-[var(--paper)] p-1"
+            >
+              {(Object.keys(MAIN_OPTIONS) as MainKey[]).map((k) => {
+                const active = k === billing;
+                return (
+                  <button
+                    key={k}
+                    role="tab"
+                    aria-selected={active}
+                    onClick={() => setBilling(k)}
+                    className={`rounded-full px-4 py-1.5 text-xs font-medium uppercase tracking-[0.12em] transition-colors ${
+                      active
+                        ? "bg-[var(--accent-ink)] text-[var(--paper)] shadow-[var(--shadow-soft)]"
+                        : "text-[var(--accent-ink)] hover:bg-[color-mix(in_oklab,var(--accent-ink)_10%,transparent)]"
+                    }`}
+                  >
+                    {MAIN_OPTIONS[k].label}
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="mb-4">
+              <p className="eyebrow">{main.label}</p>
+              <div className="mt-2 flex items-end gap-1">
+                <span className="font-display text-4xl text-[var(--accent-ink)]">{main.preco}</span>
+                <span className="mb-1 text-sm text-muted-foreground">{main.periodo}</span>
+              </div>
+              <p className="mt-1 text-xs font-medium text-[var(--accent-ink)]">{main.micro}</p>
+            </div>
+
+            <p className="flex-1 text-sm text-[var(--ink-soft)]">{main.desc}</p>
+
+            <Link
+              to="/precos"
+              hash={main.hash}
+              className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-[var(--accent-ink)] px-5 py-2.5 text-sm font-medium uppercase tracking-[0.14em] text-[var(--paper)] shadow-[var(--shadow-soft)] transition-all hover:bg-[var(--accent-ink-soft)] hover:shadow-[var(--shadow-gold-glow)]"
+            >
+              Assinar
+            </Link>
+          </div>
+
+          {/* Card Fundadores */}
+          <div className="relative flex flex-col rounded-2xl border border-[var(--accent-ink)] bg-[var(--card-bg)] p-6 shadow-[var(--shadow-gold-glow)] transition-all hover:-translate-y-0.5">
+            <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full border border-[var(--accent-ink)] bg-[var(--paper)] px-3 py-1 text-[10px] font-medium uppercase tracking-[0.14em] text-[var(--accent-ink)]">
+              Lançamento · 100 vagas
+            </span>
+
+            <div className="mb-4">
+              <p className="eyebrow">Fundadores</p>
+              <div className="mt-2 flex items-end gap-1">
+                <span className="font-display text-4xl text-[var(--accent-ink)]">R$ 1.297</span>
+                <span className="mb-1 text-sm text-muted-foreground">único</span>
+              </div>
+            </div>
+
+            <p className="flex-1 text-sm text-[var(--ink-soft)]">
+              Acesso vitalício para os 100 primeiros. Pague uma vez, acesse para sempre, com todas as atualizações futuras incluídas.
+            </p>
+
+            {!foundersFull ? (
+              <p className="mt-3 text-xs font-medium text-[var(--accent-ink)]">
+                {foundersRemaining} de {FOUNDERS_LIMIT} vagas restantes
+              </p>
+            ) : (
+              <p className="mt-3 text-xs font-medium text-muted-foreground">
+                Esgotado — todas as {FOUNDERS_LIMIT} vagas preenchidas
+              </p>
+            )}
+
+            {foundersFull ? (
+              <span className="mt-6 inline-flex w-full cursor-not-allowed items-center justify-center rounded-full bg-[var(--accent-ink)]/40 px-5 py-2.5 text-sm font-medium uppercase tracking-[0.14em] text-[var(--paper)] opacity-70">
+                Esgotado
+              </span>
+            ) : (
+              <Link
+                to="/precos"
+                hash="fundadores"
+                className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-[var(--accent-ink)] px-5 py-2.5 text-sm font-medium uppercase tracking-[0.14em] text-[var(--paper)] shadow-[var(--shadow-soft)] transition-all hover:bg-[var(--accent-ink-soft)] hover:shadow-[var(--shadow-gold-glow)]"
+              >
+                Garantir vaga
+              </Link>
+            )}
+          </div>
+        </div>
+
+        <p className="mt-10 text-center text-xs text-muted-foreground">
+          Você escolhe e finaliza o pagamento em{" "}
+          <Link to="/precos" className="underline">/precos</Link>.
+        </p>
+      </div>
+    </section>
   );
 }
