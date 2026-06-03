@@ -60,8 +60,8 @@ const ATUACAO_INTERNACIONAL: AccordionItem[] = [
     alt: "Passaporte aberto com carimbos sobre mapa-múndi e bússola",
   },
   {
-    id: "csdp",
-    titulo: "Comunicação de Saída Definitiva do País (CSDP)",
+    id: "dsdp",
+    titulo: "Declaração de Saída Definitiva do País (DSDP)",
     descricao:
       "Formalização tributária e previdenciária da saída definitiva do Brasil, com impacto direto em filiação ao INSS e tempo de contribuição.",
     imagem: imgCsdp,
