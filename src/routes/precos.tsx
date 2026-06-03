@@ -7,9 +7,9 @@ import { siteStats } from "@/data/site-stats";
 import { supabase } from "@/integrations/supabase/client";
 
 // Lookup keys que o Lovable precisa criar via payments--batch_create_product:
-//   hub_mensal      → R$ 97,00/mês   recorrente
-//   hub_anual       → R$ 797,00/ano  recorrente
-//   hub_fundadores  → R$ 797,00      pagamento único (acesso vitalício)
+//   hub_mensal      → R$ 87,00/mês   recorrente
+//   hub_anual       → R$ 837,00/ano  recorrente
+//   hub_fundadores  → R$ 1.297,00    pagamento único (acesso vitalício)
 const STRIPE_ENV = "sandbox" as const;
 
 // Plano principal (assinatura) — alternável via toggle Mensal/Anual.
@@ -17,7 +17,7 @@ const MAIN_OPTIONS = {
   mensal: {
     id: "hub_mensal",
     label: "Mensal",
-    preco: "R$ 97",
+    preco: "R$ 87",
     periodo: "/mês",
     desc: "Acesso completo ao Hub com cobrança mensal. Cancele quando quiser, sem multa.",
     micro: "Cancele quando quiser",
@@ -25,10 +25,10 @@ const MAIN_OPTIONS = {
   anual: {
     id: "hub_anual",
     label: "Anual",
-    preco: "R$ 797",
+    preco: "R$ 837",
     periodo: "/ano",
-    desc: "Acesso completo ao Hub por 12 meses. Equivale a R$ 66,40/mês. Renovação opcional.",
-    micro: "Economize ~32% vs. mensal (R$ 1.164/ano)",
+    desc: "Acesso completo ao Hub por 12 meses. Equivale a R$ 69,75/mês. Renovação opcional.",
+    micro: "Economize ~20% vs. mensal (R$ 1.044/ano)",
   },
 } as const;
 
