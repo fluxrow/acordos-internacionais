@@ -40,7 +40,8 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "Seguro de Aposentadoria dos Agricultores"
       ]
     },
-    "acordoTrecho": "ACORDO DE PREVIDÊNCIA SOCIAL ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E A REPÚBLICA FEDERAL DA ALEMANHA A República Federativa do Brasil e a República Federal da Alemanha (doravante denominados \"Partes\"), Imbuídos do desejo de regulamentar suas relações em matéria de Previdência Social, Acordam o seguinte: TÍTULO I - DISPOSIÇÕES GERAIS ARTIGO 1 - Definições 1. Neste Acordo, os termos relacionados a seguir possuem o seguinte significado: a) \"cidadão nacional\" é, em relação à Rep",
+    "acordoTrecho": "ACORDO DE PREVIDÊNCIA SOCIAL ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E A REPÚBLICA FEDERAL DA ALEMANHA\r\n\r\nA República Federativa do Brasil e a República Federal da Alemanha (doravante denominados \"Partes\"), Imbuídos do desejo de regulamentar suas relações em matéria de Previdência Social, Acordam o seguinte:\r\n\r\nTÍTULO I - DISPOSIÇÕES GERAIS\r\n\r\nARTIGO 1 - Definições\r\n1. Neste Acordo, os termos relacionados a seguir possuem o seguinte significado: a) \"cidadão nacional\" é, em rel",
+    "ajusteTrecho": "=== AJUSTE ADMINISTRATIVO ACIDENTES ===\r\n\r\nAJUSTE ADMINISTRATIVO PARA EXECUÇÃO DO ACORDO DE PREVIDÊNCIA\r\nSOCIAL ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E A REPÚBLICA\r\nFEDERAL DA ALEMANHA DE 03 DE DEZEMBRO DE 2009 PARA A ÁREA\r\nDE SEGURO OBRIGATÓRIO DE ACIDENTES\r\n\r\nO Ministério da Previdência Social e o Instituto Nacional do Seguro Social\r\n\r\ne\r\n\r\nA Deutsche Verbindungsstelle Unfallversicherung - Ausland,\r\njunto à Deutsche Gesetzliche Unfallversicherung e.V.\r\n\r\nAjustam para execu",
     "temTextoIntegral": true,
     "documentos": [
       {
@@ -163,7 +164,8 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "Seguro-saúde"
       ]
     },
-    "acordoTrecho": "DECRETO Nº 12.952, DE 27 DE ABRIL DE 2026 Promulga o Acordo de Previdência Social entre a República Federativa do Brasil e a República da Áustria, firmado em Brasília, em 17 de maio de 2022. O PRESIDENTE DA REPÚBLICA, no uso da atribuição que lhe confere o art. 84, caput, inciso IV, da Constituição, e Considerando que o Acordo de Previdência Social entre a República Federativa do Brasil e a República da Áustria foi firmado em Brasília, em 17 de maio de 2022; Considerando que ",
+    "acordoTrecho": "DECRETO Nº 12.952, DE 27 DE ABRIL DE 2026\r\n\r\nPromulga o Acordo de Previdência Social entre a República Federativa do Brasil e a República da Áustria, firmado em Brasília, em 17 de maio de 2022.\r\n\r\nO PRESIDENTE DA REPÚBLICA, no uso da atribuição que lhe confere o art. 84, caput, inciso IV, da Constituição, e\r\n\r\nConsiderando que o Acordo de Previdência Social entre a República Federativa do Brasil e a República da Áustria foi firmado em Brasília, em 17 de maio de 2022;\r\n\r\nConsi",
+    "ajusteTrecho": "AJUSTE ADMINISTRATIVO\r\n\r\nPARA A APLICAÇÃO DO ACORDO SOBRE PREVIDÊNCIA SOCIAL ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E A REPÚBLICA DA ÁUSTRIA\r\n\r\nNos termos do parágrafo 1 do artigo 17 do Acordo de Previdência Social entre a República Federativa do Brasil e a República da Áustria, assinado em 17 de maio de 2022, em Brasília, doravante denominado Acordo, as autoridades competentes:\r\n\r\n- pela República Federativa do Brasil\r\n\r\nMinistério do Trabalho e Previdência\r\n\r\n- pela Repúbli",
     "temTextoIntegral": true,
     "documentos": [
       {
@@ -219,7 +221,8 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "Aposentadoria por Invalidez"
       ]
     },
-    "acordoTrecho": "DECRETO Nº 8.405, DE 11 DE FEVEREIRO DE 2015 Promulga o Acordo sobre a Previdência Social entre a República Federativa do Brasil e o Reino da Bélgica, firmado em Bruxelas, em 4 de outubro de 2009. A PRESIDENTA DA REPÚBLICA, no uso da atribuição que lhe confere o art. 84, caput, inciso IV, da Constituição, e Considerando que foi firmado o Acordo sobre a Previdência Social entre a República Federativa do Brasil e a República do Reino da Bélgica, em Bruxelas, em 4 de outubro de ",
+    "acordoTrecho": "DECRETO Nº 8.405, DE 11 DE FEVEREIRO DE 2015\r\n\r\nPromulga o Acordo sobre a Previdência Social entre a República Federativa do Brasil e o Reino da Bélgica, firmado em Bruxelas, em 4 de outubro de 2009.\r\n\r\nA PRESIDENTA DA REPÚBLICA, no uso da atribuição que lhe confere o art. 84, caput, inciso IV, da Constituição, e\r\n\r\nConsiderando que foi firmado o Acordo sobre a Previdência Social entre a República Federativa do Brasil e a República do Reino da Bélgica, em Bruxelas, em 4 de ou",
+    "ajusteTrecho": "AJUSTE ADMINISTRATIVO RELATIVO À APLICAÇÃO DO ACORDO SOBRE PREVIDÊNCIA SOCIAL ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E O REINO DA BÉLGICA\r\n\r\nNos termos do artigo 20 do Acordo de Previdência Social entre a República Federativa do Brasil e o Reino da Bélgica, a autoridade competente brasileira e a autoridade competente belga estabelecem de comum acordo as seguintes disposições:\r\n\r\nTÍTULO I\r\nDISPOSIÇÕES GERAIS\r\n\r\nArtigo 1\r\nDefinições\r\n\r\n1. Para a aplicação do presente Ajuste:\r\n\r",
     "temTextoIntegral": true,
     "documentos": []
   },
@@ -249,7 +252,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "Aposentadoria por Invalidez"
       ]
     },
-    "acordoTrecho": "I ACORDO DE PREVIDÊNCIA SOCIAL ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E A REPÚBLICA DA BÚLGÁRIA A República Federativa do Brasil e : A República da Bulgária, doravante denominados como “Partes Contratantes”, imbuídos no desejo de regulamentar a relação entre os dois Estados na área de Previdência Social, acordam o seguinte: : PARTEI DISPOSIÇÕES GERAIS Artigo À , : Definições 1. Para fins deste Acordo: (a) o termo “nacional” significa uma pessoa da nacionalidade de uma das Par",
+    "acordoTrecho": "I\r\nACORDO DE PREVIDÊNCIA SOCIAL ENTRE A REPÚBLICA FEDERATIVA\r\nDO BRASIL E A REPÚBLICA DA BÚLGÁRIA\r\n\r\nA República Federativa do Brasil\r\n\r\ne :\r\n\r\nA República da Bulgária, doravante denominados como “Partes\r\n\r\nContratantes”, imbuídos no desejo de regulamentar a relação entre os dois Estados na\r\nárea de Previdência Social, acordam o seguinte:\r\n: PARTEI\r\nDISPOSIÇÕES GERAIS\r\nArtigo À ,\r\n: Definições\r\n1. Para fins deste Acordo:\r\n\r\n(a) o termo “nacional” significa uma pessoa da nacio",
     "temTextoIntegral": true,
     "documentos": [
       {
@@ -297,7 +300,8 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "Pensão por Incapacidade Permanente (Acidente do Trabalho e Doenças Profissionais)"
       ]
     },
-    "acordoTrecho": "ACORDO SOBRE SEGURANÇA SOCIAL ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E A REPÚBLICA DE CABO VERDE A República Federativa do Brasil e a República de Cabo Verde, (doravante denominados \"Partes\"), Imbuídos do desejo de regulamentar suas relações bilaterais em matéria de Segurança Social, Acordam o seguinte: TÍTULO I DISPOSIÇÕES GERAIS Artigo 1º Definições 1. Os termos que se relacionam a seguir possuem, para os efeitos da aplicação do Acordo, o seguinte significado: a) \"Partes\": ",
+    "acordoTrecho": "ACORDO SOBRE SEGURANÇA SOCIAL ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E A REPÚBLICA DE CABO VERDE\r\n\r\nA República Federativa do Brasil\r\n\r\ne\r\n\r\na República de Cabo Verde,\r\n(doravante denominados \"Partes\"),\r\n\r\nImbuídos do desejo de regulamentar suas relações bilaterais em matéria de Segurança Social,\r\n\r\nAcordam o seguinte:\r\n\r\nTÍTULO I\r\nDISPOSIÇÕES GERAIS\r\n\r\nArtigo 1º\r\nDefinições\r\n\r\n1. Os termos que se relacionam a seguir possuem, para os efeitos da aplicação do Acordo, o seguinte",
+    "ajusteTrecho": "AJUSTE ADMINISTRATIVO PARA A IMPLEMENTAÇÃO DO ACORDO SOBRE SEGURANÇA SOCIAL ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E A REPÚBLICA DE CABO VERDE\r\n\r\nA República Federativa do Brasil\r\n\r\ne\r\n\r\na República de Cabo Verde,\r\n\r\nEm conformidade com o Artigo 22 do Acordo sobre Segurança Social entre a República Federativa do Brasil e a República de Cabo Verde, assinado em Brasília, no dia 4 de fevereiro de 2026,\r\n\r\nDecidem sobre os procedimentos de aplicação do Acordo e concordam com o se",
     "temTextoIntegral": true,
     "documentos": [
       {
@@ -341,8 +345,8 @@ export const acordosImportados: Record<string, AcordoImportado> = {
       ],
       "parceiro": []
     },
-    "acordoTrecho": "ACORDO BILATERAL DE PREVIDÊNCIA SOCIAL REPÚBLICA FEDERATIVA DO BRASIL E CANADÁ DECRETO Nº 8.288, DE 24 DE JULHO DE 2014 Promulga o Acordo de Previdência Social entre a República Federativa do Brasil e o Canadá, assinado em 8 de agosto de 2011. O PRESIDENTE DA REPÚBLICA, no uso da atribuição que lhe confere o art. 84, caput, inciso IV, da Constituição, e Considerando que o Acordo de Previdência Social entre a República Federativa do Brasil e o Canadá foi assinado em 8 de agost",
-    "ajusteTrecho": "AJUSTE ADMINISTRATIVO ENTRE O MINISTÉRIO DA PREVIDÊNCIA SOCIAL, O INSTITUTO NACIONAL DO SEGURO SOCIAL DO BRASIL E O MINISTÉRIO DE RECURSOS HUMANOS E DESENVOLVIMENTO DE HABILIDADES PARA IMPLEMENTAÇÃO DO ACORDO DE PREVIDÊNCIA SOCIAL ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E O CANADÁ O Ministério da Previdência Social e o Ministério de Recursos Humanos e Desenvolvimento de Habilidades, doravante denominados “autoridades competentes”, e o Instituto Nacional do Seguro Social do Bra",
+    "acordoTrecho": "ACORDO BILATERAL DE PREVIDÊNCIA SOCIAL\r\nREPÚBLICA FEDERATIVA DO BRASIL E CANADÁ\r\n\r\nDECRETO Nº 8.288, DE 24 DE JULHO DE 2014\r\nPromulga o Acordo de Previdência Social entre a República Federativa do Brasil e o Canadá, assinado em 8 de agosto de 2011.\r\n\r\nO PRESIDENTE DA REPÚBLICA, no uso da atribuição que lhe confere o art. 84, caput, inciso IV, da Constituição, e\r\n\r\nConsiderando que o Acordo de Previdência Social entre a República Federativa do Brasil e o Canadá foi assinado em",
+    "ajusteTrecho": "AJUSTE ADMINISTRATIVO ENTRE O MINISTÉRIO DA PREVIDÊNCIA SOCIAL,\r\nO INSTITUTO NACIONAL DO SEGURO SOCIAL DO BRASIL E O MINISTÉRIO\r\nDE RECURSOS HUMANOS E DESENVOLVIMENTO DE HABILIDADES PARA\r\nIMPLEMENTAÇÃO DO ACORDO DE PREVIDÊNCIA SOCIAL ENTRE A\r\nREPÚBLICA FEDERATIVA DO BRASIL E O CANADÁ\r\n\r\nO Ministério da Previdência Social e o Ministério de Recursos Humanos e Desenvolvimento de Habilidades, doravante denominados “autoridades competentes”, e o Instituto Nacional do Seguro Social",
     "temTextoIntegral": true,
     "documentos": [
       {
@@ -490,8 +494,8 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "Aposentadoria por Invalidez"
       ]
     },
-    "acordoTrecho": "CONVÊNIO DE PREVIDÊNCIA SOCIAL ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E A REPÚBLICA DO CHILE A República Federativa do Brasil e A República do Chile (doravante denominados \"Partes Contratantes\"), Desejando estabelecer normas que regulem as relações entre os dois países em matéria de Previdência Social, Resolvem celebrar o presente Convênio de Previdência Social nos seguintes termos: TÍTULO I Disposições Gerais ARTIGO 1º Definições 1. Os termos que se relacionam a seguir possu",
-    "ajusteTrecho": "AJUSTE ADMINISTRATIVO PARA A APLICAÇÃO DO CONVÊNIO DE PREVIDÊNCIA SOCIAL ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E A REPÚBLICA DO CHILE Em conformidade ao artigo 26 do Convênio de Previdência Social assinado em Santiago do Chile, na data de 26 de abril de 2007, entre a República Federativa do Brasil e a República do Chile, as autoridades competentes, pela República Federativa do Brasil, o Ministro da Previdência Social, e pela República do Chile, o Ministro do Trabalho e Previ",
+    "acordoTrecho": "CONVÊNIO DE PREVIDÊNCIA SOCIAL ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E A REPÚBLICA DO CHILE\r\n\r\nA República Federativa do Brasil\r\n\r\ne\r\n\r\nA República do Chile\r\n(doravante denominados \"Partes Contratantes\"),\r\n\r\nDesejando estabelecer normas que regulem as relações entre os dois países em matéria de Previdência Social,\r\n\r\nResolvem celebrar o presente Convênio de Previdência Social nos seguintes termos:\r\n\r\nTÍTULO I\r\nDisposições Gerais\r\n\r\nARTIGO 1º\r\nDefinições\r\n\r\n1. Os termos que s",
+    "ajusteTrecho": "AJUSTE ADMINISTRATIVO PARA A APLICAÇÃO DO CONVÊNIO DE PREVIDÊNCIA SOCIAL ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E A REPÚBLICA DO CHILE\r\n\r\nEm conformidade ao artigo 26 do Convênio de Previdência Social assinado em Santiago do Chile, na data de 26 de abril de 2007, entre a República Federativa do Brasil e a República do Chile, as autoridades competentes, pela República Federativa do Brasil, o Ministro da Previdência Social, e pela República do Chile, o Ministro do Trabalho e Pr",
     "temTextoIntegral": true,
     "documentos": [
       {
@@ -583,8 +587,8 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "Aposentadoria por invalidez"
       ]
     },
-    "acordoTrecho": "ACORDO DE PREVIDÊNCIA SOCIAL ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E A REPÚBLICA DA COREIA DECRETO Nº 7.730, DE 10 DE MAIO DE 2012 Promulga o Acordo de Previdência Social entre a República Federativa do Brasil e a República da Coreia, assinado em 3 de julho de 2011. O PRESIDENTE DA REPÚBLICA, no uso da atribuição que lhe confere o art. 84, caput, inciso IV, da Constituição, Considerando que o Acordo de Previdência Social entre a República Federativa do Brasil e a República d",
-    "ajusteTrecho": "AJUSTE ADMINISTRATIVO PARA IMPLEMENTAÇÃO DO ACORDO DE PREVIDÊNCIA SOCIAL ENTRE O GOVERNO DA REPÚBLICA FEDERATIVA DO BRASIL E O GOVERNO DA REPÚBLICA DA COREIA A Autoridade Competente do Governo da República Federativa do Brasil e A Autoridade Competente do Governo da República da Coreia De acordo com o Artigo 14 do Acordo de Previdência Social entre o Governo da República Federativa do Brasil e o Governo da República da Coreia, doravante designados “Partes”, assinado em Brasíl",
+    "acordoTrecho": "ACORDO DE PREVIDÊNCIA SOCIAL ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E A REPÚBLICA DA COREIA\r\n\r\nDECRETO Nº 7.730, DE 10 DE MAIO DE 2012\r\n\r\nPromulga o Acordo de Previdência Social entre a República Federativa do Brasil e a República da Coreia, assinado em 3 de julho de 2011.\r\n\r\nO PRESIDENTE DA REPÚBLICA, no uso da atribuição que lhe confere o art. 84, caput, inciso IV, da Constituição,\r\n\r\nConsiderando que o Acordo de Previdência Social entre a República Federativa do Brasil e a",
+    "ajusteTrecho": "AJUSTE ADMINISTRATIVO\r\nPARA IMPLEMENTAÇÃO DO ACORDO DE PREVIDÊNCIA SOCIAL ENTRE\r\nO GOVERNO DA REPÚBLICA FEDERATIVA DO BRASIL E\r\nO GOVERNO DA REPÚBLICA DA COREIA\r\n\r\nA Autoridade Competente do Governo da República Federativa do Brasil\r\n\r\ne\r\n\r\nA Autoridade Competente do Governo da República da Coreia\r\n\r\nDe acordo com o Artigo 14 do Acordo de Previdência Social entre o Governo da\r\nRepública Federativa do Brasil e o Governo da República da Coreia, doravante designados\r\n\r\n“Partes”,",
     "temTextoIntegral": true,
     "documentos": [
       {
@@ -697,7 +701,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "Pensão por Morte"
       ]
     },
-    "acordoTrecho": "CONVENÇÃO MULTILATERAL DE SEGURANÇA SOCIAL DA COMUNIDADE DE PAÍSES DE LÍNGUA PORTUGUESA A República de Angola, a República Federativa do Brasil, a República de Cabo Verde, a República da Guiné-Bissau, a República de Moçambique, a República Portuguesa, a República Democrática de São Tomé e Príncipe e a República Democrática de Timor-Leste; Reforçando o sentimento de pertença ao espaço da Comunidade a nível cultural, social e económico; DESEJOSOS de estabelecer normas que regul",
+    "acordoTrecho": "CONVENÇÃO MULTILATERAL DE SEGURANÇA SOCIAL DA COMUNIDADE DE PAÍSES DE LÍNGUA PORTUGUESA\r\n\r\nA República de Angola, a República Federativa do Brasil, a República de Cabo Verde, a República da Guiné-Bissau, a República de Moçambique, a República Portuguesa, a República Democrática de São Tomé e Príncipe e a República Democrática de Timor-Leste;\r\n\r\nReforçando o sentimento de pertença ao espaço da Comunidade a nível cultural, social e económico;\r\n\r\nDESEJOSOS de estabelecer normas ",
     "temTextoIntegral": true,
     "documentos": [
       {
@@ -746,7 +750,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "Proteção Familiar"
       ]
     },
-    "acordoTrecho": "CONVÊNIO DE SEGURIDADE SOCIAL ENTRE O GOVERNO DA REPÚBLICA FEDERATIVA DO BRASIL E O GOVERNO DO REINO DA ESPANHA DECRETO Nº 6.962, DE 16 DE SETEMBRO DE 2009 Promulga o Convênio de Seguridade Social entre o Governo da República Federativa do Brasil e o Governo do Reino da Espanha, assinado em Madrid, em 4 de setembro de 2008. O PRESIDENTE DA REPÚBLICA, no uso da atribuição que lhe confere o art. 84, caput, inciso IV, da Constituição, Considerando que o Convênio de Seguridade So",
+    "acordoTrecho": "CONVÊNIO DE SEGURIDADE SOCIAL ENTRE O GOVERNO DA REPÚBLICA FEDERATIVA DO BRASIL E O GOVERNO DO REINO DA ESPANHA\r\n\r\nDECRETO Nº 6.962, DE 16 DE SETEMBRO DE 2009\r\n\r\nPromulga o Convênio de Seguridade Social entre o Governo da República Federativa do Brasil e o Governo do Reino da Espanha, assinado em Madrid, em 4 de setembro de 2008.\r\n\r\nO PRESIDENTE DA REPÚBLICA, no uso da atribuição que lhe confere o art. 84, caput, inciso IV, da Constituição,\r\n\r\nConsiderando que o Convênio de S",
     "temTextoIntegral": true,
     "documentos": [
       {
@@ -805,8 +809,8 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "Benefício de Invalidez (Disability)"
       ]
     },
-    "acordoTrecho": "ACORDO DE PREVIDÊNCIA SOCIAL ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E OS ESTADOS UNIDOS DA AMÉRICA Assinado em 2015 A República Federativa do Brasil e os Estados Unidos da América (doravante denominados \"Partes\"), desejando regulamentar suas relações em matéria de Previdência Social, acordam o seguinte: CAPÍTULO I - DISPOSIÇÕES GERAIS ARTIGO 1 - Definições Para efeitos do presente Acordo: a) \"Legislação\" refere-se às leis e regulamentos de seguro social de cada Parte; b) \"Ins",
-    "ajusteTrecho": "AJUSTE ADMINISTRATIVO ENTRE AS AUTORIDADES COMPETENTES DA REPÚBLICA FEDERATIVA DO BRASIL E DOS ESTADOS UNIDOS DA AMÉRICA PARA A IMPLEMENTAÇÃO DO ACORDO DE PREVIDÊNCIA SOCIAL A Autoridade Competente da República Federativa do Brasil (Brasil) e A Autoridade Competente dos Estados Unidos da América (Estados Unidos), Em conformidade com o Artigo 9, alínea (a), do Acordo de Previdência Social entre a República Federativa do Brasil e os Estados Unidos da América, concluído nesta da",
+    "acordoTrecho": "ACORDO DE PREVIDÊNCIA SOCIAL ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E OS ESTADOS UNIDOS DA AMÉRICA\r\n\r\nAssinado em 2015\r\n\r\nA República Federativa do Brasil e os Estados Unidos da América (doravante denominados \"Partes\"), desejando regulamentar suas relações em matéria de Previdência Social, acordam o seguinte:\r\n\r\nCAPÍTULO I - DISPOSIÇÕES GERAIS\r\n\r\nARTIGO 1 - Definições\r\n\r\nPara efeitos do presente Acordo:\r\na) \"Legislação\" refere-se às leis e regulamentos de seguro social de cad",
+    "ajusteTrecho": "AJUSTE ADMINISTRATIVO\r\nENTRE AS AUTORIDADES COMPETENTES DA REPÚBLICA\r\nFEDERATIVA DO BRASIL E DOS ESTADOS UNIDOS DA AMÉRICA\r\nPARA A IMPLEMENTAÇÃO DO ACORDO DE PREVIDÊNCIA SOCIAL\r\n\r\nA Autoridade Competente da República Federativa do Brasil (Brasil)\r\n\r\ne\r\n\r\nA Autoridade Competente dos Estados Unidos da América (Estados Unidos),\r\n\r\nEm conformidade com o Artigo 9, alínea (a), do Acordo de Previdência Social entre a República Federativa do Brasil e os Estados Unidos da América, con",
     "temTextoIntegral": true,
     "documentos": [
       {
@@ -902,8 +906,8 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "Benefícios por acidente de trabalho e doença profissional"
       ]
     },
-    "acordoTrecho": "ACORDO DE PREVIDÊNCIA SOCIAL ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E A REPÚBLICA DA BULGÁRIA A República Federativa do Brasil e a República Francesa (doravante denominados \"Partes\"), Imbuídos do desejo de regulamentar suas relações em matéria de Previdência Social, Acordam o seguinte: TÍTULO I - DISPOSIÇÕES GERAIS ARTIGO 1 - Definições 1. Neste Acordo, os termos relacionados a seguir possuem o seguinte significado: a) \"cidadão nacional\" é, em relação à República Francesa, um",
-    "ajusteTrecho": "ACORDO PARA APLICAÇÃO DO ACORDO DE PREVIDÊNCIA SOCIAL ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E A REPÚBLICA FRANCESA, ASSINADO EM 15 DE DEZEMBRO DE 2011 O Governo da República Federativa do Brasil e O Governo da República Francesa (adiantes denominados \"Partes contratantes\"), em conformidade com as disposições do Artigo 25, alíneas a) e b), do Acordo de Previdência Social assinado em 15 de dezembro de 2011, acordam o que se segue: TÍTULO I DISPOSIÇÕES GERAIS Artigo 1º Definiçõ",
+    "acordoTrecho": "ACORDO DE PREVIDÊNCIA SOCIAL ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E A REPÚBLICA FRANCESA\r\n\r\nA República Federativa do Brasil e a República Francesa (doravante denominados \"Partes\"), Imbuídos do desejo de regulamentar suas relações em matéria de Previdência Social, Acordam o seguinte:\r\n\r\nTÍTULO I - DISPOSIÇÕES GERAIS\r\n\r\nARTIGO 1 - Definições\r\n1. Neste Acordo, os termos relacionados a seguir possuem o seguinte significado: a) \"cidadão nacional\" é, em relação à República Franc",
+    "ajusteTrecho": "ACORDO PARA APLICAÇÃO DO ACORDO DE PREVIDÊNCIA SOCIAL ENTRE A\r\nREPÚBLICA FEDERATIVA DO BRASIL E A REPÚBLICA FRANCESA,\r\nASSINADO EM 15 DE DEZEMBRO DE 2011\r\n\r\nO Governo da República Federativa do Brasil\r\n\r\ne\r\n\r\nO Governo da República Francesa\r\n(adiantes denominados \"Partes contratantes\"),\r\n\r\nem conformidade com as disposições do Artigo 25, alíneas a) e b), do Acordo de\r\nPrevidência Social assinado em 15 de dezembro de 2011,\r\n\r\nacordam o que se segue:\r\n\r\nTÍTULO I\r\nDISPOSIÇÕES GE",
     "temTextoIntegral": true,
     "documentos": [
       {
@@ -1058,8 +1062,8 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "Benefícios familiares"
       ]
     },
-    "acordoTrecho": "ACORDO DE PREVIDENCIA SOCIAL ENTRE O GOVERNO DA REPÚBLICA FEDERATIVA DO BRASIL E O GOVERNO DA REPÚBLICA HELENICA O Governo da República Federativa do Brasil e U Governo da República Helênica, Desejosos de regular as relações dos dois países em matéria de previdência social, Resolveram assinar o presente Acordo de Previdência Social nos termos seguintes: TÍTULO T DISPOSIÇÕES GERAIS ARTIGO 1 a) O termo \"Grécia\" designa a República Helênica. b) O termo \"Brasil\" designa a Repúbli",
-    "ajusteTrecho": "Ajuste para a Execução do Acordo de Previdência Social entre o Governo da República Federativa do Brasil e o Governo da República Helênica O Governo da República Federativa do Brasil e O Governo da República Helênica, considerando o estipulado no Acordo de Previdência Social entre o Governo da República Federativa do Brasil Governo da República Helênica, firmado em 12 de setembro de 1984, Acordam o seguinte : PARTE I Disposições Gerais Artigo 1 Para fins de aplicação do prese",
+    "acordoTrecho": "ACORDO DE PREVIDENCIA SOCIAL ENTRE O GOVERNO DA REPÚBLICA\r\nFEDERATIVA DO BRASIL E O GOVERNO DA REPÚBLICA HELENICA\r\n\r\nO Governo da República Federativa do Brasil\r\n\r\ne\r\nU Governo da República Helênica,\r\n\r\nDesejosos de regular as relações dos dois países em matéria\r\n\r\nde previdência social,\r\n\r\nResolveram assinar o presente Acordo de Previdência Social\r\n\r\nnos termos seguintes:\r\n\r\nTÍTULO T\r\nDISPOSIÇÕES GERAIS\r\n\r\nARTIGO 1\r\na) O termo \"Grécia\" designa a República Helênica.\r\n\r\nb) O t",
+    "ajusteTrecho": "Ajuste para a Execução do Acordo de Previdência Social entre o Governo da\r\nRepública Federativa do Brasil e o Governo da República Helênica\r\n\r\nO Governo da República Federativa do Brasil e O Governo da República\r\nHelênica, considerando o estipulado no Acordo de Previdência Social entre o Governo\r\nda República Federativa do Brasil Governo da República Helênica, firmado em 12 de\r\nsetembro de 1984,\r\nAcordam o seguinte :\r\nPARTE I\r\nDisposições Gerais\r\nArtigo 1\r\nPara fins de aplica",
     "temTextoIntegral": true,
     "documentos": [
       {
@@ -1118,7 +1122,9 @@ export const acordosImportados: Record<string, AcordoImportado> = {
       "brasil": [],
       "parceiro": []
     },
-    "temTextoIntegral": false,
+    "acordoTrecho": "Convenção Multilateral Ibero-Americana de Segurança Social\r\n\r\nCONVENÇÃO MULTILATERAL IBERO-AMERICANA DE SEGURANÇA SOCIAL\r\n\r\nOs Estados Partes no presente Convénio: CONSIDERANDO que o trabalho é um dos fatores essenciais no fortalecimento da coesão social das nações e que as condições de segurança social têm uma dimensão muito importante no desenvolvimento do trabalho decente. CONSTATANDO que o processo actual de globalização conduz a novas e complexas relações entre os difere",
+    "ajusteTrecho": "Acordo de Aplicação da Convenção Multilateral Ibero-Americana\r\n\r\nAcordo de Aplicação da Convenção Multilateral Ibero-Americana de Segurança Social\r\n\r\nBrasília, 19 de maio de 2011\r\n\r\nACORDO DE APLICAÇÃO DA CONVENÇÃO MULTILATERAL IBERO- AMERICANA DE SEGURANÇA SOCIAL Brasília, 19 de maio de 2011\r\n\r\nTITULO |. Regras gerais e disposições sobre legislação aplicável\r\n\r\nCapitulo 1. Regras gerais.\r\n\r\nCapítulo 2, Disposições sobre a legislação aplicável\r\n\r\nTITULO Il. Disposições sobre ",
+    "temTextoIntegral": true,
     "documentos": []
   },
   "india": {
@@ -1151,8 +1157,8 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "Benefício por Invalidez"
       ]
     },
-    "acordoTrecho": "ACORDO DE PREVIDÊNCIA SOCIAL ENTRE O BRASIL E A ÍNDIA Decreto nº 10.220, de 2020 ACORDO DE SEGURIDADE SOCIAL ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E A REPÚBLICA DA ÍNDIA O Brasil e a Índia, doravante denominados \"Partes\", desejando estabelecer normas para coordenação de sistemas de previdência social e promover proteção social aos seus cidadãos, acordam o seguinte: TÍTULO I - DISPOSIÇÕES GERAIS Artigo 1 - Definições Para efeitos do presente Acordo: a) \"Legislação\" refere-se ",
-    "ajusteTrecho": "AJUSTE ADMINISTRATIVO PARA A APLICAÇÃO DO ACORDO DE PREVIDÊNCIA SOCIAL ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E A REPÚBLICA DA ÍNDIA Nos termos do Artigo 23, do Acordo de Previdência Social entre a República Federativa do Brasil e a República da Índia, assinado em Nova Délhi, em 25 de janeiro de 2020, as Autoridades Competentes dos dois países estabelecem, de comum acordo, as seguintes disposições: PARTE I Disposições Gerais Artigo 1 Definições 1. Para a aplicação do presente",
+    "acordoTrecho": "ACORDO DE PREVIDÊNCIA SOCIAL ENTRE O BRASIL E A ÍNDIA\r\n\r\nDecreto nº 10.220, de 2020\r\n\r\nACORDO DE SEGURIDADE SOCIAL ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E A REPÚBLICA DA ÍNDIA\r\n\r\nO Brasil e a Índia, doravante denominados \"Partes\", desejando estabelecer normas para coordenação de sistemas de previdência social e promover proteção social aos seus cidadãos, acordam o seguinte:\r\n\r\nTÍTULO I - DISPOSIÇÕES GERAIS\r\n\r\nArtigo 1 - Definições\r\n\r\nPara efeitos do presente Acordo:\r\n\r\na) \"L",
+    "ajusteTrecho": "AJUSTE ADMINISTRATIVO\r\nPARA A APLICAÇÃO DO ACORDO DE PREVIDÊNCIA SOCIAL\r\nENTRE A REPÚBLICA FEDERATIVA DO BRASIL\r\nE A REPÚBLICA DA ÍNDIA\r\n\r\nNos termos do Artigo 23, do Acordo de Previdência Social entre a República Federativa do\r\nBrasil e a República da Índia, assinado em Nova Délhi, em 25 de janeiro de 2020, as\r\nAutoridades Competentes dos dois países estabelecem, de comum acordo, as seguintes\r\ndisposições:\r\n\r\nPARTE I\r\nDisposições Gerais\r\n\r\nArtigo 1\r\nDefinições\r\n\r\n1. Para a a",
     "temTextoIntegral": true,
     "documentos": [
       {
@@ -1245,7 +1251,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "Auxílio Acidente do Trabalho"
       ]
     },
-    "acordoTrecho": "ACORDO ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E O ESTADO DE ISRAEL DE PREVIDÊNCIA SOCIAL A República Federativa do Brasil e o Estado de Israel, doravante denominados como \"Partes Contratantes\", imbuídos do desejo de regulamentar a relação entre seus dois Estados na área de Previdência Social, acordam o seguinte: Parte I Disposições Gerais Artigo 1 Definições 1. Para fins deste Acordo: a) \"Nacional\", em relação a Israel, significa uma pessoa que tenha cidadania israelense de a",
+    "acordoTrecho": "ACORDO ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E O ESTADO DE ISRAEL DE PREVIDÊNCIA SOCIAL\r\n\r\nA República Federativa do Brasil e o Estado de Israel, doravante denominados como \"Partes Contratantes\", imbuídos do desejo de regulamentar a relação entre seus dois Estados na área de Previdência Social, acordam o seguinte:\r\n\r\nParte I\r\nDisposições Gerais\r\n\r\nArtigo 1\r\nDefinições\r\n\r\n1. Para fins deste Acordo:\r\n\r\na) \"Nacional\", em relação a Israel, significa uma pessoa que tenha cidadani",
     "temTextoIntegral": true,
     "documentos": [
       {
@@ -1293,8 +1299,8 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "Benefícios por acidente de trabalho e doença profissional"
       ]
     },
-    "acordoTrecho": "ACORDO ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E A REPÚBLICA ITALIANA SOBRE PREVIDÊNCIA SOCIAL A República Federativa do Brasil e a República Italiana, doravante denominadas \"Partes Contratantes\", desejando estabelecer normas de coordenação de seus sistemas de previdência social, acordam o seguinte: TÍTULO I DISPOSIÇÕES GERAIS Artigo 1 Definições Para fins do presente Acordo: a) \"Legislação\" significa as leis, regulamentações e outros atos legais relativos à previdência social",
-    "ajusteTrecho": "Acordo Administrativo Referente à Aplicação dos Artigos 37 a 43 do Acordo de Migração entre a República Federativa do Brasil e a República Italiana, de 9 de dezembro de mil novecentos e sessenta Em cumprimento ao artigo 43 do Acordo de Migração entre a República Federativa do Brasil e a República Italiana, de nove de dezembro de mil novecentos e sessenta, os dois Governos Contratantes concordaram nas seguintes disposições: Artigo 1 As autoridades competentes para a aplicação ",
+    "acordoTrecho": "ACORDO ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E A REPÚBLICA ITALIANA SOBRE PREVIDÊNCIA SOCIAL\r\n\r\nA República Federativa do Brasil e a República Italiana, doravante denominadas \"Partes Contratantes\", desejando estabelecer normas de coordenação de seus sistemas de previdência social, acordam o seguinte:\r\n\r\nTÍTULO I\r\nDISPOSIÇÕES GERAIS\r\n\r\nArtigo 1\r\nDefinições\r\n\r\nPara fins do presente Acordo:\r\n\r\na) \"Legislação\" significa as leis, regulamentações e outros atos legais relativos à p",
+    "ajusteTrecho": "Acordo Administrativo Referente à Aplicação dos Artigos 37 a 43 do Acordo de\r\nMigração entre a República Federativa do Brasil e a República Italiana, de 9\r\nde dezembro de mil novecentos e sessenta\r\n\r\nEm cumprimento ao artigo 43 do Acordo de Migração entre a República Federativa do\r\nBrasil e a República Italiana, de nove de dezembro de mil novecentos e sessenta, os\r\ndois Governos Contratantes concordaram nas seguintes disposições:\r\nArtigo 1\r\nAs autoridades competentes para a a",
     "temTextoIntegral": true,
     "documentos": [
       {
@@ -1383,8 +1389,8 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "Aposentadoria por invalidez"
       ]
     },
-    "acordoTrecho": "ACORDO ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E O JAPÃO SOBRE PREVIDÊNCIA SOCIAL A República Federativa do Brasil e o Japão, doravante denominados \"Partes Contratantes\", desejando regulamentar a coordenação de seus sistemas de previdência social, acordam o seguinte: PARTE I DISPOSIÇÕES GERAIS Artigo 1 Definições Para fins do presente Acordo: a) \"Legislação\" significa as leis, regulamentações e atos normativos relativos à previdência social especificada no Artigo 2 deste Acord",
-    "ajusteTrecho": "AJUSTE ADMINISTRATIVO PARA A IMPLEMENTAÇÃO DO ACORDO DE PREVIDÊNCIA SOCIAL ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E O JAPÃO Em conformidade com a alínea (a) do parágrafo I do Artigo 18 do Acordo de Previdência Social entre a República Federativa do Brasil e o Japão, assinado em Tóquio, em 29 de julho de 2010, as autoridades competentes do Brasil e do Japão decidiram o seguinte: PARTE I DISPOSIÇÕES GERAIS Artigo 1 Definições 1. Para efeitos do presente Ajuste Administrativo, \"",
+    "acordoTrecho": "ACORDO ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E O JAPÃO SOBRE PREVIDÊNCIA SOCIAL\r\n\r\nA República Federativa do Brasil e o Japão, doravante denominados \"Partes Contratantes\", desejando regulamentar a coordenação de seus sistemas de previdência social, acordam o seguinte:\r\n\r\nPARTE I\r\nDISPOSIÇÕES GERAIS\r\n\r\nArtigo 1\r\nDefinições\r\n\r\nPara fins do presente Acordo:\r\n\r\na) \"Legislação\" significa as leis, regulamentações e atos normativos relativos à previdência social especificada no Art",
+    "ajusteTrecho": "AJUSTE ADMINISTRATIVO PARA A IMPLEMENTAÇÃO\r\nDO ACORDO DE PREVIDÊNCIA SOCIAL\r\nENTRE A\r\nREPÚBLICA FEDERATIVA DO BRASIL E O JAPÃO\r\n\r\nEm conformidade com a alínea (a) do parágrafo I do Artigo 18 do Acordo de\r\nPrevidência Social entre a República Federativa do Brasil e o Japão, assinado em Tóquio,\r\nem 29 de julho de 2010, as autoridades competentes do Brasil e do Japão decidiram o\r\nseguinte:\r\n\r\nPARTE I\r\nDISPOSIÇÕES GERAIS\r\n\r\nArtigo 1\r\nDefinições\r\n\r\n1. Para efeitos do presente Ajus",
     "temTextoIntegral": true,
     "documentos": [
       {
@@ -1490,7 +1496,8 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "Aposentadoria por Invalidez"
       ]
     },
-    "acordoTrecho": "ACORDO ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E O GRÃO-DUCADO DE LUXEMBURGO SOBRE PREVIDÊNCIA SOCIAL A República Federativa do Brasil e o Grão-Ducado de Luxemburgo, doravante denominados \"Partes Contratantes\", desejando regulamentar a coordenação de seus sistemas de previdência social, acordam o seguinte: PARTE I DISPOSIÇÕES GERAIS Artigo 1 Definições Para fins do presente Acordo: a) \"Legislação\" significa as leis, regulamentações e atos normativos relativos à previdência soc",
+    "acordoTrecho": "ACORDO ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E O GRÃO-DUCADO DE LUXEMBURGO SOBRE PREVIDÊNCIA SOCIAL\r\n\r\nA República Federativa do Brasil e o Grão-Ducado de Luxemburgo, doravante denominados \"Partes Contratantes\", desejando regulamentar a coordenação de seus sistemas de previdência social, acordam o seguinte:\r\n\r\nPARTE I\r\nDISPOSIÇÕES GERAIS\r\n\r\nArtigo 1\r\nDefinições\r\n\r\nPara fins do presente Acordo:\r\n\r\na) \"Legislação\" significa as leis, regulamentações e atos normativos relativos ",
+    "ajusteTrecho": "AJUSTE ADMINISTRATIVO RELATIVO ÀS MODALIDADES DE APLICAÇÃO DO ACORDO DE PREVIDÊNCIA SOCIAL ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E O GRÃO-DUCADO DE LUXEMBURGO\r\n\r\nNos termos do Artigo 20, parágrafo 2, do Acordo de Previdência Social entre a República Federativa do Brasil e o Grão Ducado de Luxemburgo e, assinado em Luxemburgo em 22 de junho de 2012, as autoridades competentes dos dois países estabelecem, de comum acordo, as seguintes disposições:\r\n\r\nTÍTULO I\r\nDisposições Gera",
     "temTextoIntegral": true,
     "documentos": [
       {
@@ -1547,8 +1554,8 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "Pensão por morte"
       ]
     },
-    "acordoTrecho": "Acordo Multilateral de Seguridade Social do MercosulACORDO MULTILATERAL DE SEGURIDADE SOCIAL DO MERCADO COMUM DO SUL Os Governos da República Argentina, da República Federativa do Brasil, da República do Paraguai e da Republica Oriental do Uruguai, CONSIDERANDO o Tratado de Assunção de 26 de março de 1991 e o Protocolo de Ouro Preto de 17 de dezembro de 1994; e DESEJOSOS em estabelecer normas que regulem as relações de Seguridade Social entre os países integrantes do MERCOSUL",
-    "ajusteTrecho": "Regulamento Administrativo para a Aplicação do Acordo Multilateral de Seguridade Social do Mercosul REGULAMENTO ADMINISTRATIVO PARA A APLICAÇÃO DO ACORDO MULTILATERAL DE SEGURIDADE SOCIAL DO MERCADO COMUM DO SUL Os Governos da Republica Argentina, da República Federativa do Brasil, da República do Paraguai e da República Oriental do Uruguai, Em cumprimento ao disposto no Artigo 16 do Acordo Multilateral de Seguridade Social, estabelecem o seguinte Regulamento Administrativo: ",
+    "acordoTrecho": "Acordo Multilateral de Seguridade Social do Mercosul\r\nACORDO MULTILATERAL DE SEGURIDADE SOCIAL\r\n\r\nDO MERCADO COMUM DO SUL\r\nOs Governos da República Argentina, da República Federativa do\r\nBrasil, da República do Paraguai e da Republica Oriental do Uruguai,\r\n\r\nCONSIDERANDO o Tratado de Assunção de 26 de março de 1991\r\ne o Protocolo de Ouro Preto de 17 de dezembro de 1994; e\r\nDESEJOSOS em estabelecer normas que regulem as relações de\r\nSeguridade Social entre os países integrante",
+    "ajusteTrecho": "Regulamento Administrativo para a Aplicação do Acordo Multilateral de Seguridade Social do Mercosul\r\n\r\nREGULAMENTO ADMINISTRATIVO PARA A\r\nAPLICAÇÃO DO ACORDO\r\nMULTILATERAL DE SEGURIDADE SOCIAL DO MERCADO COMUM DO\r\nSUL\r\n\r\nOs Governos da Republica Argentina, da República Federativa do\r\nBrasil, da República do Paraguai e da República Oriental do Uruguai,\r\nEm cumprimento ao disposto no Artigo 16 do Acordo Multilateral de\r\nSeguridade\r\nSocial,\r\nestabelecem\r\no\r\nseguinte\r\nRegulamento",
     "temTextoIntegral": true,
     "documentos": [
       {
@@ -1646,7 +1653,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "Pensão por Morte"
       ]
     },
-    "acordoTrecho": "ACORDO DE SEGURANÇA SOCIAL ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E A REPÚBLICA DE MOÇAMBIQUE A República Federativa do Brasil e a República de Moçambique, doravante denominados \"Partes Contratantes\", imbuídos do desejo de estabelecer normas que regulem as relações entre os países em matéria de Segurança Social, decicem celebrar o presente Acordo de Segurança Social nos seguintes termos: TÍTULO I - DISPOSIÇÕES GERAIS Artigo 1º Definições 1. Os termos que se seguem têm, para o",
+    "acordoTrecho": "ACORDO DE SEGURANÇA SOCIAL ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E A REPÚBLICA DE MOÇAMBIQUE\r\n\r\nA República Federativa do Brasil e a República de Moçambique, doravante denominados \"Partes Contratantes\", imbuídos do desejo de estabelecer normas que regulem as relações entre os países em matéria de Segurança Social, decicem celebrar o presente Acordo de Segurança Social nos seguintes termos:\r\n\r\nTÍTULO I - DISPOSIÇÕES GERAIS\r\n\r\nArtigo 1º\r\nDefinições\r\n\r\n1. Os termos que se segue",
     "temTextoIntegral": true,
     "documentos": [
       {
@@ -1748,8 +1755,8 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "Pensão por morte"
       ]
     },
-    "acordoTrecho": "AJUSTE ADMINISTRATIVO AO ACORDO DE SEGURANÇA SOCIAL OU SEGURIDADE SOCIAL ENTRE A REPÚBLICA PORTUGUESA E A REPÚBLICA FEDERATIVA DO BRASIL As autoridades competentes da República Portuguesa e da República Federativa do Brasil, desejando regulamentar a aplicação do Acordo de Segurança Social ou Seguridade Social entre a República Portuguesa e a República Federativa do Brasil, assinado em Brasília, em 7 de maio de 1991, tal como alterado pelo Acordo Adicional de 9 de agosto de 20",
-    "ajusteTrecho": "AJUSTE ADMINISTRATIVO PARA A APLICAÇÃO DO ACORDO DE SEGURANÇA SOCIAL OU SEGURIDADE SOCIAL ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E A REPÚBLICA PORTUGUESA Para efeitos da aplicação do Acordo de Segurança Social ou de Seguridade Social entre a República Federativa do Brasil e a República Portuguesa de 7 de maio de 1991, assinado em Brasília, na redação que lhe foi dada pelo Acordo de 9 de agosto de 2006, assinado em Brasília, doravente denominado \"Acordo\", as autoridades compet",
+    "acordoTrecho": "AJUSTE ADMINISTRATIVO AO ACORDO DE SEGURANÇA SOCIAL OU SEGURIDADE SOCIAL ENTRE A REPÚBLICA PORTUGUESA E A REPÚBLICA FEDERATIVA DO BRASIL\r\n\r\nAs autoridades competentes da República Portuguesa e da República Federativa do Brasil, desejando regulamentar a aplicação do Acordo de Segurança Social ou Seguridade Social entre a República Portuguesa e a República Federativa do Brasil, assinado em Brasília, em 7 de maio de 1991, tal como alterado pelo Acordo Adicional de 9 de agosto de",
+    "ajusteTrecho": "AJUSTE ADMINISTRATIVO PARA A APLICAÇÃO DO ACORDO DE\r\nSEGURANÇA SOCIAL OU SEGURIDADE SOCIAL ENTRE A REPÚBLICA\r\nFEDERATIVA DO BRASIL E A REPÚBLICA PORTUGUESA\r\n\r\nPara efeitos da aplicação do Acordo de Segurança Social ou de Seguridade\r\nSocial entre a República Federativa do Brasil e a República Portuguesa de 7 de maio de 1991,\r\nassinado em Brasília, na redação que lhe foi dada pelo Acordo de 9 de agosto de 2006,\r\nassinado em Brasília, doravente denominado \"Acordo\", as autoridade",
     "temTextoIntegral": true,
     "documentos": [
       {
@@ -1890,7 +1897,9 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "Plano de Pensão do Canadá"
       ]
     },
-    "temTextoIntegral": false,
+    "acordoTrecho": "Acordo — Transcrição Completa\r\n\r\nACORDO DE PREVIDÊNCIA SOCIAL ENTRE A REPÚBLICA FEDERATIVA DO\r\nBRASIL E O QUEBEC\r\n\r\nO Governo da República Federativa Do Brasil\r\nE\r\n\r\nO Governo do Quebec\r\n(doravante denominados “Partes”),\r\n\r\nDecidiram cooperar no campo da previdência social e concluíram um Acordo para\r\neste fim,\r\n\r\nAcordam o seguinte:\r\n\r\nTÍTULO I\r\nDISPOSIÇÕES GERAIS\r\nARTIGO 1\r\nDefinições\r\nl: Para a aplicação do presente Acordo e exceto quando o contexto lhes conceda outra\r\ncon",
+    "ajusteTrecho": "Ajuste Administrativo — Transcrição Completa\r\n\r\nAJUSTE ADMINISTRATIVO PARA APLICACAO DO ACORDO DE PREVIDENCIA\r\nSOCIAL ENTRE A REPUBLICA FEDERATIVA DO BRASIL E O QUEBEC\r\n\r\nA Autoridade Competente da República Federativa do Brasil\r\ne\r\n\r\nA Autoridade Competente do Quebec,\r\n\r\nConsiderando o parágrafo 1 do Artigo 17 do Acordo de Previdência Social entre o\r\nQuebec ¢ a República Federativa do Brasil;\r\n\r\nAcordam as seguintes disposições:\r\n\r\nARTIGO 1\r\nDefinigdes\r\n\r\nNo presente Ajuste ",
+    "temTextoIntegral": true,
     "documentos": [
       {
         "nome": "Acordo de Previdência Social Brasil-Québec (2011)",
@@ -1991,7 +2000,9 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "Pensão por Morte"
       ]
     },
-    "temTextoIntegral": false,
+    "acordoTrecho": "Acordo de Previdência Social\r\n\r\nACORDO ENTRE A REPUBLICA FEDERATIVA DO BRASIL\r\nE A REPUBLICA TCHECA SOBRE A PREVIDENCIA SOCIAL\r\n\r\nA Republica Federativa do Brasil\r\na Republica Tcheca,\r\ndoravante denominados \"Os Estados Contratantes\",\r\n\r\nDesejosos por reforcar a amizade e de regular as relagdes entre os dois Estados\r\nem mateéria de previdéncia social,\r\n\r\nAcordam o seguinte:\r\n\r\nParte I\r\nDisposicées Gerais\r\n\r\nArtigo 1 - Definigdes\r\nPara os fins do presente Acordo, os seguintes t",
+    "ajusteTrecho": "Ajuste Administrativo\r\n\r\nAJUSTE ADMINISTRATIVO PARA IMPLEMENTAÇÃO DO ACORDO ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E A REPÚBLICA TCHECA SOBRE PREVIDÊNCIA SOCIAL\r\n\r\nNos termos do Artigo 18, do parágrafo 2, da alínea (a) do Acordo entre a República Federativa do Brasil e a República Tcheca sobre Previdência Social, assinado em 09 de dezembro de 2020, doravante denominado Acordo, as Autoridades Competentes dos dois Estados Contratantes estabelecem, de comum acordo, as seguintes ",
+    "temTextoIntegral": true,
     "documentos": [
       {
         "nome": "Acordo de Previdência Social Brasil-República Tcheca (2020)",
