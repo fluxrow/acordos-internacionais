@@ -12,10 +12,10 @@ const PAPER: {
   brightness: number;
 } = {
   // base dark com leve tom quente, markers e glow em gold
-  base: [0.18, 0.16, 0.13],
+  base: [0.22, 0.19, 0.14],
   marker: [0.86, 0.68, 0.28],
   glow: [0.55, 0.42, 0.18],
-  brightness: 0.95,
+  brightness: 1.25,
 };
 
 // Wine — variante mais avermelhada (mantida para compat)
@@ -41,8 +41,8 @@ const BASE_CONFIG: COBEOptions = {
   devicePixelRatio: 2,
   phi: 0,
   theta: 0.25,
-  dark: 0.12,
-  diffuse: 0.58,
+  dark: 0.18,
+  diffuse: 0.7,
   mapSamples: 16000,
   mapBrightness: 1.15,
   baseColor: PAPER.base,

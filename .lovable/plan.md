@@ -1,23 +1,23 @@
-## Ajuste de contraste do globo (Premium Dark + Gold)
+## Intensificar contraste do globo (acima do PRD)
 
-Aplicar os valores recomendados no `src/components/globe.tsx`, mantendo a identidade dourada e sem mexer no fundo/layout ao redor.
+Subir o brilho do mapa e clarear levemente a base para deixar os continentes nitidamente visíveis, mantendo a paleta gold do tema.
 
-### Mudanças
+### Mudanças em `src/components/globe.tsx`
 
-Em `PAPER` (paleta ativa do tema):
-- `base`: `[0.12, 0.12, 0.14]` → `[0.18, 0.16, 0.13]` (dourado escuro sutil)
-- `brightness`: `0.55` → `0.95` (continentes perceptíveis)
+`PAPER`:
+- `base`: `[0.18, 0.16, 0.13]` → `[0.22, 0.19, 0.14]` (dourado escuro um pouco mais claro)
+- `brightness`: `0.95` → `1.25`
 
-Em `BASE_CONFIG`:
-- `dark`: `0` → `0.12`
-- `diffuse`: `0.5` → `0.58`
+`BASE_CONFIG`:
+- `dark`: `0.12` → `0.18`
+- `diffuse`: `0.58` → `0.7`
 
 ### Escopo
 
-- Não alterar `markerColor`, `glowColor`, marcadores, tamanho do globo, interações ou posicionamento.
-- Variante `WINE` permanece como está (compat).
-- Sem mudanças em CSS/tokens globais — apenas constantes do componente do globo.
+- Sem mexer em `markerColor`, `glowColor`, marcadores, tamanho, posicionamento ou interações.
+- Variante `WINE` permanece intocada.
+- Sem mudanças em tokens globais (`src/styles.css`).
 
 ### Validação
 
-- Verificar visualmente na home (hero) que os continentes ficaram legíveis sobre o oceano e que o globo continua se integrando ao fundo preto sem virar protagonista.
+- Conferir na home (hero) que os continentes ganharam presença sem o globo virar protagonista do fundo preto.
