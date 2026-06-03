@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UnsubscribeRouteImport } from './routes/unsubscribe'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ProfissionalRouteImport } from './routes/profissional'
 import { Route as PrecosRouteImport } from './routes/precos'
@@ -45,6 +46,11 @@ import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/l
 import { Route as LovableEmailQueueProcessRouteImport } from './routes/lovable/email/queue/process'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 
+const UnsubscribeRoute = UnsubscribeRouteImport.update({
+  id: '/unsubscribe',
+  path: '/unsubscribe',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
@@ -237,6 +243,7 @@ export interface FileRoutesByFullPath {
   '/precos': typeof PrecosRoute
   '/profissional': typeof ProfissionalRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/unsubscribe': typeof UnsubscribeRoute
   '/conta': typeof AuthenticatedContaRoute
   '/acordos/$pais': typeof AcordosPaisRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -273,6 +280,7 @@ export interface FileRoutesByTo {
   '/precos': typeof PrecosRoute
   '/profissional': typeof ProfissionalRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/unsubscribe': typeof UnsubscribeRoute
   '/conta': typeof AuthenticatedContaRoute
   '/acordos/$pais': typeof AcordosPaisRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -311,6 +319,7 @@ export interface FileRoutesById {
   '/precos': typeof PrecosRoute
   '/profissional': typeof ProfissionalRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/unsubscribe': typeof UnsubscribeRoute
   '/_authenticated/conta': typeof AuthenticatedContaRoute
   '/acordos/$pais': typeof AcordosPaisRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -349,6 +358,7 @@ export interface FileRouteTypes {
     | '/precos'
     | '/profissional'
     | '/reset-password'
+    | '/unsubscribe'
     | '/conta'
     | '/acordos/$pais'
     | '/blog/$slug'
@@ -385,6 +395,7 @@ export interface FileRouteTypes {
     | '/precos'
     | '/profissional'
     | '/reset-password'
+    | '/unsubscribe'
     | '/conta'
     | '/acordos/$pais'
     | '/blog/$slug'
@@ -422,6 +433,7 @@ export interface FileRouteTypes {
     | '/precos'
     | '/profissional'
     | '/reset-password'
+    | '/unsubscribe'
     | '/_authenticated/conta'
     | '/acordos/$pais'
     | '/blog/$slug'
@@ -460,6 +472,7 @@ export interface RootRouteChildren {
   PrecosRoute: typeof PrecosRoute
   ProfissionalRoute: typeof ProfissionalRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  UnsubscribeRoute: typeof UnsubscribeRoute
   AcordosPaisRoute: typeof AcordosPaisRoute
   EmailUnsubscribeRoute: typeof EmailUnsubscribeRoute
   GuiasSlugRoute: typeof GuiasSlugRoute
@@ -480,6 +493,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/unsubscribe': {
+      id: '/unsubscribe'
+      path: '/unsubscribe'
+      fullPath: '/unsubscribe'
+      preLoaderRoute: typeof UnsubscribeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reset-password': {
       id: '/reset-password'
       path: '/reset-password'
@@ -774,6 +794,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrecosRoute: PrecosRoute,
   ProfissionalRoute: ProfissionalRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  UnsubscribeRoute: UnsubscribeRoute,
   AcordosPaisRoute: AcordosPaisRoute,
   EmailUnsubscribeRoute: EmailUnsubscribeRoute,
   GuiasSlugRoute: GuiasSlugRoute,
