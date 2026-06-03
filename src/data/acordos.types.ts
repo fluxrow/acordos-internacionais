@@ -30,5 +30,7 @@ export interface AcordoImportado {
   };
   acordoTrecho?: string;
   ajusteTrecho?: string;
+  /** True quando há texto integral disponível em src/data/acordos-textos/<slug>.ts */
+  temTextoIntegral?: boolean;
   documentos: DocumentoImportado[];
 }
