@@ -397,7 +397,7 @@ function AcordoPais() {
                 "Portarias do INSS aplicáveis, comentadas",
                 "Documentos e formulários oficiais exigidos",
                 "Modelos de petição e requerimento editáveis",
-                "Calculadora de totalização e prorata",
+                "Calculadora de totalização",
                 "Fluxograma processual passo a passo",
                 "Jurisprudência relevante consolidada",
                 "Quando e como acionar judicialmente",
