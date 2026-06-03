@@ -78,10 +78,11 @@ export const acordos: Acordo[] = [
     nome: "Bulgária",
     iso: "bg",
     tipo: "bilateral",
-    docs: 1,
+    docs: 2,
     status: "vigente",
     vigencia: "2024",
-    resumo: "Acordo bilateral em vigor com a República da Bulgária desde 2024.",
+    resumo: "Acordo bilateral em vigor com a República da Bulgária desde 01/12/2024, promulgado pelo Decreto 12.498/2025.",
+
   },
   {
     slug: "cabo-verde",
