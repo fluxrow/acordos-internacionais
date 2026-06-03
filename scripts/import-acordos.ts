@@ -214,7 +214,7 @@ async function main() {
   const textosDir = resolve(outDir, "acordos-textos");
   mkdirSync(textosDir, { recursive: true });
 
-  for (const { file, slug } of SOURCES) {
+  for (const { file, slug, txtName } of SOURCES) {
     process.stdout.write(`→ ${slug.padEnd(20)} `);
     const html = await loadHtml(file, cacheDir);
 
