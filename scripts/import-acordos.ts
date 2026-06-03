@@ -240,8 +240,13 @@ async function main() {
       }
     }
 
-    const acordoTexto = parseAcordoText(html, "acordo");
-    const ajusteTexto = parseAcordoText(html, "ajuste-administrativo");
+    const acordoHtml = parseAcordoText(html, "acordo");
+    const ajusteHtml = parseAcordoText(html, "ajuste-administrativo");
+    // Texto integral oficial vem dos .txt; HTML é fallback.
+    const acordoFromTxt = await loadTxt("Acordo", txtName);
+    const ajusteFromTxt = await loadTxt("Ajuste Administrativo", txtName);
+    const acordoTexto = acordoFromTxt ?? acordoHtml;
+    const ajusteTexto = ajusteFromTxt ?? ajusteHtml;
     const documentos = parseDocumentos(html);
 
     if (!orgaoBR) warnings.push(`${slug}: órgão BR não encontrado`);
