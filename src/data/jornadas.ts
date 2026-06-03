@@ -168,6 +168,7 @@ export const jornadas: Jornada[] = [
             titulo: "Verifique se o seu caso tem direito à totalização ou ao planejamento.",
             descricao:
               "Use a calculadora Totalização com diferentes horizontes diferentes antes de tomar decisões de longo prazo.",
+            cta: { label: "Abrir calculadora", to: "/calculadora" },
           },
           {
             titulo: "Requerimento (no momento certo)",
