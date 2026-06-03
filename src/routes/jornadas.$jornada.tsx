@@ -96,7 +96,7 @@ function JornadaPage() {
                   <TabsTrigger
                     key={t.id}
                     value={t.id}
-                    className="rounded-xl border border-border bg-background px-4 py-2 text-sm data-[state=active]:border-[var(--accent-ink)] data-[state=active]:bg-[var(--accent-ink-soft)]/40"
+                    className="rounded-xl border border-border bg-background px-4 py-2 text-sm data-[state=active]:border-[var(--accent-ink)] data-[state=active]:bg-secondary/60"
                   >
                     {t.titulo}
                   </TabsTrigger>
