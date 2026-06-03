@@ -6,6 +6,7 @@ import { findTooltipFor } from "@/data/acordo-tooltips";
 import { CTAMarcos } from "@/components/cta-marcos";
 import { ProContentLock } from "@/components/pro-content-lock";
 import { Highlight } from "@/lib/highlight";
+import { MULTI_LOGOS } from "@/lib/multi-logos";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 export const Route = createFileRoute("/acordos/$pais")({
@@ -190,12 +191,6 @@ function AcordoPais() {
                       rotulo={anosEmVigor === 1 ? "ano em vigor" : "anos em vigor"}
                     />
                   )}
-                  {numOrgaos > 0 && (
-                    <StatItem
-                      valor={numOrgaos}
-                      rotulo={numOrgaos === 1 ? "órgão de ligação" : "órgãos de ligação"}
-                    />
-                  )}
                   {numDocs > 0 && (
                     <StatItem
                       valor={numDocs}
@@ -213,16 +208,26 @@ function AcordoPais() {
                 </p>
               )}
             </div>
-            {a.iso && (
+            {(a.iso || MULTI_LOGOS[a.slug]) && (
               <div className="md:self-end">
                 <div className="flex aspect-[3/2] w-[200px] items-center justify-center overflow-hidden rounded-lg border border-border/60 bg-background/70 shadow-[0_8px_24px_-12px_rgba(122,31,31,0.18)] backdrop-blur-sm md:w-[260px]">
-                  <img
-                    src={`https://flagcdn.com/w320/${a.iso}.png`}
-                    alt={`Bandeira de ${a.nome}`}
-                    width={260}
-                    height={173}
-                    className="h-full w-full object-cover"
-                  />
+                  {a.iso ? (
+                    <img
+                      src={`https://flagcdn.com/w320/${a.iso}.png`}
+                      alt={`Bandeira de ${a.nome}`}
+                      width={260}
+                      height={173}
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <img
+                      src={MULTI_LOGOS[a.slug]}
+                      alt={`Logo ${a.nome}`}
+                      width={260}
+                      height={173}
+                      className="h-full w-full object-contain p-6"
+                    />
+                  )}
                 </div>
               </div>
             )}
