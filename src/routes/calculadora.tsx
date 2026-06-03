@@ -53,7 +53,7 @@ function CalculadoraPublicaPage() {
             morte.
           </p>
           <p className="mt-4 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
-            Sem cadastro · Sem pagar · Resultado em 2 minutos
+            Sem pagar · Resultado em 2 minutos
           </p>
         </div>
       </section>
