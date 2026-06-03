@@ -1,7 +1,9 @@
 export interface JornadaPasso {
   titulo: string;
   descricao: string;
+  cta?: { label: string; to: string };
 }
+
 
 export interface JornadaTrilha {
   id: string;
