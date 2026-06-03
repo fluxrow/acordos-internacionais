@@ -87,7 +87,7 @@ function Home() {
                 />
               </div>
               <p className="mt-4 text-muted-foreground text-3xl">
-                Trabalhou no exterior? Descubra em 2 minutos. Sem cadastro. Sem pagar.
+                Trabalhou no exterior? Descubra em 3 minutos. Sem cadastro. Sem pagar.
               </p>
             </div>
           </div>
