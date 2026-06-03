@@ -99,7 +99,7 @@ function Home() {
         <div className="mx-auto grid max-w-6xl grid-cols-2 gap-8 px-6 py-10 md:grid-cols-4 md:py-12">
           {[
             { n: siteStats.acordosVigentes, l: "Acordos em vigor" },
-            { n: siteStats.acordosBilateraisVigentes, l: "Bilaterais em vigor" },
+            { n: siteStats.acordosBilateraisVigentes, l: "Multilaterais em vigor" },
             { n: siteStats.acordosEmRatificacao, l: "Em ratificação" },
             { n: `${siteStats.documentosOrganizados}+`, l: "Documentos organizados" },
           ].map((s) => (
