@@ -8,7 +8,6 @@ export const acordosImportados: Record<string, AcordoImportado> = {
   "alemanha": {
     "instrumento": "Acordo Brasil-Alemanha",
     "titulo": "Acordo Brasil-Alemanha",
-    "instrumento": "Acordo Brasil-Alemanha",
     "decreto": "Decreto nº 8.000/2013",
     "vigorDesde": "01 de maio de 2013",
     "docsInfo": "13 documentos disponíveis",
@@ -137,7 +136,6 @@ export const acordosImportados: Record<string, AcordoImportado> = {
   "austria": {
     "instrumento": "Acordo Brasil-Áustria",
     "titulo": "Acordo Brasil-Áustria",
-    "instrumento": "Acordo Brasil-Áustria",
     "decreto": "Decreto nº 12.952/2026",
     "vigorDesde": "01 de março de 2026",
     "docsInfo": "3 documentos disponíveis",
@@ -190,7 +188,6 @@ export const acordosImportados: Record<string, AcordoImportado> = {
   "belgica": {
     "instrumento": "Acordo Brasil-Bélgica",
     "titulo": "Acordo Brasil-Bélgica",
-    "instrumento": "Acordo Brasil-Bélgica",
     "decreto": "Decreto nº 8.405/2015",
     "vigorDesde": "01 de dezembro de 2014",
     "docsInfo": "16 documentos disponíveis",
@@ -303,7 +300,6 @@ export const acordosImportados: Record<string, AcordoImportado> = {
   "bulgaria": {
     "instrumento": "Acordo Brasil-Bulgária",
     "titulo": "Acordo Brasil-Bulgária",
-    "instrumento": "Acordo Brasil-Bulgária",
     "decreto": "Decreto 12.498/2025",
     "vigorDesde": "01/12/2024",
     "docsInfo": "2 documentos disponíveis",
@@ -401,7 +397,6 @@ export const acordosImportados: Record<string, AcordoImportado> = {
   "canada": {
     "instrumento": "Acordo Brasil-Canadá",
     "titulo": "Acordo Brasil-Canadá",
-    "instrumento": "Acordo Brasil-Canadá",
     "decreto": "Decreto nº 8.288/2014",
     "vigorDesde": "24 de julho de 2014",
     "docsInfo": "16 documentos disponíveis",
@@ -671,7 +666,6 @@ export const acordosImportados: Record<string, AcordoImportado> = {
   "coreia-do-sul": {
     "instrumento": "Acordo Brasil-Coreia do Sul",
     "titulo": "Acordo Brasil-Coreia do Sul",
-    "instrumento": "Acordo Brasil-Coreia do Sul",
     "decreto": "Decreto nº 7.730/2012",
     "vigorDesde": "01 de setembro de 2012",
     "docsInfo": "13 documentos disponíveis",
@@ -929,7 +923,6 @@ export const acordosImportados: Record<string, AcordoImportado> = {
   "estados-unidos": {
     "instrumento": "Acordo Brasil-Estados Unidos",
     "titulo": "Acordo Brasil-Estados Unidos",
-    "instrumento": "Acordo Brasil-Estados Unidos",
     "decreto": "Decreto nº 8.697/2016",
     "vigorDesde": "01 de outubro de 2015",
     "docsInfo": "8 documentos disponíveis",
