@@ -105,7 +105,7 @@ function GuiaPage() {
 
       {/* RELACIONADO */}
       {temRelacionado && (
-        <section className="border-t border-border bg-[var(--accent-ink-soft)]/40">
+        <section className="border-t border-border bg-secondary/30">
           <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
             <div className="flex items-center gap-3">
               <span aria-hidden className="h-px w-10 bg-[var(--accent-ink)]" />
