@@ -18,7 +18,7 @@ const RAW_BASE = "https://raw.githubusercontent.com/marcosespinola1379/Mapa-de-A
 const SOURCES: Array<{ file: string; slug: string }> = [
   { file: "acordo-alemanha", slug: "alemanha" },
   { file: "acordo-austria", slug: "austria" },
-  { file: "acordo_belgica", slug: "belgica" },
+  { file: "acordo-belgica", slug: "belgica" },
   { file: "acordo-bulgaria", slug: "bulgaria" },
   { file: "acordo-cabo-verde", slug: "cabo-verde" },
   { file: "acordo-canada", slug: "canada" },
