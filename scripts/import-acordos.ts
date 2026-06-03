@@ -13,34 +13,46 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
 import { resolve } from "node:path";
 
 const RAW_BASE = "https://raw.githubusercontent.com/marcosespinola1379/Mapa-de-Acordos/main";
+const TXT_FOLDER = "Acordos Internacionais_ Ajustes Administrativos";
 
 // Mapa: nome do arquivo no repo (sem .html) → slug usado em src/data/acordos.ts
-const SOURCES: Array<{ file: string; slug: string }> = [
-  { file: "acordo-alemanha", slug: "alemanha" },
-  { file: "acordo-austria", slug: "austria" },
-  { file: "acordo-belgica", slug: "belgica" },
-  { file: "acordo-bulgaria", slug: "bulgaria" },
-  { file: "acordo-cabo-verde", slug: "cabo-verde" },
-  { file: "acordo-canada", slug: "canada" },
-  { file: "acordo-chile", slug: "chile" },
-  { file: "acordo-coreia", slug: "coreia-do-sul" },
-  { file: "acordo-cplp", slug: "cplp" },
-  { file: "acordo-espanha", slug: "espanha" },
-  { file: "acordo-estados-unidos", slug: "estados-unidos" },
-  { file: "acordo-franca", slug: "franca" },
-  { file: "acordo-grecia", slug: "grecia" },
-  { file: "acordo-iberoamericano", slug: "iberoamericano" },
-  { file: "acordo-india", slug: "india" },
-  { file: "acordo-israel", slug: "israel" },
-  { file: "acordo-italia", slug: "italia" },
-  { file: "acordo-japao", slug: "japao" },
-  { file: "acordo-luxemburgo", slug: "luxemburgo" },
-  { file: "acordo-mercosul", slug: "mercosul" },
-  { file: "acordo-mocambique", slug: "mocambique" },
-  { file: "acordo-portugal", slug: "portugal" },
-  { file: "acordo-quebec", slug: "quebec" },
-  { file: "acordo-republica-tcheca", slug: "republica-tcheca" },
+// + nome usado nos .txt da pasta de textos integrais.
+const SOURCES: Array<{ file: string; slug: string; txtName: string }> = [
+  { file: "acordo-alemanha", slug: "alemanha", txtName: "Alemanha" },
+  { file: "acordo-austria", slug: "austria", txtName: "Áustria" },
+  { file: "acordo-belgica", slug: "belgica", txtName: "Bélgica" },
+  { file: "acordo-bulgaria", slug: "bulgaria", txtName: "Bulgária" },
+  { file: "acordo-cabo-verde", slug: "cabo-verde", txtName: "Cabo Verde" },
+  { file: "acordo-canada", slug: "canada", txtName: "Canadá" },
+  { file: "acordo-chile", slug: "chile", txtName: "Chile" },
+  { file: "acordo-coreia", slug: "coreia-do-sul", txtName: "Coreia" },
+  { file: "acordo-cplp", slug: "cplp", txtName: "CPLP" },
+  { file: "acordo-espanha", slug: "espanha", txtName: "Espanha" },
+  { file: "acordo-estados-unidos", slug: "estados-unidos", txtName: "Estados Unidos" },
+  { file: "acordo-franca", slug: "franca", txtName: "França" },
+  { file: "acordo-grecia", slug: "grecia", txtName: "Grécia" },
+  { file: "acordo-iberoamericano", slug: "iberoamericano", txtName: "Iberoamericano" },
+  { file: "acordo-india", slug: "india", txtName: "Índia" },
+  { file: "acordo-israel", slug: "israel", txtName: "Israel" },
+  { file: "acordo-italia", slug: "italia", txtName: "Itália" },
+  { file: "acordo-japao", slug: "japao", txtName: "Japão" },
+  { file: "acordo-luxemburgo", slug: "luxemburgo", txtName: "Luxemburgo" },
+  { file: "acordo-mercosul", slug: "mercosul", txtName: "Mercosul" },
+  { file: "acordo-mocambique", slug: "mocambique", txtName: "Moçambique" },
+  { file: "acordo-portugal", slug: "portugal", txtName: "Portugal" },
+  { file: "acordo-quebec", slug: "quebec", txtName: "Quebec" },
+  { file: "acordo-republica-tcheca", slug: "republica-tcheca", txtName: "República Tcheca" },
 ];
+
+async function loadTxt(kind: "Acordo" | "Ajuste Administrativo", name: string): Promise<string | undefined> {
+  const filename = `${kind} ${name}.txt`;
+  const url = `${RAW_BASE}/${encodeURIComponent(TXT_FOLDER)}/${encodeURIComponent(filename)}`;
+  const res = await fetch(url);
+  if (res.status === 404) return undefined;
+  if (!res.ok) throw new Error(`HTTP ${res.status} para ${url}`);
+  const txt = (await res.text()).trim();
+  return txt || undefined;
+}
 
 // ───────────────────────────── helpers de parsing ─────────────────────────────
 
@@ -202,7 +214,7 @@ async function main() {
   const textosDir = resolve(outDir, "acordos-textos");
   mkdirSync(textosDir, { recursive: true });
 
-  for (const { file, slug } of SOURCES) {
+  for (const { file, slug, txtName } of SOURCES) {
     process.stdout.write(`→ ${slug.padEnd(20)} `);
     const html = await loadHtml(file, cacheDir);
 
@@ -228,8 +240,13 @@ async function main() {
       }
     }
 
-    const acordoTexto = parseAcordoText(html, "acordo");
-    const ajusteTexto = parseAcordoText(html, "ajuste-administrativo");
+    const acordoHtml = parseAcordoText(html, "acordo");
+    const ajusteHtml = parseAcordoText(html, "ajuste-administrativo");
+    // Texto integral oficial vem dos .txt; HTML é fallback.
+    const acordoFromTxt = await loadTxt("Acordo", txtName);
+    const ajusteFromTxt = await loadTxt("Ajuste Administrativo", txtName);
+    const acordoTexto = acordoFromTxt ?? acordoHtml;
+    const ajusteTexto = ajusteFromTxt ?? ajusteHtml;
     const documentos = parseDocumentos(html);
 
     if (!orgaoBR) warnings.push(`${slug}: órgão BR não encontrado`);
