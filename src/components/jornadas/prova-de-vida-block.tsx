@@ -91,7 +91,7 @@ const MODALIDADES: ProvaDeVidaModalidade[] = [
 
 export function ProvaDeVidaBlock() {
   return (
-    <section className="border-y border-[var(--accent-ink)]/30 bg-[var(--accent-ink-soft)]/40">
+    <section className="border-y border-[var(--accent-ink)]/30 bg-secondary/30">
       <div className="mx-auto max-w-4xl px-6 py-16 md:py-20">
         <p className="eyebrow">Prova de vida no exterior</p>
         <h2 className="mt-3 font-display text-3xl md:text-4xl">

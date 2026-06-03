@@ -96,7 +96,7 @@ function JornadaPage() {
                   <TabsTrigger
                     key={t.id}
                     value={t.id}
-                    className="rounded-xl border border-border bg-background px-4 py-2 text-sm data-[state=active]:border-[var(--accent-ink)] data-[state=active]:bg-[var(--accent-ink-soft)]/40"
+                    className="rounded-xl border border-border bg-background px-4 py-2 text-sm data-[state=active]:border-[var(--accent-ink)] data-[state=active]:bg-secondary/60"
                   >
                     {t.titulo}
                   </TabsTrigger>
@@ -148,7 +148,7 @@ function JornadaPage() {
 
       {/* RELACIONADO */}
       {(paises.length > 0 || guia) && (
-        <section className="border-t border-border bg-[var(--accent-ink-soft)]/40">
+        <section className="border-t border-border bg-secondary/30">
           <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
             <div className="flex items-center gap-3">
               <span aria-hidden className="h-px w-10 bg-[var(--accent-ink)]" />
@@ -242,7 +242,7 @@ function JornadaPage() {
                     <Link
                       to="/jornadas/$jornada"
                       params={{ jornada: x.slug }}
-                      className="group grid grid-cols-[auto_1fr_auto] items-baseline gap-6 px-2 py-6 transition-colors hover:bg-[var(--accent-ink-soft)]/40"
+                      className="group grid grid-cols-[auto_1fr_auto] items-baseline gap-6 px-2 py-6 transition-colors hover:bg-secondary/40"
                     >
                       <span className="font-display text-2xl text-[var(--accent-ink)]">
                         {String(i + 1).padStart(2, "0")}
