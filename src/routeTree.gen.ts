@@ -27,16 +27,20 @@ import { Route as SobreDrMarcosRouteImport } from './routes/sobre.dr-marcos'
 import { Route as JornadasJornadaRouteImport } from './routes/jornadas.$jornada'
 import { Route as GuiasSaidaDefinitivaDoPaisRouteImport } from './routes/guias.saida-definitiva-do-pais'
 import { Route as GuiasSlugRouteImport } from './routes/guias.$slug'
+import { Route as EmailUnsubscribeRouteImport } from './routes/email/unsubscribe'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as AcordosPaisRouteImport } from './routes/acordos.$pais'
 import { Route as AuthenticatedContaRouteImport } from './routes/_authenticated/conta'
 import { Route as AuthenticatedHubIndexRouteImport } from './routes/_authenticated/hub.index'
+import { Route as LovableEmailSuppressionRouteImport } from './routes/lovable/email/suppression'
 import { Route as ApiPublicCalcLeadRouteImport } from './routes/api/public/calc-lead'
 import { Route as AuthenticatedHubLeadsRouteImport } from './routes/_authenticated/hub.leads'
 import { Route as AuthenticatedHubLaudosRouteImport } from './routes/_authenticated/hub.laudos'
 import { Route as AuthenticatedHubLaudoRouteImport } from './routes/_authenticated/hub.laudo'
 import { Route as AuthenticatedHubCalculadoraRouteImport } from './routes/_authenticated/hub.calculadora'
 import { Route as AuthenticatedHubPaisRouteImport } from './routes/_authenticated/hub.$pais'
+import { Route as LovableEmailTransactionalSendRouteImport } from './routes/lovable/email/transactional/send'
+import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 import { Route as LovableEmailQueueProcessRouteImport } from './routes/lovable/email/queue/process'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 
@@ -130,6 +134,11 @@ const GuiasSlugRoute = GuiasSlugRouteImport.update({
   path: '/guias/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EmailUnsubscribeRoute = EmailUnsubscribeRouteImport.update({
+  id: '/email/unsubscribe',
+  path: '/email/unsubscribe',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BlogSlugRoute = BlogSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
@@ -149,6 +158,11 @@ const AuthenticatedHubIndexRoute = AuthenticatedHubIndexRouteImport.update({
   id: '/hub/',
   path: '/hub/',
   getParentRoute: () => AuthenticatedRoute,
+} as any)
+const LovableEmailSuppressionRoute = LovableEmailSuppressionRouteImport.update({
+  id: '/lovable/email/suppression',
+  path: '/lovable/email/suppression',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicCalcLeadRoute = ApiPublicCalcLeadRouteImport.update({
   id: '/api/public/calc-lead',
@@ -181,6 +195,18 @@ const AuthenticatedHubPaisRoute = AuthenticatedHubPaisRouteImport.update({
   path: '/hub/$pais',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const LovableEmailTransactionalSendRoute =
+  LovableEmailTransactionalSendRouteImport.update({
+    id: '/lovable/email/transactional/send',
+    path: '/lovable/email/transactional/send',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const LovableEmailTransactionalPreviewRoute =
+  LovableEmailTransactionalPreviewRouteImport.update({
+    id: '/lovable/email/transactional/preview',
+    path: '/lovable/email/transactional/preview',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const LovableEmailQueueProcessRoute =
   LovableEmailQueueProcessRouteImport.update({
     id: '/lovable/email/queue/process',
@@ -208,6 +234,7 @@ export interface FileRoutesByFullPath {
   '/conta': typeof AuthenticatedContaRoute
   '/acordos/$pais': typeof AcordosPaisRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/email/unsubscribe': typeof EmailUnsubscribeRoute
   '/guias/$slug': typeof GuiasSlugRoute
   '/guias/saida-definitiva-do-pais': typeof GuiasSaidaDefinitivaDoPaisRoute
   '/jornadas/$jornada': typeof JornadasJornadaRoute
@@ -221,9 +248,12 @@ export interface FileRoutesByFullPath {
   '/hub/laudos': typeof AuthenticatedHubLaudosRoute
   '/hub/leads': typeof AuthenticatedHubLeadsRoute
   '/api/public/calc-lead': typeof ApiPublicCalcLeadRoute
+  '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/hub/': typeof AuthenticatedHubIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
+  '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
+  '/lovable/email/transactional/send': typeof LovableEmailTransactionalSendRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -239,6 +269,7 @@ export interface FileRoutesByTo {
   '/conta': typeof AuthenticatedContaRoute
   '/acordos/$pais': typeof AcordosPaisRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/email/unsubscribe': typeof EmailUnsubscribeRoute
   '/guias/$slug': typeof GuiasSlugRoute
   '/guias/saida-definitiva-do-pais': typeof GuiasSaidaDefinitivaDoPaisRoute
   '/jornadas/$jornada': typeof JornadasJornadaRoute
@@ -252,9 +283,12 @@ export interface FileRoutesByTo {
   '/hub/laudos': typeof AuthenticatedHubLaudosRoute
   '/hub/leads': typeof AuthenticatedHubLeadsRoute
   '/api/public/calc-lead': typeof ApiPublicCalcLeadRoute
+  '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/hub': typeof AuthenticatedHubIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
+  '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
+  '/lovable/email/transactional/send': typeof LovableEmailTransactionalSendRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -272,6 +306,7 @@ export interface FileRoutesById {
   '/_authenticated/conta': typeof AuthenticatedContaRoute
   '/acordos/$pais': typeof AcordosPaisRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/email/unsubscribe': typeof EmailUnsubscribeRoute
   '/guias/$slug': typeof GuiasSlugRoute
   '/guias/saida-definitiva-do-pais': typeof GuiasSaidaDefinitivaDoPaisRoute
   '/jornadas/$jornada': typeof JornadasJornadaRoute
@@ -285,9 +320,12 @@ export interface FileRoutesById {
   '/_authenticated/hub/laudos': typeof AuthenticatedHubLaudosRoute
   '/_authenticated/hub/leads': typeof AuthenticatedHubLeadsRoute
   '/api/public/calc-lead': typeof ApiPublicCalcLeadRoute
+  '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/_authenticated/hub/': typeof AuthenticatedHubIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
+  '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
+  '/lovable/email/transactional/send': typeof LovableEmailTransactionalSendRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -305,6 +343,7 @@ export interface FileRouteTypes {
     | '/conta'
     | '/acordos/$pais'
     | '/blog/$slug'
+    | '/email/unsubscribe'
     | '/guias/$slug'
     | '/guias/saida-definitiva-do-pais'
     | '/jornadas/$jornada'
@@ -318,9 +357,12 @@ export interface FileRouteTypes {
     | '/hub/laudos'
     | '/hub/leads'
     | '/api/public/calc-lead'
+    | '/lovable/email/suppression'
     | '/hub/'
     | '/api/public/payments/webhook'
     | '/lovable/email/queue/process'
+    | '/lovable/email/transactional/preview'
+    | '/lovable/email/transactional/send'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -336,6 +378,7 @@ export interface FileRouteTypes {
     | '/conta'
     | '/acordos/$pais'
     | '/blog/$slug'
+    | '/email/unsubscribe'
     | '/guias/$slug'
     | '/guias/saida-definitiva-do-pais'
     | '/jornadas/$jornada'
@@ -349,9 +392,12 @@ export interface FileRouteTypes {
     | '/hub/laudos'
     | '/hub/leads'
     | '/api/public/calc-lead'
+    | '/lovable/email/suppression'
     | '/hub'
     | '/api/public/payments/webhook'
     | '/lovable/email/queue/process'
+    | '/lovable/email/transactional/preview'
+    | '/lovable/email/transactional/send'
   id:
     | '__root__'
     | '/'
@@ -368,6 +414,7 @@ export interface FileRouteTypes {
     | '/_authenticated/conta'
     | '/acordos/$pais'
     | '/blog/$slug'
+    | '/email/unsubscribe'
     | '/guias/$slug'
     | '/guias/saida-definitiva-do-pais'
     | '/jornadas/$jornada'
@@ -381,9 +428,12 @@ export interface FileRouteTypes {
     | '/_authenticated/hub/laudos'
     | '/_authenticated/hub/leads'
     | '/api/public/calc-lead'
+    | '/lovable/email/suppression'
     | '/_authenticated/hub/'
     | '/api/public/payments/webhook'
     | '/lovable/email/queue/process'
+    | '/lovable/email/transactional/preview'
+    | '/lovable/email/transactional/send'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -399,6 +449,7 @@ export interface RootRouteChildren {
   ProfissionalRoute: typeof ProfissionalRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   AcordosPaisRoute: typeof AcordosPaisRoute
+  EmailUnsubscribeRoute: typeof EmailUnsubscribeRoute
   GuiasSlugRoute: typeof GuiasSlugRoute
   GuiasSaidaDefinitivaDoPaisRoute: typeof GuiasSaidaDefinitivaDoPaisRoute
   JornadasJornadaRoute: typeof JornadasJornadaRoute
@@ -407,8 +458,11 @@ export interface RootRouteChildren {
   GuiasIndexRoute: typeof GuiasIndexRoute
   JornadasIndexRoute: typeof JornadasIndexRoute
   ApiPublicCalcLeadRoute: typeof ApiPublicCalcLeadRoute
+  LovableEmailSuppressionRoute: typeof LovableEmailSuppressionRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
   LovableEmailQueueProcessRoute: typeof LovableEmailQueueProcessRoute
+  LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
+  LovableEmailTransactionalSendRoute: typeof LovableEmailTransactionalSendRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -539,6 +593,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuiasSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/email/unsubscribe': {
+      id: '/email/unsubscribe'
+      path: '/email/unsubscribe'
+      fullPath: '/email/unsubscribe'
+      preLoaderRoute: typeof EmailUnsubscribeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blog/$slug': {
       id: '/blog/$slug'
       path: '/$slug'
@@ -566,6 +627,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/hub/'
       preLoaderRoute: typeof AuthenticatedHubIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
+    }
+    '/lovable/email/suppression': {
+      id: '/lovable/email/suppression'
+      path: '/lovable/email/suppression'
+      fullPath: '/lovable/email/suppression'
+      preLoaderRoute: typeof LovableEmailSuppressionRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/api/public/calc-lead': {
       id: '/api/public/calc-lead'
@@ -608,6 +676,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/hub/$pais'
       preLoaderRoute: typeof AuthenticatedHubPaisRouteImport
       parentRoute: typeof AuthenticatedRoute
+    }
+    '/lovable/email/transactional/send': {
+      id: '/lovable/email/transactional/send'
+      path: '/lovable/email/transactional/send'
+      fullPath: '/lovable/email/transactional/send'
+      preLoaderRoute: typeof LovableEmailTransactionalSendRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lovable/email/transactional/preview': {
+      id: '/lovable/email/transactional/preview'
+      path: '/lovable/email/transactional/preview'
+      fullPath: '/lovable/email/transactional/preview'
+      preLoaderRoute: typeof LovableEmailTransactionalPreviewRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/lovable/email/queue/process': {
       id: '/lovable/email/queue/process'
@@ -673,6 +755,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProfissionalRoute: ProfissionalRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   AcordosPaisRoute: AcordosPaisRoute,
+  EmailUnsubscribeRoute: EmailUnsubscribeRoute,
   GuiasSlugRoute: GuiasSlugRoute,
   GuiasSaidaDefinitivaDoPaisRoute: GuiasSaidaDefinitivaDoPaisRoute,
   JornadasJornadaRoute: JornadasJornadaRoute,
@@ -681,8 +764,11 @@ const rootRouteChildren: RootRouteChildren = {
   GuiasIndexRoute: GuiasIndexRoute,
   JornadasIndexRoute: JornadasIndexRoute,
   ApiPublicCalcLeadRoute: ApiPublicCalcLeadRoute,
+  LovableEmailSuppressionRoute: LovableEmailSuppressionRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
   LovableEmailQueueProcessRoute: LovableEmailQueueProcessRoute,
+  LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,
+  LovableEmailTransactionalSendRoute: LovableEmailTransactionalSendRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
