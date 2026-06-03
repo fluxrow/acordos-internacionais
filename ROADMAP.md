@@ -16,6 +16,14 @@
 
 ---
 
+## Correção factual — Bulgária em vigor ✅ (03/06/2026)
+
+- `src/data/acordos.ts`: Bulgária passa de `status: "incompleto"` → `"vigente"` com `vigencia: "2024"`. Acordo Brasil–Bulgária está em vigor desde 2024.
+- Resultado de contadores: **22 vigentes** (era 21) + **3 em ratificação** (Cabo Verde, Israel, CPLP) + **0 incompletos** = **25 mapeados**. Todos os números no site são derivados de `siteStats`, então hero, `/acordos` e `/precos` atualizam automaticamente.
+- Linha 194 deste roadmap descrevia Bulgária como `incompleto` por inércia da rodada de sync — corrigido aqui.
+
+---
+
 ## Fase 0 — Fundação ✅ (concluída)
 
 - ✅ Bootstrap TanStack Start v1 + React 19 + Vite 7
