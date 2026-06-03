@@ -30,6 +30,8 @@ import { Route as GuiasSlugRouteImport } from './routes/guias.$slug'
 import { Route as AcordosPaisRouteImport } from './routes/acordos.$pais'
 import { Route as AuthenticatedContaRouteImport } from './routes/_authenticated/conta'
 import { Route as AuthenticatedHubIndexRouteImport } from './routes/_authenticated/hub.index'
+import { Route as ApiPublicCalcLeadRouteImport } from './routes/api/public/calc-lead'
+import { Route as AuthenticatedHubLeadsRouteImport } from './routes/_authenticated/hub.leads'
 import { Route as AuthenticatedHubLaudosRouteImport } from './routes/_authenticated/hub.laudos'
 import { Route as AuthenticatedHubLaudoRouteImport } from './routes/_authenticated/hub.laudo'
 import { Route as AuthenticatedHubCalculadoraRouteImport } from './routes/_authenticated/hub.calculadora'
@@ -141,6 +143,16 @@ const AuthenticatedHubIndexRoute = AuthenticatedHubIndexRouteImport.update({
   path: '/hub/',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const ApiPublicCalcLeadRoute = ApiPublicCalcLeadRouteImport.update({
+  id: '/api/public/calc-lead',
+  path: '/api/public/calc-lead',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedHubLeadsRoute = AuthenticatedHubLeadsRouteImport.update({
+  id: '/hub/leads',
+  path: '/hub/leads',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedHubLaudosRoute = AuthenticatedHubLaudosRouteImport.update({
   id: '/hub/laudos',
   path: '/hub/laudos',
@@ -193,6 +205,8 @@ export interface FileRoutesByFullPath {
   '/hub/calculadora': typeof AuthenticatedHubCalculadoraRoute
   '/hub/laudo': typeof AuthenticatedHubLaudoRoute
   '/hub/laudos': typeof AuthenticatedHubLaudosRoute
+  '/hub/leads': typeof AuthenticatedHubLeadsRoute
+  '/api/public/calc-lead': typeof ApiPublicCalcLeadRoute
   '/hub/': typeof AuthenticatedHubIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -220,6 +234,8 @@ export interface FileRoutesByTo {
   '/hub/calculadora': typeof AuthenticatedHubCalculadoraRoute
   '/hub/laudo': typeof AuthenticatedHubLaudoRoute
   '/hub/laudos': typeof AuthenticatedHubLaudosRoute
+  '/hub/leads': typeof AuthenticatedHubLeadsRoute
+  '/api/public/calc-lead': typeof ApiPublicCalcLeadRoute
   '/hub': typeof AuthenticatedHubIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -249,6 +265,8 @@ export interface FileRoutesById {
   '/_authenticated/hub/calculadora': typeof AuthenticatedHubCalculadoraRoute
   '/_authenticated/hub/laudo': typeof AuthenticatedHubLaudoRoute
   '/_authenticated/hub/laudos': typeof AuthenticatedHubLaudosRoute
+  '/_authenticated/hub/leads': typeof AuthenticatedHubLeadsRoute
+  '/api/public/calc-lead': typeof ApiPublicCalcLeadRoute
   '/_authenticated/hub/': typeof AuthenticatedHubIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -278,6 +296,8 @@ export interface FileRouteTypes {
     | '/hub/calculadora'
     | '/hub/laudo'
     | '/hub/laudos'
+    | '/hub/leads'
+    | '/api/public/calc-lead'
     | '/hub/'
     | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
@@ -305,6 +325,8 @@ export interface FileRouteTypes {
     | '/hub/calculadora'
     | '/hub/laudo'
     | '/hub/laudos'
+    | '/hub/leads'
+    | '/api/public/calc-lead'
     | '/hub'
     | '/api/public/payments/webhook'
   id:
@@ -333,6 +355,8 @@ export interface FileRouteTypes {
     | '/_authenticated/hub/calculadora'
     | '/_authenticated/hub/laudo'
     | '/_authenticated/hub/laudos'
+    | '/_authenticated/hub/leads'
+    | '/api/public/calc-lead'
     | '/_authenticated/hub/'
     | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
@@ -357,6 +381,7 @@ export interface RootRouteChildren {
   AcordosIndexRoute: typeof AcordosIndexRoute
   GuiasIndexRoute: typeof GuiasIndexRoute
   JornadasIndexRoute: typeof JornadasIndexRoute
+  ApiPublicCalcLeadRoute: typeof ApiPublicCalcLeadRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
 }
 
@@ -509,6 +534,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedHubIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/api/public/calc-lead': {
+      id: '/api/public/calc-lead'
+      path: '/api/public/calc-lead'
+      fullPath: '/api/public/calc-lead'
+      preLoaderRoute: typeof ApiPublicCalcLeadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/hub/leads': {
+      id: '/_authenticated/hub/leads'
+      path: '/hub/leads'
+      fullPath: '/hub/leads'
+      preLoaderRoute: typeof AuthenticatedHubLeadsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/hub/laudos': {
       id: '/_authenticated/hub/laudos'
       path: '/hub/laudos'
@@ -553,6 +592,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedHubCalculadoraRoute: typeof AuthenticatedHubCalculadoraRoute
   AuthenticatedHubLaudoRoute: typeof AuthenticatedHubLaudoRoute
   AuthenticatedHubLaudosRoute: typeof AuthenticatedHubLaudosRoute
+  AuthenticatedHubLeadsRoute: typeof AuthenticatedHubLeadsRoute
   AuthenticatedHubIndexRoute: typeof AuthenticatedHubIndexRoute
 }
 
@@ -562,6 +602,7 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedHubCalculadoraRoute: AuthenticatedHubCalculadoraRoute,
   AuthenticatedHubLaudoRoute: AuthenticatedHubLaudoRoute,
   AuthenticatedHubLaudosRoute: AuthenticatedHubLaudosRoute,
+  AuthenticatedHubLeadsRoute: AuthenticatedHubLeadsRoute,
   AuthenticatedHubIndexRoute: AuthenticatedHubIndexRoute,
 }
 
@@ -589,8 +630,19 @@ const rootRouteChildren: RootRouteChildren = {
   AcordosIndexRoute: AcordosIndexRoute,
   GuiasIndexRoute: GuiasIndexRoute,
   JornadasIndexRoute: JornadasIndexRoute,
+  ApiPublicCalcLeadRoute: ApiPublicCalcLeadRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

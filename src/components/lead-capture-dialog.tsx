@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { supabase } from "@/integrations/supabase/client";
+
 
 export interface LeadContexto {
   pais?: string;
@@ -100,11 +100,20 @@ export function LeadCaptureDialog({
         referer:
           typeof document !== "undefined" ? document.referrer || null : null,
       };
-      const { error } = await supabase.from("calc_leads").insert(payload);
-      if (error) {
-        // não bloqueia o resultado — apenas loga
+      try {
+        const res = await fetch("/api/public/calc-lead", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        if (!res.ok) {
+          // não bloqueia o resultado — apenas loga
+          // eslint-disable-next-line no-console
+          console.error("calc-lead POST falhou", res.status);
+        }
+      } catch (err) {
         // eslint-disable-next-line no-console
-        console.error("calc_leads insert failed", error);
+        console.error("calc-lead network error", err);
       }
       try {
         sessionStorage.setItem("triagem_lead_v1", "1");
