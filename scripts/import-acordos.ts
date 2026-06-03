@@ -18,7 +18,7 @@ const RAW_BASE = "https://raw.githubusercontent.com/marcosespinola1379/Mapa-de-A
 const SOURCES: Array<{ file: string; slug: string }> = [
   { file: "acordo-alemanha", slug: "alemanha" },
   { file: "acordo-austria", slug: "austria" },
-  { file: "acordo_belgica", slug: "belgica" },
+  { file: "acordo-belgica", slug: "belgica" },
   { file: "acordo-bulgaria", slug: "bulgaria" },
   { file: "acordo-cabo-verde", slug: "cabo-verde" },
   { file: "acordo-canada", slug: "canada" },
@@ -198,6 +198,9 @@ async function main() {
 
   const result: Record<string, unknown> = {};
   const warnings: string[] = [];
+  const outDir = resolve(import.meta.dir, "..", "src", "data");
+  const textosDir = resolve(outDir, "acordos-textos");
+  mkdirSync(textosDir, { recursive: true });
 
   for (const { file, slug } of SOURCES) {
     process.stdout.write(`→ ${slug.padEnd(20)} `);
@@ -213,8 +216,6 @@ async function main() {
     const orgaoBR = orgaos.find((o) => /brasil|apsai|inss/i.test(o.titulo));
     const orgaoParceiro = orgaos.find((o) => o !== orgaoBR);
 
-    // Benefícios: bloco "beneficios-{slug-pais}" varia. Pegamos o primeiro
-    // bloco benefits que NÃO seja brasil.
     const beneficiosBrasil = parseBenefitsBlock(html, "beneficios-brasil");
     let beneficiosParceiro: string[] = [];
     const blockIds = [...html.matchAll(/id="(beneficios-[a-z0-9-]+)"/g)].map((m) => m[1]);
@@ -235,6 +236,7 @@ async function main() {
     if (!orgaoParceiro) warnings.push(`${slug}: órgão parceiro não encontrado`);
     if (!beneficiosBrasil.length) warnings.push(`${slug}: benefícios BR vazios`);
     if (!beneficiosParceiro.length) warnings.push(`${slug}: benefícios parceiro vazios`);
+    if (!acordoTexto) warnings.push(`${slug}: texto do acordo não encontrado`);
 
     result[slug] = {
       titulo,
@@ -248,26 +250,36 @@ async function main() {
         brasil: beneficiosBrasil,
         parceiro: beneficiosParceiro,
       },
-      // Trecho de abertura apenas — texto integral fica no hub PRO via fetch
-      // sob demanda do repo de origem; não bloata o bundle do site público.
-      acordoTrecho: acordoTexto?.slice(0, 600),
-      ajusteTrecho: ajusteTexto?.slice(0, 600),
+      // Preview curto fica no bundle principal; texto integral é lazy-loaded
+      // de src/data/acordos-textos/<slug>.ts.
+      acordoTrecho: acordoTexto?.slice(0, 480),
+      ajusteTrecho: ajusteTexto?.slice(0, 480),
+      temTextoIntegral: Boolean(acordoTexto || ajusteTexto),
       documentos,
     };
+
+    // Escreve arquivo por país com o texto integral (code-split via dynamic import).
+    const textoFile = resolve(textosDir, `${slug}.ts`);
+    const textoBody = `// AUTO-GENERATED por scripts/import-acordos.ts — não editar.
+export const acordo = ${JSON.stringify(acordoTexto ?? "")};
+export const ajuste = ${JSON.stringify(ajusteTexto ?? "")};
+`;
+    writeFileSync(textoFile, textoBody, "utf8");
 
     process.stdout.write(
       `${orgaoBR ? "✓" : "✗"} BR  ${orgaoParceiro ? "✓" : "✗"} parc  ` +
         `ben:${beneficiosBrasil.length}/${beneficiosParceiro.length}  ` +
-        `docs:${documentos.length}\n`,
+        `docs:${documentos.length}  ` +
+        `txt:${acordoTexto?.length ?? 0}/${ajusteTexto?.length ?? 0}\n`,
     );
   }
 
-  const outDir = resolve(import.meta.dir, "..", "src", "data");
-  mkdirSync(outDir, { recursive: true });
   const outFile = resolve(outDir, "acordos.generated.ts");
   const header = `// AUTO-GENERATED por scripts/import-acordos.ts
 // Não edite à mão. Rode: bun scripts/import-acordos.ts
 // Fonte: github.com/marcosespinola1379/Mapa-de-Acordos
+// Texto integral de cada acordo vive em src/data/acordos-textos/<slug>.ts
+// (lazy-loaded via dynamic import para não inflar o bundle).
 
 import type { AcordoImportado } from "./acordos.types";
 
@@ -275,6 +287,7 @@ export const acordosImportados: Record<string, AcordoImportado> = `;
   writeFileSync(outFile, header + JSON.stringify(result, null, 2) + ";\n", "utf8");
 
   console.log(`\n✓ Gerado ${outFile}`);
+  console.log(`✓ Gerados ${SOURCES.length} arquivos em ${textosDir}`);
   if (warnings.length) {
     console.warn(`\n⚠  ${warnings.length} avisos:`);
     for (const w of warnings) console.warn(`  - ${w}`);

@@ -5,6 +5,7 @@ import type { DocumentoImportado, OrgaoLigacao } from "@/data/acordos.types";
 import { findTooltipFor } from "@/data/acordo-tooltips";
 import { CTAMarcos } from "@/components/cta-marcos";
 import { ProContentLock } from "@/components/pro-content-lock";
+import { TextoIntegralAcordo } from "@/components/texto-integral-acordo";
 import { Highlight } from "@/lib/highlight";
 import { MULTI_LOGOS } from "@/lib/multi-logos";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -141,6 +142,8 @@ function AcordoPais() {
   if (a.conteudo) tocBlocos.push({ id: "como-funciona", label: "Como funciona" });
   if (a.importado && a.importado.documentos.length > 0)
     tocBlocos.push({ id: "documentos", label: "Documentos" });
+  if (a.importado?.temTextoIntegral)
+    tocBlocos.push({ id: "texto-integral", label: "Texto integral" });
 
   return (
     <>
@@ -381,7 +384,19 @@ function AcordoPais() {
                         />
                       </div>
                     )),
-                  )}
+            )}
+
+            {/* TEXTO INTEGRAL — lazy-loaded por país */}
+            {a.importado?.temTextoIntegral && (
+              <Bloco
+                id="texto-integral"
+                numero={tocBlocos.findIndex((b) => b.id === "texto-integral") + 1}
+                titulo="Texto integral"
+                lede="Acordo e ajuste administrativo na íntegra, importados do mapa oficial."
+              >
+                <TextoIntegralAcordo slug={a.slug} />
+              </Bloco>
+            )}
                 </div>
               </Bloco>
             )}
