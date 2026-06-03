@@ -324,7 +324,7 @@ export function LaudoPdf({ payload }: { payload: LaudoPayload }) {
           <section className="laudo-nota">
             <span className="laudo-nota__icon">§</span>
             <div className="laudo-nota__text">
-              <strong>Nota técnica:</strong> este laudo foi gerado pela Calculadora RMI Pro-rata
+              <strong>Nota técnica:</strong> este laudo foi gerado pela Calculadora Totalização Pro
               do Hub Profissional · Acordos Internacionais (AtlasPrev). Os valores são estimativas
               com base nos dados informados e na legislação vigente na data de análise ({fmtDataBr(dataAnalise)}).
               O Salário de Benefício não considera correção do INPC. O resultado não substitui análise
