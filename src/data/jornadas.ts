@@ -160,7 +160,7 @@ export const jornadas: Jornada[] = [
           {
             titulo: "Planeje a totalização",
             descricao:
-              "Simule cenários de carência e prorata; entenda quando o tempo somado começa a destravar o direito ao benefício.",
+              "Simule cenários de carência e totalização; entenda quando o tempo somado começa a destravar o direito ao benefício.",
           },
           {
             titulo: "Verifique se o seu caso tem direito à totalização ou ao planejamento.",
