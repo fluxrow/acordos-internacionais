@@ -163,17 +163,17 @@ function GuiaPage() {
                 </div>
               )}
 
-              <div className="md:col-span-3 bg-card text-card-foreground border border-border p-6">
-                <p className="eyebrow text-card-foreground/70">Ferramenta</p>
+              <div className="md:col-span-3 border-l-2 border-[var(--accent-ink)] bg-background p-6">
+                <p className="eyebrow">Ferramenta</p>
                 <p className="mt-3 font-display text-2xl leading-tight">
                   Calculadora Totalização
                 </p>
-                <p className="mt-2 text-sm text-card-foreground/70">
+                <p className="mt-2 text-sm text-muted-foreground">
                   Estime sua parte proporcional em cada país acordante.
                 </p>
                 <Link
                   to="/calculadora"
-                  className="mt-5 inline-block text-sm underline underline-offset-4 text-card-foreground hover:text-[var(--accent-ink-soft)]"
+                  className="mt-5 inline-block text-sm underline underline-offset-4 hover:text-[var(--accent-ink)]"
                 >
                   Abrir calculadora →
                 </Link>
