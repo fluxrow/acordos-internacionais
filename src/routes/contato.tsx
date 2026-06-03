@@ -20,6 +20,8 @@ export const Route = createFileRoute("/contato")({
 
 function Contato() {
   const [enviado, setEnviado] = useState(false);
+  const [enviando, setEnviando] = useState(false);
+  const [erro, setErro] = useState<string | null>(null);
   const [form, setForm] = useState({
     nome: "",
     email: "",
@@ -27,19 +29,33 @@ function Contato() {
     situacao: "",
     urgencia: "media",
     mensagem: "",
+    website: "", // honeypot
   });
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    // Fase 1: fallback via mailto (Cloud + Lovable Email entram em seguida)
-    const corpo = encodeURIComponent(
-      `Nome: ${form.nome}\nE-mail: ${form.email}\nPaís do acordo: ${form.pais}\nSituação atual: ${form.situacao}\nUrgência: ${form.urgencia}\n\n${form.mensagem}`,
-    );
-    const assunto = encodeURIComponent(
-      `[Acordos Internacionais] Contato — ${form.nome || "novo lead"}`,
-    );
-    window.location.href = `mailto:marcos@acordosinternacionais.com?subject=${assunto}&body=${corpo}`;
-    setEnviado(true);
+    setErro(null);
+    setEnviando(true);
+    try {
+      const res = await fetch("/api/public/contato", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || "Falha no envio");
+      }
+      setEnviado(true);
+    } catch (err) {
+      setErro(
+        err instanceof Error
+          ? err.message
+          : "Não foi possível enviar agora. Tente novamente em alguns minutos.",
+      );
+    } finally {
+      setEnviando(false);
+    }
   }
 
   return (
@@ -148,11 +164,30 @@ function Contato() {
               />
             </Field>
 
+            {/* Honeypot — campo invisível para detectar bots */}
+            <input
+              type="text"
+              tabIndex={-1}
+              autoComplete="off"
+              value={form.website}
+              onChange={(e) => setForm({ ...form, website: e.target.value })}
+              style={{ position: "absolute", left: "-9999px", opacity: 0 }}
+              aria-hidden="true"
+            />
+
+            {erro ? (
+              <p className="text-sm text-destructive" role="alert">
+                {erro}
+              </p>
+            ) : null}
+
             <button
               type="submit"
-              className="inline-flex items-center gap-2 rounded-full bg-[var(--accent-ink)] px-6 py-3 text-sm font-medium uppercase tracking-[0.14em] text-[var(--paper)] shadow-[var(--shadow-soft)] transition-all hover:-translate-y-0.5 hover:bg-[var(--accent-ink-soft)] hover:shadow-[var(--shadow-gold-glow)]"
+              disabled={enviando}
+              className="inline-flex items-center gap-2 rounded-full bg-[var(--accent-ink)] px-6 py-3 text-sm font-medium uppercase tracking-[0.14em] text-[var(--paper)] shadow-[var(--shadow-soft)] transition-all hover:-translate-y-0.5 hover:bg-[var(--accent-ink-soft)] hover:shadow-[var(--shadow-gold-glow)] disabled:cursor-not-allowed disabled:opacity-60"
             >
-              Enviar mensagem <span aria-hidden>→</span>
+              {enviando ? "Enviando…" : "Enviar mensagem"}{" "}
+              <span aria-hidden>→</span>
             </button>
 
             <p className="text-xs text-muted-foreground">
@@ -163,10 +198,10 @@ function Contato() {
         ) : (
           <div className="border border-[var(--accent-ink)]/60 bg-background/60 p-8 backdrop-blur-md">
             <p className="eyebrow">Tudo certo</p>
-            <h2 className="mt-3 font-display text-3xl">Mensagem em rota</h2>
+            <h2 className="mt-3 font-display text-3xl">Mensagem recebida</h2>
             <p className="lede mt-4 text-base">
-              Abrimos seu cliente de e-mail com a mensagem pronta. Confirme o
-              envio. Em breve você terá retorno.
+              Sua mensagem chegou ao Dr. Marcos. Você terá retorno em até 3 dias
+              úteis no e-mail informado.
             </p>
           </div>
         )}
