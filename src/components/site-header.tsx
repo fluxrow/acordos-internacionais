@@ -108,7 +108,7 @@ export function SiteHeader() {
                       className="flex items-center justify-between gap-3 px-5 py-3 text-sm text-foreground/85 transition-colors hover:bg-[var(--accent-ink-soft)] hover:text-foreground"
                     >
                       <span>{SAIDA_FISCAL.titulo}</span>
-                      <span className="shrink-0 rounded-full border border-[var(--accent-ink)] bg-[var(--accent-ink-soft)] px-2 py-0.5 text-[9px] font-medium uppercase tracking-[0.14em] text-[var(--accent-ink)]">
+                      <span className="shrink-0 rounded-full border border-[var(--accent-ink)] bg-[var(--accent-ink-soft)] px-2 py-0.5 text-[9px] font-medium uppercase tracking-[0.14em] text-[var(--accent-ink)] opacity-0">
                         Novo
                       </span>
                     </Link>
@@ -221,7 +221,7 @@ export function SiteHeader() {
                   className="mx-2 flex items-center justify-between gap-3 rounded-lg px-4 py-2.5 text-[13px] text-foreground/85 transition-colors hover:bg-[var(--accent-ink-soft)] hover:text-foreground"
                 >
                   <span>{SAIDA_FISCAL.titulo}</span>
-                  <span className="shrink-0 rounded-full border border-[var(--accent-ink)] bg-[var(--accent-ink-soft)] px-2 py-0.5 text-[9px] font-medium uppercase tracking-[0.14em] text-[var(--accent-ink)]">
+                  <span className="shrink-0 rounded-full border border-[var(--accent-ink)] bg-[var(--accent-ink-soft)] px-2 py-0.5 text-[9px] font-medium uppercase tracking-[0.14em] text-[var(--accent-ink)] opacity-0">
                     Novo
                   </span>
                 </Link>
