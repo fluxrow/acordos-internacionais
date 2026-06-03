@@ -223,86 +223,11 @@ function Profissional() {
       </section>
 
       {/* PLANOS */}
-      <section id="planos" className="border-b border-border bg-secondary">
-        <div className="mx-auto max-w-6xl px-6 py-20">
-          <div className="max-w-2xl">
-            <p className="eyebrow">Planos</p>
-            <h2 className="mt-3 font-display text-4xl">
-              Anual para quem trabalha. Vitalício para os 100 primeiros.
-            </h2>
-            <p className="lede mt-6 text-base">
-              Dois caminhos para entrar no Hub. Conteúdo idêntico — muda só a forma de pagar.
-            </p>
-          </div>
+      <PlanosSection
+        foundersFull={foundersFull}
+        foundersRemaining={foundersRemaining}
+      />
 
-          <div className="mt-12 grid gap-6 md:grid-cols-2">
-            {/* PLANO ANUAL */}
-            <div className="flex flex-col border border-border bg-background p-8">
-              <p className="eyebrow">Anual</p>
-              <p className="mt-3 font-display text-6xl tracking-tight">R$ 797</p>
-              <p className="mt-1 text-sm text-muted-foreground">
-                /ano · equivale a R$ 66,40/mês
-              </p>
-              <hr className="rule my-6" />
-              <ul className="flex-1 space-y-2 text-sm">
-                <li>· Acesso completo ao Hub por 12 meses</li>
-                <li>· Atualizações regulatórias incluídas</li>
-                <li>· Newsletter interna do Dr. Marcos Espínola</li>
-                <li>· Renovação opcional ao fim do período</li>
-              </ul>
-              <Link
-                to="/precos"
-                hash="anual"
-                className="mt-8 inline-flex w-full items-center justify-center rounded-full border border-[var(--accent-ink)] bg-background px-6 py-3 text-sm font-medium uppercase tracking-[0.14em] text-foreground transition-colors hover:border-[var(--accent-ink)] hover:text-[var(--accent-ink)]"
-              >
-                Assinar anual
-              </Link>
-            </div>
-
-            {/* PLANO FUNDADORES */}
-            <div className="flex flex-col border border-[var(--accent-ink)] bg-card p-8 text-card-foreground">
-              <p className="text-[10px] uppercase tracking-[0.18em] opacity-70">
-                Fundadores · primeiros 100
-              </p>
-              <p className="mt-3 font-display text-6xl tracking-tight">R$ 1.297</p>
-              <p className="mt-1 text-sm opacity-80">
-                Pagamento único · acesso vitalício
-              </p>
-              <hr className="my-6 border-border" />
-              <ul className="flex-1 space-y-2 text-sm">
-                <li>· Acesso vitalício a todo o conteúdo</li>
-                <li>· Todas as atualizações futuras incluídas</li>
-                <li>· Newsletter interna do Dr. Marcos Espínola</li>
-                <li>· Comunidade fechada (em breve)</li>
-                <li className="pt-2 text-xs opacity-70">
-                  {foundersFull
-                    ? `Esgotado — todas as ${FOUNDERS_LIMIT} vagas preenchidas`
-                    : `${foundersRemaining} de ${FOUNDERS_LIMIT} vagas restantes`}
-                </li>
-              </ul>
-              {foundersFull ? (
-                <span className="mt-8 inline-flex w-full cursor-not-allowed items-center justify-center rounded-full bg-background/20 px-6 py-3 text-sm font-medium uppercase tracking-[0.14em] opacity-70">
-                  Vagas esgotadas
-                </span>
-              ) : (
-                <Link
-                  to="/precos"
-                  hash="fundadores"
-                  className="mt-8 inline-flex w-full items-center justify-center rounded-full bg-background px-6 py-3 text-sm font-medium uppercase tracking-[0.14em] text-foreground transition-colors hover:bg-background/85"
-                >
-                  Garantir vaga vitalícia
-                </Link>
-              )}
-            </div>
-          </div>
-
-          <p className="mt-10 text-center text-xs text-muted-foreground">
-            Pagamento processado com segurança. Você precisa de uma conta para
-            finalizar — <Link to="/cadastro" className="underline">criar conta</Link>{" "}
-            ou <Link to="/login" className="underline">entrar</Link>.
-          </p>
-        </div>
-      </section>
 
       {/* CTA FINAL */}
       <section className="bg-card text-card-foreground border border-border">
