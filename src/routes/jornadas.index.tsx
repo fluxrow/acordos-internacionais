@@ -3,7 +3,7 @@ import { CTAButton } from "@/components/cta-button";
 
 const TITLE = "Jornadas — o que fazer em cada momento da sua vida internacional";
 const DESC =
-  "Três percursos práticos para brasileiros que moram fora, estão voltando ou trabalham temporariamente no exterior. Atendimento direto com o Dr. Marcos Espínola.";
+  "Três percursos práticos para brasileiros que moram fora, estão voltando ou trabalham temporariamente no exterior. Atendimento Personalizado.";
 
 type JornadaIdx = {
   slug: "moro-fora" | "estou-voltando" | "vou-me-mudar";
@@ -116,7 +116,7 @@ function JornadasIndex() {
             </span>
           </div>
           <h2 className="mt-5 font-display text-3xl leading-tight md:text-4xl">
-            Atendimento direto com o Dr. Marcos Espínola
+            Atendimento Personalizado
           </h2>
           <p className="lede mt-4 max-w-2xl">
             Cada caso tem nuances que nenhuma jornada cobre por completo. Se
