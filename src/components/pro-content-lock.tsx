@@ -10,7 +10,7 @@ const ITENS_PADRAO = [
   "Portarias do INSS comentadas",
   "Lista de documentos e formulários oficiais",
   "Modelos de petição e requerimento",
-  "Calculadora de totalização e prorata",
+  "Calculadora de totalização",
   "Fluxograma processual passo a passo",
   "Jurisprudência relevante por tema",
 ];
