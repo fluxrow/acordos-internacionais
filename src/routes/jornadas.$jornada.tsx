@@ -242,7 +242,7 @@ function JornadaPage() {
                     <Link
                       to="/jornadas/$jornada"
                       params={{ jornada: x.slug }}
-                      className="group grid grid-cols-[auto_1fr_auto] items-baseline gap-6 px-2 py-6 transition-colors hover:bg-[var(--accent-ink-soft)]/40"
+                      className="group grid grid-cols-[auto_1fr_auto] items-baseline gap-6 px-2 py-6 transition-colors hover:bg-secondary/40"
                     >
                       <span className="font-display text-2xl text-[var(--accent-ink)]">
                         {String(i + 1).padStart(2, "0")}
