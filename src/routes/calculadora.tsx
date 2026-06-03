@@ -41,7 +41,7 @@ function CalculadoraPublicaPage() {
             <span aria-hidden>/</span>
             <span>Calculadora</span>
           </nav>
-          <p className="mt-6 text-xs font-medium uppercase tracking-[0.18em] text-[var(--accent-ink)]">
+          <p className="mt-6 text-xs font-medium uppercase tracking-[0.14em] text-[var(--accent-ink)]">
             Ferramenta gratuita
           </p>
           <h1 className="mt-2 text-3xl font-semibold tracking-tight text-[var(--ink)] md:text-4xl">
@@ -52,7 +52,7 @@ function CalculadoraPublicaPage() {
             do INSS e descubra se você tem direito a aposentadoria por idade ou pensão por
             morte.
           </p>
-          <p className="mt-4 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground text-slate-100">
+          <p className="mt-4 text-xs font-medium uppercase tracking-[0.14em] text-slate-100">
             Sem Custo · Resultado em 2 minutos
           </p>
         </div>
@@ -60,11 +60,15 @@ function CalculadoraPublicaPage() {
 
       <section className="mx-auto max-w-4xl px-6 py-10 md:py-14">
         <CalculadoraForm />
-        <p className="mt-6 rounded-xl border border-border bg-[var(--paper-soft)] px-4 py-3 text-xs text-muted-foreground">
-          <strong className="text-foreground">Resultado estimado.</strong>{" "}
-          A análise oficial depende dos dados completos do CNIS, documentos
-          estrangeiros, regras do país acordante e da decisão do INSS.
-        </p>
+        <div className="mt-6 rounded-xl border border-border bg-[var(--paper-soft)] px-4 py-4">
+          <p className="text-xs font-medium uppercase tracking-[0.14em] text-[var(--accent-ink)]">
+            Aviso · Resultado estimado
+          </p>
+          <p className="mt-2 text-xs text-muted-foreground">
+            A análise oficial depende dos dados completos do CNIS, documentos
+            estrangeiros, regras do país acordante e da decisão do INSS.
+          </p>
+        </div>
       </section>
     </main>
   );
