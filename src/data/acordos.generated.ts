@@ -1755,6 +1755,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
     ]
   },
   "luxemburgo": {
+    "instrumento": "Acordo Brasil-Luxemburgo",
     "titulo": "Luxemburgo",
     "decreto": "8.109/2013",
     "vigorDesde": "01 de outubro de 2013",
@@ -1908,6 +1909,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
     ]
   },
   "mocambique": {
+    "instrumento": "Acordo Brasil-Moçambique",
     "titulo": "Moçambique",
     "decreto": "7.963/2013",
     "vigorDesde": "01 de julho de 2013",
@@ -2152,6 +2154,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
     ]
   },
   "quebec": {
+    "instrumento": "Acordo Brasil-Quebec",
     "titulo": "Acordo Brasil-Quebec",
     "decreto": "Decreto nº 8.288/2014",
     "vigorDesde": "08 de agosto de 2011",
@@ -2251,6 +2254,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
     ]
   },
   "republica-tcheca": {
+    "instrumento": "Acordo Brasil-República Tcheca",
     "titulo": "Acordo Brasil-República Tcheca",
     "decreto": "Decreto nº 10.615/2021",
     "vigorDesde": "09 de dezembro de 2020",
