@@ -62,7 +62,7 @@ export const jornadas: Jornada[] = [
       {
         titulo: "Verifique se o seu caso tem direito à totalização ou ao planejamento.",
         descricao:
-          "Use a calculadora prorata com diferentes horizontes (5, 10, 20 anos) antes de decidir.",
+          "Use a calculadora Totalização com diferentes horizontes (5, 10, 20 anos) antes de decidir.",
       },
       {
         titulo: "Formalize a saída fiscal (se definitivo)",
