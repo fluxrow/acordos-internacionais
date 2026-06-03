@@ -1,51 +1,57 @@
 
 ## Diagnóstico
 
-Inconsistência: site mostra **21 vigentes + 3 em ratificação = 24**, mas o catálogo tem **25 acordos**. A Bulgária está como `status: "incompleto"` e some das contagens. Correção factual: o acordo Brasil–Bulgária entrou em vigor em 2024 — deve ser `vigente`.
+Pasta `bulgaria/` no repo `marcosespinola1379/Mapa-de-Acordos` ganhou um novo PDF: `D12498_Bulgaria.pdf` (Decreto 12.498/2025, que promulgou o acordo). Nosso dataset está defasado em três pontos:
 
-Resultado esperado:
-- **22 vigentes** (21 atuais + Bulgária)
-- **3 em ratificação** (Cabo Verde, Israel, CPLP) — sem mudança
-- **0 incompletos**
-- **25 acordos mapeados** — sem mudança
+1. **Decreto e vigência genéricos** (`"Conferir ato de promulgação"` / `"Conforme Art. 29 do Acordo"`).
+2. **Lista de benefícios incompleta** — falta `Aposentadoria por invalidez` (Brasil) e `Pensão de sobreviventes` (Bulgária).
+3. **Catálogo de documentos** lista só 1 PDF; agora são 2.
 
 ## Mudanças
 
-### 1. `src/data/acordos.ts` — entrada `bulgaria`
-- `status: "incompleto"` → `status: "vigente"`
-- Adicionar `vigencia: "2024"`
-- Reescrever `resumo` para refletir acordo em vigor (remover "Documentação ainda em organização")
-- Ajustar `docs` se houver documentos catalogados (ou manter 1 se for o que está no bucket)
+### 1. Upload do novo PDF ao bucket `hub-docs` (Lovable Cloud)
+- Baixar `https://raw.githubusercontent.com/marcosespinola1379/Mapa-de-Acordos/main/bulgaria/D12498_Bulgaria.pdf`.
+- Subir como `bulgaria/decreto-12498-2025-promulgacao-bulgaria.pdf` (padrão de nomes kebab-case usado no bucket) via `supabase--storage_upload`.
 
-Os agregados em `acordos.ts` (`totalVigentes`, `totalIncompletos`, `totalBilateraisVigentes`) e em `site-stats.ts` são derivados — recalculam sozinhos.
+### 2. `src/data/acordos.generated.ts` — bloco `"bulgaria"`
+- `decreto`: `"Decreto 12.498/2025"`
+- `vigorDesde`: `"01/12/2024"`
+- `docsInfo`: `"2 documentos disponíveis"`
+- `beneficios.brasil`: adicionar `"Aposentadoria por invalidez"`
+- `beneficios.parceiro`: adicionar `"Pensão de sobreviventes"`
+- `documentos[]`: adicionar segunda entrada
+  ```ts
+  {
+    nome: "Decreto 12.498/2025 — Promulgação",
+    desc: "Decreto que promulga o acordo Brasil-Bulgária e fixa entrada em vigor em 01/12/2024",
+    cat: "principal",
+    arquivo: "decreto-12498-2025-promulgacao-bulgaria.pdf",
+    tamanho: "211 KB"
+  }
+  ```
+- Atualizar `acordoTrecho` não é necessário (já tem trecho representativo).
 
-### 2. Varredura de números hard-coded
-Rodar `rg -n "\b21\b|incompleto|em ratifica" src/routes src/components` e trocar qualquer literal por referência a `siteStats`:
-- `src/routes/index.tsx`
-- `src/routes/acordos.index.tsx`
-- `src/routes/precos.tsx`
-- `src/routes/profissional.tsx`
-- `src/routes/guias.index.tsx`
-- e qualquer copy/CTA que diga "21 países em vigor", "3 em ratificação", "incompletos"
+Nota: `acordos.generated.ts` é marcado como AUTO-GENERATED, mas o ROADMAP mostra que já foi editado manualmente em rodadas anteriores quando o sync script não cobre o caso. A próxima execução de `bun scripts/reconcile-hub-docs.ts` vai preservar os campos válidos (re-casa por tokens do nome) — registramos isso na nota do ROADMAP.
 
-Regra: contadores **sempre** vêm de `siteStats`, nunca hard-coded.
+### 3. `src/data/acordos.ts` — entrada `bulgaria`
+- `docs: 1` → `docs: 2`
+- Manter `status: "vigente"`, `vigencia: "2024"` (já aplicado).
 
-### 3. Filtros e badges
-- `src/routes/acordos.index.tsx`: se o filtro/listagem tem uma seção "Incompletos", removê-la (vai ficar vazia) ou mantê-la condicionalmente baseada em `siteStats.acordosIncompletos > 0`.
-- Verificar `src/components/hub/country-card.tsx` e badges no card da Bulgária — deve mostrar "Vigente" agora.
+### 4. `src/data/acordo-tooltips.ts` (opcional, baixo custo)
+- Como agora temos 3 benefícios em cada lado, adicionar `bulgaria` ao mapa com nota curta no benefício "Pensão de sobreviventes" (equivalente da pensão por morte na legislação búlgara). Pular se ficar mais comprido que valor — só se couber em 1 linha por benefício.
 
-### 4. Documentação (regra do projeto)
-- `.lovable/prd.md`: atualizar menções aos contadores.
-- `ROADMAP.md`: registrar a correção factual (Bulgária em vigor desde 2024).
+### 5. Documentação
+- `ROADMAP.md`: adicionar entrada na seção "Correção factual — Bulgária" (já criada na rodada anterior) listando o upload e o enriquecimento de metadados.
+- `.lovable/prd.md`: anexar uma linha curta sob a entrada da Bulgária descrevendo "Decreto 12.498/2025 promulgou; vigor 01/12/2024".
 
-## QA (verificação visual)
+## QA (verificação)
 
-1. `rg -n "\b21\b" src/routes src/components` antes/depois — sem literais sobrando.
-2. Preview `/acordos`: contador mostra **22 vigentes** e **3 em ratificação**. Card da Bulgária com badge "Vigente".
-3. Preview `/` (home): hero/stats refletem 22.
-4. `/acordos/bulgaria`: página abre sem alerta de "incompleto".
+1. `bun scripts/reconcile-hub-docs.ts --dry-run` (se existir) ou `rg -n "bulgaria" src/data/acordos.generated.ts` — conferir que o novo `arquivo` está presente.
+2. Preview `/acordos/bulgaria`: lista mostra 2 documentos, ambos com botão de download funcional (não 404).
+3. Página mostra Decreto 12.498/2025 e "vigor desde 01/12/2024" no header do acordo.
+4. Listagem de benefícios mostra 3 itens em cada lado.
 5. Typecheck rodado pelo harness sem erros.
 
 ## Fora de escopo
 
-Sem mudança visual, de layout ou de outras informações de países. Só status da Bulgária e textos derivados de contadores.
+Sem mudança visual, sem rever outros países. Só Bulgária.
