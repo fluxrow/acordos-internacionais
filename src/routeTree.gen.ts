@@ -33,6 +33,7 @@ import { Route as AcordosPaisRouteImport } from './routes/acordos.$pais'
 import { Route as AuthenticatedContaRouteImport } from './routes/_authenticated/conta'
 import { Route as AuthenticatedHubIndexRouteImport } from './routes/_authenticated/hub.index'
 import { Route as LovableEmailSuppressionRouteImport } from './routes/lovable/email/suppression'
+import { Route as ApiPublicContatoRouteImport } from './routes/api/public/contato'
 import { Route as ApiPublicCalcLeadRouteImport } from './routes/api/public/calc-lead'
 import { Route as AuthenticatedHubLeadsRouteImport } from './routes/_authenticated/hub.leads'
 import { Route as AuthenticatedHubLaudosRouteImport } from './routes/_authenticated/hub.laudos'
@@ -164,6 +165,11 @@ const LovableEmailSuppressionRoute = LovableEmailSuppressionRouteImport.update({
   path: '/lovable/email/suppression',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicContatoRoute = ApiPublicContatoRouteImport.update({
+  id: '/api/public/contato',
+  path: '/api/public/contato',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicCalcLeadRoute = ApiPublicCalcLeadRouteImport.update({
   id: '/api/public/calc-lead',
   path: '/api/public/calc-lead',
@@ -248,6 +254,7 @@ export interface FileRoutesByFullPath {
   '/hub/laudos': typeof AuthenticatedHubLaudosRoute
   '/hub/leads': typeof AuthenticatedHubLeadsRoute
   '/api/public/calc-lead': typeof ApiPublicCalcLeadRoute
+  '/api/public/contato': typeof ApiPublicContatoRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/hub/': typeof AuthenticatedHubIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -283,6 +290,7 @@ export interface FileRoutesByTo {
   '/hub/laudos': typeof AuthenticatedHubLaudosRoute
   '/hub/leads': typeof AuthenticatedHubLeadsRoute
   '/api/public/calc-lead': typeof ApiPublicCalcLeadRoute
+  '/api/public/contato': typeof ApiPublicContatoRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/hub': typeof AuthenticatedHubIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -320,6 +328,7 @@ export interface FileRoutesById {
   '/_authenticated/hub/laudos': typeof AuthenticatedHubLaudosRoute
   '/_authenticated/hub/leads': typeof AuthenticatedHubLeadsRoute
   '/api/public/calc-lead': typeof ApiPublicCalcLeadRoute
+  '/api/public/contato': typeof ApiPublicContatoRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/_authenticated/hub/': typeof AuthenticatedHubIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -357,6 +366,7 @@ export interface FileRouteTypes {
     | '/hub/laudos'
     | '/hub/leads'
     | '/api/public/calc-lead'
+    | '/api/public/contato'
     | '/lovable/email/suppression'
     | '/hub/'
     | '/api/public/payments/webhook'
@@ -392,6 +402,7 @@ export interface FileRouteTypes {
     | '/hub/laudos'
     | '/hub/leads'
     | '/api/public/calc-lead'
+    | '/api/public/contato'
     | '/lovable/email/suppression'
     | '/hub'
     | '/api/public/payments/webhook'
@@ -428,6 +439,7 @@ export interface FileRouteTypes {
     | '/_authenticated/hub/laudos'
     | '/_authenticated/hub/leads'
     | '/api/public/calc-lead'
+    | '/api/public/contato'
     | '/lovable/email/suppression'
     | '/_authenticated/hub/'
     | '/api/public/payments/webhook'
@@ -458,6 +470,7 @@ export interface RootRouteChildren {
   GuiasIndexRoute: typeof GuiasIndexRoute
   JornadasIndexRoute: typeof JornadasIndexRoute
   ApiPublicCalcLeadRoute: typeof ApiPublicCalcLeadRoute
+  ApiPublicContatoRoute: typeof ApiPublicContatoRoute
   LovableEmailSuppressionRoute: typeof LovableEmailSuppressionRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
   LovableEmailQueueProcessRoute: typeof LovableEmailQueueProcessRoute
@@ -635,6 +648,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LovableEmailSuppressionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/contato': {
+      id: '/api/public/contato'
+      path: '/api/public/contato'
+      fullPath: '/api/public/contato'
+      preLoaderRoute: typeof ApiPublicContatoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/calc-lead': {
       id: '/api/public/calc-lead'
       path: '/api/public/calc-lead'
@@ -764,6 +784,7 @@ const rootRouteChildren: RootRouteChildren = {
   GuiasIndexRoute: GuiasIndexRoute,
   JornadasIndexRoute: JornadasIndexRoute,
   ApiPublicCalcLeadRoute: ApiPublicCalcLeadRoute,
+  ApiPublicContatoRoute: ApiPublicContatoRoute,
   LovableEmailSuppressionRoute: LovableEmailSuppressionRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
   LovableEmailQueueProcessRoute: LovableEmailQueueProcessRoute,
