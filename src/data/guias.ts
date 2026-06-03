@@ -30,7 +30,7 @@ export const guias: Guia[] = [
       {
         titulo: "Exemplo prático",
         conteudo: [
-          "Maria contribuiu 20 anos no Brasil e 15 anos em Portugal. Para aposentadoria por idade no Brasil ela precisa de 15 anos de carência e sozinha já cumpre. Mas se tivesse só 10 anos no Brasil, a totalização permitiria somar os 15 portugueses para alcançar a carência.",
+          "Maria contribuiu 15 anos no Brasil e 10 anos em Portugal. Para aposentadoria por idade no Brasil ela precisa de 15 anos de carência e sozinha já cumpre. Como tem 10 anos em Portugal, a totalização permitiria somar os 5 do Brasil para alcançar a carência.",
           "Cada país paga a parte proporcional ao tempo contribuído sob sua legislação.",
         ],
       },
