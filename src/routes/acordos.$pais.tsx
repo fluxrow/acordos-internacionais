@@ -384,7 +384,19 @@ function AcordoPais() {
                         />
                       </div>
                     )),
-                  )}
+            )}
+
+            {/* TEXTO INTEGRAL — lazy-loaded por país */}
+            {a.importado?.temTextoIntegral && (
+              <Bloco
+                id="texto-integral"
+                numero={tocBlocos.findIndex((b) => b.id === "texto-integral") + 1}
+                titulo="Texto integral"
+                lede="Acordo e ajuste administrativo na íntegra, importados do mapa oficial."
+              >
+                <TextoIntegralAcordo slug={a.slug} />
+              </Bloco>
+            )}
                 </div>
               </Bloco>
             )}
