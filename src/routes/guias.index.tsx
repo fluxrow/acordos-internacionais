@@ -79,7 +79,7 @@ function GuiasIndex() {
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <span className="eyebrow">
-                    {g.novo ? "Guia temático · NOVO" : "Guia temático"}
+                    Guia temático
                   </span>
                 </div>
                 <h2 className="font-display text-2xl leading-tight md:text-3xl">
