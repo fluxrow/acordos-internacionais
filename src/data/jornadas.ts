@@ -212,7 +212,7 @@ export const jornadas: Jornada[] = [
           "Some os tempos antes de protocolar — ajuda a escolher entre acordo bilateral e regras puramente brasileiras.",
       },
       {
-        titulo: "Simule o benefício prorata",
+        titulo: "Verifique se o seu caso tem direito à totalização ou ao planejamento.",
         descricao:
           "Estime quanto cada país pagará na sua parte proporcional para evitar surpresas.",
       },
