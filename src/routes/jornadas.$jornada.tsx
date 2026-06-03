@@ -48,6 +48,14 @@ function PassosList({ passos, idPrefix }: { passos: JornadaPasso[]; idPrefix?: s
           <div>
             <h2 className="font-display text-2xl md:text-3xl">{p.titulo}</h2>
             <p className="mt-3 text-base leading-relaxed">{p.descricao}</p>
+            {p.cta && (
+              <Link
+                to={p.cta.to}
+                className="mt-5 inline-flex items-center gap-2 rounded-full bg-[var(--accent-ink)] px-5 py-2.5 text-xs font-medium uppercase tracking-[0.14em] text-[var(--paper)] transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-gold-glow)]"
+              >
+                {p.cta.label} <span aria-hidden>→</span>
+              </Link>
+            )}
           </div>
         </li>
       ))}
