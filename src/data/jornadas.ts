@@ -163,9 +163,9 @@ export const jornadas: Jornada[] = [
               "Simule cenários de carência e prorata; entenda quando o tempo somado começa a destravar o direito ao benefício.",
           },
           {
-            titulo: "Simulação prévia",
+            titulo: "Verifique se o seu caso tem direito à totalização ou ao planejamento.",
             descricao:
-              "Use a calculadora prorata com horizontes diferentes antes de tomar decisões de longo prazo.",
+              "Use a calculadora prorata com diferentes horizontes diferentes antes de tomar decisões de longo prazo.",
           },
           {
             titulo: "Requerimento (no momento certo)",
