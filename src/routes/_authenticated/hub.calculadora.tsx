@@ -5,7 +5,7 @@ import { CalcHistoryList } from "@/components/hub/calc-history-list";
 export const Route = createFileRoute("/_authenticated/hub/calculadora")({
   head: () => ({
     meta: [
-      { title: "Calculadora RMI Pro-rata · Hub do Advogado" },
+      { title: "Calculadora Totalização · Hub do Advogado" },
       {
         name: "description",
         content:
