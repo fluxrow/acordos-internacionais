@@ -259,7 +259,7 @@ export const jornadas: Jornada[] = [
           "Verifique se a soma atinge a carência exigida (180 meses para aposentadoria por idade).",
       },
       {
-        titulo: "Entenda o cálculo prorata",
+        titulo: "Entenda a parte proporcional",
         descricao:
           "Cada país paga a parte proporcional ao tempo contribuído sob sua legislação. Não é cumulativo.",
       },
