@@ -190,12 +190,6 @@ function AcordoPais() {
                       rotulo={anosEmVigor === 1 ? "ano em vigor" : "anos em vigor"}
                     />
                   )}
-                  {numOrgaos > 0 && (
-                    <StatItem
-                      valor={numOrgaos}
-                      rotulo={numOrgaos === 1 ? "órgão de ligação" : "órgãos de ligação"}
-                    />
-                  )}
                   {numDocs > 0 && (
                     <StatItem
                       valor={numDocs}

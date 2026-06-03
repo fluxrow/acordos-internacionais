@@ -50,7 +50,7 @@ function Profissional() {
             {siteStats.acordosMapeados}+ países · portarias estruturadas · jurisprudência selecionada · calculadoras de totalização · certificados (CDT, CSDP, prorrogação) — tudo num só lugar.
           </p>
           <div className="mt-10 flex flex-wrap items-center gap-4">
-            <CTAButton href="#planos" variant="solid-light" size="lg" label="Ver planos" />
+            <CTAButton to="/precos" variant="solid-light" size="lg" label="Ver planos" />
             <span className="text-xs uppercase tracking-[0.14em] opacity-70">
               {foundersRemaining} de {FOUNDERS_LIMIT} vagas Fundadores restantes
             </span>
@@ -244,7 +244,7 @@ function Profissional() {
               : `${foundersRemaining} de ${FOUNDERS_LIMIT} vagas restantes.`}
           </p>
           <div className="mt-10 flex justify-center">
-            <CTAButton href="#planos" variant="solid-light" size="lg" label="Ver planos" />
+            <CTAButton to="/precos" variant="solid-light" size="lg" label="Ver planos" />
           </div>
         </div>
       </section>

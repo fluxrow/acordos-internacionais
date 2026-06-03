@@ -66,7 +66,7 @@ function CalculadoraPublicaPage() {
           </p>
           <p className="mt-2 text-xs text-muted-foreground">
             A análise oficial depende dos dados completos do CNIS, documentos
-            estrangeiros, regras do país acordante e da decisão do INSS.
+            nacionais e estrangeiros e regras do país acordante.
           </p>
         </div>
       </section>
