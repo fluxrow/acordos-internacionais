@@ -10,7 +10,7 @@ export function SiteFooter() {
               Acordos Internacionais
             </p>
             <p className="mt-4 max-w-md text-sm text-muted-foreground">
-              Acordos previdenciários Internacionais do Brasil, totalização de
+              Acordos Previdenciários Internacionais do Brasil, totalização de
               períodos contributivos e hub profissional para advogados
               previdenciaristas.
             </p>
