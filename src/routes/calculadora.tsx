@@ -52,8 +52,8 @@ function CalculadoraPublicaPage() {
             do INSS e descubra se você tem direito a aposentadoria por idade ou pensão por
             morte.
           </p>
-          <p className="mt-4 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
-            Sem pagar · Resultado em 2 minutos
+          <p className="mt-4 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground text-slate-100">
+            Sem Custo · Resultado em 2 minutos
           </p>
         </div>
       </section>
