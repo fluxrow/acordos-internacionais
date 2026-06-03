@@ -12,10 +12,10 @@ const PAPER: {
   brightness: number;
 } = {
   // base dark com leve tom quente, markers e glow em gold
-  base: [0.12, 0.12, 0.14],
+  base: [0.18, 0.16, 0.13],
   marker: [0.86, 0.68, 0.28],
   glow: [0.55, 0.42, 0.18],
-  brightness: 0.55,
+  brightness: 0.95,
 };
 
 // Wine — variante mais avermelhada (mantida para compat)
