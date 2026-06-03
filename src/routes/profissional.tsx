@@ -207,7 +207,7 @@ function Profissional() {
               ["Leia acordos comentados", "Texto integral de cada acordo internacional comentado artigo a artigo."],
               ["Acesse portarias por tema", "Atos do INSS sobre acordos internacionais, estruturados por tema."],
               ["Pesquise jurisprudência organizada", "Decisões selecionadas por país, tipo de benefício e ponto controvertido."],
-              ["Calcule totalização e prorata", "Totalização, conversão de tempo e cálculo prorata em segundos."],
+              ["Calcule totalização e pro-rata", "Totalização, conversão de tempo e cálculo pro-rata em segundos."],
               ["Baixe modelos de certificado", "Saída fiscal, deslocamento temporário, prorrogação — modelos e fluxos."],
               ["Siga fluxogramas de procedimento", "CDT, totalização, prova de vida: passo a passo visual."],
               [`Tenha +${siteStats.documentosOrganizados} documentos à mão`, "Organizado, buscável e atualizado quando há mudança regulatória."],

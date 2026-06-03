@@ -3,7 +3,7 @@ import { CTAMarcos } from "@/components/cta-marcos";
 
 const TITLE = "Glossário de previdência internacional";
 const DESC =
-  "Termos essenciais sobre acordos internacionais de previdência social do Brasil: totalização, prorata, CDT, CNIS e mais.";
+  "Termos essenciais sobre acordos internacionais de previdência social do Brasil: totalização, pro-rata, CDT, CNIS e mais.";
 
 export const Route = createFileRoute("/glossario")({
   head: () => ({
@@ -37,7 +37,7 @@ const termos: { termo: string; def: string }[] = [
   },
   {
     termo: "Benefício teórico",
-    def: "Valor hipotético do benefício calculado como se todo o tempo (Brasil + país acordante) tivesse sido contribuído sob a legislação brasileira. Base para o cálculo prorata.",
+    def: "Valor hipotético do benefício calculado como se todo o tempo (Brasil + país acordante) tivesse sido contribuído sob a legislação brasileira. Base para o cálculo pro-rata.",
   },
   {
     termo: "Benefício pro-rata",
@@ -76,7 +76,7 @@ const termos: { termo: string; def: string }[] = [
     def: "Autoridade designada por cada país para operacionalizar o acordo: trocar formulários, certificar tempo de contribuição e processar pedidos. No Brasil é o INSS via APSAI.",
   },
   {
-    termo: "Prorata (cálculo prorata)",
+    termo: "Pro-rata (cálculo pro-rata)",
     def: "Forma de calcular o benefício quando há totalização: cada país paga a parte proporcional ao tempo contribuído sob sua legislação.",
   },
   {

@@ -239,7 +239,7 @@ export const jornadas: Jornada[] = [
     titulo: "Quero me aposentar usando o acordo",
     publico: "Quem está perto do tempo de aposentadoria",
     resumo:
-      "Totalização, cálculo prorata e o passo a passo de quem vai pedir aposentadoria com tempo dos dois países.",
+      "Totalização, cálculo pro-rata e o passo a passo de quem vai pedir aposentadoria com tempo dos dois países.",
     passos: [
       {
         titulo: "Diagnóstico — quais países entram na conta?",

@@ -17,14 +17,14 @@ export const guias: Guia[] = [
         titulo: "O que é totalização",
         conteudo: [
           "Totalização é o mecanismo que permite somar períodos de contribuição feitos em dois ou mais países que tenham acordo previdenciário entre si.",
-          "Ela serve apenas para verificar se o segurado atinge a carência mínima. O valor do benefício é calculado de forma proporcional (prorata) ao tempo efetivamente contribuído em cada país.",
+          "Ela serve apenas para verificar se o segurado atinge a carência mínima. O valor do benefício é calculado de forma proporcional (pro-rata) ao tempo efetivamente contribuído em cada país.",
         ],
       },
       {
-        titulo: "Como funciona o cálculo prorata",
+        titulo: "Como funciona o cálculo pro-rata",
         conteudo: [
           "Cada país calcula como se todo o tempo (Brasil + exterior) tivesse sido contribuído sob sua legislação, e isso resulta no chamado benefício teórico.",
-          "Em seguida, aplica a proporção entre o tempo realmente contribuído ali e o tempo total. O resultado é o benefício prorata, devido por aquele país.",
+          "Em seguida, aplica a proporção entre o tempo realmente contribuído ali e o tempo total. O resultado é o benefício pro-rata, devido por aquele país.",
         ],
       },
       {
