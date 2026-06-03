@@ -21,6 +21,8 @@
 - `src/data/acordos.ts`: Bulgária passa de `status: "incompleto"` → `"vigente"` com `vigencia: "2024"`. Acordo Brasil–Bulgária está em vigor desde 2024.
 - Resultado de contadores: **22 vigentes** (era 21) + **3 em ratificação** (Cabo Verde, Israel, CPLP) + **0 incompletos** = **25 mapeados**. Todos os números no site são derivados de `siteStats`, então hero, `/acordos` e `/precos` atualizam automaticamente.
 - Linha 194 deste roadmap descrevia Bulgária como `incompleto` por inércia da rodada de sync — corrigido aqui.
+- **Enriquecimento Bulgária (mesma rodada):** novo PDF `D12498_Bulgaria.pdf` do repo Mapa-de-Acordos subido ao bucket `hub-docs` como `bulgaria/decreto-12498-2025-promulgacao-bulgaria.pdf`. Em `src/data/acordos.generated.ts`: `decreto: "Decreto 12.498/2025"`, `vigorDesde: "01/12/2024"`, `docsInfo: "2 documentos disponíveis"`, +`Aposentadoria por invalidez` (Brasil), +`Pensão de sobreviventes` (parceiro), e entrada adicional em `documentos[]`. `acordos.ts` Bulgária `docs: 1` → `2`. Próximo `reconcile-hub-docs.ts` preserva esses campos via match por tokens do nome.
+
 
 ---
 
