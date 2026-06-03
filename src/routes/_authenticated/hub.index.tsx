@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
-import { Calculator, ArrowRight, FileText } from "lucide-react";
+import { Calculator, ArrowRight, FileText, Inbox } from "lucide-react";
 import { getHubDashboard } from "@/lib/hub.functions";
 import { CTAButton } from "@/components/cta-button";
 import { acordosImportados } from "@/data/acordos.generated";
@@ -149,6 +149,25 @@ function HubDashboard() {
         </div>
         <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-foreground" />
       </Link>
+
+      {isAdmin && (
+        <Link
+          to="/hub/leads"
+          className="group mb-8 flex items-center gap-5 rounded-2xl border border-[var(--accent-ink)]/40 bg-[var(--accent-ink)]/5 px-6 py-4 backdrop-blur-md shadow-[var(--shadow-soft)] transition-all hover:-translate-y-0.5 hover:border-[var(--accent-ink)] hover:shadow-[var(--shadow-soft-hover)]"
+        >
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[var(--accent-ink)] text-[var(--paper)]">
+            <Inbox className="h-4 w-4" />
+          </span>
+          <div className="flex-1">
+            <p className="eyebrow mb-1 text-[var(--accent-ink)]">Admin</p>
+            <p className="font-display text-base">Leads da calculadora</p>
+            <p className="mt-0.5 text-sm text-muted-foreground">
+              Veja, contate e acompanhe o status de cada lead que veio do site.
+            </p>
+          </div>
+          <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-foreground" />
+        </Link>
+      )}
 
       <ContinueReading items={recentItems} />
 
