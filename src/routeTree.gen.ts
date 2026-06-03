@@ -27,6 +27,7 @@ import { Route as SobreDrMarcosRouteImport } from './routes/sobre.dr-marcos'
 import { Route as JornadasJornadaRouteImport } from './routes/jornadas.$jornada'
 import { Route as GuiasSaidaDefinitivaDoPaisRouteImport } from './routes/guias.saida-definitiva-do-pais'
 import { Route as GuiasSlugRouteImport } from './routes/guias.$slug'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as AcordosPaisRouteImport } from './routes/acordos.$pais'
 import { Route as AuthenticatedContaRouteImport } from './routes/_authenticated/conta'
 import { Route as AuthenticatedHubIndexRouteImport } from './routes/_authenticated/hub.index'
@@ -129,6 +130,11 @@ const GuiasSlugRoute = GuiasSlugRouteImport.update({
   path: '/guias/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => BlogRoute,
+} as any)
 const AcordosPaisRoute = AcordosPaisRouteImport.update({
   id: '/acordos/$pais',
   path: '/acordos/$pais',
@@ -190,7 +196,7 @@ const ApiPublicPaymentsWebhookRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/blog': typeof BlogRoute
+  '/blog': typeof BlogRouteWithChildren
   '/cadastro': typeof CadastroRoute
   '/calculadora': typeof CalculadoraRoute
   '/contato': typeof ContatoRoute
@@ -201,6 +207,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/conta': typeof AuthenticatedContaRoute
   '/acordos/$pais': typeof AcordosPaisRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/guias/$slug': typeof GuiasSlugRoute
   '/guias/saida-definitiva-do-pais': typeof GuiasSaidaDefinitivaDoPaisRoute
   '/jornadas/$jornada': typeof JornadasJornadaRoute
@@ -220,7 +227,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/blog': typeof BlogRoute
+  '/blog': typeof BlogRouteWithChildren
   '/cadastro': typeof CadastroRoute
   '/calculadora': typeof CalculadoraRoute
   '/contato': typeof ContatoRoute
@@ -231,6 +238,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/conta': typeof AuthenticatedContaRoute
   '/acordos/$pais': typeof AcordosPaisRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/guias/$slug': typeof GuiasSlugRoute
   '/guias/saida-definitiva-do-pais': typeof GuiasSaidaDefinitivaDoPaisRoute
   '/jornadas/$jornada': typeof JornadasJornadaRoute
@@ -252,7 +260,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
-  '/blog': typeof BlogRoute
+  '/blog': typeof BlogRouteWithChildren
   '/cadastro': typeof CadastroRoute
   '/calculadora': typeof CalculadoraRoute
   '/contato': typeof ContatoRoute
@@ -263,6 +271,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/conta': typeof AuthenticatedContaRoute
   '/acordos/$pais': typeof AcordosPaisRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/guias/$slug': typeof GuiasSlugRoute
   '/guias/saida-definitiva-do-pais': typeof GuiasSaidaDefinitivaDoPaisRoute
   '/jornadas/$jornada': typeof JornadasJornadaRoute
@@ -295,6 +304,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/conta'
     | '/acordos/$pais'
+    | '/blog/$slug'
     | '/guias/$slug'
     | '/guias/saida-definitiva-do-pais'
     | '/jornadas/$jornada'
@@ -325,6 +335,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/conta'
     | '/acordos/$pais'
+    | '/blog/$slug'
     | '/guias/$slug'
     | '/guias/saida-definitiva-do-pais'
     | '/jornadas/$jornada'
@@ -356,6 +367,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/_authenticated/conta'
     | '/acordos/$pais'
+    | '/blog/$slug'
     | '/guias/$slug'
     | '/guias/saida-definitiva-do-pais'
     | '/jornadas/$jornada'
@@ -377,7 +389,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
-  BlogRoute: typeof BlogRoute
+  BlogRoute: typeof BlogRouteWithChildren
   CadastroRoute: typeof CadastroRoute
   CalculadoraRoute: typeof CalculadoraRoute
   ContatoRoute: typeof ContatoRoute
@@ -527,6 +539,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuiasSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof BlogRoute
+    }
     '/acordos/$pais': {
       id: '/acordos/$pais'
       path: '/acordos/$pais'
@@ -631,10 +650,20 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
   AuthenticatedRouteChildren,
 )
 
+interface BlogRouteChildren {
+  BlogSlugRoute: typeof BlogSlugRoute
+}
+
+const BlogRouteChildren: BlogRouteChildren = {
+  BlogSlugRoute: BlogSlugRoute,
+}
+
+const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
-  BlogRoute: BlogRoute,
+  BlogRoute: BlogRouteWithChildren,
   CadastroRoute: CadastroRoute,
   CalculadoraRoute: CalculadoraRoute,
   ContatoRoute: ContatoRoute,

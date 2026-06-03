@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { getBlogPost, blogPosts } from "@/data/blog-posts";
+import { getBlogPost, blogPosts, type BlogPost as BlogPostType } from "@/data/blog-posts";
 
 export const Route = createFileRoute("/blog/$slug")({
   loader: ({ params }) => {
