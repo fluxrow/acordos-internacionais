@@ -264,7 +264,7 @@ export const jornadas: Jornada[] = [
           "Cada país paga a parte proporcional ao tempo contribuído sob sua legislação. Não é cumulativo.",
       },
       {
-        titulo: "Simule cenários",
+        titulo: "Verifique se o seu caso tem direito à totalização ou ao planejamento.",
         descricao:
           "Em alguns casos vale aposentar pelas regras de cada país separadamente. Calculadora prorata + análise técnica.",
       },
