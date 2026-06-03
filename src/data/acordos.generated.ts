@@ -300,9 +300,9 @@ export const acordosImportados: Record<string, AcordoImportado> = {
   "bulgaria": {
     "titulo": "Acordo Brasil-Bulgária",
     "instrumento": "Acordo Brasil-Bulgária",
-    "decreto": "Conferir ato de promulgação",
-    "vigorDesde": "Conforme Art. 29 do Acordo",
-    "docsInfo": "1 documento disponível",
+    "decreto": "Decreto 12.498/2025",
+    "vigorDesde": "01/12/2024",
+    "docsInfo": "2 documentos disponíveis",
     "orgaoBR": {
       "titulo": "APSAI / INSS (Brasil)",
       "instituicao": "Agência da Previdência Social de Atendimento Acordos Internacionais - Florianópolis (SC)",
@@ -316,11 +316,13 @@ export const acordosImportados: Record<string, AcordoImportado> = {
     "beneficios": {
       "brasil": [
         "Aposentadoria por idade",
-        "Pensão por morte"
+        "Pensão por morte",
+        "Aposentadoria por invalidez"
       ],
       "parceiro": [
         "Pensão por períodos de seguro e idade",
-        "Aposentadoria por Invalidez"
+        "Aposentadoria por Invalidez",
+        "Pensão de sobreviventes"
       ]
     },
     "acordoTrecho": "I ACORDO DE PREVIDÊNCIA SOCIAL ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E A REPÚBLICA DA BÚLGÁRIA A República Federativa do Brasil e : A República da Bulgária, doravante denominados como “Partes Contratantes”, imbuídos no desejo de regulamentar a relação entre os dois Estados na área de Previdência Social, acordam o seguinte: : PARTEI DISPOSIÇÕES GERAIS Artigo À , : Definições 1. Para fins deste Acordo: (a) o termo “nacional” significa uma pessoa da nacionalidade de uma das Partes Contratantes; (b) o termo \"legislação\" significa quaisquer leis, regulamentos e outros atos legais que estejam vigen",
@@ -331,9 +333,17 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "cat": "principal",
         "arquivo": "acordo-de-previdencia-social-brasil-bulgaria-2016.pdf",
         "tamanho": "621 KB"
+      },
+      {
+        "nome": "Decreto 12.498/2025 — Promulgação",
+        "desc": "Decreto que promulga o acordo Brasil-Bulgária e fixa entrada em vigor em 01/12/2024",
+        "cat": "principal",
+        "arquivo": "decreto-12498-2025-promulgacao-bulgaria.pdf",
+        "tamanho": "211 KB"
       }
     ]
   },
+
   "cabo-verde": {
     "titulo": "Acordo Brasil-Cabo Verde",
     "instrumento": "Decreto nº 12.498/2025 • Entrada em vigor: 01/12/2024 • Bilateral",
