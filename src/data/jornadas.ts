@@ -60,7 +60,7 @@ export const jornadas: Jornada[] = [
           "Avalie manter recolhimento como facultativo no Brasil; estime o impacto no benefício futuro.",
       },
       {
-        titulo: "Simule cenários de totalização",
+        titulo: "Verifique se o seu caso tem direito à totalização ou ao planejamento.",
         descricao:
           "Use a calculadora prorata com diferentes horizontes (5, 10, 20 anos) antes de decidir.",
       },
