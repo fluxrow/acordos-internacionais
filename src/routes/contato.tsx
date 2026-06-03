@@ -104,7 +104,7 @@ function Contato() {
               >
                 <option value="">Selecione…</option>
                 <option>Vou me mudar para outro país</option>
-                <option>Já moro no exterior</option>
+                <option>Moro no exterior</option>
                 <option>Estou voltando ao Brasil</option>
                 <option>Quero me aposentar usando o acordo</option>
                 <option>Outro</option>
