@@ -161,7 +161,7 @@ function Home() {
               Educação, Eficiência e Excelência.
             </h3>
             <p className="text-base opacity-80 md:text-lg">
-              Base técnica completa, sem juridiquês: textos integrais dos
+              Base técnica completa: textos integrais dos
               acordos internacionais comentados, portarias estruturadas por
               tema, jurisprudência organizada, calculadoras de totalização e
               benefícios previdenciários, certificados (saída fiscal,
