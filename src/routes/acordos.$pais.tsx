@@ -225,7 +225,12 @@ function AcordoPais() {
                       alt={`Logo ${a.nome}`}
                       width={260}
                       height={173}
-                      className="h-full w-full object-contain p-6"
+                      className={
+                        "h-full w-full object-contain p-6 " +
+                        (a.slug === "mercosul"
+                          ? "brightness-0 invert opacity-90"
+                          : "")
+                      }
                     />
                   )}
                 </div>
