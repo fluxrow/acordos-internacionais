@@ -133,6 +133,14 @@ function LaudoRow({
 
         <div className="flex shrink-0 items-center gap-2 print:hidden">
           <a
+            href={`/hub/laudo?id=${laudo.id}&print=1`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 rounded-sm border border-foreground bg-foreground px-3 py-1.5 text-xs font-medium uppercase tracking-[0.08em] text-background transition-all hover:opacity-90"
+          >
+            <Download className="h-3.5 w-3.5" /> Baixar PDF
+          </a>
+          <a
             href={`/hub/laudo?id=${laudo.id}`}
             target="_blank"
             rel="noopener noreferrer"
