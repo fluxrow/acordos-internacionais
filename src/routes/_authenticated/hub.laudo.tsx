@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LaudoPdf } from "@/components/laudo/LaudoPdf";
 import {
   loadLaudoPayload,
@@ -8,11 +8,12 @@ import {
 } from "@/lib/laudo-payload";
 import { carregarLaudoHistorico } from "@/lib/laudo-historico";
 
-type Search = { id?: string };
+type Search = { id?: string; print?: "1" };
 
 export const Route = createFileRoute("/_authenticated/hub/laudo")({
   validateSearch: (search: Record<string, unknown>): Search => ({
     id: typeof search.id === "string" ? search.id : undefined,
+    print: search.print === "1" ? "1" : undefined,
   }),
   head: () => ({
     meta: [
