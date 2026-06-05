@@ -1,26 +1,28 @@
-## Problema
+## Objetivo
 
-Na página **/hub/laudos** (Histórico de Laudos) cada linha tem só dois botões: **Abrir** e **Excluir**. Não existe um botão direto para baixar o PDF — o usuário precisa abrir o laudo numa aba nova e, lá dentro, clicar manualmente em "⬇ Baixar / Imprimir PDF".
+Nas abas **Acordo (texto integral)** e **Ajuste administrativo** dentro de `/hub/$pais`, o texto longo hoje empurra a página inteira — o usuário perde de vista o cabeçalho do país e a barra de abas. Quero que o scroll aconteça **apenas dentro da caixa do texto**, mantendo o nome do país e as abas sempre visíveis no topo.
 
-Na página do laudo em si (`/hub/laudo?id=...`) o botão de imprimir/baixar já existe e funciona via `window.print()` (com CSS `@media print` cuidando do layout PDF). Ou seja, a infra de geração de PDF já está pronta — só falta atalho na listagem.
+## O que muda
 
-## Solução proposta
+Apenas o componente `TextoIntegralTab` em `src/routes/_authenticated/hub.$pais.tsx` (linhas 447–537). Nada de mudança em dados, rotas ou outras abas.
 
-1. **Em `src/routes/_authenticated/hub/laudo.tsx`**: aceitar um novo parâmetro de busca `print=1`. Quando presente, após o payload carregar e o componente renderizar, chamar `window.print()` automaticamente uma única vez (com pequeno `setTimeout` para garantir que fontes e layout estabilizaram).
+A caixa `<pre>` que renderiza o texto integral passa a ter:
 
-2. **Em `src/routes/_authenticated/hub/laudos.tsx`**: adicionar um botão **"Baixar PDF"** em cada `LaudoRow`, posicionado antes do botão "Abrir". Ele abre `/hub/laudo?id={laudo.id}&print=1` em nova aba (`target="_blank"`), o que aciona o diálogo de impressão/salvar como PDF do navegador assim que a página carrega.
+- altura máxima limitada à viewport menos o que o cabeçalho + abas ocupam (algo como `max-h-[calc(100vh-280px)]`, com um piso mínimo tipo `min-h-[400px]` pra telas baixas);
+- `overflow-y-auto` próprio, com scroll suave e barra estilizada via tokens do tema (cantos arredondados mantidos);
+- `overscroll-contain` pra evitar que o scroll "vaze" pra página quando chega no fim;
+- borda/padding atuais preservados (mesmo visual Premium Dark + Gold).
 
-   - Ícone: `Download` do `lucide-react`.
-   - Estilo: mesmo padrão visual do botão "Abrir" (mesma classe, mesma altura), para manter a régua tipográfica da linha.
-   - Mantém "Abrir" e "Excluir" como estão.
+O botão **Copiar** e a linha "Conteúdo importado na íntegra…" continuam fora da área rolável, então seguem sempre visíveis junto com o cabeçalho do país.
 
 ## Detalhes técnicos
 
-- O `validateSearch` da rota `/hub/laudo` passa a aceitar `print: "1" | undefined`.
-- O `useEffect` que dispara a impressão só roda quando `pronto && payload && search.print === "1"`, e usa uma ref para garantir disparo único.
-- Nenhuma alteração de backend, banco ou geração de PDF — reaproveita 100% do fluxo `window.print()` + CSS de impressão já existente em `src/components/laudo/laudo-pdf.css`.
+- Editar somente o `<pre>` do estado `loaded` (linhas 527–531).
+- Classes Tailwind novas no `<pre>`: `max-h-[calc(100vh-280px)] min-h-[400px] overflow-y-auto overscroll-contain`.
+- Sem novas dependências, sem mudança de estado, sem mudança nas demais abas (Visão, Documentos, Órgãos, Trecho).
+- Sem impacto em mobile: o `calc(100vh-280px)` continua dando uma janela utilizável; o `min-h-[400px]` garante leitura confortável em telas baixas.
 
 ## Fora de escopo
 
-- Geração server-side de PDF (Puppeteer/pdf-lib). Não é necessário para resolver o pedido e exigiria infra adicional.
-- Mudanças visuais no laudo em si.
+- Não vou tornar o cabeçalho/abas "sticky" — eles já ficam no topo do fluxo; a única razão de sumirem era o `<pre>` esticar a página. Limitando a altura do `<pre>`, o problema some sem precisar mexer no layout da página.
+- Não vou mexer no tema, tokens, ou nas outras abas.
