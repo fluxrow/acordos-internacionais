@@ -2,6 +2,7 @@ import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/_authenticated")({
+  ssr: false,
   beforeLoad: async ({ location }) => {
     // getSession() aguarda o restore do localStorage; evita race com OAuth callback
     const { data: sessionData } = await supabase.auth.getSession();
