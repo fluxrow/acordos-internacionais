@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { z } from "zod";
 import { Copy, Check, Search, Download, FileText } from "lucide-react";
 import { getCountryHubData, type HubData } from "@/lib/hub.functions";
@@ -10,7 +10,7 @@ import { NotaEditor } from "@/components/hub/nota-editor";
 
 const tabSchema = z.object({
   tab: z
-    .enum(["visao", "documentos", "orgaos", "trecho"])
+    .enum(["visao", "documentos", "orgaos", "trecho", "acordo", "ajuste"])
     .optional()
     .default("visao"),
 });
