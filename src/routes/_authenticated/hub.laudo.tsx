@@ -66,6 +66,13 @@ function LaudoPage() {
     return () => { ativo = false; };
   }, [id]);
 
+  useEffect(() => {
+    if (!pronto || !payload || print !== "1" || printedRef.current) return;
+    printedRef.current = true;
+    const t = setTimeout(() => window.print(), 600);
+    return () => clearTimeout(t);
+  }, [pronto, payload, print]);
+
   if (!pronto) return null;
 
   if (erro || !payload) {
