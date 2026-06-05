@@ -443,3 +443,96 @@ function BeneficiosList({ titulo, items }: { titulo: string; items: string[] }) 
     </div>
   );
 }
+
+function TextoIntegralTab({
+  slug,
+  kind,
+}: {
+  slug: string;
+  kind: "acordo" | "ajuste";
+}) {
+  type Estado =
+    | { kind: "loading" }
+    | { kind: "loaded"; texto: string }
+    | { kind: "error" };
+  const [estado, setEstado] = useState<Estado>({ kind: "loading" });
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    setEstado({ kind: "loading" });
+    import(`../../data/acordos-textos/${slug}.ts`)
+      .then((mod) => {
+        if (cancelled) return;
+        const texto: string = (kind === "acordo" ? mod.acordo : mod.ajuste) ?? "";
+        setEstado({ kind: "loaded", texto });
+      })
+      .catch(() => {
+        if (!cancelled) setEstado({ kind: "error" });
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [slug, kind]);
+
+  const label = kind === "acordo" ? "texto integral do acordo" : "ajuste administrativo";
+
+  async function copy() {
+    if (estado.kind !== "loaded" || !estado.texto) return;
+    try {
+      await navigator.clipboard.writeText(estado.texto);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* noop */
+    }
+  }
+
+  return (
+    <article className="space-y-4">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <p className="eyebrow">{label}</p>
+        {estado.kind === "loaded" && estado.texto && (
+          <button
+            type="button"
+            onClick={copy}
+            className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1 text-xs text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
+          >
+            {copied ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+            {copied ? "Copiado" : "Copiar"}
+          </button>
+        )}
+      </div>
+
+      {estado.kind === "loading" && (
+        <p className="rounded-2xl border border-dashed border-border px-6 py-10 text-center text-sm text-muted-foreground">
+          Carregando texto…
+        </p>
+      )}
+
+      {estado.kind === "error" && (
+        <p className="rounded-2xl border border-dashed border-border px-6 py-10 text-center text-sm text-muted-foreground">
+          Texto não disponível para este acordo.
+        </p>
+      )}
+
+      {estado.kind === "loaded" && !estado.texto && (
+        <p className="rounded-2xl border border-dashed border-border px-6 py-10 text-center text-sm text-muted-foreground">
+          {kind === "ajuste"
+            ? "Sem ajuste administrativo cadastrado para este acordo."
+            : "Texto integral não disponível para este acordo."}
+        </p>
+      )}
+
+      {estado.kind === "loaded" && estado.texto && (
+        <pre className="whitespace-pre-wrap rounded-2xl border border-border bg-background p-6 font-sans text-[13px] leading-relaxed text-foreground/90">
+          {estado.texto}
+        </pre>
+      )}
+
+      <p className="text-xs text-muted-foreground">
+        Conteúdo importado na íntegra do repositório oficial — nada foi alterado.
+      </p>
+    </article>
+  );
+}
