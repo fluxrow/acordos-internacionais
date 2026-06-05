@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LaudoPdf } from "@/components/laudo/LaudoPdf";
 import {
   loadLaudoPayload,
@@ -8,11 +8,12 @@ import {
 } from "@/lib/laudo-payload";
 import { carregarLaudoHistorico } from "@/lib/laudo-historico";
 
-type Search = { id?: string };
+type Search = { id?: string; print?: "1" };
 
 export const Route = createFileRoute("/_authenticated/hub/laudo")({
   validateSearch: (search: Record<string, unknown>): Search => ({
     id: typeof search.id === "string" ? search.id : undefined,
+    print: search.print === "1" ? "1" : undefined,
   }),
   head: () => ({
     meta: [
@@ -33,7 +34,8 @@ export const Route = createFileRoute("/_authenticated/hub/laudo")({
 });
 
 function LaudoPage() {
-  const { id } = Route.useSearch();
+  const { id, print } = Route.useSearch();
+  const printedRef = useRef(false);
   const [payload, setPayload] = useState<LaudoPayload | null>(null);
   const [pronto, setPronto] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
@@ -63,6 +65,13 @@ function LaudoPage() {
     })();
     return () => { ativo = false; };
   }, [id]);
+
+  useEffect(() => {
+    if (!pronto || !payload || print !== "1" || printedRef.current) return;
+    printedRef.current = true;
+    const t = setTimeout(() => window.print(), 600);
+    return () => clearTimeout(t);
+  }, [pronto, payload, print]);
 
   if (!pronto) return null;
 

@@ -1,39 +1,26 @@
-## Objetivo
+## Problema
 
-Substituir os textos truncados/resumidos atuais em `src/data/acordos-textos/<slug>.ts` pelos **textos integrais** dos `.txt` que estão em `Mapa-de-Acordos/Acordos Internacionais_ Ajustes Administrativos/` no GitHub do Marcos. Hoje o importador lê só os HTMLs (que trazem resumos curtos); essa pasta tem o conteúdo oficial completo dos 24 acordos + 19 ajustes administrativos.
+Na página **/hub/laudos** (Histórico de Laudos) cada linha tem só dois botões: **Abrir** e **Excluir**. Não existe um botão direto para baixar o PDF — o usuário precisa abrir o laudo numa aba nova e, lá dentro, clicar manualmente em "⬇ Baixar / Imprimir PDF".
 
-## O que muda
+Na página do laudo em si (`/hub/laudo?id=...`) o botão de imprimir/baixar já existe e funciona via `window.print()` (com CSS `@media print` cuidando do layout PDF). Ou seja, a infra de geração de PDF já está pronta — só falta atalho na listagem.
 
-### 1. `scripts/import-acordos.ts`
-- Adicionar um segundo passo no loop por país: baixar `Acordo <Nome>.txt` e (se existir) `Ajuste Administrativo <Nome>.txt` da pasta `Acordos Internacionais_ Ajustes Administrativos/`.
-- Mapear slug → nome do arquivo:
-  ```
-  alemanha → "Alemanha", austria → "Áustria", belgica → "Bélgica",
-  bulgaria → "Bulgária", cabo-verde → "Cabo Verde", canada → "Canadá",
-  chile → "Chile", coreia-do-sul → "Coreia", cplp → "CPLP",
-  espanha → "Espanha", estados-unidos → "Estados Unidos",
-  franca → "França", grecia → "Grécia", iberoamericano → "Iberoamericano",
-  india → "Índia", israel → "Israel", italia → "Itália",
-  japao → "Japão", luxemburgo → "Luxemburgo", mercosul → "Mercosul",
-  mocambique → "Moçambique", portugal → "Portugal", quebec → "Quebec",
-  republica-tcheca → "República Tcheca"
-  ```
-- URL base: `https://raw.githubusercontent.com/marcosespinola1379/Mapa-de-Acordos/main/Acordos%20Internacionais_%20Ajustes%20Administrativos/<encodeURIComponent(filename)>`
-- Se o `.txt` existir, ele **sobrescreve** o `acordoTexto` / `ajusteTexto` extraído do HTML (os HTMLs continuam sendo a fonte de órgãos, decretos, benefícios, documentos).
-- Manter `acordoTrecho`/`ajusteTrecho` como preview (primeiros ~480 chars) no `acordos.generated.ts`.
-- Atualizar `temTextoIntegral` baseado no resultado final.
-- Não há `Ajuste Administrativo` para Bulgária, CPLP, Espanha, Israel, Moçambique — tratar 404 como ausência silenciosa.
+## Solução proposta
 
-### 2. Rodar o importador
-- `bun scripts/import-acordos.ts` → regrava os 24 arquivos `src/data/acordos-textos/<slug>.ts` e o `acordos.generated.ts`.
-- Por país agora teremos textos de ~10k–100k+ chars (cada um em arquivo separado, já lazy-loaded via `dynamic import` pelo `TextoIntegralAcordo`).
+1. **Em `src/routes/_authenticated/hub/laudo.tsx`**: aceitar um novo parâmetro de busca `print=1`. Quando presente, após o payload carregar e o componente renderizar, chamar `window.print()` automaticamente uma única vez (com pequeno `setTimeout` para garantir que fontes e layout estabilizaram).
 
-### 3. Validação
-- Conferir tamanho de cada arquivo gerado (espera-se crescimento grande vs. estado atual).
-- Sanity-check em 2 países (Portugal e Estados Unidos) abrindo `/acordos/<pais>` e expandindo "Texto integral".
-- Build (Vite) deve continuar verde — o conteúdo extra fica fora do bundle inicial porque cada `<slug>.ts` é importado dinamicamente.
+2. **Em `src/routes/_authenticated/hub/laudos.tsx`**: adicionar um botão **"Baixar PDF"** em cada `LaudoRow`, posicionado antes do botão "Abrir". Ele abre `/hub/laudo?id={laudo.id}&print=1` em nova aba (`target="_blank"`), o que aciona o diálogo de impressão/salvar como PDF do navegador assim que a página carrega.
 
-## Fora de escopo (não mexo agora)
-- **Acordo Suíça** existe no repo mas não está em `SOURCES` nem em `acordos.ts`. Fica pra rodada futura (precisa de página própria + entradas em órgãos/benefícios).
-- **Item 6 (Meu Hub)** continua adiado.
-- Layout do bloco "Texto integral" no `/acordos/$pais` permanece como está (collapse + `<pre>` com scroll vertical) — só o conteúdo muda.
+   - Ícone: `Download` do `lucide-react`.
+   - Estilo: mesmo padrão visual do botão "Abrir" (mesma classe, mesma altura), para manter a régua tipográfica da linha.
+   - Mantém "Abrir" e "Excluir" como estão.
+
+## Detalhes técnicos
+
+- O `validateSearch` da rota `/hub/laudo` passa a aceitar `print: "1" | undefined`.
+- O `useEffect` que dispara a impressão só roda quando `pronto && payload && search.print === "1"`, e usa uma ref para garantir disparo único.
+- Nenhuma alteração de backend, banco ou geração de PDF — reaproveita 100% do fluxo `window.print()` + CSS de impressão já existente em `src/components/laudo/laudo-pdf.css`.
+
+## Fora de escopo
+
+- Geração server-side de PDF (Puppeteer/pdf-lib). Não é necessário para resolver o pedido e exigiria infra adicional.
+- Mudanças visuais no laudo em si.
