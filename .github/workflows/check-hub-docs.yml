@@ -1,0 +1,23 @@
+name: check-hub-docs
+on:
+  schedule:
+    - cron: "0 6 * * 1" # toda segunda 06:00 UTC
+  workflow_dispatch: {}
+  push:
+    paths:
+      - "src/data/acordos.generated.ts"
+      - "scripts/check-hub-docs.ts"
+      - ".github/workflows/check-hub-docs.yml"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - name: Verify every PDF exists in Storage
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: bun run check:hub-docs

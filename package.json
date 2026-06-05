@@ -12,6 +12,7 @@
     "format": "prettier --write .",
     "check:og": "bun scripts/check-og.ts",
     "check:brand": "bun scripts/check-brand.ts",
+    "check:hub-docs": "bun scripts/check-hub-docs.ts",
     "test": "vitest run",
     "test:watch": "vitest"
   },
