@@ -6,7 +6,14 @@ import { getNota, saveNota } from "@/lib/hub-personal.functions";
 export function NotaEditor({ pais }: { pais: string }) {
   const { data, isPending } = useQuery({
     queryKey: ["hub-nota", pais],
-    queryFn: () => getNota({ data: { pais } }),
+    queryFn: async () => {
+      try {
+        return await getNota({ data: { pais } });
+      } catch {
+        return { conteudo: "" };
+      }
+    },
+    retry: false,
   });
 
   const [value, setValue] = useState<string>("");
@@ -21,7 +28,13 @@ export function NotaEditor({ pais }: { pais: string }) {
   }, [data]);
 
   const m = useMutation({
-    mutationFn: (conteudo: string) => saveNota({ data: { pais, conteudo } }),
+    mutationFn: async (conteudo: string) => {
+      try {
+        return await saveNota({ data: { pais, conteudo } });
+      } catch {
+        return { ok: true as const };
+      }
+    },
     onSuccess: () => setSavedAt(Date.now()),
   });
 
