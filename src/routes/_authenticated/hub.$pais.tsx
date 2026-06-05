@@ -525,7 +525,7 @@ function TextoIntegralTab({
       )}
 
       {estado.kind === "loaded" && estado.texto && (
-        <pre className="whitespace-pre-wrap rounded-2xl border border-border bg-background p-6 font-sans text-[13px] leading-relaxed text-foreground/90">
+        <pre className="max-h-[calc(100vh-280px)] min-h-[400px] overflow-y-auto overscroll-contain whitespace-pre-wrap rounded-2xl border border-border bg-background p-6 font-sans text-[13px] leading-relaxed text-foreground/90">
           {estado.texto}
         </pre>
       )}
