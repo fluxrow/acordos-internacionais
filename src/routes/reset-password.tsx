@@ -38,8 +38,13 @@ function ResetPasswordPage() {
     setError(null);
     setInfo(null);
     setLoading(true);
+    const host = window.location.host;
+    const isLovableSandbox = host.endsWith(".lovableproject.com") || host.endsWith(".lovable.app");
+    const origin = isLovableSandbox
+      ? "https://acordosinternacionais.com"
+      : window.location.origin;
     const { error: err } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: window.location.origin + "/reset-password",
+      redirectTo: origin + "/reset-password",
     });
     setLoading(false);
     if (err) {
