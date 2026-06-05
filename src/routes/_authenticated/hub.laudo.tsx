@@ -34,7 +34,8 @@ export const Route = createFileRoute("/_authenticated/hub/laudo")({
 });
 
 function LaudoPage() {
-  const { id } = Route.useSearch();
+  const { id, print } = Route.useSearch();
+  const printedRef = useRef(false);
   const [payload, setPayload] = useState<LaudoPayload | null>(null);
   const [pronto, setPronto] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
