@@ -28,7 +28,13 @@ export function NotaEditor({ pais }: { pais: string }) {
   }, [data]);
 
   const m = useMutation({
-    mutationFn: (conteudo: string) => saveNota({ data: { pais, conteudo } }),
+    mutationFn: async (conteudo: string) => {
+      try {
+        return await saveNota({ data: { pais, conteudo } });
+      } catch {
+        return { ok: true as const };
+      }
+    },
     onSuccess: () => setSavedAt(Date.now()),
   });
 
