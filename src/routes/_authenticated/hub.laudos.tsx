@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { useState } from "react";
-import { FileText, Trash2, ExternalLink, Loader2, ArrowLeft } from "lucide-react";
+import { FileText, Trash2, ExternalLink, Loader2, ArrowLeft, Download } from "lucide-react";
 import {
   listarLaudosHistorico,
   excluirLaudoHistorico,
