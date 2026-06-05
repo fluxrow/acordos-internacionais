@@ -147,18 +147,33 @@ export const getCountryHubData = createServerFn({ method: "POST" })
       };
     }
 
+    const slugifyFilename = (name: string): string => {
+      const dot = name.lastIndexOf(".");
+      const base = dot > 0 ? name.slice(0, dot) : name;
+      const ext = dot > 0 ? name.slice(dot).toLowerCase() : "";
+      const slug = base
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+      return slug + ext;
+    };
+
     const documentos: DocumentoComUrl[] = await Promise.all(
       acordoData.documentos.map(async (doc) => {
         const arquivo = doc.arquivo ?? "";
         let url: string | null = null;
         if (arquivo) {
+          // Storage usa nomes slugificados (ver scripts/sync-hub-docs.ts)
+          const storageName = slugifyFilename(arquivo);
           // Extensão real do arquivo no bucket
           const ext = arquivo.match(/\.[a-z0-9]+$/i)?.[0] ?? ".pdf";
           // Nome humano que o advogado vê na pasta Downloads
           const filename = `${doc.nome}${ext}`.replace(/[\\/:*?"<>|]/g, "-");
           const { data: signed } = await supabaseAdmin.storage
             .from("hub-docs")
-            .createSignedUrl(`${pais}/${arquivo}`, 60, { download: filename });
+            .createSignedUrl(`${pais}/${storageName}`, 60, { download: filename });
           url = signed?.signedUrl ?? null;
         }
         return {
