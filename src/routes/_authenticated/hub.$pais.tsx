@@ -98,6 +98,8 @@ function HubPaisPage() {
             {tab === "documentos" && <DocumentosTab data={data} />}
             {tab === "orgaos" && <OrgaosTab data={data} />}
             {tab === "trecho" && <TrechoTab data={data} pais={pais} />}
+            {tab === "acordo" && <TextoIntegralTab slug={pais} kind="acordo" />}
+            {tab === "ajuste" && <TextoIntegralTab slug={pais} kind="ajuste" />}
           </div>
         </>
       )}
@@ -110,6 +112,8 @@ const TABS = [
   { id: "documentos", label: "Documentos" },
   { id: "orgaos", label: "Órgãos" },
   { id: "trecho", label: "Trecho legal" },
+  { id: "acordo", label: "Acordo (texto integral)" },
+  { id: "ajuste", label: "Ajuste administrativo" },
 ] as const;
 
 type TabId = (typeof TABS)[number]["id"];
