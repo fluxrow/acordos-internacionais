@@ -159,22 +159,53 @@ export const getCountryHubData = createServerFn({ method: "POST" })
         .replace(/^-+|-+$/g, "");
       return slug + ext;
     };
+    const normalizeKey = (name: string): string =>
+      name
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .replace(/[^a-z0-9.]+/g, "");
+
+    // Lista o conteúdo real do bucket uma única vez por país. Assim o link
+    // só é assinado quando o arquivo existe de fato — evita "Indisponível"
+    // por renomeação no Storage e tolera divergências de slug/acento.
+    const storedFiles: string[] = [];
+    {
+      let offset = 0;
+      const PAGE = 100;
+      while (true) {
+        const { data: page } = await supabaseAdmin.storage
+          .from("hub-docs")
+          .list(pais, { limit: PAGE, offset });
+        if (!page || page.length === 0) break;
+        for (const f of page) if (f.name) storedFiles.push(f.name);
+        if (page.length < PAGE) break;
+        offset += PAGE;
+      }
+    }
+    const exactSet = new Set(storedFiles);
+    const fuzzyMap = new Map<string, string>();
+    for (const s of storedFiles) fuzzyMap.set(normalizeKey(s), s);
 
     const documentos: DocumentoComUrl[] = await Promise.all(
       acordoData.documentos.map(async (doc) => {
         const arquivo = doc.arquivo ?? "";
         let url: string | null = null;
         if (arquivo) {
-          // Storage usa nomes slugificados (ver scripts/sync-hub-docs.ts)
-          const storageName = slugifyFilename(arquivo);
-          // Extensão real do arquivo no bucket
-          const ext = arquivo.match(/\.[a-z0-9]+$/i)?.[0] ?? ".pdf";
-          // Nome humano que o advogado vê na pasta Downloads
-          const filename = `${doc.nome}${ext}`.replace(/[\\/:*?"<>|]/g, "-");
-          const { data: signed } = await supabaseAdmin.storage
-            .from("hub-docs")
-            .createSignedUrl(`${pais}/${storageName}`, 60, { download: filename });
-          url = signed?.signedUrl ?? null;
+          const slug = slugifyFilename(arquivo);
+          // 1) match exato com o slug esperado
+          // 2) fallback fuzzy (mesmo nome com acento/case diferente)
+          const resolved = exactSet.has(slug)
+            ? slug
+            : fuzzyMap.get(normalizeKey(arquivo)) ?? null;
+          if (resolved) {
+            const ext = arquivo.match(/\.[a-z0-9]+$/i)?.[0] ?? ".pdf";
+            const filename = `${doc.nome}${ext}`.replace(/[\\/:*?"<>|]/g, "-");
+            const { data: signed } = await supabaseAdmin.storage
+              .from("hub-docs")
+              .createSignedUrl(`${pais}/${resolved}`, 60, { download: filename });
+            url = signed?.signedUrl ?? null;
+          }
         }
         return {
           nome: doc.nome,
