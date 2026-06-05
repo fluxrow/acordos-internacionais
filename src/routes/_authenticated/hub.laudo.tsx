@@ -69,9 +69,30 @@ function LaudoPage() {
   useEffect(() => {
     if (!pronto || !payload || print !== "1" || printedRef.current) return;
     printedRef.current = true;
-    const t = setTimeout(() => window.print(), 600);
-    return () => clearTimeout(t);
+    let cancelled = false;
+    (async () => {
+      try {
+        // Espera as fontes do laudo carregarem — sem isso o print pode
+        // disparar antes do layout estabilizar e o diálogo é descartado.
+        if (typeof document !== "undefined" && document.fonts?.ready) {
+          await document.fonts.ready;
+        }
+      } catch {
+        /* noop */
+      }
+      if (cancelled) return;
+      // Dois rAF garantem que o paint final já aconteceu antes do print.
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (!cancelled) window.print();
+        });
+      });
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, [pronto, payload, print]);
+
 
   if (!pronto) return null;
 
