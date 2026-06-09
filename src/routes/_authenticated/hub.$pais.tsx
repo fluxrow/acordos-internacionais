@@ -51,30 +51,24 @@ function HubPaisPage() {
   }
 
   return (
-    <div className="mx-auto max-w-4xl px-6 py-10">
-      <nav className="mb-6 text-sm text-muted-foreground">
-        <Link to="/hub" className="hover:text-foreground">Hub</Link>
-        <span className="mx-2">›</span>
-        <span>{data.titulo}</span>
-      </nav>
-
-      <header>
+    <div className="mx-auto max-w-6xl px-5 py-6 md:px-8 md:py-8">
+      <header className="mb-6">
         <div className="flex flex-wrap items-start justify-between gap-3">
-          <h1 className="font-display text-4xl">{data.titulo}</h1>
+          <h1 className="font-display text-3xl md:text-4xl">{data.titulo}</h1>
           {!data.locked && <FavoritoButton pais={pais} />}
         </div>
-        <dl className="mt-4 flex flex-wrap gap-x-8 gap-y-1 text-sm text-muted-foreground">
+        <dl className="mt-3 flex flex-wrap gap-x-6 gap-y-1 text-[13px] text-muted-foreground">
           <div>
-            <dt className="inline font-medium text-foreground">Instrumento: </dt>
-            <dd className="inline">{data.instrumento}</dd>
+            <dt className="inline text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground/80">Instrumento </dt>
+            <dd className="inline text-foreground">· {data.instrumento}</dd>
           </div>
           <div>
-            <dt className="inline font-medium text-foreground">Decreto: </dt>
-            <dd className="inline">{data.decreto}</dd>
+            <dt className="inline text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground/80">Decreto </dt>
+            <dd className="inline text-foreground">· {data.decreto}</dd>
           </div>
           <div>
-            <dt className="inline font-medium text-foreground">Vigor desde: </dt>
-            <dd className="inline">{data.vigorDesde}</dd>
+            <dt className="inline text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground/80">Vigor desde </dt>
+            <dd className="inline text-foreground">· {data.vigorDesde}</dd>
           </div>
         </dl>
       </header>
@@ -88,7 +82,7 @@ function HubPaisPage() {
             onChange={(t) => navigate({ search: { tab: t }, replace: true })}
             hasTrecho={!!data.acordoTrecho}
           />
-          <div className="mt-8">
+          <div className="mt-6">
             {tab === "visao" && (
               <div className="space-y-8">
                 <VisaoTab data={data} />
