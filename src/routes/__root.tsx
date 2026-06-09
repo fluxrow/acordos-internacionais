@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -14,6 +15,10 @@ import { SiteFooter } from "@/components/site-footer";
 import { useSessionGuard } from "@/hooks/use-session-guard";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider, THEME_INIT_SCRIPT } from "@/components/theme-provider";
+
+function isHubChromeRoute(pathname: string): boolean {
+  return pathname.startsWith("/hub") || pathname.startsWith("/conta");
+}
 
 
 
@@ -139,18 +144,30 @@ function RootShell({ children }: { children: React.ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   useSessionGuard();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const hubChrome = isHubChromeRoute(pathname);
 
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <div className="flex min-h-screen flex-col">
-          <SiteHeader />
-          <main className="flex-1">
+        {hubChrome ? (
+          // Hub workstation: chrome próprio (sidebar + topbar) é montado dentro
+          // do layout autenticado. SiteHeader/SiteFooter ficam de fora para
+          // dar contraste claro entre site público e área logada.
+          <>
             <Outlet />
-          </main>
-          <SiteFooter />
-          <Toaster />
-        </div>
+            <Toaster />
+          </>
+        ) : (
+          <div className="flex min-h-screen flex-col">
+            <SiteHeader />
+            <main className="flex-1">
+              <Outlet />
+            </main>
+            <SiteFooter />
+            <Toaster />
+          </div>
+        )}
       </ThemeProvider>
     </QueryClientProvider>
   );
