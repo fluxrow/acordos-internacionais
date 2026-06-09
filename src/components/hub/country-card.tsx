@@ -77,8 +77,8 @@ export function CountryCard({
           </div>
         )}
 
-        {/* Overlay sutil para legibilidade do topo */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[var(--surface-premium-strong)] via-transparent to-transparent" />
+
+
 
         {locked && (
           <div className="absolute inset-0 flex items-center justify-center bg-[var(--paper)]/60 backdrop-blur-[2px]">
