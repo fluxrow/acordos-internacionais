@@ -187,11 +187,21 @@ function PrecosPage() {
     return (
       <div className="mx-auto max-w-xl px-6 py-10">
         <button
-          onClick={() => { setClientSecret(null); setSelectedPlan(null); }}
+          onClick={() => { setClientSecret(null); setSelectedPlan(null); setCheckoutError(null); }}
           className="mb-6 flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
         >
           ← Voltar aos planos
         </button>
+        {STRIPE_ENV === "sandbox" && (
+          <div className="mb-4 rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-center text-xs text-amber-700 dark:text-amber-300">
+            Ambiente de teste — use o cartão 4242 4242 4242 4242, validade futura e CVC 123.
+          </div>
+        )}
+        {checkoutError && (
+          <p className="mb-4 rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-center text-sm text-destructive">
+            {checkoutError}
+          </p>
+        )}
         <div
           id="stripe-embedded-checkout"
           ref={(el) => { checkoutRef.current = el; }}
@@ -203,6 +213,16 @@ function PrecosPage() {
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-12">
+      {STRIPE_ENV === "sandbox" && (
+        <div className="mx-auto mb-6 max-w-3xl rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-center text-xs text-amber-700 dark:text-amber-300">
+          Pagamentos em modo de teste — esta preview não cobra de verdade. A produção (acordosinternacionais.com) usa Stripe live.
+        </div>
+      )}
+      {STRIPE_ENV === null && (
+        <div className="mx-auto mb-6 max-w-3xl rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-center text-sm text-destructive">
+          Pagamentos indisponíveis nesta build. Tente novamente em instantes.
+        </div>
+      )}
       <div className="mb-10 text-center">
         <p className="eyebrow mb-2">Hub Profissional</p>
         <h1 className="font-display text-5xl text-[var(--ink)]">
@@ -213,6 +233,7 @@ function PrecosPage() {
           textos, decretos, formulários e modelos para advogados previdenciaristas.
         </p>
       </div>
+
 
       {authError && (
         <div className="mx-auto mb-8 max-w-md rounded-xl border border-[var(--accent-ink)]/40 bg-[var(--card-bg)] p-4 text-center text-sm">
