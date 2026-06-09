@@ -85,7 +85,7 @@ function PrecosPage() {
         setAuthError(true);
         return null;
       }
-      return createCheckoutSession({ data: { priceId, env: STRIPE_ENV } });
+      return createCheckoutSession({ data: { priceId, env: STRIPE_ENV! } });
     },
     onSuccess: (result) => {
       if (!result) return;
