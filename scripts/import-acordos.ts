@@ -17,6 +17,37 @@ const TXT_FOLDER = "Acordos Internacionais_ Ajustes Administrativos";
 
 // Mapa: nome do arquivo no repo (sem .html) → slug usado em src/data/acordos.ts
 // + nome usado nos .txt da pasta de textos integrais.
+
+// Padrão canônico do campo "instrumento" exibido nas páginas de país.
+// Bilaterais: "Acordo Brasil - <País>". Multilaterais: nome do bloco.
+// Aplicado sobre o que vier do HTML para nunca regredir o texto.
+const INSTRUMENTO_CANONICO: Record<string, string> = {
+  alemanha: "Acordo Brasil - Alemanha",
+  austria: "Acordo Brasil - Áustria",
+  belgica: "Acordo Brasil - Bélgica",
+  bulgaria: "Acordo Brasil - Bulgária",
+  "cabo-verde": "Acordo Brasil - Cabo Verde",
+  canada: "Acordo Brasil - Canadá",
+  chile: "Acordo Brasil - Chile",
+  "coreia-do-sul": "Acordo Brasil - Coreia do Sul",
+  espanha: "Acordo Brasil - Espanha",
+  "estados-unidos": "Acordo Brasil - Estados Unidos",
+  franca: "Acordo Brasil - França",
+  grecia: "Acordo Brasil - Grécia",
+  india: "Acordo Brasil - Índia",
+  israel: "Acordo Brasil - Israel",
+  italia: "Acordo Brasil - Itália",
+  japao: "Acordo Brasil - Japão",
+  luxemburgo: "Acordo Brasil - Luxemburgo",
+  mocambique: "Acordo Brasil - Moçambique",
+  portugal: "Acordo Brasil - Portugal",
+  quebec: "Acordo Brasil - Quebec",
+  "republica-tcheca": "Acordo Brasil - República Tcheca",
+  suica: "Acordo Brasil - Suíça",
+  mercosul: "Mercosul",
+  cplp: "CPLP",
+  iberoamericano: "Iberoamericano",
+};
 const SOURCES: Array<{ file: string; slug: string; txtName: string }> = [
   { file: "acordo-alemanha", slug: "alemanha", txtName: "Alemanha" },
   { file: "acordo-austria", slug: "austria", txtName: "Áustria" },
@@ -223,7 +254,8 @@ async function main() {
 
     const titulo = cleanText(/<h1>([\s\S]*?)<\/h1>/.exec(html)?.[1]);
     const decreto = pickInfoCard(html, /decreto/i);
-    const instrumento = pickInfoCard(html, /instrumento/i);
+    const instrumentoRaw = pickInfoCard(html, /instrumento/i);
+    const instrumento = INSTRUMENTO_CANONICO[slug] ?? instrumentoRaw;
     const vigorDesde = pickInfoCard(html, /vigor/i);
     const docsInfo = pickInfoCard(html, /documentos?/i);
 

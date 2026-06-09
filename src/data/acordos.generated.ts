@@ -9,7 +9,7 @@ import type { AcordoImportado } from "./acordos.types";
 export const acordosImportados: Record<string, AcordoImportado> = {
   "alemanha": {
     "titulo": "Acordo Brasil-Alemanha",
-    "instrumento": "Acordo Brasil-Alemanha",
+    "instrumento": "Acordo Brasil - Alemanha",
     "decreto": "Decreto nº 8.000/2013",
     "vigorDesde": "01 de maio de 2013",
     "docsInfo": "13 documentos disponíveis",
@@ -139,7 +139,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
   },
   "austria": {
     "titulo": "Acordo Brasil-Áustria",
-    "instrumento": "Acordo Brasil-Áustria",
+    "instrumento": "Acordo Brasil - Áustria",
     "decreto": "Decreto nº 12.952/2026",
     "vigorDesde": "01 de março de 2026",
     "docsInfo": "3 documentos disponíveis",
@@ -193,7 +193,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
   },
   "belgica": {
     "titulo": "Acordo Brasil-Bélgica",
-    "instrumento": "Acordo Brasil-Bélgica",
+    "instrumento": "Acordo Brasil - Bélgica",
     "decreto": "Decreto nº 8.405/2015",
     "vigorDesde": "01 de dezembro de 2014",
     "docsInfo": "12 documentos disponíveis",
@@ -313,7 +313,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
   },
   "bulgaria": {
     "titulo": "Acordo Brasil-Bulgária",
-    "instrumento": "Acordo Brasil-Bulgária",
+    "instrumento": "Acordo Brasil - Bulgária",
     "decreto": "Conferir ato de promulgação",
     "vigorDesde": "01 de dezembro de 2024",
     "docsInfo": "1 documento disponível",
@@ -351,7 +351,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
   },
   "cabo-verde": {
     "titulo": "Acordo Brasil-Cabo Verde",
-    "instrumento": "Decreto nº 12.498/2025 • Bilateral",
+    "instrumento": "Acordo Brasil - Cabo Verde",
     "vigorDesde": "01 de dezembro de 2024",
     "docsInfo": "2 documentos disponíveis",
     "orgaoBR": {
@@ -405,7 +405,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
   },
   "canada": {
     "titulo": "Acordo Brasil-Canadá",
-    "instrumento": "Acordo Brasil-Canadá",
+    "instrumento": "Acordo Brasil - Canadá",
     "decreto": "Decreto nº 8.288/2014",
     "vigorDesde": "24 de julho de 2014",
     "docsInfo": "16 documentos disponíveis",
@@ -550,7 +550,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
   },
   "chile": {
     "titulo": "Acordo Brasil-Chile",
-    "instrumento": "Convênio Brasil-Chile (2007)",
+    "instrumento": "Acordo Brasil - Chile",
     "decreto": "Decreto nº 6.957/2009",
     "vigorDesde": "01 de setembro de 2009",
     "docsInfo": "9 documentos disponíveis",
@@ -643,7 +643,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
   },
   "coreia-do-sul": {
     "titulo": "Acordo Brasil-Coreia do Sul",
-    "instrumento": "Acordo Brasil-Coreia do Sul",
+    "instrumento": "Acordo Brasil - Coreia do Sul",
     "decreto": "Decreto nº 7.730/2012",
     "vigorDesde": "01 de setembro de 2012",
     "docsInfo": "14 documentos disponíveis",
@@ -764,7 +764,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
   },
   "cplp": {
     "titulo": "Convenção Multilateral CPLP",
-    "instrumento": "Multilateral",
+    "instrumento": "CPLP",
     "decreto": "Não ratificado",
     "vigorDesde": "24 de julho de 2015",
     "docsInfo": "1 documento disponível",
@@ -799,7 +799,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
   },
   "espanha": {
     "titulo": "Acordo Brasil-Espanha",
-    "instrumento": "Convênio de Seguridade Social",
+    "instrumento": "Acordo Brasil - Espanha",
     "decreto": "Decreto nº 6.962/2009",
     "vigorDesde": "01 de julho de 2009",
     "docsInfo": "7 documentos disponíveis",
@@ -866,7 +866,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
   },
   "estados-unidos": {
     "titulo": "Acordo Brasil-Estados Unidos",
-    "instrumento": "Acordo Brasil-Estados Unidos",
+    "instrumento": "Acordo Brasil - Estados Unidos",
     "decreto": "Decreto nº 8.697/2016",
     "vigorDesde": "01 de outubro de 2015",
     "docsInfo": "8 documentos disponíveis",
@@ -958,7 +958,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
   },
   "franca": {
     "titulo": "Acordo Brasil-França",
-    "instrumento": "Decreto nº 12.498/2025 • Entrada em vigor: 01/12/2024 • Bilateral",
+    "instrumento": "Acordo Brasil - França",
     "decreto": "Decreto nº 8.000/2013",
     "vigorDesde": "01 de maio de 2013",
     "docsInfo": "16 documentos disponíveis",
@@ -1111,7 +1111,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
   },
   "grecia": {
     "titulo": "Acordo Brasil-Grécia",
-    "instrumento": "Acordo de Previdência Social",
+    "instrumento": "Acordo Brasil - Grécia",
     "decreto": "Decreto nº 7.530/2011",
     "vigorDesde": "01 de setembro de 2011",
     "docsInfo": "5 documentos disponíveis",
@@ -1190,7 +1190,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
   },
   "iberoamericano": {
     "titulo": "Convenção Multilateral Ibero-Americana de Segurança Social",
-    "instrumento": "Acordo Iberoamericano",
+    "instrumento": "Iberoamericano",
     "vigorDesde": "19/05/2011",
     "docsInfo": "9 documentos disponíveis",
     "orgaoBR": {
@@ -1278,7 +1278,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
   },
   "india": {
     "titulo": "Acordo Brasil-Índia",
-    "instrumento": "Acordo de Previdência Social",
+    "instrumento": "Acordo Brasil - Índia",
     "decreto": "Decreto nº 10.220/2020",
     "vigorDesde": "01 de janeiro de 2020",
     "docsInfo": "8 documentos disponíveis",
@@ -1370,7 +1370,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
   },
   "israel": {
     "titulo": "Acordo Brasil-Israel",
-    "instrumento": "Acordo de Previdência Social",
+    "instrumento": "Acordo Brasil - Israel",
     "decreto": "Decreto nº 10.293/2020",
     "docsInfo": "1 documento disponível",
     "orgaoBR": {
@@ -1413,7 +1413,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
   },
   "italia": {
     "titulo": "Acordo Brasil-Itália",
-    "instrumento": "Acordo de Previdência Social",
+    "instrumento": "Acordo Brasil - Itália",
     "decreto": "Decreto nº 8.742/2016",
     "vigorDesde": "01 de setembro de 2016",
     "docsInfo": "8 documentos disponíveis",
@@ -1512,7 +1512,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
   },
   "japao": {
     "titulo": "Acordo Brasil-Japão",
-    "instrumento": "Acordo de Previdência Social",
+    "instrumento": "Acordo Brasil - Japão",
     "decreto": "Decreto nº 8.443/2015",
     "vigorDesde": "01 de setembro de 2015",
     "docsInfo": "13 documentos disponíveis",
@@ -1618,6 +1618,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
   },
   "luxemburgo": {
     "titulo": "Luxemburgo",
+    "instrumento": "Acordo Brasil - Luxemburgo",
     "decreto": "8.109/2013",
     "vigorDesde": "01 de outubro de 2013",
     "orgaoBR": {
@@ -1674,7 +1675,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
   },
   "mercosul": {
     "titulo": "Acordo Multilateral Mercosul",
-    "instrumento": "Multilateral",
+    "instrumento": "Mercosul",
     "decreto": "Decreto Legislativo nº 451/2001",
     "vigorDesde": "01 de junho de 2005",
     "docsInfo": "9 documentos disponíveis",
@@ -1774,6 +1775,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
   },
   "mocambique": {
     "titulo": "Moçambique",
+    "instrumento": "Acordo Brasil - Moçambique",
     "decreto": "7.963/2013",
     "vigorDesde": "01 de julho de 2013",
     "orgaoBR": {
@@ -1865,7 +1867,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
   },
   "portugal": {
     "titulo": "Acordo Brasil-Portugal",
-    "instrumento": "Decreto nº 10.881/2021 • Entrada em vigor: 15/07/1992 • Bilateral",
+    "instrumento": "Acordo Brasil - Portugal",
     "decreto": "Decreto nº 8.000/2013",
     "vigorDesde": "15 de julho de 1992",
     "docsInfo": "15 documentos disponíveis",
@@ -2017,6 +2019,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
   },
   "quebec": {
     "titulo": "Acordo Brasil-Quebec",
+    "instrumento": "Acordo Brasil - Quebec",
     "decreto": "Decreto nº 8.288/2014",
     "vigorDesde": "08 de agosto de 2011",
     "docsInfo": "11 disponíveis",
@@ -2120,6 +2123,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
   },
   "republica-tcheca": {
     "titulo": "Acordo Brasil-República Tcheca",
+    "instrumento": "Acordo Brasil - República Tcheca",
     "decreto": "Decreto nº 10.615/2021",
     "vigorDesde": "09 de dezembro de 2020",
     "docsInfo": "12 disponíveis",
@@ -2229,7 +2233,7 @@ export const acordosImportados: Record<string, AcordoImportado> = {
   },
   "suica": {
     "titulo": "Acordo Brasil-Suíça",
-    "instrumento": "Acordo de Previdência Social Brasil-Suíça",
+    "instrumento": "Acordo Brasil - Suíça",
     "decreto": "Decreto nº 8.559/2015",
     "vigorDesde": "01 de novembro de 2015",
     "docsInfo": "10 documentos disponíveis",

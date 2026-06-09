@@ -387,3 +387,11 @@
 - `checkout.functions.ts`: customer resolvido via `customers.search({metadata.userId})` por env, removendo cache no Postgres (sandbox e live têm IDs diferentes; reuso de ID causava "No such customer"). Adicionado tratamento de erro com `getStripeErrorMessage`.
 - Embedded Checkout: `useRef` correto, espera o container montar e destrói a instância na navegação. Banner de modo teste/erro visível ao usuário.
 - `conta.tsx`: portal de assinatura também detecta env pelo token publicável.
+
+## 2026-06-09 — Padronização do campo "instrumento" + simplificação das abas do Hub
+- **Instrumento canônico** em todos os 25 acordos: bilaterais como `Acordo Brasil - <País>` (com espaços ao redor do hífen) e multilaterais como nome do bloco (`Mercosul`, `CPLP`, `Iberoamericano`). Antes havia 3 formatos misturados ("Acordo Brasil-X", "Acordo de Previdência Social", string de decreto colado).
+- Fonte de verdade: `src/data/acordos-instrumento-overrides.ts` aplicado em `src/lib/hub.functions.ts` e em `src/routes/acordos.$pais.tsx` (rota pública). Garante que reimportação futura não regrida.
+- `scripts/import-acordos.ts` recebeu mapa `INSTRUMENTO_CANONICO` que sobrescreve o valor extraído do HTML.
+- `src/data/acordos.generated.ts` atualizado de uma vez (4 países que não tinham o campo passaram a ter: luxemburgo, mocambique, quebec, republica-tcheca).
+- **Hub Profissional `/hub/$pais`**: removidas as abas "Trecho legal" e "Órgãos". Restam Visão Geral · Documentos · Acordo (texto integral) · Ajuste administrativo.
+- **Rota pública `/acordos/$pais`**: removido o bloco "Órgãos de ligação" para manter o mesmo padrão de informações.

@@ -10,7 +10,7 @@ import { NotaEditor } from "@/components/hub/nota-editor";
 
 const tabSchema = z.object({
   tab: z
-    .enum(["visao", "documentos", "orgaos", "trecho", "acordo", "ajuste"])
+    .enum(["visao", "documentos", "acordo", "ajuste"])
     .optional()
     .default("visao"),
 });
@@ -80,7 +80,6 @@ function HubPaisPage() {
           <TabsBar
             current={tab}
             onChange={(t) => navigate({ search: { tab: t }, replace: true })}
-            hasTrecho={!!data.acordoTrecho}
           />
           <div className="mt-6">
             {tab === "visao" && (
@@ -90,8 +89,6 @@ function HubPaisPage() {
               </div>
             )}
             {tab === "documentos" && <DocumentosTab data={data} />}
-            {tab === "orgaos" && <OrgaosTab data={data} />}
-            {tab === "trecho" && <TrechoTab data={data} pais={pais} />}
             {tab === "acordo" && <TextoIntegralTab slug={pais} kind="acordo" />}
             {tab === "ajuste" && <TextoIntegralTab slug={pais} kind="ajuste" />}
           </div>
@@ -104,8 +101,6 @@ function HubPaisPage() {
 const TABS = [
   { id: "visao", label: "Visão Geral" },
   { id: "documentos", label: "Documentos" },
-  { id: "orgaos", label: "Órgãos" },
-  { id: "trecho", label: "Trecho legal" },
   { id: "acordo", label: "Acordo (texto integral)" },
   { id: "ajuste", label: "Ajuste administrativo" },
 ] as const;
@@ -115,17 +110,14 @@ type TabId = (typeof TABS)[number]["id"];
 function TabsBar({
   current,
   onChange,
-  hasTrecho,
 }: {
   current: TabId;
   onChange: (t: TabId) => void;
-  hasTrecho: boolean;
 }) {
   return (
     <div className="sticky top-12 z-20 -mx-5 border-b border-border/60 bg-[var(--surface-premium-strong)] px-5 backdrop-blur-md md:-mx-8 md:px-8">
       <nav className="flex gap-1 overflow-x-auto py-1">
         {TABS.map((t) => {
-          if (t.id === "trecho" && !hasTrecho) return null;
           const active = current === t.id;
           return (
             <button
@@ -285,67 +277,6 @@ function DocumentosTab({ data }: { data: Unlocked }) {
   );
 }
 
-function OrgaosTab({ data }: { data: Unlocked }) {
-  if (!data.orgaoBR && !data.orgaoParceiro) {
-    return (
-      <p className="rounded-2xl border border-dashed border-border px-6 py-10 text-center text-sm text-muted-foreground">
-        Sem órgãos de ligação cadastrados.
-      </p>
-    );
-  }
-  return (
-    <div className="grid gap-6 sm:grid-cols-2">
-      {data.orgaoBR && <OrgaoCard titulo="Órgão de Ligação (Brasil)" orgao={data.orgaoBR} />}
-      {data.orgaoParceiro && (
-        <OrgaoCard titulo="Órgão de Ligação (Parceiro)" orgao={data.orgaoParceiro} />
-      )}
-    </div>
-  );
-}
-
-function TrechoTab({ data, pais }: { data: Unlocked; pais: string }) {
-  const [copied, setCopied] = useState(false);
-  const citacao = `"${data.acordoTrecho}" — ${data.titulo}, ${data.decreto}.`;
-
-  async function copy() {
-    try {
-      await navigator.clipboard.writeText(citacao);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch {
-      /* noop */
-    }
-  }
-
-  return (
-    <article className="space-y-5">
-      <div className="flex items-center justify-between gap-3">
-        <p className="eyebrow">Trecho do acordo</p>
-        <button
-          type="button"
-          onClick={copy}
-          className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1 text-xs text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
-        >
-          {copied ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
-          {copied ? "Copiado" : "Copiar citação"}
-        </button>
-      </div>
-      <blockquote className="border-l-2 border-foreground pl-5 font-serif text-base leading-relaxed text-foreground">
-        {data.acordoTrecho}
-      </blockquote>
-      <p className="text-xs text-muted-foreground">
-        Fonte: {data.titulo} · {data.decreto} · em vigor desde {data.vigorDesde}.
-      </p>
-      <Link
-        to="/acordos/$pais"
-        params={{ pais }}
-        className="inline-block text-xs text-muted-foreground underline underline-offset-4 hover:text-foreground"
-      >
-        Ver página pública do acordo →
-      </Link>
-    </article>
-  );
-}
 
 function LockedContent({
   pais,

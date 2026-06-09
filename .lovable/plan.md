@@ -1,44 +1,83 @@
-## Diagnóstico
+# Plano
 
-O badge "Em curadoria" no `/hub` é decidido em `src/components/hub/country-card.tsx` apenas por:
+## 1. Corrigir o campo `instrumento`
 
-```ts
-emCuradoria: docs === 0  // docs = documentos[] com `arquivo` em acordos.generated.ts
+**Onde os dados vivem:** `src/data/acordos.generated.ts` (auto-gerado por `scripts/import-acordos.ts`). O valor é consumido em `src/lib/hub.functions.ts` e renderizado em `src/routes/_authenticated/hub.$pais.tsx` (linha 63).
+
+**Problema:** se eu apenas editar o arquivo gerado, a próxima execução do importador desfaz tudo. Solução: criar um override estável **e** corrigir o gerado de uma vez.
+
+### 1.1 Criar override
+
+Novo arquivo `src/data/acordos-instrumento-overrides.ts` exportando um mapa `slug → instrumento` com a tabela canônica:
+
+```
+alemanha          → Acordo Brasil - Alemanha
+austria           → Acordo Brasil - Áustria
+belgica           → Acordo Brasil - Bélgica
+bulgaria          → Acordo Brasil - Bulgária
+cabo-verde        → Acordo Brasil - Cabo Verde
+canada            → Acordo Brasil - Canadá
+chile             → Acordo Brasil - Chile
+coreia-do-sul     → Acordo Brasil - Coreia do Sul
+espanha           → Acordo Brasil - Espanha
+estados-unidos    → Acordo Brasil - Estados Unidos
+franca            → Acordo Brasil - França
+grecia            → Acordo Brasil - Grécia
+india             → Acordo Brasil - Índia
+israel            → Acordo Brasil - Israel
+italia            → Acordo Brasil - Itália
+japao             → Acordo Brasil - Japão
+luxemburgo        → Acordo Brasil - Luxemburgo
+mocambique        → Acordo Brasil - Moçambique
+portugal          → Acordo Brasil - Portugal
+quebec            → Acordo Brasil - Quebec
+republica-tcheca  → Acordo Brasil - República Tcheca
+suica             → Acordo Brasil - Suíça
+mercosul          → Mercosul
+cplp              → CPLP
+iberoamericano    → Iberoamericano
 ```
 
-Rodando contra `src/data/acordos.generated.ts`:
+### 1.2 Aplicar o override em `src/lib/hub.functions.ts`
 
-- **Suíça** → ausente do generated. O `scripts/import-acordos.ts` lista 24 países e esqueceu a Suíça, embora `acordo-suica.html` exista no repo `marcosespinola1379/Mapa-de-Acordos` (HTTP 200 confirmado).
-- **Bélgica** → presente no generated, com trecho do acordo, órgãos BR/parceiro e texto integral, mas `documentos: []`. O HTML existe no repo; o parser não extraiu a lista de PDFs.
-- **Iberoamericano** → mesmo caso da Bélgica.
+Onde a função monta o `instrumento` retornado, fazer `INSTRUMENTO_OVERRIDES[slug] ?? generated.instrumento`. Isso garante a regra mesmo se a próxima regeneração trouxer string antiga.
 
-Logo: não é o conteúdo que está faltando no repo — é o pipeline de importação que está desatualizado/incompleto para esses três.
+### 1.3 Atualizar `src/data/acordos.generated.ts`
 
-## O que vou fazer
+Substituir os 21 valores existentes pelos canônicos e ignorar o cabeçalho "auto-generated" só desta vez (o override em 1.2 segura o futuro). Os 4 slugs sem `instrumento` (luxemburgo, mocambique, quebec, republica-tcheca) recebem o campo nos seus objetos.
 
-1. **Adicionar Suíça ao importador**
-   - `scripts/import-acordos.ts` → incluir `{ file: "acordo-suica", slug: "suica", txtName: "Suíça" }` na lista `SOURCES`.
+### 1.4 Atualizar `scripts/import-acordos.ts`
 
-2. **Corrigir extração de documentos para Bélgica e Iberoamericano**
-   - Baixar os HTMLs dos três (`acordo-suica`, `acordo-belgica`, `acordo-iberoamericano`) e comparar a estrutura usada para listar PDFs com a dos países que funcionam (ex.: Alemanha).
-   - Ajustar o parser de `documentos` em `scripts/import-acordos.ts` para reconhecer a variação de markup que esses HTMLs usam (provavelmente um seletor diferente para os anexos).
+Adicionar uma const `INSTRUMENTO_CANONICO` (mesmo mapa) e usar `INSTRUMENTO_CANONICO[slug] ?? instrumento` ao montar o objeto gerado. Próximas reimportações já saem corretas.
 
-3. **Regenerar dados**
-   - Rodar `bun scripts/import-acordos.ts` para reescrever `src/data/acordos.generated.ts` com Suíça incluída e Bélgica/Iberoamericano com `documentos[]` preenchido.
+## 2. Remover abas "Trecho legal" e "Órgãos" do Hub Profissional
 
-4. **Catálogo curado (`src/data/acordos.ts`)**
-   - Conferir/ajustar o card da Suíça (hoje declara `docs: 10`) e Bélgica (`docs: 13`) — a contagem real vem do generated automaticamente (`if (imp.documentos?.length) a.docs = imp.documentos.length`), então basta garantir que o slug "suica" exista no catálogo (já existe).
+Arquivo: `src/routes/_authenticated/hub.$pais.tsx`.
 
-5. **Sincronização de PDFs no bucket `hub-docs`** (opcional, só se PDFs vierem com link no HTML)
-   - Rodar `bun scripts/sync-hub-docs.ts` para subir os arquivos novos e depois `bun scripts/check-hub-docs.ts` para validar.
+- Linha 13 (`tabSchema`): remover `"orgaos"` e `"trecho"` do enum.
+- Linhas 93-94: remover as renderizações `tab === "orgaos"` e `tab === "trecho"`.
+- Linhas 104-111 (`TABS`): remover as entradas `orgaos` e `trecho`.
+- Linha 83 e 118-128: remover a prop/branch `hasTrecho` (não mais necessária) e a condição que escondia "Trecho legal".
+- Remover os componentes `OrgaosTab` e `TrechoTab` (definidos mais abaixo no mesmo arquivo) e qualquer import exclusivo (ex.: `TextoIntegralAcordo` se usado só por TrechoTab — vou verificar antes de remover).
 
-6. **Validação visual**
-   - Abrir `/hub` e confirmar que Suíça, Bélgica e Iberoamericano não trazem mais o badge "Em curadoria" e que os filtros "Com material" / "Em curadoria" continuam coerentes.
+A rota pública `src/routes/acordos.$pais.tsx` (site marketing) **não** é alterada — o pedido é só sobre o Hub Profissional (`/hub/$pais`).  
+negativo, altere e mantenha o padrao das informacoes na rota publica tambem.
 
-7. **Atualizar PRD/Roadmap** conforme regra do projeto:
-   - `.lovable/prd.md` e `ROADMAP.md`: registrar o fix de cobertura (Suíça adicionada ao pipeline; parser de documentos generalizado).
+## 3. Documentação
+
+Atualizar `.lovable/prd.md` e `ROADMAP.md` com nota curta: padronização do `instrumento` e simplificação das abas do Hub.
+
+## Arquivos que serão alterados
+
+- novo: `src/data/acordos-instrumento-overrides.ts`
+- `src/data/acordos.generated.ts`
+- `src/lib/hub.functions.ts`
+- `scripts/import-acordos.ts`
+- `src/routes/_authenticated/hub.$pais.tsx`
+- `.lovable/prd.md`
+- `ROADMAP.md`
 
 ## Fora de escopo
 
-- Não vou mexer na regra do badge em `country-card.tsx` — ela continua válida; o que estava errado eram os dados.
-- Não vou alterar o conteúdo editorial expandido (`conteudoExpandido`) desses países nesta rodada.
+- Não regerar `acordos.generated.ts` agora (a edição manual + override cobre).
+- Sem mudança de schema do banco nem de RLS.

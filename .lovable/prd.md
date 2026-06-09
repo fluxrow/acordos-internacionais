@@ -344,3 +344,9 @@ Comando: `bun run test`. 31 testes — qualquer regressão nas regras de piso, p
 - **CountryCard reescrito** estilo showcase-card-1 (21st.dev): cover com bandeira/logo, título com micro-acento gold no hover, estados visuais por status (curadoria dessaturado, bloqueado com lock gold, disponível com hairline gold no hover).
 - **Dashboard `/hub`** reorganizado para max-w-7xl, header curto com badge de plano, banda de 3 ações compactas e workspace 9+3 com rail sticky (Continuar lendo + Atalhos).
 - **País `/hub/$pais`** ganha segmented tabs com indicador gold animado e moldura premium (`hub-surface` + `hub-scroll`) no texto integral de Acordo/Ajuste.
+
+## Atualização — Padronização de instrumento + abas do hub (2026-06-09)
+
+- Campo `instrumento` agora segue regra única: bilaterais `Acordo Brasil - <País>`, multilaterais nome do bloco. Aplicado via `src/data/acordos-instrumento-overrides.ts` (centralizado e à prova de reimport).
+- Abas removidas em `/hub/$pais`: "Trecho legal" e "Órgãos". Restam Visão Geral, Documentos, Acordo (texto integral) e Ajuste administrativo.
+- Bloco "Órgãos de ligação" removido também da rota pública `/acordos/$pais` para manter consistência editorial entre site e hub.

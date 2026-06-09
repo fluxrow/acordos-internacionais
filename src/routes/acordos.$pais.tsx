@@ -2,6 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Lock, Mail, Phone, MapPin, Building2, Info } from "lucide-react";
 import { acordos, getAcordo } from "@/data/acordos";
 import type { DocumentoImportado, OrgaoLigacao } from "@/data/acordos.types";
+import { getInstrumento } from "@/data/acordos-instrumento-overrides";
 import { findTooltipFor } from "@/data/acordo-tooltips";
 import { CTAMarcos } from "@/components/cta-marcos";
 import { ProContentLock } from "@/components/pro-content-lock";
@@ -132,8 +133,6 @@ function AcordoPais() {
   const tocBlocos: Array<{ id: string; label: string }> = [];
   if (a.importado && (a.importado.decreto || a.importado.vigorDesde || a.importado.instrumento))
     tocBlocos.push({ id: "instrumento", label: "Instrumento" });
-  if (a.importado && (a.importado.orgaoBR || a.importado.orgaoParceiro))
-    tocBlocos.push({ id: "orgaos", label: "Órgãos de ligação" });
   if (
     a.importado &&
     (a.importado.beneficios.brasil.length > 0 || a.importado.beneficios.parceiro.length > 0)
@@ -255,7 +254,7 @@ function AcordoPais() {
               >
                 <dl className="grid gap-4 sm:grid-cols-3">
                   {a.importado.instrumento && (
-                    <FichaItem rotulo="Instrumento" valor={a.importado.instrumento} />
+                    <FichaItem rotulo="Instrumento" valor={getInstrumento(a.slug, a.importado.instrumento)} />
                   )}
                   {a.importado.decreto && (
                     <FichaItem rotulo="Decreto de promulgação" valor={a.importado.decreto} />
@@ -267,22 +266,7 @@ function AcordoPais() {
               </Bloco>
             )}
 
-            {/* ÓRGÃOS DE LIGAÇÃO (público) */}
-            {a.importado && (a.importado.orgaoBR || a.importado.orgaoParceiro) && (
-              <Bloco
-                id="orgaos"
-                numero={tocBlocos.findIndex((b) => b.id === "orgaos") + 1}
-                titulo="Órgãos de ligação"
-                lede="Quem operacionaliza o acordo de cada lado — use para protocolar requerimentos ou esclarecer pendências administrativas."
-              >
-                <div className="mt-2 grid gap-6 md:grid-cols-2">
-                  {a.importado.orgaoBR && <OrgaoCard orgao={a.importado.orgaoBR} lado="Brasil" />}
-                  {a.importado.orgaoParceiro && (
-                    <OrgaoCard orgao={a.importado.orgaoParceiro} lado={a.nome} />
-                  )}
-                </div>
-              </Bloco>
-            )}
+
 
             {/* BENEFÍCIOS COBERTOS (público) */}
             {a.importado &&
