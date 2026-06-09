@@ -71,7 +71,12 @@ export const getAccountData = createServerFn({ method: "GET" })
 
 export const createPortalSession = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: { env: StripeEnv }) => input)
+  .inputValidator((input: { env: StripeEnv }) => {
+    if (input.env !== "sandbox" && input.env !== "live") {
+      throw new Error("Invalid env");
+    }
+    return input;
+  })
   .handler(
     async ({ data, context }): Promise<{ url: string } | { error: string }> => {
       const { userId } = context;
