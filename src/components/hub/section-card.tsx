@@ -14,7 +14,7 @@ export function SectionCard({
 }: {
   children: ReactNode;
   className?: string;
-  as?: keyof Pick<JSX.IntrinsicElements, "section" | "div" | "article" | "aside">;
+  as?: "section" | "div" | "article" | "aside";
   hover?: boolean;
   gold?: boolean;
   padded?: boolean;
