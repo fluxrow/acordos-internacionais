@@ -420,12 +420,18 @@
   color: color-mix(in oklab, var(--muted-foreground) 80%, transparent);
 }
 
-/* Restaura o ícone nativo do <input type="date"> no tema dark — sem isto o
- * indicador do calendário fica preto sobre fundo escuro e some. */
+/* Ícone nativo do <input type="date"> casa com o tema atual. */
 input[type="date"],
 input[type="datetime-local"],
 input[type="time"],
 input[type="month"] {
   color-scheme: dark;
 }
+.light input[type="date"],
+.light input[type="datetime-local"],
+.light input[type="time"],
+.light input[type="month"] {
+  color-scheme: light;
+}
+
 
