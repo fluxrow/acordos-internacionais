@@ -1,18 +1,20 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
-import { Calculator, ArrowRight, FileText, Inbox } from "lucide-react";
+import { Calculator, ArrowRight, FileText, Inbox, History } from "lucide-react";
 import { getHubDashboard } from "@/lib/hub.functions";
 import { CTAButton } from "@/components/cta-button";
 import { acordosImportados } from "@/data/acordos.generated";
 import { REGIAO_POR_PAIS } from "@/data/regioes";
 import { CountryCard } from "@/components/hub/country-card";
+import { StatusBadge } from "@/components/hub/status-badge";
+import { SectionCard } from "@/components/hub/section-card";
 import {
   DashboardFilters,
   type RegiaoFiltro,
   type StatusFiltro,
 } from "@/components/hub/dashboard-filters";
-import { ContinueReading } from "@/components/hub/continue-reading";
+import { MULTI_LOGOS } from "@/lib/multi-logos";
 
 const PAISES = [
   { slug: "alemanha", nome: "Alemanha", flag: "de" },
@@ -69,6 +71,7 @@ function HubDashboard() {
 
   const hasAccess = data?.hasAccess === true;
   const isAdmin = data?.isAdmin === true;
+  const isActive = data?.isActive === true;
 
   const [regiao, setRegiao] = useState<RegiaoFiltro>("todas");
   const [status, setStatus] = useState<StatusFiltro>("todos");
@@ -88,121 +91,269 @@ function HubDashboard() {
       const p = PAIS_POR_SLUG[r.pais];
       return p ? { pais: r.pais, nome: p.nome, flag: p.flag, lastAt: r.lastAt } : null;
     })
-    .filter((x): x is NonNullable<typeof x> => x !== null);
+    .filter((x): x is NonNullable<typeof x> => x !== null)
+    .slice(0, 6);
+
+  const planoBadge = isAdmin ? (
+    <StatusBadge kind="admin" label="Modo admin" />
+  ) : isActive ? (
+    <StatusBadge kind="pro" label="Plano Pro" />
+  ) : (
+    <StatusBadge kind="trial" label="Trial" tone="muted" />
+  );
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-10">
-      <header className="mb-8">
-        <p className="eyebrow mb-1">{getGreeting()}</p>
-        <h1 className="font-display text-4xl">Hub Profissional</h1>
-        <p className="mt-1 text-muted-foreground">Acordos Previdenciários Internacionais</p>
-        {isAdmin && (
-          <span className="mt-3 inline-flex items-center rounded-full border border-[var(--accent-ink)]/30 bg-[var(--accent-ink)]/5 px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.14em] text-[var(--accent-ink)]">
-            Modo admin
-          </span>
-        )}
+    <div className="mx-auto max-w-7xl px-5 py-6 md:px-8 md:py-8">
+      {/* Header curto — uma linha */}
+      <header className="mb-6 flex flex-wrap items-end justify-between gap-3 border-b border-border/40 pb-5">
+        <div>
+          <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+            {getGreeting()}
+          </p>
+          <h1 className="mt-1 font-display text-3xl">
+            Hub <span className="text-gold">Profissional</span>
+          </h1>
+        </div>
+        <div className="flex items-center gap-2">
+          {planoBadge}
+          {!isAdmin && isActive && data?.periodEnd && (
+            <span className="hidden text-[11px] text-muted-foreground sm:inline">
+              renova {new Date(data.periodEnd).toLocaleDateString("pt-BR")}
+            </span>
+          )}
+        </div>
       </header>
 
       {!hasAccess && !isPending && (
-        <div className="mb-8 rounded-2xl border border-border/60 bg-background/60 px-6 py-5 backdrop-blur-md shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_-12px_rgba(0,0,0,0.08)]">
+        <SectionCard gold className="mb-6">
           <p className="font-medium">Acesso bloqueado</p>
           <p className="mt-1 text-sm text-muted-foreground">
-            Assine o Hub Profissional para acessar os materiais técnicos de todos os acordos e a calculadora RMI.
+            Assine o Hub Profissional para acessar os materiais técnicos de todos os
+            acordos e a calculadora RMI.
           </p>
           <div className="mt-4">
             <CTAButton to="/precos" variant="dark" label="Ver planos" />
           </div>
-        </div>
+        </SectionCard>
       )}
 
-      {/* Card destacado: Calculadora RMI */}
-      <Link
-        to="/hub/calculadora"
-        className="group mb-8 flex items-center gap-5 rounded-2xl border border-border/60 bg-background/60 px-6 py-5 backdrop-blur-md shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_-12px_rgba(0,0,0,0.08)] transition-all hover:-translate-y-0.5 hover:border-foreground hover:shadow-[0_8px_24px_-8px_rgba(0,0,0,0.16)]"
-      >
-        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--accent-ink)] text-[var(--paper)]">
-          <Calculator className="h-5 w-5" />
-        </span>
-        <div className="flex-1">
-          <p className="eyebrow mb-1">Ferramenta inclusa</p>
-          <p className="font-display text-lg">Calculadora Totalização</p>
-          <p className="mt-0.5 text-sm text-muted-foreground">
-            Laudo técnico com tabela detalhada, fórmulas e rodapé identificável — pronto para anexar ao processo.
-          </p>
-        </div>
-        <ArrowRight className="h-5 w-5 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-foreground" />
-      </Link>
-
-      {/* Atalho: Histórico de laudos */}
-      <Link
-        to="/hub/laudos"
-        className="group mb-8 flex items-center gap-5 rounded-2xl border border-border/60 bg-background/60 px-6 py-4 backdrop-blur-md shadow-[var(--shadow-soft)] transition-all hover:-translate-y-0.5 hover:border-foreground hover:shadow-[var(--shadow-soft-hover)]"
-      >
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-border/60 bg-background/80 text-foreground">
-          <FileText className="h-4 w-4" />
-        </span>
-        <div className="flex-1">
-          <p className="font-display text-base">Histórico de laudos</p>
-          <p className="mt-0.5 text-sm text-muted-foreground">
-            Reabra e baixe novamente qualquer laudo PDF gerado anteriormente.
-          </p>
-        </div>
-        <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-foreground" />
-      </Link>
-
-      {isAdmin && (
-        <Link
-          to="/hub/leads"
-          className="group mb-8 flex items-center gap-5 rounded-2xl border border-[var(--accent-ink)]/40 bg-[var(--accent-ink)]/5 px-6 py-4 backdrop-blur-md shadow-[var(--shadow-soft)] transition-all hover:-translate-y-0.5 hover:border-[var(--accent-ink)] hover:shadow-[var(--shadow-soft-hover)]"
-        >
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[var(--accent-ink)] text-[var(--paper)]">
-            <Inbox className="h-4 w-4" />
-          </span>
-          <div className="flex-1">
-            <p className="eyebrow mb-1 text-[var(--accent-ink)]">Admin</p>
-            <p className="font-display text-base">Leads da calculadora</p>
-            <p className="mt-0.5 text-sm text-muted-foreground">
-              Veja, contate e acompanhe o status de cada lead que veio do site.
-            </p>
-          </div>
-          <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-foreground" />
-        </Link>
-      )}
-
-      <ContinueReading items={recentItems} />
-
-      <section>
-        <DashboardFilters
-          regiao={regiao}
-          status={status}
-          onRegiao={setRegiao}
-          onStatus={setStatus}
-          totalVisivel={paisesFiltrados.length}
+      {/* Banda de ações compacta — uma fileira de 3 cards */}
+      <section className="mb-7 grid gap-3 md:grid-cols-3">
+        <ActionCard
+          to="/hub/calculadora"
+          icon={Calculator}
+          eyebrow="Ferramenta inclusa"
+          title="Calculadora Totalização"
+          desc="Laudo técnico pronto para anexar ao processo."
+          gold
         />
-        {paisesFiltrados.length === 0 ? (
-          <p className="rounded-2xl border border-dashed border-border px-6 py-10 text-center text-sm text-muted-foreground">
-            Nenhum país nesse filtro.
-          </p>
+        <ActionCard
+          to="/hub/laudos"
+          icon={FileText}
+          eyebrow="Histórico"
+          title="Laudos gerados"
+          desc="Reabra e baixe novamente qualquer laudo PDF."
+        />
+        {isAdmin ? (
+          <ActionCard
+            to="/hub/leads"
+            icon={Inbox}
+            eyebrow="Admin"
+            title="Leads da calculadora"
+            desc="Acompanhe e contate cada lead que veio do site."
+            gold
+          />
         ) : (
-          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-            {paisesFiltrados.map((p) => (
-              <li key={p.slug}>
-                <CountryCard pais={p} hasAccess={hasAccess} />
-              </li>
-            ))}
-          </ul>
+          <ActionCard
+            to="/hub"
+            icon={ArrowRight}
+            eyebrow="Continuar"
+            title="Países disponíveis"
+            desc="Salte direto para o seu acordo favorito abaixo."
+          />
         )}
       </section>
 
-      <footer className="mt-10 flex items-center gap-4 border-t border-border pt-6 text-sm text-muted-foreground">
-        <Link to="/conta" className="hover:text-foreground">Minha conta</Link>
-        {data?.isActive && data?.periodEnd && (
-          <span>
-            Assinatura ativa até{" "}
-            {new Date(data.periodEnd).toLocaleDateString("pt-BR")}
-          </span>
-        )}
-      </footer>
+      {/* Workspace — grid + rail */}
+      <div className="grid gap-6 lg:grid-cols-12">
+        <section className="lg:col-span-9">
+          <FiltersToolbar
+            regiao={regiao}
+            status={status}
+            onRegiao={setRegiao}
+            onStatus={setStatus}
+            total={paisesFiltrados.length}
+          />
+          {paisesFiltrados.length === 0 ? (
+            <p className="rounded-2xl border border-dashed border-border px-6 py-10 text-center text-sm text-muted-foreground">
+              Nenhum país nesse filtro.
+            </p>
+          ) : (
+            <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
+              {paisesFiltrados.map((p) => (
+                <li key={p.slug}>
+                  <CountryCard pais={p} hasAccess={hasAccess} />
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+
+        {/* Rail sticky */}
+        <aside className="lg:col-span-3">
+          <div className="space-y-4 lg:sticky lg:top-16">
+            {recentItems.length > 0 && (
+              <SectionCard>
+                <div className="mb-3 flex items-center gap-2">
+                  <History className="h-3.5 w-3.5 text-[var(--accent-ink)]" />
+                  <h2 className="text-[10px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                    Continuar lendo
+                  </h2>
+                </div>
+                <ul className="-mx-1">
+                  {recentItems.map((it) => (
+                    <li key={it.pais}>
+                      <Link
+                        to="/hub/$pais"
+                        params={{ pais: it.pais }}
+                        className="group flex items-center gap-2.5 rounded-lg px-2 py-1.5 text-[13px] transition-colors hover:bg-[var(--paper-soft)]"
+                      >
+                        {it.flag ? (
+                          <img
+                            src={`https://flagcdn.com/w40/${it.flag}.png`}
+                            alt=""
+                            width={20}
+                            height={15}
+                            className="rounded-sm object-cover"
+                            loading="lazy"
+                          />
+                        ) : MULTI_LOGOS[it.pais] ? (
+                          <img
+                            src={MULTI_LOGOS[it.pais]}
+                            alt=""
+                            width={20}
+                            height={15}
+                            className="h-[15px] w-[20px] rounded-sm bg-background object-contain ring-1 ring-border"
+                            loading="lazy"
+                          />
+                        ) : (
+                          <span className="h-[15px] w-[20px] rounded-sm bg-secondary" />
+                        )}
+                        <span className="flex-1 truncate text-foreground/85 group-hover:text-foreground">
+                          {it.nome}
+                        </span>
+                        <ArrowRight className="h-3 w-3 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </SectionCard>
+            )}
+
+            <SectionCard>
+              <h2 className="mb-3 text-[10px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                Atalhos
+              </h2>
+              <ul className="space-y-1.5 text-[13px]">
+                <li>
+                  <Link
+                    to="/hub/calculadora"
+                    className="block rounded-md px-2 py-1.5 text-foreground/85 transition-colors hover:bg-[var(--paper-soft)] hover:text-[var(--accent-ink)]"
+                  >
+                    Nova totalização →
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/hub/laudos"
+                    className="block rounded-md px-2 py-1.5 text-foreground/85 transition-colors hover:bg-[var(--paper-soft)] hover:text-[var(--accent-ink)]"
+                  >
+                    Meus laudos →
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/conta"
+                    className="block rounded-md px-2 py-1.5 text-foreground/85 transition-colors hover:bg-[var(--paper-soft)] hover:text-[var(--accent-ink)]"
+                  >
+                    Minha conta →
+                  </Link>
+                </li>
+              </ul>
+            </SectionCard>
+          </div>
+        </aside>
+      </div>
+    </div>
+  );
+}
+
+function ActionCard({
+  to,
+  icon: Icon,
+  eyebrow,
+  title,
+  desc,
+  gold = false,
+}: {
+  to: string;
+  icon: typeof Calculator;
+  eyebrow: string;
+  title: string;
+  desc: string;
+  gold?: boolean;
+}) {
+  return (
+    <Link
+      to={to}
+      className={[
+        "group flex items-start gap-3 rounded-2xl border bg-[var(--surface-premium)] p-4 backdrop-blur-md shadow-[var(--shadow-soft)] transition-all hover:-translate-y-0.5",
+        gold
+          ? "border-[var(--rule-gold)] hover:border-[var(--rule-gold-strong)] hover:shadow-[var(--shadow-gold-glow)]"
+          : "border-border/60 hover:border-foreground/40 hover:shadow-[var(--shadow-soft-hover)]",
+      ].join(" ")}
+    >
+      <span
+        className={
+          gold
+            ? "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--accent-ink)] text-[var(--paper)]"
+            : "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border/70 bg-background/80 text-foreground"
+        }
+      >
+        <Icon className="h-4 w-4" />
+      </span>
+      <div className="min-w-0 flex-1">
+        <p
+          className={`mb-0.5 text-[10px] font-medium uppercase tracking-[0.16em] ${
+            gold ? "text-[var(--accent-ink)]" : "text-muted-foreground"
+          }`}
+        >
+          {eyebrow}
+        </p>
+        <p className="font-display text-[15px] leading-tight">{title}</p>
+        <p className="mt-1 text-xs text-muted-foreground">{desc}</p>
+      </div>
+      <ArrowRight className="mt-1 h-4 w-4 shrink-0 text-muted-foreground transition-all group-hover:translate-x-0.5 group-hover:text-[var(--accent-ink)]" />
+    </Link>
+  );
+}
+
+function FiltersToolbar(props: {
+  regiao: RegiaoFiltro;
+  status: StatusFiltro;
+  onRegiao: (r: RegiaoFiltro) => void;
+  onStatus: (s: StatusFiltro) => void;
+  total: number;
+}) {
+  return (
+    <div className="mb-4 rounded-xl border border-border/60 bg-[var(--surface-premium)] px-3 py-2 backdrop-blur-md">
+      <DashboardFilters
+        regiao={props.regiao}
+        status={props.status}
+        onRegiao={props.onRegiao}
+        onStatus={props.onStatus}
+        totalVisivel={props.total}
+      />
     </div>
   );
 }

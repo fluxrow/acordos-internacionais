@@ -332,3 +332,13 @@ Comando: `bun run test`. 31 testes — qualquer regressão nas regras de piso, p
 - Tokens do tema claro definidos como bloco `.light { ... }` em `src/styles.css`, baseados no antigo Paper & Ink mas mantendo o **gold** (`--accent-ink` ajustado para `oklch(0.62 0.14 86)` para contraste em fundo claro). Sombras recalibradas (alpha mais baixo). Nenhum componente foi reescrito — a troca é só via CSS variables.
 - `color-scheme` dos inputs de data segue o tema.
 - `LaudoPdf` recebe `className="laudo-root light"` para garantir que o PDF sai sempre em claro, independente do tema do app.
+
+## Atualização — HUB premium chrome (2026-06-09)
+
+- **Chrome próprio do HUB**: `_authenticated.tsx` agora renderiza `HubShell` (`src/components/hub/hub-shell.tsx`) com sidebar workstation (`hub-sidebar.tsx`, shadcn `Sidebar` collapsible="icon") + topbar curta (`hub-topbar.tsx`, breadcrumb + ThemeToggle + sign out). `SiteHeader`/`SiteFooter` são escondidos em `__root` quando o pathname começa com `/hub` ou `/conta` — contraste visual imediato entre site público e área logada.
+- **`/hub/laudo` continua fora do shell** (print/PDF), seguindo forçado em `.light`.
+- **Tokens premium novos em `src/styles.css`**: `--surface-premium`, `--surface-premium-strong`, `--rule-gold`, `--rule-gold-strong`. Utilitários `.hub-surface`, `.hub-surface-strong`, `.hub-rule-gold`, `.hub-scroll`.
+- **Componentes compartilhados**: `StatusBadge` (pro/trial/admin/curadoria/bloqueado/favorito), `SectionCard` (superfície premium reutilizável).
+- **CountryCard reescrito** estilo showcase-card-1 (21st.dev): cover com bandeira/logo, título com micro-acento gold no hover, estados visuais por status (curadoria dessaturado, bloqueado com lock gold, disponível com hairline gold no hover).
+- **Dashboard `/hub`** reorganizado para max-w-7xl, header curto com badge de plano, banda de 3 ações compactas e workspace 9+3 com rail sticky (Continuar lendo + Atalhos).
+- **País `/hub/$pais`** ganha segmented tabs com indicador gold animado e moldura premium (`hub-surface` + `hub-scroll`) no texto integral de Acordo/Ajuste.

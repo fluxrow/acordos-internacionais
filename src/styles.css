@@ -115,6 +115,12 @@
     0 0 0 1px color-mix(in oklab, var(--accent-ink) 25%, transparent),
     0 12px 32px -16px color-mix(in oklab, var(--accent-ink) 35%, transparent);
 
+  /* Premium surface tokens — HUB workstation chrome */
+  --surface-premium: color-mix(in oklab, var(--card-bg) 70%, transparent);
+  --surface-premium-strong: color-mix(in oklab, var(--card-bg) 92%, transparent);
+  --rule-gold: color-mix(in oklab, var(--accent-ink) 32%, transparent);
+  --rule-gold-strong: color-mix(in oklab, var(--accent-ink) 60%, transparent);
+
   /* Semantic tokens mapped to Premium Dark + Gold */
   --background: var(--paper);
   --foreground: var(--ink);
@@ -233,6 +239,12 @@
   --shadow-gold-glow:
     0 0 0 1px color-mix(in oklab, var(--accent-ink) 25%, transparent),
     0 12px 32px -16px color-mix(in oklab, var(--accent-ink) 30%, transparent);
+
+  /* Premium surface tokens (claro) */
+  --surface-premium: color-mix(in oklab, var(--card-bg) 80%, transparent);
+  --surface-premium-strong: color-mix(in oklab, var(--card-bg) 95%, transparent);
+  --rule-gold: color-mix(in oklab, var(--accent-ink) 28%, transparent);
+  --rule-gold-strong: color-mix(in oklab, var(--accent-ink) 55%, transparent);
 
   --background: var(--paper);
   --foreground: var(--ink);
@@ -363,6 +375,34 @@
     transform: translateY(-2px);
     box-shadow: var(--shadow-soft-hover);
     border-color: var(--color-accent-ink);
+  }
+
+  /* HUB workstation — superfície premium reutilizável */
+  .hub-surface {
+    background: var(--surface-premium);
+    border: 1px solid color-mix(in oklab, var(--border) 90%, transparent);
+    border-radius: 1rem;
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-soft);
+  }
+  .hub-surface-strong {
+    background: var(--surface-premium-strong);
+    border: 1px solid color-mix(in oklab, var(--border) 90%, transparent);
+    border-radius: 1rem;
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-soft);
+  }
+  .hub-rule-gold { border-color: var(--rule-gold) !important; }
+
+  /* Scrollbar premium para containers de leitura longa */
+  .hub-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
+  .hub-scroll::-webkit-scrollbar-track { background: transparent; }
+  .hub-scroll::-webkit-scrollbar-thumb {
+    background: color-mix(in oklab, var(--accent-ink) 18%, transparent);
+    border-radius: 8px;
+  }
+  .hub-scroll::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in oklab, var(--accent-ink) 40%, transparent);
   }
 
 }

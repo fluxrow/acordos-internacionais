@@ -51,30 +51,24 @@ function HubPaisPage() {
   }
 
   return (
-    <div className="mx-auto max-w-4xl px-6 py-10">
-      <nav className="mb-6 text-sm text-muted-foreground">
-        <Link to="/hub" className="hover:text-foreground">Hub</Link>
-        <span className="mx-2">›</span>
-        <span>{data.titulo}</span>
-      </nav>
-
-      <header>
+    <div className="mx-auto max-w-6xl px-5 py-6 md:px-8 md:py-8">
+      <header className="mb-6">
         <div className="flex flex-wrap items-start justify-between gap-3">
-          <h1 className="font-display text-4xl">{data.titulo}</h1>
+          <h1 className="font-display text-3xl md:text-4xl">{data.titulo}</h1>
           {!data.locked && <FavoritoButton pais={pais} />}
         </div>
-        <dl className="mt-4 flex flex-wrap gap-x-8 gap-y-1 text-sm text-muted-foreground">
+        <dl className="mt-3 flex flex-wrap gap-x-6 gap-y-1 text-[13px] text-muted-foreground">
           <div>
-            <dt className="inline font-medium text-foreground">Instrumento: </dt>
-            <dd className="inline">{data.instrumento}</dd>
+            <dt className="inline text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground/80">Instrumento </dt>
+            <dd className="inline text-foreground">· {data.instrumento}</dd>
           </div>
           <div>
-            <dt className="inline font-medium text-foreground">Decreto: </dt>
-            <dd className="inline">{data.decreto}</dd>
+            <dt className="inline text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground/80">Decreto </dt>
+            <dd className="inline text-foreground">· {data.decreto}</dd>
           </div>
           <div>
-            <dt className="inline font-medium text-foreground">Vigor desde: </dt>
-            <dd className="inline">{data.vigorDesde}</dd>
+            <dt className="inline text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground/80">Vigor desde </dt>
+            <dd className="inline text-foreground">· {data.vigorDesde}</dd>
           </div>
         </dl>
       </header>
@@ -88,7 +82,7 @@ function HubPaisPage() {
             onChange={(t) => navigate({ search: { tab: t }, replace: true })}
             hasTrecho={!!data.acordoTrecho}
           />
-          <div className="mt-8">
+          <div className="mt-6">
             {tab === "visao" && (
               <div className="space-y-8">
                 <VisaoTab data={data} />
@@ -128,8 +122,8 @@ function TabsBar({
   hasTrecho: boolean;
 }) {
   return (
-    <div className="sticky top-16 z-30 -mx-6 mt-8 border-b border-border bg-background/95 px-6 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-      <nav className="flex gap-1 overflow-x-auto">
+    <div className="sticky top-12 z-20 -mx-5 border-b border-border/60 bg-[var(--surface-premium-strong)] px-5 backdrop-blur-md md:-mx-8 md:px-8">
+      <nav className="flex gap-1 overflow-x-auto py-1">
         {TABS.map((t) => {
           if (t.id === "trecho" && !hasTrecho) return null;
           const active = current === t.id;
@@ -138,13 +132,19 @@ function TabsBar({
               key={t.id}
               type="button"
               onClick={() => onChange(t.id)}
-              className={`shrink-0 border-b-2 px-3 py-3 text-sm transition-colors ${
+              className={`relative shrink-0 rounded-md px-3 py-1.5 text-[13px] transition-colors ${
                 active
-                  ? "border-foreground font-medium text-foreground"
-                  : "border-transparent text-muted-foreground hover:text-foreground"
+                  ? "font-medium text-[var(--accent-ink)]"
+                  : "text-muted-foreground hover:text-foreground"
               }`}
             >
               {t.label}
+              {active && (
+                <span
+                  aria-hidden
+                  className="absolute inset-x-2 -bottom-[5px] h-[2px] rounded-full bg-[var(--accent-ink)]"
+                />
+              )}
             </button>
           );
         })}
@@ -525,9 +525,11 @@ function TextoIntegralTab({
       )}
 
       {estado.kind === "loaded" && estado.texto && (
-        <pre className="max-h-[calc(100vh-280px)] min-h-[400px] overflow-y-auto overscroll-contain whitespace-pre-wrap rounded-2xl border border-border bg-background p-6 font-sans text-[13px] leading-relaxed text-foreground/90">
-          {estado.texto}
-        </pre>
+        <div className="hub-surface overflow-hidden p-0">
+          <pre className="hub-scroll max-h-[calc(100vh-260px)] min-h-[400px] overflow-y-auto overscroll-contain whitespace-pre-wrap p-6 font-sans text-[13px] leading-relaxed text-foreground/90">
+            {estado.texto}
+          </pre>
+        </div>
       )}
 
       <p className="text-xs text-muted-foreground">
