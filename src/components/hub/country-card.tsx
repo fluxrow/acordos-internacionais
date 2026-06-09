@@ -63,14 +63,12 @@ export function CountryCard({
             loading="lazy"
           />
         ) : MULTI_LOGOS[pais.slug] ? (
-          <div className="flex h-full w-full items-center justify-center bg-[var(--card-bg)] px-4">
-            <img
-              src={MULTI_LOGOS[pais.slug]}
-              alt=""
-              className="max-h-14 w-auto object-contain"
-              loading="lazy"
-            />
-          </div>
+          <img
+            src={MULTI_LOGOS[pais.slug]}
+            alt=""
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            loading="lazy"
+          />
         ) : (
           <div className="flex h-full w-full items-center justify-center text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
             Multi
