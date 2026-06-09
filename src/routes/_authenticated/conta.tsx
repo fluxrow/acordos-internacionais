@@ -33,8 +33,11 @@ function ContaPage() {
   });
 
   const portalMutation = useMutation({
-    mutationFn: () =>
-      createPortalSession({ data: { env: "sandbox" } }),
+    mutationFn: () => {
+      const tok = import.meta.env.VITE_PAYMENTS_CLIENT_TOKEN as string | undefined;
+      const env: "sandbox" | "live" = tok?.startsWith("pk_live_") ? "live" : "sandbox";
+      return createPortalSession({ data: { env } });
+    },
     onSuccess: (result) => {
       if ("url" in result) window.location.href = result.url;
     },
