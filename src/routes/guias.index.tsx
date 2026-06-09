@@ -6,6 +6,8 @@ const TITLE = "Guias — conceitos centrais dos acordos previdenciários";
 const DESC =
   "Totalização, prova de vida no exterior, CDT e aposentadoria morando fora: os temas que aparecem em quase todo processo internacional, explicados sem juridiquês.";
 
+const CANONICAL = "https://acordosinternacionais.com/guias";
+
 export const Route = createFileRoute("/guias/")({
   head: () => ({
     meta: [
@@ -13,6 +15,22 @@ export const Route = createFileRoute("/guias/")({
       { name: "description", content: DESC },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },
+      { property: "og:url", content: CANONICAL },
+    ],
+    links: [{ rel: "canonical", href: CANONICAL }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: TITLE,
+          description: DESC,
+          url: CANONICAL,
+          inLanguage: "pt-BR",
+          isPartOf: { "@id": "https://acordosinternacionais.com/#website" },
+        }),
+      },
     ],
   }),
   component: GuiasIndex,

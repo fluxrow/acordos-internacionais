@@ -19,10 +19,10 @@ export const Route = createFileRoute("/acordos/$pais")({
         meta: [{ title: "País não encontrado | Acordos Internacionais" }],
       };
     }
-    const title = `Acordo de Previdência Brasil–${a.nome} | Acordos Internacionais`;
+    const title = `Acordo previdenciário Brasil–${a.nome}`;
     const desc = a.conteudo?.destaque ?? a.resumo;
-    const url = `https://acordosinternacionais.lovable.app/acordos/${a.slug}`;
-    const ogImage = `https://acordosinternacionais.lovable.app/og/${a.slug}.jpg?v=3`;
+    const url = `https://acordosinternacionais.com/acordos/${a.slug}`;
+    const ogImage = `https://acordosinternacionais.com/og/${a.slug}.jpg?v=3`;
     return {
       meta: [
         { title },
@@ -53,8 +53,8 @@ export const Route = createFileRoute("/acordos/$pais")({
                 mainEntityOfPage: url,
                 url,
                 about: `Acordo internacional de previdência social entre Brasil e ${a.nome}`,
-                isPartOf: { "@id": "https://acordosinternacionais.lovable.app/#website" },
-                publisher: { "@id": "https://acordosinternacionais.lovable.app/#organization" },
+                isPartOf: { "@id": "https://acordosinternacionais.com/#website" },
+                publisher: { "@id": "https://acordosinternacionais.com/#organization" },
               },
               {
                 "@type": "BreadcrumbList",
@@ -63,13 +63,13 @@ export const Route = createFileRoute("/acordos/$pais")({
                     "@type": "ListItem",
                     position: 1,
                     name: "Início",
-                    item: "https://acordosinternacionais.lovable.app/",
+                    item: "https://acordosinternacionais.com/",
                   },
                   {
                     "@type": "ListItem",
                     position: 2,
                     name: "Países",
-                    item: "https://acordosinternacionais.lovable.app/acordos",
+                    item: "https://acordosinternacionais.com/acordos",
                   },
                   {
                     "@type": "ListItem",

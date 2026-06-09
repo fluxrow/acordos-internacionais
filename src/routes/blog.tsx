@@ -4,6 +4,7 @@ import { blogPosts } from "@/data/blog-posts";
 const TITLE = "Blog | Acordos Internacionais";
 const DESC =
   "Análises, atualizações regulatórias e estudos de caso sobre acordos previdenciários internacionais do Brasil.";
+const CANONICAL = "https://acordosinternacionais.com/blog";
 
 export const Route = createFileRoute("/blog")({
   head: () => ({
@@ -12,6 +13,22 @@ export const Route = createFileRoute("/blog")({
       { name: "description", content: DESC },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },
+      { property: "og:url", content: CANONICAL },
+    ],
+    links: [{ rel: "canonical", href: CANONICAL }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: TITLE,
+          description: DESC,
+          url: CANONICAL,
+          inLanguage: "pt-BR",
+          isPartOf: { "@id": "https://acordosinternacionais.com/#website" },
+        }),
+      },
     ],
   }),
   component: Blog,
