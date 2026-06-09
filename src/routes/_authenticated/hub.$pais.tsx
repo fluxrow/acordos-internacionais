@@ -122,8 +122,8 @@ function TabsBar({
   hasTrecho: boolean;
 }) {
   return (
-    <div className="sticky top-16 z-30 -mx-6 mt-8 border-b border-border bg-background/95 px-6 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-      <nav className="flex gap-1 overflow-x-auto">
+    <div className="sticky top-12 z-20 -mx-5 border-b border-border/60 bg-[var(--surface-premium-strong)] px-5 backdrop-blur-md md:-mx-8 md:px-8">
+      <nav className="flex gap-1 overflow-x-auto py-1">
         {TABS.map((t) => {
           if (t.id === "trecho" && !hasTrecho) return null;
           const active = current === t.id;
@@ -132,13 +132,19 @@ function TabsBar({
               key={t.id}
               type="button"
               onClick={() => onChange(t.id)}
-              className={`shrink-0 border-b-2 px-3 py-3 text-sm transition-colors ${
+              className={`relative shrink-0 rounded-md px-3 py-1.5 text-[13px] transition-colors ${
                 active
-                  ? "border-foreground font-medium text-foreground"
-                  : "border-transparent text-muted-foreground hover:text-foreground"
+                  ? "font-medium text-[var(--accent-ink)]"
+                  : "text-muted-foreground hover:text-foreground"
               }`}
             >
               {t.label}
+              {active && (
+                <span
+                  aria-hidden
+                  className="absolute inset-x-2 -bottom-[5px] h-[2px] rounded-full bg-[var(--accent-ink)]"
+                />
+              )}
             </button>
           );
         })}
@@ -519,9 +525,11 @@ function TextoIntegralTab({
       )}
 
       {estado.kind === "loaded" && estado.texto && (
-        <pre className="max-h-[calc(100vh-280px)] min-h-[400px] overflow-y-auto overscroll-contain whitespace-pre-wrap rounded-2xl border border-border bg-background p-6 font-sans text-[13px] leading-relaxed text-foreground/90">
-          {estado.texto}
-        </pre>
+        <div className="hub-surface overflow-hidden p-0">
+          <pre className="hub-scroll max-h-[calc(100vh-260px)] min-h-[400px] overflow-y-auto overscroll-contain whitespace-pre-wrap p-6 font-sans text-[13px] leading-relaxed text-foreground/90">
+            {estado.texto}
+          </pre>
+        </div>
       )}
 
       <p className="text-xs text-muted-foreground">
