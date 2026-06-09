@@ -5,7 +5,7 @@ import { Globe } from "@/components/globe";
 import { CTAButton } from "@/components/cta-button";
 
 
-const TITLE = "Acordos previdenciários do Brasil | Acordos Internacionais";
+const TITLE = "Acordos previdenciários internacionais do Brasil";
 const DESC =
   "Acordos Internacionais é a referência sobre os acordos previdenciários bilaterais do Brasil. Para o cidadão no exterior e para o advogado previdenciarista.";
 const CANONICAL = "https://acordosinternacionais.com/";

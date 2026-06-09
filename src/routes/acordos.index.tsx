@@ -5,7 +5,7 @@ import { siteStats } from "@/data/site-stats";
 import { MULTI_LOGOS } from "@/lib/multi-logos";
 
 const TITLE = "Países com acordo previdenciário com o Brasil";
-const DESC = `Lista completa dos ${siteStats.acordosMapeados} acordos previdenciários mapeados pelo Brasil — ${siteStats.acordosVigentes} em vigor e ${siteStats.acordosEmRatificacao} em ratificação, incluindo bilaterais e multilaterais (CPLP, Mercosul, Iberoamericano).`;
+const DESC = `Os ${siteStats.acordosMapeados} acordos previdenciários do Brasil — ${siteStats.acordosVigentes} em vigor e ${siteStats.acordosEmRatificacao} em ratificação. Bilaterais e multilaterais (CPLP, Mercosul, Iberoamericano).`;
 const CANONICAL = "https://acordosinternacionais.com/acordos";
 
 export const Route = createFileRoute("/acordos/")({
@@ -18,6 +18,20 @@ export const Route = createFileRoute("/acordos/")({
       { property: "og:url", content: CANONICAL },
     ],
     links: [{ rel: "canonical", href: CANONICAL }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: TITLE,
+          description: DESC,
+          url: CANONICAL,
+          inLanguage: "pt-BR",
+          isPartOf: { "@id": "https://acordosinternacionais.com/#website" },
+        }),
+      },
+    ],
   }),
   component: AcordosIndex,
 });
