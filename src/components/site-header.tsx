@@ -240,6 +240,10 @@ export function SiteHeader() {
 
                 <div className="my-3 h-px bg-border" />
 
+                <MobileLink to="/blog" onClick={closeMobile}>
+                  Blog
+                </MobileLink>
+
                 <MobileLink to="/profissional" onClick={closeMobile}>
                   Hub Profissional
                 </MobileLink>
