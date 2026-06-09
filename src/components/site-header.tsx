@@ -171,7 +171,7 @@ export function SiteHeader() {
 
         </nav>
 
-        {/* Mobile: atalho + hambúrguer */}
+        {/* Mobile: atalho + tema + hambúrguer */}
         <div className="flex items-center gap-3 md:hidden">
           <Link
             to={isAuthed ? "/hub" : "/calculadora"}
@@ -179,6 +179,8 @@ export function SiteHeader() {
           >
             {isAuthed ? "Meu Hub" : "Calculadora"}
           </Link>
+          <ThemeToggle />
+
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger asChild>
               <button
