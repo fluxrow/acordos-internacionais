@@ -358,3 +358,11 @@
 - ✅ Anti-flash via script inline em `__root.tsx` (lê `localStorage.ai-theme` antes do paint).
 - ✅ `LaudoPdf` forçado em `.light` (PDF sempre em fundo claro).
 - 📋 Próximo passo: usar a diferenciação visual público vs pago dentro do hub agora que a base de tema está estável.
+
+## 2026-06-09 — HUB premium chrome
+- Sidebar workstation + topbar próprios em `/hub` e `/conta` (SiteHeader gated em `__root`).
+- Tokens `--surface-premium*` e `--rule-gold*`, utilitários `.hub-surface*` e `.hub-scroll`.
+- `StatusBadge` + `SectionCard` compartilhados.
+- CountryCard estilo showcase com cover + estados por status.
+- Dashboard `/hub` em layout workstation (9+3, rail sticky).
+- Tabs gold animadas + moldura premium no `/hub/$pais`.
