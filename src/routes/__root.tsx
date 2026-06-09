@@ -91,6 +91,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: SITE_DESC },
       { name: "author", content: "Acordos Internacionais" },
       { name: "robots", content: "index, follow" },
+      { name: "google-site-verification", content: "2h4TpeDAiW74hrHnGotU_7bL2QmTWq1Z3YfPGrW4EFQ" },
       { property: "og:title", content: SITE_TITLE },
       { property: "og:description", content: SITE_DESC },
       { property: "og:type", content: "website" },
