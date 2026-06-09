@@ -16,6 +16,21 @@
 
 ---
 
+## Correção factual — "Em curadoria" indevido (Suíça, Bélgica, Iberoamericano) ✅ (09/06/2026)
+
+- **Sintoma:** os 3 países exibiam badge "Em curadoria" no `/hub` mesmo tendo conteúdo no repositório-fonte `marcosespinola1379/Mapa-de-Acordos`.
+- **Causa raiz:**
+  1. `scripts/import-acordos.ts` listava só 24 países — Suíça ausente do `SOURCES`.
+  2. Parser `parseDocumentos` aceitava apenas chaves sem aspas (`nome: "..."`). Bélgica e Iberoamericano usam aspas nas chaves (`"nome": "..."`), então `documentos[]` ficava vazio.
+- **Fixes:**
+  - Adicionada Suíça ao `SOURCES`.
+  - Regex de `get()` agora aceita `"?${k}"?\s*:` (com ou sem aspas).
+  - `bun scripts/import-acordos.ts` regenerou `src/data/acordos.generated.ts`: Suíça `docs: 10`, Bélgica `docs: 12`, Iberoamericano `docs: 9`.
+- **Resultado:** zero países em curadoria. Catálogo `acordos.ts` sobrescreve `docs:` automaticamente via `if (imp.documentos?.length) a.docs = imp.documentos.length`.
+
+---
+
+
 ## Correção factual — Bulgária em vigor ✅ (03/06/2026)
 
 - `src/data/acordos.ts`: Bulgária passa de `status: "incompleto"` → `"vigente"` com `vigencia: "2024"`. Acordo Brasil–Bulgária está em vigor desde 2024.
