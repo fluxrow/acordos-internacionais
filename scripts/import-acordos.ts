@@ -42,6 +42,7 @@ const SOURCES: Array<{ file: string; slug: string; txtName: string }> = [
   { file: "acordo-portugal", slug: "portugal", txtName: "Portugal" },
   { file: "acordo-quebec", slug: "quebec", txtName: "Quebec" },
   { file: "acordo-republica-tcheca", slug: "republica-tcheca", txtName: "República Tcheca" },
+  { file: "acordo-suica", slug: "suica", txtName: "Suíça" },
 ];
 
 async function loadTxt(kind: "Acordo" | "Ajuste Administrativo", name: string): Promise<string | undefined> {
