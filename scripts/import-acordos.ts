@@ -223,7 +223,8 @@ async function main() {
 
     const titulo = cleanText(/<h1>([\s\S]*?)<\/h1>/.exec(html)?.[1]);
     const decreto = pickInfoCard(html, /decreto/i);
-    const instrumento = pickInfoCard(html, /instrumento/i);
+    const instrumentoRaw = pickInfoCard(html, /instrumento/i);
+    const instrumento = INSTRUMENTO_CANONICO[slug] ?? instrumentoRaw;
     const vigorDesde = pickInfoCard(html, /vigor/i);
     const docsInfo = pickInfoCard(html, /documentos?/i);
 
