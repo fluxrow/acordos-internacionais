@@ -7,9 +7,10 @@ export const Route = createFileRoute("/blog/$slug")({
     if (!post) throw notFound();
     return { post };
   },
-  head: ({ loaderData }) => {
+  head: ({ loaderData, params }) => {
     const post = loaderData?.post;
     if (!post) return { meta: [{ title: "Artigo | Blog" }] };
+    const url = `https://acordosinternacionais.com/blog/${params.slug}`;
     return {
       meta: [
         { title: `${post.titulo} | Blog` },
@@ -17,6 +18,28 @@ export const Route = createFileRoute("/blog/$slug")({
         { property: "og:title", content: post.titulo },
         { property: "og:description", content: post.resumo },
         { property: "og:type", content: "article" },
+        { property: "og:url", content: url },
+      ],
+      links: [{ rel: "canonical", href: url }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            headline: post.titulo,
+            description: post.resumo,
+            datePublished: post.publicadoEm,
+            author: { "@type": "Person", name: post.autor },
+            keywords: post.tags?.join(", "),
+            mainEntityOfPage: url,
+            publisher: {
+              "@type": "Organization",
+              name: "AtlasPrev",
+              url: "https://acordosinternacionais.com/",
+            },
+          }),
+        },
       ],
     };
   },

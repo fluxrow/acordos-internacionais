@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as UnsubscribeRouteImport } from './routes/unsubscribe'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ProfissionalRouteImport } from './routes/profissional'
 import { Route as PrecosRouteImport } from './routes/precos'
@@ -49,6 +50,11 @@ import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/publi
 const UnsubscribeRoute = UnsubscribeRouteImport.update({
   id: '/unsubscribe',
   path: '/unsubscribe',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -243,6 +249,7 @@ export interface FileRoutesByFullPath {
   '/precos': typeof PrecosRoute
   '/profissional': typeof ProfissionalRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/unsubscribe': typeof UnsubscribeRoute
   '/conta': typeof AuthenticatedContaRoute
   '/acordos/$pais': typeof AcordosPaisRoute
@@ -280,6 +287,7 @@ export interface FileRoutesByTo {
   '/precos': typeof PrecosRoute
   '/profissional': typeof ProfissionalRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/unsubscribe': typeof UnsubscribeRoute
   '/conta': typeof AuthenticatedContaRoute
   '/acordos/$pais': typeof AcordosPaisRoute
@@ -319,6 +327,7 @@ export interface FileRoutesById {
   '/precos': typeof PrecosRoute
   '/profissional': typeof ProfissionalRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/unsubscribe': typeof UnsubscribeRoute
   '/_authenticated/conta': typeof AuthenticatedContaRoute
   '/acordos/$pais': typeof AcordosPaisRoute
@@ -358,6 +367,7 @@ export interface FileRouteTypes {
     | '/precos'
     | '/profissional'
     | '/reset-password'
+    | '/sitemap.xml'
     | '/unsubscribe'
     | '/conta'
     | '/acordos/$pais'
@@ -395,6 +405,7 @@ export interface FileRouteTypes {
     | '/precos'
     | '/profissional'
     | '/reset-password'
+    | '/sitemap.xml'
     | '/unsubscribe'
     | '/conta'
     | '/acordos/$pais'
@@ -433,6 +444,7 @@ export interface FileRouteTypes {
     | '/precos'
     | '/profissional'
     | '/reset-password'
+    | '/sitemap.xml'
     | '/unsubscribe'
     | '/_authenticated/conta'
     | '/acordos/$pais'
@@ -472,6 +484,7 @@ export interface RootRouteChildren {
   PrecosRoute: typeof PrecosRoute
   ProfissionalRoute: typeof ProfissionalRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   UnsubscribeRoute: typeof UnsubscribeRoute
   AcordosPaisRoute: typeof AcordosPaisRoute
   EmailUnsubscribeRoute: typeof EmailUnsubscribeRoute
@@ -498,6 +511,13 @@ declare module '@tanstack/react-router' {
       path: '/unsubscribe'
       fullPath: '/unsubscribe'
       preLoaderRoute: typeof UnsubscribeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reset-password': {
@@ -794,6 +814,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrecosRoute: PrecosRoute,
   ProfissionalRoute: ProfissionalRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   UnsubscribeRoute: UnsubscribeRoute,
   AcordosPaisRoute: AcordosPaisRoute,
   EmailUnsubscribeRoute: EmailUnsubscribeRoute,

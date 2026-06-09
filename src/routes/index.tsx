@@ -5,9 +5,10 @@ import { Globe } from "@/components/globe";
 import { CTAButton } from "@/components/cta-button";
 
 
-const TITLE = "Acordos Internacionais — Acordos previdenciários para brasileiros no exterior";
+const TITLE = "Acordos previdenciários do Brasil | Acordos Internacionais";
 const DESC =
   "Acordos Internacionais é a referência sobre os acordos previdenciários bilaterais do Brasil. Para o cidadão no exterior e para o advogado previdenciarista.";
+const CANONICAL = "https://acordosinternacionais.com/";
 const OG_IMAGE = "https://acordosinternacionais.lovable.app/og-image.jpg?v=2";
 
 export const Route = createFileRoute("/")({
@@ -17,8 +18,39 @@ export const Route = createFileRoute("/")({
       { name: "description", content: DESC },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },
+      { property: "og:url", content: CANONICAL },
       { property: "og:image", content: OG_IMAGE },
       { name: "twitter:image", content: OG_IMAGE },
+    ],
+    links: [{ rel: "canonical", href: CANONICAL }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "Acordos Internacionais",
+          url: CANONICAL,
+          inLanguage: "pt-BR",
+          publisher: {
+            "@type": "Organization",
+            name: "AtlasPrev",
+            url: CANONICAL,
+          },
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "AtlasPrev",
+          alternateName: "Acordos Internacionais",
+          url: CANONICAL,
+          logo: OG_IMAGE,
+          founder: { "@type": "Person", name: "Dr. Marcos Espínola" },
+        }),
+      },
     ],
   }),
   component: Home,
@@ -122,10 +154,10 @@ function Home() {
                 Para o cidadão
               </span>
             </div>
-            <h3 className="font-display text-2xl leading-tight md:text-3xl">
+            <h2 className="font-display text-2xl leading-tight md:text-3xl">
               Para o brasileiro que trabalha ou trabalhou no exterior e que
               precisa entender seus direitos previdenciários.
-            </h3>
+            </h2>
             <div className="mt-auto flex flex-wrap items-center gap-3 pt-4">
               <CTAButton
                 to="/acordos"
@@ -156,10 +188,10 @@ function Home() {
                 Para o advogado
               </span>
             </div>
-            <h3 className="font-display text-2xl leading-tight md:text-3xl">
+            <h2 className="font-display text-2xl leading-tight md:text-3xl">
               Hub Profissional em Direito Previdenciário Internacional:
               Educação, Eficiência e Excelência.
-            </h3>
+            </h2>
             <p className="text-base opacity-80 md:text-lg">
               Base técnica completa: textos integrais dos
               acordos internacionais comentados, portarias estruturadas por

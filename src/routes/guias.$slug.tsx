@@ -9,12 +9,34 @@ export const Route = createFileRoute("/guias/$slug")({
     const g = getGuia(params.slug);
     if (!g) return { meta: [{ title: "Guia não encontrado" }] };
     const title = `${g.titulo} | Guias`;
+    const url = `https://acordosinternacionais.com/guias/${params.slug}`;
     return {
       meta: [
         { title },
         { name: "description", content: g.resumo },
         { property: "og:title", content: g.titulo },
         { property: "og:description", content: g.resumo },
+        { property: "og:type", content: "article" },
+        { property: "og:url", content: url },
+      ],
+      links: [{ rel: "canonical", href: url }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            headline: g.titulo,
+            description: g.resumo,
+            mainEntityOfPage: url,
+            inLanguage: "pt-BR",
+            publisher: {
+              "@type": "Organization",
+              name: "AtlasPrev",
+              url: "https://acordosinternacionais.com/",
+            },
+          }),
+        },
       ],
     };
   },
