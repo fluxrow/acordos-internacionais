@@ -351,3 +351,10 @@
 - ✅ Nova página `/hub/leads` (`src/routes/_authenticated/hub.leads.tsx`): tabela com badge de status, busca por nome/e-mail/país, filtro de status, botão WhatsApp, copiar e-mail, mudar status e editar notas internas. Não-admin vê tela de "acesso restrito".
 - ✅ `src/routes/_authenticated/hub.index.tsx`: card "Leads da calculadora" (dourado, eyebrow "Admin") aparece só quando `isAdmin`.
 - ⏳ Pendente: configurar `notify.acordosinternacionais.com` (NS no DNS) e rodar `setup_email_infra` + `scaffold_transactional_email` para o envio de e-mail entrar no ar.
+
+## 2026-06-09 — Modo claro opcional no site inteiro
+- ✅ Novo `ThemeProvider` + `ThemeToggle` (Sun/Moon) no header desktop e mobile. Dark continua default.
+- ✅ Bloco `.light` em `src/styles.css` (Paper & Ink + Gold ajustado). Sombras, state tokens e `color-scheme` de date inputs reagem ao tema.
+- ✅ Anti-flash via script inline em `__root.tsx` (lê `localStorage.ai-theme` antes do paint).
+- ✅ `LaudoPdf` forçado em `.light` (PDF sempre em fundo claro).
+- 📋 Próximo passo: usar a diferenciação visual público vs pago dentro do hub agora que a base de tema está estável.
