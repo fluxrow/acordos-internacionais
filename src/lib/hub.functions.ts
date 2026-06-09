@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { acordosImportados } from "@/data/acordos.generated";
+import { getInstrumento } from "@/data/acordos-instrumento-overrides";
 import type { OrgaoLigacao } from "@/data/acordos.types";
 
 export type HubDashboardData = {
@@ -138,7 +139,7 @@ export const getCountryHubData = createServerFn({ method: "POST" })
         locked: true,
         pais,
         titulo: acordoData.titulo ?? "",
-        instrumento: acordoData.instrumento ?? "",
+        instrumento: getInstrumento(pais, acordoData.instrumento),
         decreto: acordoData.decreto ?? "",
         vigorDesde: acordoData.vigorDesde ?? "",
         documentosPreview: acordoData.documentos
@@ -228,7 +229,7 @@ export const getCountryHubData = createServerFn({ method: "POST" })
       locked: false,
       pais,
       titulo: acordoData.titulo ?? "",
-      instrumento: acordoData.instrumento ?? "",
+      instrumento: getInstrumento(pais, acordoData.instrumento),
       decreto: acordoData.decreto ?? "",
       vigorDesde: acordoData.vigorDesde ?? "",
       orgaoBR: acordoData.orgaoBR ?? null,
