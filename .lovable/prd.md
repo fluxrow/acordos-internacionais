@@ -1,6 +1,8 @@
 # PRD — Acordo Internacional
 
-> Documento vivo. **Toda mudança no projeto deve atualizar este PRD na mesma rodada.** Última revisão: 2026-06-02.
+> Documento vivo. **Toda mudança no projeto deve atualizar este PRD na mesma rodada.** Última revisão: 2026-06-09.
+>
+> **2026-06-09 — Cobertura completa do `/hub`:** corrigido pipeline de importação para que Suíça (estava ausente do `SOURCES` do `scripts/import-acordos.ts`), Bélgica e Iberoamericano (parser aceitava só chaves sem aspas) deixassem de aparecer como "Em curadoria". Resultado: 25/25 países com `documentos[]` populado. Detalhes no Roadmap.
 >
 > Coordenação Lovable ↔ Claude (GitHub): ver [`COLLAB.md`](../COLLAB.md). Status cronológico: ver [`ROADMAP.md`](../ROADMAP.md). Convenções de código: ver [`README.md`](../README.md).
 
