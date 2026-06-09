@@ -42,6 +42,7 @@ const SOURCES: Array<{ file: string; slug: string; txtName: string }> = [
   { file: "acordo-portugal", slug: "portugal", txtName: "Portugal" },
   { file: "acordo-quebec", slug: "quebec", txtName: "Quebec" },
   { file: "acordo-republica-tcheca", slug: "republica-tcheca", txtName: "República Tcheca" },
+  { file: "acordo-suica", slug: "suica", txtName: "Suíça" },
 ];
 
 async function loadTxt(kind: "Acordo" | "Ajuste Administrativo", name: string): Promise<string | undefined> {
@@ -171,7 +172,9 @@ function parseDocumentos(html: string): Documento[] {
   while ((om = objRe.exec(body)) !== null) {
     const obj = om[1];
     const get = (k: string) => {
-      const r = new RegExp(`${k}\\s*:\\s*"([^"]*)"`).exec(obj);
+      // Aceita tanto `nome: "..."` quanto `"nome": "..."` (variação de markup
+      // entre HTMLs do repo).
+      const r = new RegExp(`"?${k}"?\\s*:\\s*"([^"]*)"`).exec(obj);
       return r ? r[1].trim() : undefined;
     };
     const nome = get("nome");
