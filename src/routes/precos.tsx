@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { getFoundersCount, FOUNDERS_LIMIT } from "@/lib/founders.functions";
 import { createCheckoutSession } from "@/lib/checkout.functions";
@@ -10,7 +10,18 @@ import { supabase } from "@/integrations/supabase/client";
 //   hub_mensal      → R$ 87,00/mês   recorrente
 //   hub_anual       → R$ 837,00/ano  recorrente
 //   hub_fundadores  → R$ 1.297,00    pagamento único (acesso vitalício)
-const STRIPE_ENV = "sandbox" as const;
+
+// Ambiente derivado do prefixo do token publicável (pk_test_ → sandbox,
+// pk_live_ → live). NUNCA hardcodar "sandbox" — em produção isso quebra
+// o checkout (mismatch entre token live e client_secret sandbox).
+const PUBLISHABLE_KEY = import.meta.env.VITE_PAYMENTS_CLIENT_TOKEN as string | undefined;
+function detectStripeEnv(): "sandbox" | "live" | null {
+  if (PUBLISHABLE_KEY?.startsWith("pk_test_")) return "sandbox";
+  if (PUBLISHABLE_KEY?.startsWith("pk_live_")) return "live";
+  return null;
+}
+const STRIPE_ENV = detectStripeEnv();
+
 
 // Plano principal (assinatura) — alternável via toggle Mensal/Anual.
 const MAIN_OPTIONS = {
@@ -59,17 +70,22 @@ function PrecosPage() {
     refetchInterval: 30_000,
   });
 
-  // Referência para o elemento do checkout embutido
-  const checkoutRef = { current: null as HTMLDivElement | null };
+  // Referência ao container do checkout embutido — useRef para sobreviver re-renders
+  const checkoutRef = useRef<HTMLDivElement | null>(null);
 
   const checkoutMutation = useMutation({
     mutationFn: async (priceId: string) => {
+      if (!STRIPE_ENV) {
+        throw new Error(
+          "Pagamentos não estão configurados nesta build. Tente novamente em alguns minutos.",
+        );
+      }
       const { data: authData } = await supabase.auth.getUser();
       if (!authData.user) {
         setAuthError(true);
         return null;
       }
-      return createCheckoutSession({ data: { priceId, env: STRIPE_ENV } });
+      return createCheckoutSession({ data: { priceId, env: STRIPE_ENV! } });
     },
     onSuccess: (result) => {
       if (!result) return;
@@ -77,37 +93,92 @@ function PrecosPage() {
         setCheckoutError(result.error ?? "Erro ao iniciar checkout");
         return;
       }
+      setCheckoutError(null);
       setClientSecret(result.clientSecret);
+    },
+    onError: (err) => {
+      setCheckoutError(err instanceof Error ? err.message : "Erro ao iniciar checkout");
     },
   });
 
-  // Monta o checkout embutido via Stripe.js quando clientSecret estiver disponível
+  // Monta o checkout embutido via Stripe.js quando clientSecret estiver disponível.
+  // Aguarda o container montar (a tela troca quando clientSecret é setado),
+  // por isso poll curto em vez de checagem síncrona do ref.
   useEffect(() => {
-    if (!clientSecret || !checkoutRef.current) return;
-
-    // Token publicável vem do Lovable Payments (sandbox/live escolhido automaticamente pelo build)
-    const publishableKey = import.meta.env.VITE_PAYMENTS_CLIENT_TOKEN as string | undefined;
-    if (!publishableKey) {
-      console.error("[precos] VITE_PAYMENTS_CLIENT_TOKEN não configurado");
+    if (!clientSecret) return;
+    if (!PUBLISHABLE_KEY) {
+      setCheckoutError("Pagamentos não configurados nesta build.");
       return;
     }
 
-    const script = Object.assign(document.createElement("script"), {
-      src: "https://js.stripe.com/v3/",
-      async: true,
-    });
+    let cancelled = false;
+    let cleanupCheckout: (() => void) | null = null;
 
-    script.onload = async () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const stripe = (window as any).Stripe(publishableKey);
-      const checkout = await stripe.initEmbeddedCheckout({ clientSecret });
-      checkout.mount("#stripe-embedded-checkout");
+    const ensureStripeJs = () =>
+      new Promise<void>((resolve, reject) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        if ((window as any).Stripe) return resolve();
+        const existing = document.querySelector<HTMLScriptElement>(
+          'script[src="https://js.stripe.com/v3/"]',
+        );
+        if (existing) {
+          existing.addEventListener("load", () => resolve(), { once: true });
+          existing.addEventListener("error", () => reject(new Error("Falha ao carregar Stripe.js")), { once: true });
+          return;
+        }
+        const script = Object.assign(document.createElement("script"), {
+          src: "https://js.stripe.com/v3/",
+          async: true,
+        });
+        script.onload = () => resolve();
+        script.onerror = () => reject(new Error("Falha ao carregar Stripe.js"));
+        document.head.appendChild(script);
+      });
+
+    const waitForContainer = () =>
+      new Promise<HTMLElement>((resolve, reject) => {
+        const t0 = Date.now();
+        const tick = () => {
+          if (cancelled) return reject(new Error("cancelled"));
+          const el = document.getElementById("stripe-embedded-checkout");
+          if (el) return resolve(el);
+          if (Date.now() - t0 > 4000) return reject(new Error("Container do checkout não encontrado"));
+          setTimeout(tick, 30);
+        };
+        tick();
+      });
+
+    (async () => {
+      try {
+        await ensureStripeJs();
+        if (cancelled) return;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const stripe = (window as any).Stripe(PUBLISHABLE_KEY);
+        const checkout = await stripe.initEmbeddedCheckout({ clientSecret });
+        if (cancelled) {
+          checkout.destroy?.();
+          return;
+        }
+        await waitForContainer();
+        if (cancelled) {
+          checkout.destroy?.();
+          return;
+        }
+        checkout.mount("#stripe-embedded-checkout");
+        cleanupCheckout = () => checkout.destroy?.();
+      } catch (e) {
+        if (!cancelled) {
+          setCheckoutError(e instanceof Error ? e.message : "Erro ao abrir o checkout");
+        }
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+      cleanupCheckout?.();
     };
-
-    document.head.appendChild(script);
-    return () => script.remove();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clientSecret]);
+
 
   const foundersFull = founders?.isFull ?? false;
   const foundersRemaining = founders?.remaining ?? FOUNDERS_LIMIT;
@@ -116,11 +187,21 @@ function PrecosPage() {
     return (
       <div className="mx-auto max-w-xl px-6 py-10">
         <button
-          onClick={() => { setClientSecret(null); setSelectedPlan(null); }}
+          onClick={() => { setClientSecret(null); setSelectedPlan(null); setCheckoutError(null); }}
           className="mb-6 flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
         >
           ← Voltar aos planos
         </button>
+        {STRIPE_ENV === "sandbox" && (
+          <div className="mb-4 rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-center text-xs text-amber-700 dark:text-amber-300">
+            Ambiente de teste — use o cartão 4242 4242 4242 4242, validade futura e CVC 123.
+          </div>
+        )}
+        {checkoutError && (
+          <p className="mb-4 rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-center text-sm text-destructive">
+            {checkoutError}
+          </p>
+        )}
         <div
           id="stripe-embedded-checkout"
           ref={(el) => { checkoutRef.current = el; }}
@@ -132,6 +213,16 @@ function PrecosPage() {
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-12">
+      {STRIPE_ENV === "sandbox" && (
+        <div className="mx-auto mb-6 max-w-3xl rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-center text-xs text-amber-700 dark:text-amber-300">
+          Pagamentos em modo de teste — esta preview não cobra de verdade. A produção (acordosinternacionais.com) usa Stripe live.
+        </div>
+      )}
+      {STRIPE_ENV === null && (
+        <div className="mx-auto mb-6 max-w-3xl rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-center text-sm text-destructive">
+          Pagamentos indisponíveis nesta build. Tente novamente em instantes.
+        </div>
+      )}
       <div className="mb-10 text-center">
         <p className="eyebrow mb-2">Hub Profissional</p>
         <h1 className="font-display text-5xl text-[var(--ink)]">
@@ -142,6 +233,7 @@ function PrecosPage() {
           textos, decretos, formulários e modelos para advogados previdenciaristas.
         </p>
       </div>
+
 
       {authError && (
         <div className="mx-auto mb-8 max-w-md rounded-xl border border-[var(--accent-ink)]/40 bg-[var(--card-bg)] p-4 text-center text-sm">
