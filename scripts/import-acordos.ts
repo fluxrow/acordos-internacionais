@@ -172,7 +172,9 @@ function parseDocumentos(html: string): Documento[] {
   while ((om = objRe.exec(body)) !== null) {
     const obj = om[1];
     const get = (k: string) => {
-      const r = new RegExp(`${k}\\s*:\\s*"([^"]*)"`).exec(obj);
+      // Aceita tanto `nome: "..."` quanto `"nome": "..."` (variação de markup
+      // entre HTMLs do repo).
+      const r = new RegExp(`"?${k}"?\\s*:\\s*"([^"]*)"`).exec(obj);
       return r ? r[1].trim() : undefined;
     };
     const nome = get("nome");
