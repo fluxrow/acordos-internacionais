@@ -30,6 +30,10 @@ export const Route = createFileRoute("/sitemap.xml")({
           { path: "/precos", changefreq: "monthly", priority: "0.6" },
           { path: "/sobre/dr-marcos", changefreq: "yearly", priority: "0.6" },
           { path: "/contato", changefreq: "yearly", priority: "0.5" },
+          { path: "/login", changefreq: "yearly", priority: "0.3" },
+          { path: "/cadastro", changefreq: "yearly", priority: "0.3" },
+          { path: "/reset-password", changefreq: "yearly", priority: "0.2" },
+          { path: "/unsubscribe", changefreq: "yearly", priority: "0.2" },
         ];
 
         for (const a of acordos) entries.push({ path: `/acordos/${a.slug}`, changefreq: "monthly", priority: "0.7" });

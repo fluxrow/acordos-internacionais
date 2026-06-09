@@ -5,6 +5,8 @@ const TITLE = "Glossário de previdência internacional";
 const DESC =
   "Termos essenciais sobre acordos internacionais de previdência social do Brasil: totalização, pro-rata, CDT, CNIS e mais.";
 
+const CANONICAL = "https://acordosinternacionais.com/glossario";
+
 export const Route = createFileRoute("/glossario")({
   head: () => ({
     meta: [
@@ -12,7 +14,23 @@ export const Route = createFileRoute("/glossario")({
       { name: "description", content: DESC },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },
+      { property: "og:url", content: CANONICAL },
       { property: "og:type", content: "article" },
+    ],
+    links: [{ rel: "canonical", href: CANONICAL }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: termos.map((t) => ({
+            "@type": "Question",
+            name: t.termo,
+            acceptedAnswer: { "@type": "Answer", text: t.def },
+          })),
+        }),
+      },
     ],
   }),
   component: Glossario,
