@@ -10,6 +10,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { ThemeToggle } from "@/components/theme-toggle";
+
 
 const SAIDA_FISCAL = {
   slug: "saida-definitiva-do-pais",
@@ -146,6 +148,7 @@ export function SiteHeader() {
               >
                 Sair
               </button>
+              <ThemeToggle />
             </>
           ) : (
             <>
@@ -162,8 +165,10 @@ export function SiteHeader() {
               >
                 Criar conta no Hub
               </Link>
+              <ThemeToggle />
             </>
           )}
+
         </nav>
 
         {/* Mobile: atalho + hambúrguer */}
