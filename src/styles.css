@@ -195,6 +195,76 @@
   --sidebar-ring: var(--accent-ink);
 }
 
+/* ============================================================
+ * Light theme (opt-in via .light on <html>) — Paper & Ink + Gold
+ * Dark continua sendo o padrão; o usuário ativa o claro pelo
+ * botão no header. Todos os tokens semânticos abaixo são os
+ * mesmos do dark, só os valores mudam.
+ * ============================================================ */
+.light {
+  --paper: oklch(0.965 0.008 85);           /* off-white editorial */
+  --paper-soft: oklch(0.928 0.011 80);      /* warm bands */
+  --card-bg: oklch(0.985 0.005 85);         /* cartões mais brancos que paper */
+  --ink: oklch(0.16 0 0);                   /* quase preto */
+  --ink-soft: oklch(0.30 0 0);              /* corpo */
+  --ink-muted: oklch(0.45 0 0);             /* lede / muted */
+  --rule: oklch(0.78 0.012 80);             /* hairline cinza quente */
+  --accent-ink: oklch(0.62 0.14 86);        /* gold ajustado p/ contraste em claro */
+  --accent-ink-soft: oklch(0.92 0.06 86);   /* gold wash claro */
+
+  /* State tokens — calibrados p/ fundo claro */
+  --state-warning: oklch(0.55 0.13 80);
+  --state-warning-soft: oklch(0.94 0.06 80);
+  --state-error: oklch(0.50 0.18 25);
+  --state-error-soft: oklch(0.94 0.05 25);
+  --state-info: oklch(0.50 0.13 250);
+  --state-info-soft: oklch(0.94 0.04 250);
+  --state-success: oklch(0.50 0.13 155);
+  --state-success-soft: oklch(0.94 0.05 155);
+
+  /* Sombras suaves para fundo claro (preto com baixa alpha) */
+  --shadow-soft:
+    0 1px 2px rgba(15, 15, 15, 0.06),
+    0 8px 24px -12px rgba(15, 15, 15, 0.14);
+  --shadow-soft-hover:
+    0 2px 4px rgba(15, 15, 15, 0.08),
+    0 18px 36px -14px rgba(15, 15, 15, 0.18),
+    0 0 0 1px color-mix(in oklab, var(--accent-ink) 25%, transparent);
+  --shadow-gold-glow:
+    0 0 0 1px color-mix(in oklab, var(--accent-ink) 25%, transparent),
+    0 12px 32px -16px color-mix(in oklab, var(--accent-ink) 30%, transparent);
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--card-bg);
+  --card-foreground: var(--ink);
+  --popover: var(--card-bg);
+  --popover-foreground: var(--ink);
+  --primary: var(--accent-ink);
+  --primary-foreground: var(--paper);
+  --secondary: var(--paper-soft);
+  --secondary-foreground: var(--ink);
+  --muted: var(--paper-soft);
+  --muted-foreground: var(--ink-muted);
+  --accent: var(--accent-ink-soft);
+  --accent-foreground: var(--ink);
+  --destructive: var(--state-error);
+  --destructive-foreground: var(--paper);
+  --border: var(--rule);
+  --input: var(--rule);
+  --ring: var(--accent-ink);
+
+  --sidebar: var(--paper-soft);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--accent-ink);
+  --sidebar-primary-foreground: var(--paper);
+  --sidebar-accent: var(--card-bg);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: var(--rule);
+  --sidebar-ring: var(--accent-ink);
+}
+
+
 
 @layer base {
   * {
@@ -350,12 +420,18 @@
   color: color-mix(in oklab, var(--muted-foreground) 80%, transparent);
 }
 
-/* Restaura o ícone nativo do <input type="date"> no tema dark — sem isto o
- * indicador do calendário fica preto sobre fundo escuro e some. */
+/* Ícone nativo do <input type="date"> casa com o tema atual. */
 input[type="date"],
 input[type="datetime-local"],
 input[type="time"],
 input[type="month"] {
   color-scheme: dark;
 }
+.light input[type="date"],
+.light input[type="datetime-local"],
+.light input[type="time"],
+.light input[type="month"] {
+  color-scheme: light;
+}
+
 

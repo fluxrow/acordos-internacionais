@@ -10,6 +10,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { ThemeToggle } from "@/components/theme-toggle";
+
 
 const SAIDA_FISCAL = {
   slug: "saida-definitiva-do-pais",
@@ -146,6 +148,7 @@ export function SiteHeader() {
               >
                 Sair
               </button>
+              <ThemeToggle />
             </>
           ) : (
             <>
@@ -162,11 +165,13 @@ export function SiteHeader() {
               >
                 Criar conta no Hub
               </Link>
+              <ThemeToggle />
             </>
           )}
+
         </nav>
 
-        {/* Mobile: atalho + hambúrguer */}
+        {/* Mobile: atalho + tema + hambúrguer */}
         <div className="flex items-center gap-3 md:hidden">
           <Link
             to={isAuthed ? "/hub" : "/calculadora"}
@@ -174,6 +179,8 @@ export function SiteHeader() {
           >
             {isAuthed ? "Meu Hub" : "Calculadora"}
           </Link>
+          <ThemeToggle />
+
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger asChild>
               <button

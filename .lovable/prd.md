@@ -323,3 +323,12 @@ Comando: `bun run test`. 31 testes — qualquer regressão nas regras de piso, p
 - **Migration `calc_leads`**: novos campos `status` (`novo` padrão, `contatado`, `convertido`, `descartado`) e `notas` (text) + índice em `status`.
 - **Painel admin `/hub/leads`** (`src/routes/_authenticated/hub.leads.tsx`) restrito a `has_role('admin')`. Lista todos os leads com busca, filtro por status, botões WhatsApp + copiar e-mail, mudança de status e notas internas inline. Card de atalho aparece no `/hub` apenas para admins.
 - **Pendência operacional**: cadastrar `notify.acordosinternacionais.com` no diálogo de e-mail (NS records no DNS de acordosinternacionais.com) e rodar `setup_email_infra` + `scaffold_transactional_email` para a infra de envio entrar no ar. Até lá, leads chegam no painel mas e-mails não saem.
+
+## Atualização — Modo claro opcional (2026-06-09)
+
+- Adicionado **modo claro opt-in** em todo o site (público + hub). Dark continua sendo o padrão.
+- Novo `ThemeProvider` (`src/components/theme-provider.tsx`) com hook `useTheme()` e persistência em `localStorage` (chave `ai-theme`). Script inline em `__root.tsx` aplica `.light` antes do primeiro paint, evitando flash.
+- Botão `ThemeToggle` (`src/components/theme-toggle.tsx`) com ícone Sun/Moon, inserido no header (desktop + mobile). Como o hub usa o mesmo `SiteHeader`, o toggle cobre todas as rotas autenticadas também.
+- Tokens do tema claro definidos como bloco `.light { ... }` em `src/styles.css`, baseados no antigo Paper & Ink mas mantendo o **gold** (`--accent-ink` ajustado para `oklch(0.62 0.14 86)` para contraste em fundo claro). Sombras recalibradas (alpha mais baixo). Nenhum componente foi reescrito — a troca é só via CSS variables.
+- `color-scheme` dos inputs de data segue o tema.
+- `LaudoPdf` recebe `className="laudo-root light"` para garantir que o PDF sai sempre em claro, independente do tema do app.

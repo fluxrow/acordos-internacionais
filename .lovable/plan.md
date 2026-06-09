@@ -1,28 +1,66 @@
 ## Objetivo
 
-Nas abas **Acordo (texto integral)** e **Ajuste administrativo** dentro de `/hub/$pais`, o texto longo hoje empurra a página inteira — o usuário perde de vista o cabeçalho do país e a barra de abas. Quero que o scroll aconteça **apenas dentro da caixa do texto**, mantendo o nome do país e as abas sempre visíveis no topo.
+Adicionar um modo claro opcional ao site inteiro (público + hub). O dark continua sendo o padrão. O usuário troca por um botão no header e a escolha persiste entre sessões.
 
-## O que muda
+Como todos os componentes já consomem tokens semânticos (`bg-background`, `text-foreground`, `border-border`, etc.), a troca acontece só por CSS variables — nenhum componente precisa ser reescrito.
 
-Apenas o componente `TextoIntegralTab` em `src/routes/_authenticated/hub.$pais.tsx` (linhas 447–537). Nada de mudança em dados, rotas ou outras abas.
+---
 
-A caixa `<pre>` que renderiza o texto integral passa a ter:
+## 1. Tokens do tema claro em `src/styles.css`
 
-- altura máxima limitada à viewport menos o que o cabeçalho + abas ocupam (algo como `max-h-[calc(100vh-280px)]`, com um piso mínimo tipo `min-h-[400px]` pra telas baixas);
-- `overflow-y-auto` próprio, com scroll suave e barra estilizada via tokens do tema (cantos arredondados mantidos);
-- `overscroll-contain` pra evitar que o scroll "vaze" pra página quando chega no fim;
-- borda/padding atuais preservados (mesmo visual Premium Dark + Gold).
+Adicionar um bloco `.light { ... }` que sobrescreve as mesmas variáveis hoje definidas em `:root` (dark). Vou portar a paleta Paper & Ink do backup `src/styles/themes/paper-ink.css.bak`, mas mantendo o **gold** como `--accent-ink` (a marca Premium Dark + Gold permanece). Resultado:
 
-O botão **Copiar** e a linha "Conteúdo importado na íntegra…" continuam fora da área rolável, então seguem sempre visíveis junto com o cabeçalho do país.
+- `--paper` claro (off-white editorial), `--ink` quase preto, `--rule` hairline cinza.
+- `--accent-ink` continua dourado, ajustado para contraste em fundo claro (oklch um pouco mais escuro: `oklch(0.62 0.14 86)`).
+- Sombras `--shadow-soft` / `--shadow-soft-hover` recalibradas para fundo claro (preto com alpha menor, halo gold no hover mantido).
+- `color-scheme` dos inputs de data passa a depender do tema (`.light input[type="date"] { color-scheme: light; }`).
 
-## Detalhes técnicos
+Não toco nos nomes dos tokens semânticos — só os valores mudam dentro de `.light`. O backup Paper & Ink continua existindo.
 
-- Editar somente o `<pre>` do estado `loaded` (linhas 527–531).
-- Classes Tailwind novas no `<pre>`: `max-h-[calc(100vh-280px)] min-h-[400px] overflow-y-auto overscroll-contain`.
-- Sem novas dependências, sem mudança de estado, sem mudança nas demais abas (Visão, Documentos, Órgãos, Trecho).
-- Sem impacto em mobile: o `calc(100vh-280px)` continua dando uma janela utilizável; o `min-h-[400px]` garante leitura confortável em telas baixas.
+## 2. Provider de tema + persistência
 
-## Fora de escopo
+Criar `src/components/theme-provider.tsx`:
 
-- Não vou tornar o cabeçalho/abas "sticky" — eles já ficam no topo do fluxo; a única razão de sumirem era o `<pre>` esticar a página. Limitando a altura do `<pre>`, o problema some sem precisar mexer no layout da página.
-- Não vou mexer no tema, tokens, ou nas outras abas.
+- Hook `useTheme()` retorna `{ theme: "dark" | "light", setTheme, toggle }`.
+- Estado lido de `localStorage.getItem("ai-theme")` (chave `ai-theme`), default `"dark"`.
+- Aplica/remova classe `light` em `document.documentElement` (dark é a ausência de classe — bate com o CSS atual).
+- Script inline pequeno no `<head>` (via `src/routes/__root.tsx` `scripts`) que aplica a classe **antes do paint**, evitando flash branco/escuro no carregamento.
+
+Montar o provider dentro do `RootComponent` em `src/routes/__root.tsx` (envolvendo o `<Outlet />`).
+
+## 3. Botão de toggle no header
+
+Criar `src/components/theme-toggle.tsx` — ícone `Sun`/`Moon` da lucide-react, botão `rounded-full` com `border-border` e hover gold (mesmo padrão dos outros chips do header). Acessível: `aria-label="Alternar tema claro/escuro"`, `aria-pressed`.
+
+Inserir em dois lugares:
+- `src/components/site-header.tsx` (header público), ao lado do CTA.
+- Header do hub autenticado em `src/routes/_authenticated.tsx` (ou onde estiver a barra superior do hub), para que o usuário logado também tenha o controle.
+
+## 4. Ajustes pontuais de contraste
+
+Após o switch, fazer uma passada visual nas seções com gradiente/glow gold para garantir legibilidade no claro:
+- `src/components/pro-content-lock.tsx` — `bg-[radial-gradient(... var(--accent-ink-soft) ...)]`: o `--accent-ink-soft` no tema claro vira um gold lavado quente, então funciona.
+- `globe.tsx` (overlays sobre o globo) — verificar se o gradiente de máscara permanece legível.
+- `LaudoPdf` — o PDF deve **sempre** ser renderizado em claro (ele já é light por design). Forçar `.light` no wrapper de impressão para isolar do tema do app.
+
+Nenhum desses ajustes muda lógica — só classes utilitárias / variáveis.
+
+## 5. Fora de escopo (não fazer agora)
+
+- Diferenciação visual público vs pago no hub (próximo round, segundo o pedido).
+- Refactor de componentes que usem cores hard-coded (não há — já é tudo via tokens).
+- Mudar a paleta da marca.
+
+---
+
+## Arquivos tocados
+
+- `src/styles.css` — adicionar bloco `.light { ... }` + ajuste de `color-scheme` por tema.
+- `src/routes/__root.tsx` — script inline anti-flash + montar `ThemeProvider`.
+- `src/components/theme-provider.tsx` — novo.
+- `src/components/theme-toggle.tsx` — novo.
+- `src/components/site-header.tsx` — inserir toggle.
+- `src/routes/_authenticated.tsx` — inserir toggle no hub.
+- `src/components/laudo/LaudoPdf.tsx` — forçar `.light` no wrapper (apenas no PDF).
+
+Critério de pronto: alternar o botão muda o site inteiro sem recarregar, sem flash no F5, e a preferência persiste. Dark continua sendo o que abre por padrão para quem nunca clicou.

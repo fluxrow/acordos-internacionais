@@ -48,7 +48,7 @@ export function LaudoPdf({ payload }: { payload: LaudoPayload }) {
   const fatorProrata = resultado.indiceProrata;
 
   return (
-    <div className="laudo-root">
+    <div className="laudo-root light">
       <div className="laudo-page">
         {/* Header */}
         <header className="laudo-header">
