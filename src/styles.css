@@ -240,6 +240,12 @@
     0 0 0 1px color-mix(in oklab, var(--accent-ink) 25%, transparent),
     0 12px 32px -16px color-mix(in oklab, var(--accent-ink) 30%, transparent);
 
+  /* Premium surface tokens (claro) */
+  --surface-premium: color-mix(in oklab, var(--card-bg) 80%, transparent);
+  --surface-premium-strong: color-mix(in oklab, var(--card-bg) 95%, transparent);
+  --rule-gold: color-mix(in oklab, var(--accent-ink) 28%, transparent);
+  --rule-gold-strong: color-mix(in oklab, var(--accent-ink) 55%, transparent);
+
   --background: var(--paper);
   --foreground: var(--ink);
   --card: var(--card-bg);
