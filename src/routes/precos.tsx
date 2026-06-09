@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { getFoundersCount, FOUNDERS_LIMIT } from "@/lib/founders.functions";
 import { createCheckoutSession } from "@/lib/checkout.functions";
@@ -10,7 +10,18 @@ import { supabase } from "@/integrations/supabase/client";
 //   hub_mensal      → R$ 87,00/mês   recorrente
 //   hub_anual       → R$ 837,00/ano  recorrente
 //   hub_fundadores  → R$ 1.297,00    pagamento único (acesso vitalício)
-const STRIPE_ENV = "sandbox" as const;
+
+// Ambiente derivado do prefixo do token publicável (pk_test_ → sandbox,
+// pk_live_ → live). NUNCA hardcodar "sandbox" — em produção isso quebra
+// o checkout (mismatch entre token live e client_secret sandbox).
+const PUBLISHABLE_KEY = import.meta.env.VITE_PAYMENTS_CLIENT_TOKEN as string | undefined;
+function detectStripeEnv(): "sandbox" | "live" | null {
+  if (PUBLISHABLE_KEY?.startsWith("pk_test_")) return "sandbox";
+  if (PUBLISHABLE_KEY?.startsWith("pk_live_")) return "live";
+  return null;
+}
+const STRIPE_ENV = detectStripeEnv();
+
 
 // Plano principal (assinatura) — alternável via toggle Mensal/Anual.
 const MAIN_OPTIONS = {
