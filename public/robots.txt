@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+Disallow: /hub
+Disallow: /hub/
+Disallow: /conta
+Disallow: /login
+Disallow: /cadastro
+Disallow: /reset-password
+Disallow: /unsubscribe
+Disallow: /api/
+Disallow: /lovable/
+
+Sitemap: https://acordosinternacionais.com/sitemap.xml

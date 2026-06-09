@@ -6,15 +6,18 @@ import { MULTI_LOGOS } from "@/lib/multi-logos";
 
 const TITLE = "Países com acordo previdenciário com o Brasil";
 const DESC = `Lista completa dos ${siteStats.acordosMapeados} acordos previdenciários mapeados pelo Brasil — ${siteStats.acordosVigentes} em vigor e ${siteStats.acordosEmRatificacao} em ratificação, incluindo bilaterais e multilaterais (CPLP, Mercosul, Iberoamericano).`;
+const CANONICAL = "https://acordosinternacionais.com/acordos";
 
 export const Route = createFileRoute("/acordos/")({
   head: () => ({
     meta: [
-      { title: `${TITLE} | Acordos Internacionais` },
+      { title: TITLE },
       { name: "description", content: DESC },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },
+      { property: "og:url", content: CANONICAL },
     ],
+    links: [{ rel: "canonical", href: CANONICAL }],
   }),
   component: AcordosIndex,
 });

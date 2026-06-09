@@ -1,0 +1,23 @@
+# Acordos Internacionais
+
+> Hub de referência sobre os acordos previdenciários internacionais do Brasil. Conteúdo claro para o cidadão e base técnica para advogados previdenciaristas. Marca da AtlasPrev, com curadoria do Dr. Marcos Espínola.
+
+O site organiza, em português, os acordos previdenciários bilaterais e multilaterais (CPLP, Mercosul, Iberoamericano) firmados pelo Brasil, com perfis por país, jornadas por situação de vida (vou me mudar, moro fora, estou voltando, quero me aposentar), guias temáticos, blog jurídico, glossário, calculadora gratuita de totalização e contato com o escritório do Dr. Marcos Espínola.
+
+## Pages
+
+- [Início](/): visão geral do projeto e principais acessos.
+- [Países com acordo](/acordos): catálogo completo dos países com acordo previdenciário com o Brasil.
+- [Jornadas](/jornadas): conteúdo organizado por situação do cidadão brasileiro no exterior.
+- [Guias](/guias): guias temáticos sobre previdência internacional.
+- [Blog](/blog): artigos atualizados sobre acordos, jurisprudência e prática previdenciária.
+- [Calculadora de totalização](/calculadora): ferramenta gratuita para triagem de direito a benefício internacional.
+- [Glossário](/glossario): termos técnicos da previdência internacional explicados.
+- [Hub Profissional](/profissional): apresentação do hub técnico para advogados previdenciaristas.
+- [Preços](/precos): planos e assinaturas do Hub Profissional.
+- [Dr. Marcos Espínola](/sobre/dr-marcos): trajetória do especialista responsável pela curadoria.
+- [Contato](/contato): canal direto com o escritório.
+
+## Optional
+
+- [Saída definitiva do país](/guias/saida-definitiva-do-pais): guia detalhado sobre saída fiscal.

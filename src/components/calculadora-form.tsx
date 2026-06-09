@@ -321,22 +321,26 @@ export function CalculadoraForm() {
               benefício é calculado na análise técnica do advogado.
             </p>
             <div className="space-y-1.5">
-              <Label>Tempo contribuído no Brasil</Label>
-              <div className="grid grid-cols-2 gap-2">
+              <Label id="tempo-br-label">Tempo contribuído no Brasil</Label>
+              <div className="grid grid-cols-2 gap-2" role="group" aria-labelledby="tempo-br-label">
                 <Input
+                  id="anos-br"
                   type="number"
                   min={0}
                   value={anosBR}
                   onChange={(e) => setAnosBR(e.target.value)}
                   placeholder="Anos"
+                  aria-label="Tempo contribuído no Brasil — anos"
                 />
                 <Input
+                  id="meses-br"
                   type="number"
                   min={0}
                   max={11}
                   value={mesesBR}
                   onChange={(e) => setMesesBR(e.target.value)}
                   placeholder="Meses"
+                  aria-label="Tempo contribuído no Brasil — meses"
                 />
               </div>
               <p className="text-xs text-muted-foreground">
