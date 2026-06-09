@@ -224,7 +224,92 @@ export const acordosImportados: Record<string, AcordoImportado> = {
     "acordoTrecho": "DECRETO Nº 8.405, DE 11 DE FEVEREIRO DE 2015\r\n\r\nPromulga o Acordo sobre a Previdência Social entre a República Federativa do Brasil e o Reino da Bélgica, firmado em Bruxelas, em 4 de outubro de 2009.\r\n\r\nA PRESIDENTA DA REPÚBLICA, no uso da atribuição que lhe confere o art. 84, caput, inciso IV, da Constituição, e\r\n\r\nConsiderando que foi firmado o Acordo sobre a Previdência Social entre a República Federativa do Brasil e a República do Reino da Bélgica, em Bruxelas, em 4 de ou",
     "ajusteTrecho": "AJUSTE ADMINISTRATIVO RELATIVO À APLICAÇÃO DO ACORDO SOBRE PREVIDÊNCIA SOCIAL ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E O REINO DA BÉLGICA\r\n\r\nNos termos do artigo 20 do Acordo de Previdência Social entre a República Federativa do Brasil e o Reino da Bélgica, a autoridade competente brasileira e a autoridade competente belga estabelecem de comum acordo as seguintes disposições:\r\n\r\nTÍTULO I\r\nDISPOSIÇÕES GERAIS\r\n\r\nArtigo 1\r\nDefinições\r\n\r\n1. Para a aplicação do presente Ajuste:\r\n\r",
     "temTextoIntegral": true,
-    "documentos": []
+    "documentos": [
+      {
+        "nome": "Acordo Brasil-Bélgica (2009)",
+        "desc": "Versão original assinada em Bruxelas",
+        "cat": "principal",
+        "arquivo": "Acordo Brasil - Bélgica (2009).pdf",
+        "tamanho": "403 KB"
+      },
+      {
+        "nome": "Ajuste Administrativo Brasil-Bélgica",
+        "desc": "Aplicação do acordo de previdência social",
+        "cat": "complementar",
+        "arquivo": "Ajuste Administrativo Brasil-Bélgica.pdf",
+        "tamanho": "188 KB"
+      },
+      {
+        "nome": "Certificado de Deslocamento Temporário - Brasil",
+        "desc": "Formulário para trabalhador enviado temporariamente do Brasil à Bélgica.",
+        "cat": "formulario",
+        "arquivo": "Certificado de Deslocamento Temporário - Brasil.doc",
+        "tamanho": "72 KB"
+      },
+      {
+        "nome": "Certificado de Legislação Aplicável - Bélgica",
+        "desc": "Formulário para comprovação de legislação aplicável com origem na Bélgica.",
+        "cat": "formulario",
+        "arquivo": "Certificado de Legislação Aplicável - Bélgica.doc",
+        "tamanho": "67 KB"
+      },
+      {
+        "nome": "Solicitação de Aposentadoria por Idade - Bélgica",
+        "desc": "Pedido de aposentadoria por idade no âmbito do acordo Brasil-Bélgica.",
+        "cat": "formulario",
+        "arquivo": "Solicitação de Aposentadoria por Idade - Bélgica.doc",
+        "tamanho": "174 KB"
+      },
+      {
+        "nome": "Instrução de Aposentadoria por Idade (Francês/Português)",
+        "desc": "Orientações bilíngues em francês e português para aposentadoria por idade.",
+        "cat": "formulario",
+        "arquivo": "Instrução de Aposentadoria por Idade (Francês-Português).doc",
+        "tamanho": "116 KB"
+      },
+      {
+        "nome": "Instrução de Aposentadoria por Idade (Holandês/Português)",
+        "desc": "Orientações bilíngues em holandês e português para aposentadoria por idade.",
+        "cat": "formulario",
+        "arquivo": "Instrução de Aposentadoria por Idade (Holandês-Português).doc",
+        "tamanho": "122 KB"
+      },
+      {
+        "nome": "Solicitação de Pensão por Morte - Bélgica",
+        "desc": "Pedido de pensão por morte no âmbito do acordo Brasil-Bélgica.",
+        "cat": "formulario",
+        "arquivo": "Solicitação de Pensão por Morte - Bélgica.doc",
+        "tamanho": "260 KB"
+      },
+      {
+        "nome": "Instrução de Pensão por Morte (Francês/Português)",
+        "desc": "Orientações bilíngues em francês e português para pensão por morte.",
+        "cat": "formulario",
+        "arquivo": "Instrução de Pensão por Morte (Francês-Português).doc",
+        "tamanho": "100 KB"
+      },
+      {
+        "nome": "Instrução de Pensão por Morte (Holandês/Português)",
+        "desc": "Orientações bilíngues em holandês e português para pensão por morte.",
+        "cat": "formulario",
+        "arquivo": "Instrução de Pensão por Morte (Holandês-Português).doc",
+        "tamanho": "106 KB"
+      },
+      {
+        "nome": "Solicitação de Aposentadoria por Invalidez - Bélgica",
+        "desc": "Pedido de aposentadoria por invalidez no âmbito do acordo Brasil-Bélgica.",
+        "cat": "formulario",
+        "arquivo": "Solicitação de Aposentadoria por Invalidez - Bélgica.doc",
+        "tamanho": "164 KB"
+      },
+      {
+        "nome": "Formulário de Recurso Previdenciário - Bélgica",
+        "desc": "Formulário para recurso previdenciário no acordo Brasil-Bélgica.",
+        "cat": "formulario",
+        "arquivo": "Formulário de Recurso Previdenciário - Bélgica.doc",
+        "tamanho": "46 KB"
+      }
+    ]
   },
   "bulgaria": {
     "titulo": "Acordo Brasil-Bulgária",
@@ -1125,7 +1210,71 @@ export const acordosImportados: Record<string, AcordoImportado> = {
     "acordoTrecho": "Convenção Multilateral Ibero-Americana de Segurança Social\r\n\r\nCONVENÇÃO MULTILATERAL IBERO-AMERICANA DE SEGURANÇA SOCIAL\r\n\r\nOs Estados Partes no presente Convénio: CONSIDERANDO que o trabalho é um dos fatores essenciais no fortalecimento da coesão social das nações e que as condições de segurança social têm uma dimensão muito importante no desenvolvimento do trabalho decente. CONSTATANDO que o processo actual de globalização conduz a novas e complexas relações entre os difere",
     "ajusteTrecho": "Acordo de Aplicação da Convenção Multilateral Ibero-Americana\r\n\r\nAcordo de Aplicação da Convenção Multilateral Ibero-Americana de Segurança Social\r\n\r\nBrasília, 19 de maio de 2011\r\n\r\nACORDO DE APLICAÇÃO DA CONVENÇÃO MULTILATERAL IBERO- AMERICANA DE SEGURANÇA SOCIAL Brasília, 19 de maio de 2011\r\n\r\nTITULO |. Regras gerais e disposições sobre legislação aplicável\r\n\r\nCapitulo 1. Regras gerais.\r\n\r\nCapítulo 2, Disposições sobre a legislação aplicável\r\n\r\nTITULO Il. Disposições sobre ",
     "temTextoIntegral": true,
-    "documentos": []
+    "documentos": [
+      {
+        "nome": "Convenção Multilateral Ibero-Americana de Segurança Social",
+        "desc": "Texto principal da convenção multilateral",
+        "cat": "principal",
+        "arquivo": "3a_110318-142609-692.pdf",
+        "tamanho": "2.4 MB"
+      },
+      {
+        "nome": "Acordo de Aplicação da Convenção Multilateral Ibero-Americana",
+        "desc": "Texto principal do ajuste administrativo / acordo de aplicação",
+        "cat": "principal",
+        "arquivo": "3a_110524-140153-676.pdf",
+        "tamanho": "753 KB"
+      },
+      {
+        "nome": "Anexos ao Acordo",
+        "desc": "Anexos operacionais e complementares",
+        "cat": "complementar",
+        "arquivo": "2011.05.19a_Anexos-Assinadoa_Iberoamericano.pdf",
+        "tamanho": "240 KB"
+      },
+      {
+        "nome": "Formulário de Solicitação - IBERO-1",
+        "desc": "Pedido de benefício / prestação",
+        "cat": "formulario",
+        "arquivo": "Formula_rio-de-Solicitaa_o-IBEROa_1.pdf",
+        "tamanho": "385 KB"
+      },
+      {
+        "nome": "Certificado de Deslocamento Temporário - IBERO-3",
+        "desc": "Trabalhador por conta de outrem / dependente",
+        "cat": "formulario",
+        "arquivo": "Certificado-de-Deslocamento-Tempora_rio-IBEROa_3.pdf",
+        "tamanho": "196 KB"
+      },
+      {
+        "nome": "Certificado de Deslocamento Temporário - IBERO-4",
+        "desc": "Trabalhador por conta própria / independente",
+        "cat": "formulario",
+        "arquivo": "Certificado-de-Deslocamento-Tempora_rio-IBEROa_4.pdf",
+        "tamanho": "153 KB"
+      },
+      {
+        "nome": "Certificado de Prorrogação do Deslocamento - IBERO-5",
+        "desc": "Prorrogação do deslocamento temporário",
+        "cat": "formulario",
+        "arquivo": "Certificado-de-Prorrogaa_o-do-Deslocamento-Tempora_rio-IBEROa_5.pdf",
+        "tamanho": "212 KB"
+      },
+      {
+        "nome": "Certificado de Opção sobre Legislação Aplicável - IBERO-6",
+        "desc": "Missões diplomáticas e postos consulares",
+        "cat": "formulario",
+        "arquivo": "Certificado-de-Opa_o-Sobre-Legislaa_o-Aplica_vel-IBEROa_6.pdf",
+        "tamanho": "213 KB"
+      },
+      {
+        "nome": "Certificado sobre Legislação Aplicável - IBERO-7",
+        "desc": "Pessoal enviado em missões de cooperação",
+        "cat": "formulario",
+        "arquivo": "Certificado-Sobre-Legislaa_o-Aplica_vel-IBEROa_7.pdf",
+        "tamanho": "182 KB"
+      }
+    ]
   },
   "india": {
     "titulo": "Acordo Brasil-Índia",
@@ -2075,6 +2224,101 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "desc": "Requerimento de benefício previdenciário na República Tcheca",
         "cat": "formulario",
         "arquivo": "cz_bra_202-final.docx"
+      }
+    ]
+  },
+  "suica": {
+    "titulo": "Acordo Brasil-Suíça",
+    "instrumento": "Acordo de Previdência Social Brasil-Suíça",
+    "decreto": "Decreto nº 8.559/2015",
+    "vigorDesde": "01 de novembro de 2015",
+    "docsInfo": "10 documentos disponíveis",
+    "orgaoBR": {
+      "titulo": "APSAI / INSS (Brasil)",
+      "instituicao": "Agência da Previdência Social de Atendimento a Acordos Internacionais (APSAI)",
+      "endereco": "Rua Pedro Lessa nº 36, 5º andar, sala 519, Centro, Rio de Janeiro (RJ), CEP 20.030-030",
+      "telefone": "(21) 2272-3438 / 2272-3515",
+      "email": "apsai17001220@inss.gov.br"
+    },
+    "orgaoParceiro": {
+      "titulo": "Órgão de Ligação (Suíça)",
+      "instituicao": "Office central de compensation (OCC) / Zentralausgleichskasse (ZAK)",
+      "endereco": "Avenue Edmond-Vaucher 18, CH-1203 Genebra, Suíça",
+      "telefone": "+41 22 795 91 11"
+    },
+    "beneficios": {
+      "brasil": [
+        "Aposentadoria por Idade",
+        "Aposentadoria por Invalidez"
+      ],
+      "parceiro": [
+        "Aposentadoria por Idade",
+        "Aposentadoria por Invalidez"
+      ]
+    },
+    "acordoTrecho": "ACORDO DE PREVIDÊNCIA SOCIAL ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E A CONFEDERAÇÃO SUÍÇA\r\n\r\nA República Federativa do Brasil\r\ne\r\nA Confederação Suíça (doravante denominadas \"Partes\"),\r\nImbuídas do desejo de regulamentar suas relações em matéria de Previdência Social,\r\nAcordam o seguinte:\r\n\r\nTÍTULO I\r\nDisposições Gerais\r\n\r\nARTIGO 1\r\nDefinições\r\n\r\n1. No presente Acordo:\r\n\r\na) \"Suíça\" designa a Confederação Suíça, e \"Brasil\" designa a República Federativa do Brasil;\r\n\r\nb) \"aut",
+    "ajusteTrecho": "AJUSTE ADMINISTRATIVO PARA APLICAÇÃO DO ACORDO DE PREVIDÊNCIA SOCIAL ENTRE A REPÚBLICA FEDERATIVA DO BRASIL E A CONFEDERAÇÃO SUÍÇA\r\n\r\nO Ministério da Fazenda\r\ne\r\nL'Office fédéral des assurances sociales\r\n\r\nCom base na alínea (a) do parágrafo 1 do Artigo 21 do Acordo de Previdência Social entre a República Federativa do Brasil e a Confederação Suíça (doravante denominado \"Acordo\"), assinado em 03 de abril de 2014\r\n\r\nAcordam as seguintes disposições:\r\n\r\nTítulo I\r\nDisposições Ge",
+    "temTextoIntegral": true,
+    "documentos": [
+      {
+        "nome": "Acordo de Previdência Social Brasil-Suíça",
+        "desc": "Texto oficial do acordo bilateral de previdência social, assinado em 2014",
+        "cat": "principal",
+        "arquivo": "Acordo de Previdência Social Brasil-Suíça.pdf"
+      },
+      {
+        "nome": "Ajuste Administrativo Brasil-Suíça",
+        "desc": "Ajuste administrativo para execução do acordo, assinado em 2018",
+        "cat": "complementar",
+        "arquivo": "Ajuste Administrativo Brasil-Suíça.pdf"
+      },
+      {
+        "nome": "Certificado de Deslocamento Temporário - Brasil",
+        "desc": "Formulário BRA/SWI-1 — Certificado para trabalhador deslocado do Brasil à Suíça",
+        "cat": "formulario",
+        "arquivo": "Certificado de Deslocamento Temporário - Brasil.pdf"
+      },
+      {
+        "nome": "Retificação do Certificado - Brasil",
+        "desc": "Formulário BRA/SWI-2 — Retificação de certificado de deslocamento temporário",
+        "cat": "formulario",
+        "arquivo": "Retificação do Certificado - Brasil.pdf"
+      },
+      {
+        "nome": "Exercício do Direito de Opção - Brasil",
+        "desc": "Formulário BRA/SWI-3 — Declaração de opção pela legislação de uma das partes",
+        "cat": "formulario",
+        "arquivo": "Formulário de Exercício do Direito de Opção - Brasil.pdf"
+      },
+      {
+        "nome": "Solicitação de Aposentadoria por Idade - Brasil",
+        "desc": "Formulário BRA/SWI-4 — Requerimento de aposentadoria por idade via acordo",
+        "cat": "formulario",
+        "arquivo": "Formulário de Aposentadoria por Idade - Brasil.pdf"
+      },
+      {
+        "nome": "Solicitação de Pensão por Morte - Brasil",
+        "desc": "Formulário BRA/SWI-5 — Requerimento de pensão por morte via acordo",
+        "cat": "formulario",
+        "arquivo": "Formulário de Pensão por Morte - Brasil.pdf"
+      },
+      {
+        "nome": "Solicitação de Aposentadoria por Invalidez - Brasil",
+        "desc": "Formulário BRA/SWI-6 — Requerimento de aposentadoria por invalidez via acordo",
+        "cat": "formulario",
+        "arquivo": "Formulário de Aposentadoria por Invalidez - Brasil.pdf"
+      },
+      {
+        "nome": "Formulário de Recurso - Brasil",
+        "desc": "Formulário BRA/SWI-10 — Recurso administrativo junto à instituição competente",
+        "cat": "formulario",
+        "arquivo": "Formulário de Recurso - Brasil.pdf"
+      },
+      {
+        "nome": "Atestado de Vida - Brasil",
+        "desc": "Formulário BRA/SWI-12 — Atestado de vida para beneficiários residentes no exterior",
+        "cat": "formulario",
+        "arquivo": "Atestado de Vida - Brasil.pdf"
       }
     ]
   }
