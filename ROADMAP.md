@@ -366,3 +366,9 @@
 - CountryCard estilo showcase com cover + estados por status.
 - Dashboard `/hub` em layout workstation (9+3, rail sticky).
 - Tabs gold animadas + moldura premium no `/hub/$pais`.
+
+##  — Checkout multi-env (correção crítica)
+- `precos.tsx`: ambiente Stripe (sandbox/live) agora é derivado do prefixo do `VITE_PAYMENTS_CLIENT_TOKEN`, não mais hardcoded `"sandbox"`. Antes, builds de produção montavam `pk_live_` sobre `client_secret` sandbox e o checkout não abria (afetava Anual e Vitalício).
+- `checkout.functions.ts`: customer resolvido via `customers.search({metadata.userId})` por env, removendo cache no Postgres (sandbox e live têm IDs diferentes; reuso de ID causava "No such customer"). Adicionado tratamento de erro com `getStripeErrorMessage`.
+- Embedded Checkout: `useRef` correto, espera o container montar e destrói a instância na navegação. Banner de modo teste/erro visível ao usuário.
+- `conta.tsx`: portal de assinatura também detecta env pelo token publicável.
