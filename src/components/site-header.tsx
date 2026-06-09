@@ -126,6 +126,14 @@ export function SiteHeader() {
           </div>
 
           <Link
+            to="/blog"
+            className="text-[var(--ink-soft)] transition-colors hover:text-foreground"
+            activeProps={{ className: "text-foreground underline underline-offset-8" }}
+          >
+            Blog
+          </Link>
+
+          <Link
             to="/profissional"
             className="text-[var(--ink-soft)] transition-colors hover:text-foreground"
             activeProps={{ className: "text-foreground underline underline-offset-8" }}
@@ -231,6 +239,10 @@ export function SiteHeader() {
                 </MobileLink>
 
                 <div className="my-3 h-px bg-border" />
+
+                <MobileLink to="/blog" onClick={closeMobile}>
+                  Blog
+                </MobileLink>
 
                 <MobileLink to="/profissional" onClick={closeMobile}>
                   Hub Profissional
