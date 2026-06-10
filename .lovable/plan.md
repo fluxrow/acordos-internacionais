@@ -1,83 +1,46 @@
-# Plano
+# Plano — Substituir texto do Acordo Brasil–Canadá
 
-## 1. Corrigir o campo `instrumento`
+## Objetivo
+Atualizar `src/data/acordos-textos/canada.ts` (campo `acordo`) com o conteúdo formatado do `Acordo_formatado.docx`, preservando a estrutura hierárquica (títulos, subtítulos, listas) que o componente `TextoIntegralAcordo` já renderiza dentro de `<pre>` com `whitespace-pre-wrap`.
 
-**Onde os dados vivem:** `src/data/acordos.generated.ts` (auto-gerado por `scripts/import-acordos.ts`). O valor é consumido em `src/lib/hub.functions.ts` e renderizado em `src/routes/_authenticated/hub.$pais.tsx` (linha 63).
+Escopo limitado ao Canadá. Nada de mudar template global, componente de renderização ou outros países.
 
-**Problema:** se eu apenas editar o arquivo gerado, a próxima execução do importador desfaz tudo. Solução: criar um override estável **e** corrigir o gerado de uma vez.
+## Alterações
 
-### 1.1 Criar override
+### 1. `src/data/acordos-textos/canada.ts`
+- Substituir a string `acordo` pelo conteúdo do .docx, reorganizado nas seguintes seções (na ordem do documento):
+  1. Cabeçalho (Decreto nº 8.288/2014 + considerandos + Art. 1º)
+  2. **FUNDAMENTAÇÃO LEGAL DO ACORDO BRASIL–CANADÁ** (6 bullets)
+  3. **OBJETIVOS DO ACORDO** (4 itens numerados)
+  4. **O QUE É ACORDO INTERNACIONAL DE PREVIDÊNCIA SOCIAL**
+  5. **ORGANISMOS DE LIGAÇÃO** (Brasil: APSAIBR)
+  6. **TOTALIZAÇÃO DOS PERÍODOS DE CONTRIBUIÇÃO** + exemplo País A/B
+  7. **BENEFÍCIOS PREVISTOS NO ACORDO** → 8.1 No Brasil (RGPS/RPPS: idade, invalidez, pensão por morte) → 8.2 No Canadá (Lei da Proteção Social do Idoso, Plano de Pensão do Canadá)
+  8. **APOSENTADORIA POR IDADE NO BRASIL** (65/60 anos, carência 180 meses, 70%+1%)
+  9. **APOSENTADORIA POR INVALIDEZ NO BRASIL** (perícia, carência 12 contribuições, 100%)
+  10. **PENSÃO POR MORTE NO BRASIL** (a/b/c)
+  11. **CERTIFICADO DE DESLOCAMENTO TEMPORÁRIO** (60 meses)
+  12. **REGRAS PARA DETERMINAR A LEGISLAÇÃO APLICÁVEL** (3 itens)
+  13. **ONDE REQUERER OS BENEFÍCIOS PREVIDENCIÁRIOS** → Residentes no Brasil (APS + APSAIBR W3 Sul, telefones, e-mail `apsai23001140@inss.gov.br`) → Residentes no exterior
+- Manter o formato de string com `\r\n`, separadores `---` entre seções e bullets com `•`/letras (mesmo padrão atual do arquivo) para continuar legível no `<pre>` do `TextoIntegralAcordo`.
+- Remover o comentário `// AUTO-GENERATED` no topo (esse arquivo passa a ser fonte de verdade manual, já que estamos sobrescrevendo a geração).
+- **Não alterar** `ajuste` — o texto do Ajuste Administrativo continua como está.
 
-Novo arquivo `src/data/acordos-instrumento-overrides.ts` exportando um mapa `slug → instrumento` com a tabela canônica:
+### 2. `scripts/import-acordos.ts`
+- Adicionar `"canada"` a uma lista de slugs preservados (skip overwrite) para que uma futura reimportação não desfaça a edição manual, seguindo o mesmo padrão de override já usado para `instrumento`.
 
-```
-alemanha          → Acordo Brasil - Alemanha
-austria           → Acordo Brasil - Áustria
-belgica           → Acordo Brasil - Bélgica
-bulgaria          → Acordo Brasil - Bulgária
-cabo-verde        → Acordo Brasil - Cabo Verde
-canada            → Acordo Brasil - Canadá
-chile             → Acordo Brasil - Chile
-coreia-do-sul     → Acordo Brasil - Coreia do Sul
-espanha           → Acordo Brasil - Espanha
-estados-unidos    → Acordo Brasil - Estados Unidos
-franca            → Acordo Brasil - França
-grecia            → Acordo Brasil - Grécia
-india             → Acordo Brasil - Índia
-israel            → Acordo Brasil - Israel
-italia            → Acordo Brasil - Itália
-japao             → Acordo Brasil - Japão
-luxemburgo        → Acordo Brasil - Luxemburgo
-mocambique        → Acordo Brasil - Moçambique
-portugal          → Acordo Brasil - Portugal
-quebec            → Acordo Brasil - Quebec
-republica-tcheca  → Acordo Brasil - República Tcheca
-suica             → Acordo Brasil - Suíça
-mercosul          → Mercosul
-cplp              → CPLP
-iberoamericano    → Iberoamericano
-```
-
-### 1.2 Aplicar o override em `src/lib/hub.functions.ts`
-
-Onde a função monta o `instrumento` retornado, fazer `INSTRUMENTO_OVERRIDES[slug] ?? generated.instrumento`. Isso garante a regra mesmo se a próxima regeneração trouxer string antiga.
-
-### 1.3 Atualizar `src/data/acordos.generated.ts`
-
-Substituir os 21 valores existentes pelos canônicos e ignorar o cabeçalho "auto-generated" só desta vez (o override em 1.2 segura o futuro). Os 4 slugs sem `instrumento` (luxemburgo, mocambique, quebec, republica-tcheca) recebem o campo nos seus objetos.
-
-### 1.4 Atualizar `scripts/import-acordos.ts`
-
-Adicionar uma const `INSTRUMENTO_CANONICO` (mesmo mapa) e usar `INSTRUMENTO_CANONICO[slug] ?? instrumento` ao montar o objeto gerado. Próximas reimportações já saem corretas.
-
-## 2. Remover abas "Trecho legal" e "Órgãos" do Hub Profissional
-
-Arquivo: `src/routes/_authenticated/hub.$pais.tsx`.
-
-- Linha 13 (`tabSchema`): remover `"orgaos"` e `"trecho"` do enum.
-- Linhas 93-94: remover as renderizações `tab === "orgaos"` e `tab === "trecho"`.
-- Linhas 104-111 (`TABS`): remover as entradas `orgaos` e `trecho`.
-- Linha 83 e 118-128: remover a prop/branch `hasTrecho` (não mais necessária) e a condição que escondia "Trecho legal".
-- Remover os componentes `OrgaosTab` e `TrechoTab` (definidos mais abaixo no mesmo arquivo) e qualquer import exclusivo (ex.: `TextoIntegralAcordo` se usado só por TrechoTab — vou verificar antes de remover).
-
-A rota pública `src/routes/acordos.$pais.tsx` (site marketing) **não** é alterada — o pedido é só sobre o Hub Profissional (`/hub/$pais`).  
-negativo, altere e mantenha o padrao das informacoes na rota publica tambem.
-
-## 3. Documentação
-
-Atualizar `.lovable/prd.md` e `ROADMAP.md` com nota curta: padronização do `instrumento` e simplificação das abas do Hub.
-
-## Arquivos que serão alterados
-
-- novo: `src/data/acordos-instrumento-overrides.ts`
-- `src/data/acordos.generated.ts`
-- `src/lib/hub.functions.ts`
-- `scripts/import-acordos.ts`
-- `src/routes/_authenticated/hub.$pais.tsx`
-- `.lovable/prd.md`
-- `ROADMAP.md`
+### 3. Documentação (regra Core do projeto)
+- `.lovable/prd.md`: nota curta "Texto integral do Acordo Brasil–Canadá reescrito a partir do material oficial formatado".
+- `ROADMAP.md`: mesma nota na seção corrente.
 
 ## Fora de escopo
+- Não mexer em `TextoIntegralAcordo` (renderização atual já serve).
+- Não tocar nos textos dos outros 24 acordos.
+- Não alterar páginas `/acordos/canada` nem `/hub/canada` — elas leem do mesmo arquivo automaticamente.
+- Sem mudança de schema, RLS ou rotas.
 
-- Não regerar `acordos.generated.ts` agora (a edição manual + override cobre).
-- Sem mudança de schema do banco nem de RLS.
+## Arquivos alterados
+- `src/data/acordos-textos/canada.ts`
+- `scripts/import-acordos.ts`
+- `.lovable/prd.md`
+- `ROADMAP.md`
