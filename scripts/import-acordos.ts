@@ -48,6 +48,11 @@ const INSTRUMENTO_CANONICO: Record<string, string> = {
   cplp: "CPLP",
   iberoamericano: "Iberoamericano",
 };
+
+// Slugs cujo arquivo src/data/acordos-textos/<slug>.ts foi curado manualmente
+// (a partir de material oficial formatado) e NÃO deve ser sobrescrito pelo
+// importador. Para regerar a partir do .txt, remova o slug daqui.
+const PRESERVE_TEXTO_INTEGRAL = new Set<string>(["canada"]);
 const SOURCES: Array<{ file: string; slug: string; txtName: string }> = [
   { file: "acordo-alemanha", slug: "alemanha", txtName: "Alemanha" },
   { file: "acordo-austria", slug: "austria", txtName: "Áustria" },
