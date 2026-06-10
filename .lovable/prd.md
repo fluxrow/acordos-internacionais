@@ -1,6 +1,8 @@
 # PRD — Acordo Internacional
 
-> Documento vivo. **Toda mudança no projeto deve atualizar este PRD na mesma rodada.** Última revisão: 2026-06-09.
+> Documento vivo. **Toda mudança no projeto deve atualizar este PRD na mesma rodada.** Última revisão: 2026-06-10.
+>
+> **2026-06-10 — Texto integral do Brasil–Canadá curado:** `src/data/acordos-textos/canada.ts` substituído pela versão oficial formatada (Decreto 8.288/2014, fundamentação legal, objetivos, organismos de ligação, totalização, benefícios 8.1/8.2, deslocamento temporário, endereços APSAIBR). Importador agora respeita `PRESERVE_TEXTO_INTEGRAL` para não regredir o arquivo curado. Detalhes no Roadmap.
 >
 > **2026-06-09 — Cobertura completa do `/hub`:** corrigido pipeline de importação para que Suíça (estava ausente do `SOURCES` do `scripts/import-acordos.ts`), Bélgica e Iberoamericano (parser aceitava só chaves sem aspas) deixassem de aparecer como "Em curadoria". Resultado: 25/25 países com `documentos[]` populado. Detalhes no Roadmap.
 >
