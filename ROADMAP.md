@@ -16,6 +16,14 @@
 
 ---
 
+## Texto integral do Acordo Brasil–Canadá reescrito ✅ (10/06/2026)
+
+- `src/data/acordos-textos/canada.ts` substituído pelo conteúdo curado do material oficial formatado (`Acordo_formatado.docx`): fundamentação legal, objetivos, organismos de ligação, totalização com exemplo País A/B, benefícios (8.1 BR / 8.2 CA), regras de legislação aplicável, deslocamento temporário e endereços da APSAIBR.
+- `scripts/import-acordos.ts` ganhou `PRESERVE_TEXTO_INTEGRAL = new Set(["canada"])` para não sobrescrever o arquivo curado em futuras reimportações.
+- Renderiza automaticamente em `/acordos/canada` e `/hub/canada` via `TextoIntegralAcordo` (dynamic import).
+
+---
+
 ## Correção factual — "Em curadoria" indevido (Suíça, Bélgica, Iberoamericano) ✅ (09/06/2026)
 
 - **Sintoma:** os 3 países exibiam badge "Em curadoria" no `/hub` mesmo tendo conteúdo no repositório-fonte `marcosespinola1379/Mapa-de-Acordos`.

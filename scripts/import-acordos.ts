@@ -48,6 +48,11 @@ const INSTRUMENTO_CANONICO: Record<string, string> = {
   cplp: "CPLP",
   iberoamericano: "Iberoamericano",
 };
+
+// Slugs cujo arquivo src/data/acordos-textos/<slug>.ts foi curado manualmente
+// (a partir de material oficial formatado) e NÃO deve ser sobrescrito pelo
+// importador. Para regerar a partir do .txt, remova o slug daqui.
+const PRESERVE_TEXTO_INTEGRAL = new Set<string>(["canada"]);
 const SOURCES: Array<{ file: string; slug: string; txtName: string }> = [
   { file: "acordo-alemanha", slug: "alemanha", txtName: "Alemanha" },
   { file: "acordo-austria", slug: "austria", txtName: "Áustria" },
@@ -311,12 +316,18 @@ async function main() {
     };
 
     // Escreve arquivo por país com o texto integral (code-split via dynamic import).
+    // Slugs em PRESERVE_TEXTO_INTEGRAL são curados manualmente e NÃO devem ser
+    // sobrescritos pelo importador.
     const textoFile = resolve(textosDir, `${slug}.ts`);
-    const textoBody = `// AUTO-GENERATED por scripts/import-acordos.ts — não editar.
+    if (PRESERVE_TEXTO_INTEGRAL.has(slug) && existsSync(textoFile)) {
+      // mantém o arquivo curado intacto
+    } else {
+      const textoBody = `// AUTO-GENERATED por scripts/import-acordos.ts — não editar.
 export const acordo = ${JSON.stringify(acordoTexto ?? "")};
 export const ajuste = ${JSON.stringify(ajusteTexto ?? "")};
 `;
-    writeFileSync(textoFile, textoBody, "utf8");
+      writeFileSync(textoFile, textoBody, "utf8");
+    }
 
     process.stdout.write(
       `${orgaoBR ? "✓" : "✗"} BR  ${orgaoParceiro ? "✓" : "✗"} parc  ` +
