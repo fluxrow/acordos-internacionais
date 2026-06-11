@@ -46,6 +46,7 @@ import { Route as LovableEmailTransactionalSendRouteImport } from './routes/lova
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 import { Route as LovableEmailQueueProcessRouteImport } from './routes/lovable/email/queue/process'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
+import { Route as ApiPublicHooksBlogGenRouteImport } from './routes/api/public/hooks/blog-gen'
 
 const UnsubscribeRoute = UnsubscribeRouteImport.update({
   id: '/unsubscribe',
@@ -237,6 +238,11 @@ const ApiPublicPaymentsWebhookRoute =
     path: '/api/public/payments/webhook',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicHooksBlogGenRoute = ApiPublicHooksBlogGenRouteImport.update({
+  id: '/api/public/hooks/blog-gen',
+  path: '/api/public/hooks/blog-gen',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -271,6 +277,7 @@ export interface FileRoutesByFullPath {
   '/api/public/contato': typeof ApiPublicContatoRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/hub/': typeof AuthenticatedHubIndexRoute
+  '/api/public/hooks/blog-gen': typeof ApiPublicHooksBlogGenRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -309,6 +316,7 @@ export interface FileRoutesByTo {
   '/api/public/contato': typeof ApiPublicContatoRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/hub': typeof AuthenticatedHubIndexRoute
+  '/api/public/hooks/blog-gen': typeof ApiPublicHooksBlogGenRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -349,6 +357,7 @@ export interface FileRoutesById {
   '/api/public/contato': typeof ApiPublicContatoRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/_authenticated/hub/': typeof AuthenticatedHubIndexRoute
+  '/api/public/hooks/blog-gen': typeof ApiPublicHooksBlogGenRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -389,6 +398,7 @@ export interface FileRouteTypes {
     | '/api/public/contato'
     | '/lovable/email/suppression'
     | '/hub/'
+    | '/api/public/hooks/blog-gen'
     | '/api/public/payments/webhook'
     | '/lovable/email/queue/process'
     | '/lovable/email/transactional/preview'
@@ -427,6 +437,7 @@ export interface FileRouteTypes {
     | '/api/public/contato'
     | '/lovable/email/suppression'
     | '/hub'
+    | '/api/public/hooks/blog-gen'
     | '/api/public/payments/webhook'
     | '/lovable/email/queue/process'
     | '/lovable/email/transactional/preview'
@@ -466,6 +477,7 @@ export interface FileRouteTypes {
     | '/api/public/contato'
     | '/lovable/email/suppression'
     | '/_authenticated/hub/'
+    | '/api/public/hooks/blog-gen'
     | '/api/public/payments/webhook'
     | '/lovable/email/queue/process'
     | '/lovable/email/transactional/preview'
@@ -498,6 +510,7 @@ export interface RootRouteChildren {
   ApiPublicCalcLeadRoute: typeof ApiPublicCalcLeadRoute
   ApiPublicContatoRoute: typeof ApiPublicContatoRoute
   LovableEmailSuppressionRoute: typeof LovableEmailSuppressionRoute
+  ApiPublicHooksBlogGenRoute: typeof ApiPublicHooksBlogGenRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
   LovableEmailQueueProcessRoute: typeof LovableEmailQueueProcessRoute
   LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
@@ -765,6 +778,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicPaymentsWebhookRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/hooks/blog-gen': {
+      id: '/api/public/hooks/blog-gen'
+      path: '/api/public/hooks/blog-gen'
+      fullPath: '/api/public/hooks/blog-gen'
+      preLoaderRoute: typeof ApiPublicHooksBlogGenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -828,6 +848,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicCalcLeadRoute: ApiPublicCalcLeadRoute,
   ApiPublicContatoRoute: ApiPublicContatoRoute,
   LovableEmailSuppressionRoute: LovableEmailSuppressionRoute,
+  ApiPublicHooksBlogGenRoute: ApiPublicHooksBlogGenRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
   LovableEmailQueueProcessRoute: LovableEmailQueueProcessRoute,
   LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,
@@ -836,13 +857,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

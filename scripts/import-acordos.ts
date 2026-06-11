@@ -52,7 +52,17 @@ const INSTRUMENTO_CANONICO: Record<string, string> = {
 // Slugs cujo arquivo src/data/acordos-textos/<slug>.ts foi curado manualmente
 // (a partir de material oficial formatado) e NÃO deve ser sobrescrito pelo
 // importador. Para regerar a partir do .txt, remova o slug daqui.
-const PRESERVE_TEXTO_INTEGRAL = new Set<string>(["canada"]);
+// Todos os 25 slugs foram (re)importados a partir dos .docx revisados pelo
+// Dr. Marcos Espínola na pasta "Acordos e Ajustes Revisados". Esse conjunto
+// é a fonte de verdade — `import-acordos.ts` (que lê o dataset base) NÃO
+// deve sobrescrever esses arquivos.
+const PRESERVE_TEXTO_INTEGRAL = new Set<string>([
+  "alemanha", "austria", "belgica", "bulgaria", "cabo-verde", "canada",
+  "chile", "coreia-do-sul", "cplp", "espanha", "estados-unidos", "franca",
+  "grecia", "iberoamericano", "india", "israel", "italia", "japao",
+  "luxemburgo", "mercosul", "mocambique", "portugal", "quebec",
+  "republica-tcheca", "suica",
+]);
 const SOURCES: Array<{ file: string; slug: string; txtName: string }> = [
   { file: "acordo-alemanha", slug: "alemanha", txtName: "Alemanha" },
   { file: "acordo-austria", slug: "austria", txtName: "Áustria" },

@@ -98,6 +98,87 @@ export type Database = {
         }
         Relationships: []
       }
+      blog_posts: {
+        Row: {
+          autor: string
+          blocos: Json
+          created_at: string
+          fontes: Json
+          leitura_min: number
+          publicado_em: string | null
+          resumo: string
+          slug: string
+          status: string
+          tags: string[]
+          titulo: string
+          updated_at: string
+        }
+        Insert: {
+          autor?: string
+          blocos?: Json
+          created_at?: string
+          fontes?: Json
+          leitura_min?: number
+          publicado_em?: string | null
+          resumo: string
+          slug: string
+          status?: string
+          tags?: string[]
+          titulo: string
+          updated_at?: string
+        }
+        Update: {
+          autor?: string
+          blocos?: Json
+          created_at?: string
+          fontes?: Json
+          leitura_min?: number
+          publicado_em?: string | null
+          resumo?: string
+          slug?: string
+          status?: string
+          tags?: string[]
+          titulo?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      blog_topics: {
+        Row: {
+          ativo: boolean
+          created_at: string
+          fontes_sugeridas: string[]
+          id: string
+          prioridade: number
+          prompt: string
+          tags: string[]
+          titulo_sugerido: string
+          usado_em: string | null
+        }
+        Insert: {
+          ativo?: boolean
+          created_at?: string
+          fontes_sugeridas?: string[]
+          id?: string
+          prioridade?: number
+          prompt: string
+          tags?: string[]
+          titulo_sugerido: string
+          usado_em?: string | null
+        }
+        Update: {
+          ativo?: boolean
+          created_at?: string
+          fontes_sugeridas?: string[]
+          id?: string
+          prioridade?: number
+          prompt?: string
+          tags?: string[]
+          titulo_sugerido?: string
+          usado_em?: string | null
+        }
+        Relationships: []
+      }
       calc_history: {
         Row: {
           created_at: string
