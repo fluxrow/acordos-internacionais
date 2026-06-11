@@ -352,3 +352,9 @@ Comando: `bun run test`. 31 testes — qualquer regressão nas regras de piso, p
 - Campo `instrumento` agora segue regra única: bilaterais `Acordo Brasil - <País>`, multilaterais nome do bloco. Aplicado via `src/data/acordos-instrumento-overrides.ts` (centralizado e à prova de reimport).
 - Abas removidas em `/hub/$pais`: "Trecho legal" e "Órgãos". Restam Visão Geral, Documentos, Acordo (texto integral) e Ajuste administrativo.
 - Bloco "Órgãos de ligação" removido também da rota pública `/acordos/$pais` para manter consistência editorial entre site e hub.
+
+## Atualização — Correção de encoding nos 25 acordos (2026-06-11)
+- **Bug**: rodada anterior de `scripts/import-acordos-revisados.ts` gravou os 25 `src/data/acordos-textos/*.ts` com mojibake UTF-8 → latin-1 (`República` virou `blica`, `aplicação` virou `aplicaã`, `Canadá` virou `canadã`).
+- **QA**: amostragem Canadá/Portugal/Itália comparando `.docx` original vs `.ts` confirmou que 24 de 25 arquivos estavam corrompidos.
+- **Correção**: reexecução do script (já gravava buffer correto) sobrescreveu todos os 25. Verificado: `grep "PREVIDÊNCIA" canada.ts` agora retorna acentos intactos.
+- Países cujo `Ajuste Administrativo` não existe no repo (Bulgária, CPLP, Espanha, Israel, Moçambique) mantiveram ajuste anterior — se aquele já estava limpo, segue limpo.

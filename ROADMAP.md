@@ -403,3 +403,6 @@
 - `src/data/acordos.generated.ts` atualizado de uma vez (4 países que não tinham o campo passaram a ter: luxemburgo, mocambique, quebec, republica-tcheca).
 - **Hub Profissional `/hub/$pais`**: removidas as abas "Trecho legal" e "Órgãos". Restam Visão Geral · Documentos · Acordo (texto integral) · Ajuste administrativo.
 - **Rota pública `/acordos/$pais`**: removido o bloco "Órgãos de ligação" para manter o mesmo padrão de informações.
+
+## 2026-06-11 — Encoding fix nos textos dos acordos
+- Reimportação dos 25 `.docx` revisados do repositório do Marcos (`Mapa-de-Acordos/Acordos e Ajustes Revisados`) com encoding correto. Mojibake (`canadã`, `blica`, `aplicaã`) eliminado em todos os arquivos `src/data/acordos-textos/*.ts`. Pendente: blog generation pipeline + pg_cron (aguardando confirmação de cadência).
