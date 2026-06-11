@@ -6,11 +6,10 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
-async function assertAdmin(ctx: { supabase: ReturnType<typeof requireSupabaseAuth>; userId: string }): Promise<void> {
-  // Não use o supabase do contexto direto — preferimos has_role via supabaseAdmin para evitar RLS recursivo.
+async function assertAdmin(userId: string): Promise<void> {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const { data, error } = await supabaseAdmin.rpc("has_role", {
-    _user_id: ctx.userId,
+    _user_id: userId,
     _role: "admin",
   });
   if (error || !data) throw new Error("Forbidden");
