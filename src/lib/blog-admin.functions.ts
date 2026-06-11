@@ -78,7 +78,9 @@ export const setBlogPostStatus = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     await assertAdmin(context as never);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const patch: Record<string, unknown> = { status: data.status };
+    const patch: { status: "draft" | "published" | "archived"; publicado_em?: string } = {
+      status: data.status,
+    };
     if (data.status === "published") patch.publicado_em = new Date().toISOString();
     const { error } = await supabaseAdmin.from("blog_posts").update(patch).eq("slug", data.slug);
     if (error) throw error;
