@@ -60,7 +60,7 @@ export function TextoIntegralAcordo({ slug }: TextoIntegralAcordoProps) {
           </p>
         )}
         {estado.kind === "loaded" && acordo && (
-          <pre className="max-h-[60vh] overflow-y-auto whitespace-pre-wrap text-sm leading-relaxed font-sans text-foreground/90">
+          <pre className="max-h-[60vh] overflow-y-auto whitespace-pre-wrap text-center text-sm leading-relaxed font-sans text-foreground/90">
             {acordo}
           </pre>
         )}
