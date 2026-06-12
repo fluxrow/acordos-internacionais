@@ -1,30 +1,54 @@
-# Corrigir mojibake nos textos de acordos
+## Objetivo
+Criar uma conta de testes para o Marcos com acesso completo ao Hub (como um assinante pagante), **sem** papel de admin.
 
-## Problema (confirmado por QA)
+- E-mail: `espinola.mv@gmail.com`
+- Senha: `Marcos2025*`
+- Acesso: Hub completo (lifetime), sem admin
 
-Amostrei Canadá, Portugal e Itália comparando `.docx` original do GitHub com `src/data/acordos-textos/*.ts`. Resultado:
+## Passos
 
-- Todo caractere acentuado foi corrompido. Ex.: `República` → `blica`, `aplicação` → `aplicaã`, `Canadá` → `canadã`, `benefício` → `benefã`.
-- Scan automático: **24 de 25 arquivos** (todos menos `iberoamericano.ts`) estão afetados.
-- O texto estrutural (parágrafos, ordem das seções, valores numéricos) está correto — só o encoding quebrou.
+1. **Criar usuário no Auth** (via Admin API server-side)
+   - `email_confirm: true` para já entrar direto sem precisar confirmar e-mail.
+   - Senha definida no momento da criação.
 
-Causa raiz: `scripts/import-acordos-revisados.ts` da rodada anterior passou o buffer do `.docx` ao `mammoth` em modo `latin1`/`binary` em vez de buffer puro, gerando UTF‑8 duplo-decodificado.
+2. **Criar profile** em `public.profiles`
+   - `id` = user.id
+   - `full_name`: "Marcos (teste)"
+   - `email`: espinola.mv@gmail.com
 
-## Plano de correção
+3. **NÃO inserir** nada em `public.user_roles` — garante que não terá `admin`.
 
-1. **Auditar `scripts/import-acordos-revisados.ts`** e corrigir a leitura: usar `fs.readFileSync(path)` (Buffer puro) e `mammoth.extractRawText({ buffer })`. Garantir que o `writeFileSync` do `.ts` use UTF‑8 explícito.
-2. **Re‑rodar o script** para os 25 países, baixando novamente os 44 `.docx` do repositório `marcosespinola1379/Mapa-de-Acordos/Acordos e Ajustes Revisados`.
-3. **Sobrescrever** os 24 arquivos afetados em `src/data/acordos-textos/` (mais `iberoamericano.ts` se a re-extração trouxer mudanças). Formato preservado: `export const acordo = "..."; export const ajuste = "...";` com `\n` literais.
-4. **Validar pós‑import** com o mesmo script de QA (cobertura por tokens entre `.docx` e `.ts`): zero tokens contendo `ã` órfão e zero tokens só presentes no `.docx` por motivo de encoding. Cabeçalhos como "República Federativa do Brasil e Canadá" devem aparecer intactos.
-5. **Atualizar `.lovable/prd.md` e `ROADMAP.md`** com nota curta sobre a correção de encoding (mesma rodada — regra Core de memória).
+4. **Criar subscription "lifetime"** em `public.subscriptions`
+   - `user_id` = user.id
+   - `status` = `active`
+   - `lifetime_access` = `true`
+   - `stripe_customer_id` = `null` (conta de teste, não passou pelo Stripe)
+   - `price_id` = `null`
+   - `cancel_at_period_end` = `false`
+   - `current_period_end` = `null` (lifetime não expira)
+
+   Isso replica exatamente o estado de um Fundador que pagou via Stripe, fazendo `getAccountData` retornar `subscription.lifetimeAccess = true` e liberando todo o conteúdo Pro do Hub.
+
+5. **Validar**
+   - Login com as credenciais funciona em `/login`.
+   - `/hub` carrega sem cair em paywall.
+   - `/conta` mostra "acesso vitalício".
+   - `isAdmin` no `getHubDashboard` retorna `false` (sem itens admin na sidebar, sem `/hub/leads`).
+
+## Execução técnica
+
+Como o painel Supabase não é acessível no Lovable Cloud e a Service Role Key não fica exposta para uso manual, vou rodar um **script local one-shot** via `bun run scripts/seed-test-user.ts` que usa `supabaseAdmin` (service role já disponível no runtime do servidor) para:
+- `supabaseAdmin.auth.admin.createUser({...})`
+- `supabaseAdmin.from('profiles').insert(...)`
+- `supabaseAdmin.from('subscriptions').insert({ lifetime_access: true, status: 'active', ... })`
+
+O script é descartável (não fica em produção / não vira endpoint público — seria um vazamento de privilégio).
 
 ## Fora de escopo
+- Mexer em RLS, migrations ou políticas.
+- Criar endpoint público / serverFn de "seed".
+- Alterar Stripe (a conta teste não passa pelo checkout).
+- Qualquer mudança no fluxo de fundadores reais.
 
-- Continuar o trabalho de blog + cron (já pendente de outras decisões — fica para a próxima rodada).
-- Mudanças visuais ou estruturais nas páginas de acordo (só substituição de string).
-- `iberoamericano.ts` só será tocado se a re‑extração mudar bytes.
-
-## Riscos
-
-- Países que tinham edições manuais pós‑import seriam sobrescritos. Pelo histórico, todas as 25 strings vieram do mesmo script — então sobrescrever é seguro.
-- Repositório GitHub é público e estável; download via `raw.githubusercontent.com` já foi validado nesta QA.
+## Risco / reversão
+Se quiser apagar depois: deletar o user em `auth.users` (cascade limpa `profiles`, `subscriptions`, `user_roles` via FK).
