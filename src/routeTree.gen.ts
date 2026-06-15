@@ -40,6 +40,7 @@ import { Route as ApiPublicCalcLeadRouteImport } from './routes/api/public/calc-
 import { Route as AuthenticatedHubLeadsRouteImport } from './routes/_authenticated/hub.leads'
 import { Route as AuthenticatedHubLaudosRouteImport } from './routes/_authenticated/hub.laudos'
 import { Route as AuthenticatedHubLaudoRouteImport } from './routes/_authenticated/hub.laudo'
+import { Route as AuthenticatedHubCuponsRouteImport } from './routes/_authenticated/hub.cupons'
 import { Route as AuthenticatedHubCalculadoraRouteImport } from './routes/_authenticated/hub.calculadora'
 import { Route as AuthenticatedHubPaisRouteImport } from './routes/_authenticated/hub.$pais'
 import { Route as LovableEmailTransactionalSendRouteImport } from './routes/lovable/email/transactional/send'
@@ -203,6 +204,11 @@ const AuthenticatedHubLaudoRoute = AuthenticatedHubLaudoRouteImport.update({
   path: '/hub/laudo',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedHubCuponsRoute = AuthenticatedHubCuponsRouteImport.update({
+  id: '/hub/cupons',
+  path: '/hub/cupons',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedHubCalculadoraRoute =
   AuthenticatedHubCalculadoraRouteImport.update({
     id: '/hub/calculadora',
@@ -270,6 +276,7 @@ export interface FileRoutesByFullPath {
   '/jornadas/': typeof JornadasIndexRoute
   '/hub/$pais': typeof AuthenticatedHubPaisRoute
   '/hub/calculadora': typeof AuthenticatedHubCalculadoraRoute
+  '/hub/cupons': typeof AuthenticatedHubCuponsRoute
   '/hub/laudo': typeof AuthenticatedHubLaudoRoute
   '/hub/laudos': typeof AuthenticatedHubLaudosRoute
   '/hub/leads': typeof AuthenticatedHubLeadsRoute
@@ -309,6 +316,7 @@ export interface FileRoutesByTo {
   '/jornadas': typeof JornadasIndexRoute
   '/hub/$pais': typeof AuthenticatedHubPaisRoute
   '/hub/calculadora': typeof AuthenticatedHubCalculadoraRoute
+  '/hub/cupons': typeof AuthenticatedHubCuponsRoute
   '/hub/laudo': typeof AuthenticatedHubLaudoRoute
   '/hub/laudos': typeof AuthenticatedHubLaudosRoute
   '/hub/leads': typeof AuthenticatedHubLeadsRoute
@@ -350,6 +358,7 @@ export interface FileRoutesById {
   '/jornadas/': typeof JornadasIndexRoute
   '/_authenticated/hub/$pais': typeof AuthenticatedHubPaisRoute
   '/_authenticated/hub/calculadora': typeof AuthenticatedHubCalculadoraRoute
+  '/_authenticated/hub/cupons': typeof AuthenticatedHubCuponsRoute
   '/_authenticated/hub/laudo': typeof AuthenticatedHubLaudoRoute
   '/_authenticated/hub/laudos': typeof AuthenticatedHubLaudosRoute
   '/_authenticated/hub/leads': typeof AuthenticatedHubLeadsRoute
@@ -391,6 +400,7 @@ export interface FileRouteTypes {
     | '/jornadas/'
     | '/hub/$pais'
     | '/hub/calculadora'
+    | '/hub/cupons'
     | '/hub/laudo'
     | '/hub/laudos'
     | '/hub/leads'
@@ -430,6 +440,7 @@ export interface FileRouteTypes {
     | '/jornadas'
     | '/hub/$pais'
     | '/hub/calculadora'
+    | '/hub/cupons'
     | '/hub/laudo'
     | '/hub/laudos'
     | '/hub/leads'
@@ -470,6 +481,7 @@ export interface FileRouteTypes {
     | '/jornadas/'
     | '/_authenticated/hub/$pais'
     | '/_authenticated/hub/calculadora'
+    | '/_authenticated/hub/cupons'
     | '/_authenticated/hub/laudo'
     | '/_authenticated/hub/laudos'
     | '/_authenticated/hub/leads'
@@ -737,6 +749,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedHubLaudoRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/hub/cupons': {
+      id: '/_authenticated/hub/cupons'
+      path: '/hub/cupons'
+      fullPath: '/hub/cupons'
+      preLoaderRoute: typeof AuthenticatedHubCuponsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/hub/calculadora': {
       id: '/_authenticated/hub/calculadora'
       path: '/hub/calculadora'
@@ -793,6 +812,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedContaRoute: typeof AuthenticatedContaRoute
   AuthenticatedHubPaisRoute: typeof AuthenticatedHubPaisRoute
   AuthenticatedHubCalculadoraRoute: typeof AuthenticatedHubCalculadoraRoute
+  AuthenticatedHubCuponsRoute: typeof AuthenticatedHubCuponsRoute
   AuthenticatedHubLaudoRoute: typeof AuthenticatedHubLaudoRoute
   AuthenticatedHubLaudosRoute: typeof AuthenticatedHubLaudosRoute
   AuthenticatedHubLeadsRoute: typeof AuthenticatedHubLeadsRoute
@@ -803,6 +823,7 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedContaRoute: AuthenticatedContaRoute,
   AuthenticatedHubPaisRoute: AuthenticatedHubPaisRoute,
   AuthenticatedHubCalculadoraRoute: AuthenticatedHubCalculadoraRoute,
+  AuthenticatedHubCuponsRoute: AuthenticatedHubCuponsRoute,
   AuthenticatedHubLaudoRoute: AuthenticatedHubLaudoRoute,
   AuthenticatedHubLaudosRoute: AuthenticatedHubLaudosRoute,
   AuthenticatedHubLeadsRoute: AuthenticatedHubLeadsRoute,
