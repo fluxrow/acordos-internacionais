@@ -1,12 +1,20 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useSuspenseQuery, queryOptions } from "@tanstack/react-query";
 import { blogPosts } from "@/data/blog-posts";
+import { listPublishedBlogPosts } from "@/lib/blog.functions";
 
 const TITLE = "Blog | Acordos Internacionais";
 const DESC =
   "Análises, atualizações regulatórias e estudos de caso sobre acordos previdenciários internacionais do Brasil.";
 const CANONICAL = "https://acordosinternacionais.com/blog";
 
+const publishedOpts = queryOptions({
+  queryKey: ["blog", "published"],
+  queryFn: () => listPublishedBlogPosts(),
+});
+
 export const Route = createFileRoute("/blog/")({
+  loader: ({ context }) => context.queryClient.ensureQueryData(publishedOpts),
   head: () => ({
     meta: [
       { title: TITLE },
@@ -31,12 +39,45 @@ export const Route = createFileRoute("/blog/")({
       },
     ],
   }),
+  errorComponent: () => (
+    <div className="mx-auto max-w-2xl px-6 py-24 text-center text-sm text-muted-foreground">
+      Não foi possível carregar os artigos agora.
+    </div>
+  ),
+  notFoundComponent: () => null,
   component: Blog,
 });
 
+type Item = {
+  slug: string;
+  titulo: string;
+  resumo: string;
+  publicadoEm: string;
+  leituraMin: number;
+  tags: string[];
+};
+
 function Blog() {
-  const posts = [...blogPosts].sort((a, b) =>
-    b.publicadoEm.localeCompare(a.publicadoEm),
+  const { data } = useSuspenseQuery(publishedOpts);
+  const dbItems: Item[] = (data?.posts ?? []).map((p) => ({
+    slug: p.slug,
+    titulo: p.titulo,
+    resumo: p.resumo,
+    publicadoEm: p.publicado_em,
+    leituraMin: p.leitura_min,
+    tags: p.tags ?? [],
+  }));
+  const staticItems: Item[] = blogPosts.map((p) => ({
+    slug: p.slug,
+    titulo: p.titulo,
+    resumo: p.resumo,
+    publicadoEm: p.publicadoEm,
+    leituraMin: p.leituraMin,
+    tags: p.tags,
+  }));
+  const seen = new Set(dbItems.map((p) => p.slug));
+  const posts = [...dbItems, ...staticItems.filter((p) => !seen.has(p.slug))].sort(
+    (a, b) => (b.publicadoEm ?? "").localeCompare(a.publicadoEm ?? ""),
   );
 
   return (

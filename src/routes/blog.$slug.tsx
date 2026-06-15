@@ -1,11 +1,54 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { getBlogPost, blogPosts, type BlogPost as BlogPostType } from "@/data/blog-posts";
+import { getBlogPost, blogPosts } from "@/data/blog-posts";
+import { getPublishedBlogPost } from "@/lib/blog.functions";
+
+type Bloco = { type: "p" | "h2"; text: string };
+type LoaderPost = {
+  slug: string;
+  titulo: string;
+  resumo: string;
+  publicadoEm: string;
+  leituraMin: number;
+  autor: string;
+  tags: string[];
+  blocos: Bloco[];
+  fontes?: Array<{ url: string; titulo?: string }>;
+};
 
 export const Route = createFileRoute("/blog/$slug")({
-  loader: ({ params }) => {
-    const post = getBlogPost(params.slug);
-    if (!post) throw notFound();
-    return { post };
+  loader: async ({ params }) => {
+    // 1) DB first (covers AI-generated/published posts)
+    const { post } = await getPublishedBlogPost({ data: { slug: params.slug } });
+    if (post) {
+      return {
+        post: {
+          slug: post.slug,
+          titulo: post.titulo,
+          resumo: post.resumo,
+          publicadoEm: post.publicado_em,
+          leituraMin: post.leitura_min,
+          autor: post.autor,
+          tags: post.tags ?? [],
+          blocos: (post.blocos ?? []) as Bloco[],
+          fontes: post.fontes ?? [],
+        } satisfies LoaderPost,
+      };
+    }
+    // 2) Static fallback
+    const sp = getBlogPost(params.slug);
+    if (!sp) throw notFound();
+    return {
+      post: {
+        slug: sp.slug,
+        titulo: sp.titulo,
+        resumo: sp.resumo,
+        publicadoEm: sp.publicadoEm,
+        leituraMin: sp.leituraMin,
+        autor: sp.autor,
+        tags: sp.tags,
+        blocos: sp.blocos,
+      } satisfies LoaderPost,
+    };
   },
   head: ({ loaderData, params }) => {
     const post = loaderData?.post;
@@ -43,6 +86,11 @@ export const Route = createFileRoute("/blog/$slug")({
       ],
     };
   },
+  errorComponent: () => (
+    <div className="mx-auto max-w-2xl px-6 py-24 text-center text-sm text-muted-foreground">
+      Não foi possível carregar o artigo.
+    </div>
+  ),
   notFoundComponent: () => (
     <div className="mx-auto max-w-2xl px-6 py-24 text-center">
       <p className="eyebrow">Erro 404</p>
@@ -56,7 +104,7 @@ export const Route = createFileRoute("/blog/$slug")({
 });
 
 function BlogPost() {
-  const { post } = Route.useLoaderData() as { post: BlogPostType };
+  const { post } = Route.useLoaderData() as { post: LoaderPost };
 
   return (
     <article>
@@ -108,6 +156,26 @@ function BlogPost() {
             ),
           )}
         </div>
+
+        {post.fontes && post.fontes.length > 0 && (
+          <div className="mt-12 rounded-2xl border border-border bg-background/40 p-6">
+            <p className="eyebrow">Fontes consultadas</p>
+            <ul className="mt-3 space-y-1.5 text-sm">
+              {post.fontes.map((f, i) => (
+                <li key={i}>
+                  <a
+                    href={f.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gold hover:underline"
+                  >
+                    {f.titulo ?? f.url}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         <div className="mt-16 rounded-2xl border border-border bg-background/60 p-7 shadow-[var(--shadow-soft)]">
           <p className="eyebrow">Próximo passo</p>
