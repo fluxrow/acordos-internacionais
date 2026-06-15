@@ -6,6 +6,8 @@ import {
   listDraftBlogPosts,
   setBlogPostStatus,
   deleteBlogPost,
+  listBlogTopics,
+  generateBlogPostNow,
 } from "@/lib/blog-admin.functions";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -22,12 +24,32 @@ function HubBlogPage() {
   const listFn = useServerFn(listDraftBlogPosts);
   const setStatusFn = useServerFn(setBlogPostStatus);
   const deleteFn = useServerFn(deleteBlogPost);
+  const topicsFn = useServerFn(listBlogTopics);
+  const generateFn = useServerFn(generateBlogPostNow);
   const [filter, setFilter] = useState<Status>("all");
 
   const q = useQuery({
     queryKey: ["blog-admin", "list"],
     queryFn: () => listFn(),
   });
+
+  const topicsQ = useQuery({
+    queryKey: ["blog-admin", "topics"],
+    queryFn: () => topicsFn(),
+  });
+
+  const generate = useMutation({
+    mutationFn: (topicId?: string) =>
+      generateFn({ data: topicId ? { topicId } : {} }),
+    onSuccess: (res) => {
+      toast.success(`Draft criado: ${res.titulo}`);
+      q.refetch();
+      topicsQ.refetch();
+      router.navigate({ to: "/hub/blog/$slug", params: { slug: res.slug } });
+    },
+    onError: (e) => toast.error(e instanceof Error ? e.message : "Erro ao gerar"),
+  });
+
 
   const publish = useMutation({
     mutationFn: (slug: string) => setStatusFn({ data: { slug, status: "published" } }),
