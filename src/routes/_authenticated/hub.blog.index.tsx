@@ -8,6 +8,7 @@ import {
   deleteBlogPost,
   listBlogTopics,
   generateBlogPostNow,
+  createBlogPostDraft,
 } from "@/lib/blog-admin.functions";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -26,6 +27,7 @@ function HubBlogPage() {
   const deleteFn = useServerFn(deleteBlogPost);
   const topicsFn = useServerFn(listBlogTopics);
   const generateFn = useServerFn(generateBlogPostNow);
+  const createFn = useServerFn(createBlogPostDraft);
   const [filter, setFilter] = useState<Status>("all");
 
   const q = useQuery({
@@ -49,6 +51,22 @@ function HubBlogPage() {
     },
     onError: (e) => toast.error(e instanceof Error ? e.message : "Erro ao gerar"),
   });
+
+  const createManual = useMutation({
+    mutationFn: (titulo: string) => createFn({ data: { titulo } }),
+    onSuccess: (res) => {
+      toast.success("Rascunho criado");
+      q.refetch();
+      router.navigate({ to: "/hub/blog/$slug", params: { slug: res.slug } });
+    },
+    onError: (e) => toast.error(e instanceof Error ? e.message : "Erro ao criar"),
+  });
+
+  const handleCreateManual = () => {
+    const titulo = window.prompt("Título do novo post (pode editar depois):");
+    if (!titulo || titulo.trim().length < 3) return;
+    createManual.mutate(titulo.trim());
+  };
 
 
   const publish = useMutation({
@@ -102,6 +120,13 @@ function HubBlogPage() {
         </div>
         <div className="flex flex-wrap gap-2">
           <Button
+            onClick={handleCreateManual}
+            disabled={createManual.isPending}
+          >
+            {createManual.isPending ? "Criando..." : "+ Novo post manual"}
+          </Button>
+          <Button
+            variant="outline"
             onClick={() => generate.mutate(undefined)}
             disabled={generate.isPending}
           >
