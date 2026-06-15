@@ -28,6 +28,7 @@ function HubBlogEditorPage() {
   const updateFn = useServerFn(updateBlogPostDraft);
   const setStatusFn = useServerFn(setBlogPostStatus);
   const deleteFn = useServerFn(deleteBlogPost);
+  const renameFn = useServerFn(renameBlogPostSlug);
 
   const q = useQuery({
     queryKey: ["blog-admin", "post", slug],
@@ -39,6 +40,7 @@ function HubBlogEditorPage() {
   const [blocos, setBlocos] = useState<Bloco[]>([]);
   const [tags, setTags] = useState<string>("");
   const [leituraMin, setLeituraMin] = useState<number>(5);
+  const [slugDraft, setSlugDraft] = useState("");
 
   useEffect(() => {
     const p = q.data?.post;
