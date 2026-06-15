@@ -108,6 +108,7 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
         mode: isOneTime ? "payment" : "subscription",
         ui_mode: "embedded_page",
         return_url: `${origin}/hub?checkout=${isOneTime ? "founder" : "success"}&session_id={CHECKOUT_SESSION_ID}`,
+        allow_promotion_codes: true,
         metadata: { userId, ...(isOneTime ? { isFounder: "true" } : {}) },
         ...(isOneTime
           ? { payment_intent_data: { description: productDescription } }
