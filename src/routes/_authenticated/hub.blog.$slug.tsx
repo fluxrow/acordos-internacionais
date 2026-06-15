@@ -175,8 +175,26 @@ function HubBlogEditorPage() {
 
       <div className="rounded-xl border border-border bg-card p-6 space-y-4">
         <div>
-          <Label>Slug</Label>
-          <p className="mt-1 font-mono text-xs text-muted-foreground">{post.slug}</p>
+          <Label htmlFor="slug">Slug (URL)</Label>
+          <div className="mt-1 flex gap-2">
+            <Input
+              id="slug"
+              value={slugDraft}
+              onChange={(e) => setSlugDraft(e.target.value)}
+              className="font-mono text-xs"
+              placeholder="ex: meu-novo-post"
+            />
+            <Button
+              variant="outline"
+              onClick={() => rename.mutate()}
+              disabled={rename.isPending || !slugDraft.trim() || slugDraft === post.slug}
+            >
+              {rename.isPending ? "Salvando..." : "Salvar slug"}
+            </Button>
+          </div>
+          <p className="mt-1 text-[11px] text-muted-foreground">
+            URL pública: /blog/{slugDraft || post.slug}
+          </p>
         </div>
         <div>
           <Label htmlFor="titulo">Título</Label>
