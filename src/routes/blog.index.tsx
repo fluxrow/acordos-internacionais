@@ -6,7 +6,7 @@ const DESC =
   "Análises, atualizações regulatórias e estudos de caso sobre acordos previdenciários internacionais do Brasil.";
 const CANONICAL = "https://acordosinternacionais.com/blog";
 
-export const Route = createFileRoute("/blog")({
+export const Route = createFileRoute("/blog/")({
   head: () => ({
     meta: [
       { title: TITLE },

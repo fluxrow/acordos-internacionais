@@ -19,11 +19,11 @@ import { Route as GlossarioRouteImport } from './routes/glossario'
 import { Route as ContatoRouteImport } from './routes/contato'
 import { Route as CalculadoraRouteImport } from './routes/calculadora'
 import { Route as CadastroRouteImport } from './routes/cadastro'
-import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as JornadasIndexRouteImport } from './routes/jornadas.index'
 import { Route as GuiasIndexRouteImport } from './routes/guias.index'
+import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as AcordosIndexRouteImport } from './routes/acordos.index'
 import { Route as SobreDrMarcosRouteImport } from './routes/sobre.dr-marcos'
 import { Route as JornadasJornadaRouteImport } from './routes/jornadas.$jornada'
@@ -98,11 +98,6 @@ const CadastroRoute = CadastroRouteImport.update({
   path: '/cadastro',
   getParentRoute: () => rootRouteImport,
 } as any)
-const BlogRoute = BlogRouteImport.update({
-  id: '/blog',
-  path: '/blog',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AuthenticatedRoute = AuthenticatedRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
@@ -120,6 +115,11 @@ const JornadasIndexRoute = JornadasIndexRouteImport.update({
 const GuiasIndexRoute = GuiasIndexRouteImport.update({
   id: '/guias/',
   path: '/guias/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AcordosIndexRoute = AcordosIndexRouteImport.update({
@@ -154,9 +154,9 @@ const EmailUnsubscribeRoute = EmailUnsubscribeRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogSlugRoute = BlogSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => BlogRoute,
+  id: '/blog/$slug',
+  path: '/blog/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AcordosPaisRoute = AcordosPaisRouteImport.update({
   id: '/acordos/$pais',
@@ -246,7 +246,6 @@ const ApiPublicHooksBlogGenRoute = ApiPublicHooksBlogGenRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/blog': typeof BlogRouteWithChildren
   '/cadastro': typeof CadastroRoute
   '/calculadora': typeof CalculadoraRoute
   '/contato': typeof ContatoRoute
@@ -266,6 +265,7 @@ export interface FileRoutesByFullPath {
   '/jornadas/$jornada': typeof JornadasJornadaRoute
   '/sobre/dr-marcos': typeof SobreDrMarcosRoute
   '/acordos/': typeof AcordosIndexRoute
+  '/blog/': typeof BlogIndexRoute
   '/guias/': typeof GuiasIndexRoute
   '/jornadas/': typeof JornadasIndexRoute
   '/hub/$pais': typeof AuthenticatedHubPaisRoute
@@ -285,7 +285,6 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/blog': typeof BlogRouteWithChildren
   '/cadastro': typeof CadastroRoute
   '/calculadora': typeof CalculadoraRoute
   '/contato': typeof ContatoRoute
@@ -305,6 +304,7 @@ export interface FileRoutesByTo {
   '/jornadas/$jornada': typeof JornadasJornadaRoute
   '/sobre/dr-marcos': typeof SobreDrMarcosRoute
   '/acordos': typeof AcordosIndexRoute
+  '/blog': typeof BlogIndexRoute
   '/guias': typeof GuiasIndexRoute
   '/jornadas': typeof JornadasIndexRoute
   '/hub/$pais': typeof AuthenticatedHubPaisRoute
@@ -326,7 +326,6 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
-  '/blog': typeof BlogRouteWithChildren
   '/cadastro': typeof CadastroRoute
   '/calculadora': typeof CalculadoraRoute
   '/contato': typeof ContatoRoute
@@ -346,6 +345,7 @@ export interface FileRoutesById {
   '/jornadas/$jornada': typeof JornadasJornadaRoute
   '/sobre/dr-marcos': typeof SobreDrMarcosRoute
   '/acordos/': typeof AcordosIndexRoute
+  '/blog/': typeof BlogIndexRoute
   '/guias/': typeof GuiasIndexRoute
   '/jornadas/': typeof JornadasIndexRoute
   '/_authenticated/hub/$pais': typeof AuthenticatedHubPaisRoute
@@ -367,7 +367,6 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/blog'
     | '/cadastro'
     | '/calculadora'
     | '/contato'
@@ -387,6 +386,7 @@ export interface FileRouteTypes {
     | '/jornadas/$jornada'
     | '/sobre/dr-marcos'
     | '/acordos/'
+    | '/blog/'
     | '/guias/'
     | '/jornadas/'
     | '/hub/$pais'
@@ -406,7 +406,6 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/blog'
     | '/cadastro'
     | '/calculadora'
     | '/contato'
@@ -426,6 +425,7 @@ export interface FileRouteTypes {
     | '/jornadas/$jornada'
     | '/sobre/dr-marcos'
     | '/acordos'
+    | '/blog'
     | '/guias'
     | '/jornadas'
     | '/hub/$pais'
@@ -446,7 +446,6 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_authenticated'
-    | '/blog'
     | '/cadastro'
     | '/calculadora'
     | '/contato'
@@ -466,6 +465,7 @@ export interface FileRouteTypes {
     | '/jornadas/$jornada'
     | '/sobre/dr-marcos'
     | '/acordos/'
+    | '/blog/'
     | '/guias/'
     | '/jornadas/'
     | '/_authenticated/hub/$pais'
@@ -487,7 +487,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
-  BlogRoute: typeof BlogRouteWithChildren
   CadastroRoute: typeof CadastroRoute
   CalculadoraRoute: typeof CalculadoraRoute
   ContatoRoute: typeof ContatoRoute
@@ -499,12 +498,14 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   UnsubscribeRoute: typeof UnsubscribeRoute
   AcordosPaisRoute: typeof AcordosPaisRoute
+  BlogSlugRoute: typeof BlogSlugRoute
   EmailUnsubscribeRoute: typeof EmailUnsubscribeRoute
   GuiasSlugRoute: typeof GuiasSlugRoute
   GuiasSaidaDefinitivaDoPaisRoute: typeof GuiasSaidaDefinitivaDoPaisRoute
   JornadasJornadaRoute: typeof JornadasJornadaRoute
   SobreDrMarcosRoute: typeof SobreDrMarcosRoute
   AcordosIndexRoute: typeof AcordosIndexRoute
+  BlogIndexRoute: typeof BlogIndexRoute
   GuiasIndexRoute: typeof GuiasIndexRoute
   JornadasIndexRoute: typeof JornadasIndexRoute
   ApiPublicCalcLeadRoute: typeof ApiPublicCalcLeadRoute
@@ -589,13 +590,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CadastroRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/blog': {
-      id: '/blog'
-      path: '/blog'
-      fullPath: '/blog'
-      preLoaderRoute: typeof BlogRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/_authenticated': {
       id: '/_authenticated'
       path: ''
@@ -622,6 +616,13 @@ declare module '@tanstack/react-router' {
       path: '/guias'
       fullPath: '/guias/'
       preLoaderRoute: typeof GuiasIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/acordos/': {
@@ -668,10 +669,10 @@ declare module '@tanstack/react-router' {
     }
     '/blog/$slug': {
       id: '/blog/$slug'
-      path: '/$slug'
+      path: '/blog/$slug'
       fullPath: '/blog/$slug'
       preLoaderRoute: typeof BlogSlugRouteImport
-      parentRoute: typeof BlogRoute
+      parentRoute: typeof rootRouteImport
     }
     '/acordos/$pais': {
       id: '/acordos/$pais'
@@ -812,20 +813,9 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
   AuthenticatedRouteChildren,
 )
 
-interface BlogRouteChildren {
-  BlogSlugRoute: typeof BlogSlugRoute
-}
-
-const BlogRouteChildren: BlogRouteChildren = {
-  BlogSlugRoute: BlogSlugRoute,
-}
-
-const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
-  BlogRoute: BlogRouteWithChildren,
   CadastroRoute: CadastroRoute,
   CalculadoraRoute: CalculadoraRoute,
   ContatoRoute: ContatoRoute,
@@ -837,12 +827,14 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   UnsubscribeRoute: UnsubscribeRoute,
   AcordosPaisRoute: AcordosPaisRoute,
+  BlogSlugRoute: BlogSlugRoute,
   EmailUnsubscribeRoute: EmailUnsubscribeRoute,
   GuiasSlugRoute: GuiasSlugRoute,
   GuiasSaidaDefinitivaDoPaisRoute: GuiasSaidaDefinitivaDoPaisRoute,
   JornadasJornadaRoute: JornadasJornadaRoute,
   SobreDrMarcosRoute: SobreDrMarcosRoute,
   AcordosIndexRoute: AcordosIndexRoute,
+  BlogIndexRoute: BlogIndexRoute,
   GuiasIndexRoute: GuiasIndexRoute,
   JornadasIndexRoute: JornadasIndexRoute,
   ApiPublicCalcLeadRoute: ApiPublicCalcLeadRoute,
@@ -857,13 +849,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
