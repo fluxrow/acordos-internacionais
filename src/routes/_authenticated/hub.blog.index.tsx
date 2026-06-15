@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/_authenticated/hub/blog")({
+export const Route = createFileRoute("/_authenticated/hub/blog/")({
   component: HubBlogPage,
 });
 
