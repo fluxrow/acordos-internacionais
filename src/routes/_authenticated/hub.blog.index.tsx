@@ -52,6 +52,22 @@ function HubBlogPage() {
     onError: (e) => toast.error(e instanceof Error ? e.message : "Erro ao gerar"),
   });
 
+  const createManual = useMutation({
+    mutationFn: (titulo: string) => createFn({ data: { titulo } }),
+    onSuccess: (res) => {
+      toast.success("Rascunho criado");
+      q.refetch();
+      router.navigate({ to: "/hub/blog/$slug", params: { slug: res.slug } });
+    },
+    onError: (e) => toast.error(e instanceof Error ? e.message : "Erro ao criar"),
+  });
+
+  const handleCreateManual = () => {
+    const titulo = window.prompt("Título do novo post (pode editar depois):");
+    if (!titulo || titulo.trim().length < 3) return;
+    createManual.mutate(titulo.trim());
+  };
+
 
   const publish = useMutation({
     mutationFn: (slug: string) => setStatusFn({ data: { slug, status: "published" } }),
