@@ -132,7 +132,7 @@ export const updateBlogPostDraft = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
-function slugify(input: string): string {
+export function slugify(input: string): string {
   return input
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
@@ -141,6 +141,43 @@ function slugify(input: string): string {
     .replace(/^-+|-+$/g, "")
     .slice(0, 100) || "post";
 }
+
+export const renameBlogPostSlug = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: { currentSlug: string; newSlug: string }) =>
+    z
+      .object({
+        currentSlug: z.string().min(1).max(120),
+        newSlug: z.string().min(3).max(100),
+      })
+      .parse(i),
+  )
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.userId);
+    const normalized = (function s(input: string) {
+      return input
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "")
+        .slice(0, 100) || "post";
+    })(data.newSlug);
+    if (normalized === data.currentSlug) return { slug: normalized };
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: clash } = await supabaseAdmin
+      .from("blog_posts")
+      .select("slug")
+      .eq("slug", normalized)
+      .maybeSingle();
+    if (clash) throw new Error("Slug já existe");
+    const { error } = await supabaseAdmin
+      .from("blog_posts")
+      .update({ slug: normalized })
+      .eq("slug", data.currentSlug);
+    if (error) throw error;
+    return { slug: normalized };
+  });
 
 export const createBlogPostDraft = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
