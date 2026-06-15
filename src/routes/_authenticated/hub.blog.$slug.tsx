@@ -100,6 +100,15 @@ function HubBlogEditorPage() {
     },
   });
 
+  const rename = useMutation({
+    mutationFn: () => renameFn({ data: { currentSlug: slug, newSlug: slugDraft } }),
+    onSuccess: (res) => {
+      toast.success("Slug atualizado");
+      router.navigate({ to: "/hub/blog/$slug", params: { slug: res.slug } });
+    },
+    onError: (e) => toast.error(e instanceof Error ? e.message : "Erro ao renomear"),
+  });
+
   if (q.isLoading) {
     return <div className="mx-auto max-w-4xl px-6 py-10 text-sm text-muted-foreground">Carregando...</div>;
   }
