@@ -18,7 +18,7 @@ async function assertAdmin(userId: string): Promise<void> {
 export const listDraftBlogPosts = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    await assertAdmin(context as never);
+    await assertAdmin(context.userId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data } = await supabaseAdmin
       .from("blog_posts")
@@ -32,7 +32,7 @@ export const getBlogPostFull = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: { slug: string }) => z.object({ slug: z.string().min(1).max(120) }).parse(i))
   .handler(async ({ data, context }) => {
-    await assertAdmin(context as never);
+    await assertAdmin(context.userId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: post } = await supabaseAdmin
       .from("blog_posts")
@@ -45,7 +45,7 @@ export const getBlogPostFull = createServerFn({ method: "GET" })
 export const listBlogTopics = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    await assertAdmin(context as never);
+    await assertAdmin(context.userId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data } = await supabaseAdmin
       .from("blog_topics")
@@ -60,7 +60,7 @@ export const generateBlogPostNow = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: { topicId?: string }) => z.object({ topicId: z.string().uuid().optional() }).parse(i))
   .handler(async ({ data, context }) => {
-    await assertAdmin(context as never);
+    await assertAdmin(context.userId);
     const { generatePostFromQueue } = await import("@/lib/blog-gen.server");
     return await generatePostFromQueue(data.topicId);
   });
@@ -76,7 +76,7 @@ export const setBlogPostStatus = createServerFn({ method: "POST" })
       .parse(i),
   )
   .handler(async ({ data, context }) => {
-    await assertAdmin(context as never);
+    await assertAdmin(context.userId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const patch: { status: "draft" | "published" | "archived"; publicado_em?: string } = {
       status: data.status,
@@ -91,9 +91,43 @@ export const deleteBlogPost = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: { slug: string }) => z.object({ slug: z.string().min(1).max(120) }).parse(i))
   .handler(async ({ data, context }) => {
-    await assertAdmin(context as never);
+    await assertAdmin(context.userId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error } = await supabaseAdmin.from("blog_posts").delete().eq("slug", data.slug);
+    if (error) throw error;
+    return { ok: true };
+  });
+
+const BlocoSchema = z.object({
+  type: z.enum(["p", "h2"]),
+  text: z.string().min(1).max(4000),
+});
+
+const UpdateSchema = z.object({
+  slug: z.string().min(1).max(120),
+  titulo: z.string().min(3).max(200),
+  resumo: z.string().min(3).max(600),
+  blocos: z.array(BlocoSchema).min(1).max(200),
+  tags: z.array(z.string().min(1).max(60)).max(20),
+  leitura_min: z.number().int().min(1).max(60),
+});
+
+export const updateBlogPostDraft = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: z.input<typeof UpdateSchema>) => UpdateSchema.parse(i))
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.userId);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin
+      .from("blog_posts")
+      .update({
+        titulo: data.titulo,
+        resumo: data.resumo,
+        blocos: data.blocos,
+        tags: data.tags,
+        leitura_min: data.leitura_min,
+      })
+      .eq("slug", data.slug);
     if (error) throw error;
     return { ok: true };
   });
