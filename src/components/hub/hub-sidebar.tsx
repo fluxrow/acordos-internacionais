@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Home, Calculator, FileText, Inbox, UserCircle2, Globe2 } from "lucide-react";
+import { Home, Calculator, FileText, Inbox, UserCircle2, Globe2, Newspaper } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -109,24 +109,44 @@ export function HubSidebar({ isAdmin }: { isAdmin: boolean }) {
               })}
 
               {isAdmin && (
-                <SidebarMenuItem>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={pathname.startsWith("/hub/leads")}
-                    tooltip="Leads (admin)"
-                    className={
-                      pathname.startsWith("/hub/leads")
-                        ? "relative font-medium text-[var(--accent-ink)] before:absolute before:left-0 before:top-1/2 before:h-5 before:w-[2px] before:-translate-y-1/2 before:rounded-r before:bg-[var(--accent-ink)] before:content-['']"
-                        : ""
-                    }
-                  >
-                    <Link to="/hub/leads">
-                      <Inbox />
-                      <span>Leads</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+                <>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={pathname.startsWith("/hub/blog")}
+                      tooltip="Blog (admin)"
+                      className={
+                        pathname.startsWith("/hub/blog")
+                          ? "relative font-medium text-[var(--accent-ink)] before:absolute before:left-0 before:top-1/2 before:h-5 before:w-[2px] before:-translate-y-1/2 before:rounded-r before:bg-[var(--accent-ink)] before:content-['']"
+                          : ""
+                      }
+                    >
+                      <Link to="/hub/blog">
+                        <Newspaper />
+                        <span>Blog</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={pathname.startsWith("/hub/leads")}
+                      tooltip="Leads (admin)"
+                      className={
+                        pathname.startsWith("/hub/leads")
+                          ? "relative font-medium text-[var(--accent-ink)] before:absolute before:left-0 before:top-1/2 before:h-5 before:w-[2px] before:-translate-y-1/2 before:rounded-r before:bg-[var(--accent-ink)] before:content-['']"
+                          : ""
+                      }
+                    >
+                      <Link to="/hub/leads">
+                        <Inbox />
+                        <span>Leads</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </>
               )}
+
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

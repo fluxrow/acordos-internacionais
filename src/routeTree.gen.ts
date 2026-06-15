@@ -42,12 +42,14 @@ import { Route as AuthenticatedHubLaudosRouteImport } from './routes/_authentica
 import { Route as AuthenticatedHubLaudoRouteImport } from './routes/_authenticated/hub.laudo'
 import { Route as AuthenticatedHubCuponsRouteImport } from './routes/_authenticated/hub.cupons'
 import { Route as AuthenticatedHubCalculadoraRouteImport } from './routes/_authenticated/hub.calculadora'
+import { Route as AuthenticatedHubBlogRouteImport } from './routes/_authenticated/hub.blog'
 import { Route as AuthenticatedHubPaisRouteImport } from './routes/_authenticated/hub.$pais'
 import { Route as LovableEmailTransactionalSendRouteImport } from './routes/lovable/email/transactional/send'
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 import { Route as LovableEmailQueueProcessRouteImport } from './routes/lovable/email/queue/process'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 import { Route as ApiPublicHooksBlogGenRouteImport } from './routes/api/public/hooks/blog-gen'
+import { Route as AuthenticatedHubBlogSlugRouteImport } from './routes/_authenticated/hub.blog.$slug'
 
 const UnsubscribeRoute = UnsubscribeRouteImport.update({
   id: '/unsubscribe',
@@ -215,6 +217,11 @@ const AuthenticatedHubCalculadoraRoute =
     path: '/hub/calculadora',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedHubBlogRoute = AuthenticatedHubBlogRouteImport.update({
+  id: '/hub/blog',
+  path: '/hub/blog',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedHubPaisRoute = AuthenticatedHubPaisRouteImport.update({
   id: '/hub/$pais',
   path: '/hub/$pais',
@@ -249,6 +256,12 @@ const ApiPublicHooksBlogGenRoute = ApiPublicHooksBlogGenRouteImport.update({
   path: '/api/public/hooks/blog-gen',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedHubBlogSlugRoute =
+  AuthenticatedHubBlogSlugRouteImport.update({
+    id: '/$slug',
+    path: '/$slug',
+    getParentRoute: () => AuthenticatedHubBlogRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -275,6 +288,7 @@ export interface FileRoutesByFullPath {
   '/guias/': typeof GuiasIndexRoute
   '/jornadas/': typeof JornadasIndexRoute
   '/hub/$pais': typeof AuthenticatedHubPaisRoute
+  '/hub/blog': typeof AuthenticatedHubBlogRouteWithChildren
   '/hub/calculadora': typeof AuthenticatedHubCalculadoraRoute
   '/hub/cupons': typeof AuthenticatedHubCuponsRoute
   '/hub/laudo': typeof AuthenticatedHubLaudoRoute
@@ -284,6 +298,7 @@ export interface FileRoutesByFullPath {
   '/api/public/contato': typeof ApiPublicContatoRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/hub/': typeof AuthenticatedHubIndexRoute
+  '/hub/blog/$slug': typeof AuthenticatedHubBlogSlugRoute
   '/api/public/hooks/blog-gen': typeof ApiPublicHooksBlogGenRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
@@ -315,6 +330,7 @@ export interface FileRoutesByTo {
   '/guias': typeof GuiasIndexRoute
   '/jornadas': typeof JornadasIndexRoute
   '/hub/$pais': typeof AuthenticatedHubPaisRoute
+  '/hub/blog': typeof AuthenticatedHubBlogRouteWithChildren
   '/hub/calculadora': typeof AuthenticatedHubCalculadoraRoute
   '/hub/cupons': typeof AuthenticatedHubCuponsRoute
   '/hub/laudo': typeof AuthenticatedHubLaudoRoute
@@ -324,6 +340,7 @@ export interface FileRoutesByTo {
   '/api/public/contato': typeof ApiPublicContatoRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/hub': typeof AuthenticatedHubIndexRoute
+  '/hub/blog/$slug': typeof AuthenticatedHubBlogSlugRoute
   '/api/public/hooks/blog-gen': typeof ApiPublicHooksBlogGenRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
@@ -357,6 +374,7 @@ export interface FileRoutesById {
   '/guias/': typeof GuiasIndexRoute
   '/jornadas/': typeof JornadasIndexRoute
   '/_authenticated/hub/$pais': typeof AuthenticatedHubPaisRoute
+  '/_authenticated/hub/blog': typeof AuthenticatedHubBlogRouteWithChildren
   '/_authenticated/hub/calculadora': typeof AuthenticatedHubCalculadoraRoute
   '/_authenticated/hub/cupons': typeof AuthenticatedHubCuponsRoute
   '/_authenticated/hub/laudo': typeof AuthenticatedHubLaudoRoute
@@ -366,6 +384,7 @@ export interface FileRoutesById {
   '/api/public/contato': typeof ApiPublicContatoRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/_authenticated/hub/': typeof AuthenticatedHubIndexRoute
+  '/_authenticated/hub/blog/$slug': typeof AuthenticatedHubBlogSlugRoute
   '/api/public/hooks/blog-gen': typeof ApiPublicHooksBlogGenRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
@@ -399,6 +418,7 @@ export interface FileRouteTypes {
     | '/guias/'
     | '/jornadas/'
     | '/hub/$pais'
+    | '/hub/blog'
     | '/hub/calculadora'
     | '/hub/cupons'
     | '/hub/laudo'
@@ -408,6 +428,7 @@ export interface FileRouteTypes {
     | '/api/public/contato'
     | '/lovable/email/suppression'
     | '/hub/'
+    | '/hub/blog/$slug'
     | '/api/public/hooks/blog-gen'
     | '/api/public/payments/webhook'
     | '/lovable/email/queue/process'
@@ -439,6 +460,7 @@ export interface FileRouteTypes {
     | '/guias'
     | '/jornadas'
     | '/hub/$pais'
+    | '/hub/blog'
     | '/hub/calculadora'
     | '/hub/cupons'
     | '/hub/laudo'
@@ -448,6 +470,7 @@ export interface FileRouteTypes {
     | '/api/public/contato'
     | '/lovable/email/suppression'
     | '/hub'
+    | '/hub/blog/$slug'
     | '/api/public/hooks/blog-gen'
     | '/api/public/payments/webhook'
     | '/lovable/email/queue/process'
@@ -480,6 +503,7 @@ export interface FileRouteTypes {
     | '/guias/'
     | '/jornadas/'
     | '/_authenticated/hub/$pais'
+    | '/_authenticated/hub/blog'
     | '/_authenticated/hub/calculadora'
     | '/_authenticated/hub/cupons'
     | '/_authenticated/hub/laudo'
@@ -489,6 +513,7 @@ export interface FileRouteTypes {
     | '/api/public/contato'
     | '/lovable/email/suppression'
     | '/_authenticated/hub/'
+    | '/_authenticated/hub/blog/$slug'
     | '/api/public/hooks/blog-gen'
     | '/api/public/payments/webhook'
     | '/lovable/email/queue/process'
@@ -763,6 +788,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedHubCalculadoraRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/hub/blog': {
+      id: '/_authenticated/hub/blog'
+      path: '/hub/blog'
+      fullPath: '/hub/blog'
+      preLoaderRoute: typeof AuthenticatedHubBlogRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/hub/$pais': {
       id: '/_authenticated/hub/$pais'
       path: '/hub/$pais'
@@ -805,12 +837,31 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicHooksBlogGenRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/hub/blog/$slug': {
+      id: '/_authenticated/hub/blog/$slug'
+      path: '/$slug'
+      fullPath: '/hub/blog/$slug'
+      preLoaderRoute: typeof AuthenticatedHubBlogSlugRouteImport
+      parentRoute: typeof AuthenticatedHubBlogRoute
+    }
   }
 }
+
+interface AuthenticatedHubBlogRouteChildren {
+  AuthenticatedHubBlogSlugRoute: typeof AuthenticatedHubBlogSlugRoute
+}
+
+const AuthenticatedHubBlogRouteChildren: AuthenticatedHubBlogRouteChildren = {
+  AuthenticatedHubBlogSlugRoute: AuthenticatedHubBlogSlugRoute,
+}
+
+const AuthenticatedHubBlogRouteWithChildren =
+  AuthenticatedHubBlogRoute._addFileChildren(AuthenticatedHubBlogRouteChildren)
 
 interface AuthenticatedRouteChildren {
   AuthenticatedContaRoute: typeof AuthenticatedContaRoute
   AuthenticatedHubPaisRoute: typeof AuthenticatedHubPaisRoute
+  AuthenticatedHubBlogRoute: typeof AuthenticatedHubBlogRouteWithChildren
   AuthenticatedHubCalculadoraRoute: typeof AuthenticatedHubCalculadoraRoute
   AuthenticatedHubCuponsRoute: typeof AuthenticatedHubCuponsRoute
   AuthenticatedHubLaudoRoute: typeof AuthenticatedHubLaudoRoute
@@ -822,6 +873,7 @@ interface AuthenticatedRouteChildren {
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedContaRoute: AuthenticatedContaRoute,
   AuthenticatedHubPaisRoute: AuthenticatedHubPaisRoute,
+  AuthenticatedHubBlogRoute: AuthenticatedHubBlogRouteWithChildren,
   AuthenticatedHubCalculadoraRoute: AuthenticatedHubCalculadoraRoute,
   AuthenticatedHubCuponsRoute: AuthenticatedHubCuponsRoute,
   AuthenticatedHubLaudoRoute: AuthenticatedHubLaudoRoute,
