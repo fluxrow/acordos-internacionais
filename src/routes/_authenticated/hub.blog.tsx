@@ -151,9 +151,10 @@ function HubBlogPage() {
                 </div>
                 <div className="flex shrink-0 flex-wrap gap-2">
                   <Link
-                    to="/_authenticated/hub/blog/$slug" as any
+                    to="/hub/blog/$slug"
                     params={{ slug: p.slug }}
                   >
+
                     <Button size="sm" variant="outline">
                       Abrir
                     </Button>
