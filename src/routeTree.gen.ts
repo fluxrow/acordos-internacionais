@@ -42,6 +42,7 @@ import { Route as AuthenticatedHubLaudosRouteImport } from './routes/_authentica
 import { Route as AuthenticatedHubLaudoRouteImport } from './routes/_authenticated/hub.laudo'
 import { Route as AuthenticatedHubCuponsRouteImport } from './routes/_authenticated/hub.cupons'
 import { Route as AuthenticatedHubCalculadoraRouteImport } from './routes/_authenticated/hub.calculadora'
+import { Route as AuthenticatedHubBlogRouteImport } from './routes/_authenticated/hub.blog'
 import { Route as AuthenticatedHubPaisRouteImport } from './routes/_authenticated/hub.$pais'
 import { Route as AuthenticatedHubBlogIndexRouteImport } from './routes/_authenticated/hub.blog.index'
 import { Route as LovableEmailTransactionalSendRouteImport } from './routes/lovable/email/transactional/send'
@@ -217,6 +218,11 @@ const AuthenticatedHubCalculadoraRoute =
     path: '/hub/calculadora',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedHubBlogRoute = AuthenticatedHubBlogRouteImport.update({
+  id: '/hub/blog',
+  path: '/hub/blog',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedHubPaisRoute = AuthenticatedHubPaisRouteImport.update({
   id: '/hub/$pais',
   path: '/hub/$pais',
@@ -224,9 +230,9 @@ const AuthenticatedHubPaisRoute = AuthenticatedHubPaisRouteImport.update({
 } as any)
 const AuthenticatedHubBlogIndexRoute =
   AuthenticatedHubBlogIndexRouteImport.update({
-    id: '/hub/blog/',
-    path: '/hub/blog/',
-    getParentRoute: () => AuthenticatedRoute,
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedHubBlogRoute,
   } as any)
 const LovableEmailTransactionalSendRoute =
   LovableEmailTransactionalSendRouteImport.update({
@@ -259,9 +265,9 @@ const ApiPublicHooksBlogGenRoute = ApiPublicHooksBlogGenRouteImport.update({
 } as any)
 const AuthenticatedHubBlogSlugRoute =
   AuthenticatedHubBlogSlugRouteImport.update({
-    id: '/hub/blog/$slug',
-    path: '/hub/blog/$slug',
-    getParentRoute: () => AuthenticatedRoute,
+    id: '/$slug',
+    path: '/$slug',
+    getParentRoute: () => AuthenticatedHubBlogRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -289,6 +295,7 @@ export interface FileRoutesByFullPath {
   '/guias/': typeof GuiasIndexRoute
   '/jornadas/': typeof JornadasIndexRoute
   '/hub/$pais': typeof AuthenticatedHubPaisRoute
+  '/hub/blog': typeof AuthenticatedHubBlogRouteWithChildren
   '/hub/calculadora': typeof AuthenticatedHubCalculadoraRoute
   '/hub/cupons': typeof AuthenticatedHubCuponsRoute
   '/hub/laudo': typeof AuthenticatedHubLaudoRoute
@@ -375,6 +382,7 @@ export interface FileRoutesById {
   '/guias/': typeof GuiasIndexRoute
   '/jornadas/': typeof JornadasIndexRoute
   '/_authenticated/hub/$pais': typeof AuthenticatedHubPaisRoute
+  '/_authenticated/hub/blog': typeof AuthenticatedHubBlogRouteWithChildren
   '/_authenticated/hub/calculadora': typeof AuthenticatedHubCalculadoraRoute
   '/_authenticated/hub/cupons': typeof AuthenticatedHubCuponsRoute
   '/_authenticated/hub/laudo': typeof AuthenticatedHubLaudoRoute
@@ -419,6 +427,7 @@ export interface FileRouteTypes {
     | '/guias/'
     | '/jornadas/'
     | '/hub/$pais'
+    | '/hub/blog'
     | '/hub/calculadora'
     | '/hub/cupons'
     | '/hub/laudo'
@@ -504,6 +513,7 @@ export interface FileRouteTypes {
     | '/guias/'
     | '/jornadas/'
     | '/_authenticated/hub/$pais'
+    | '/_authenticated/hub/blog'
     | '/_authenticated/hub/calculadora'
     | '/_authenticated/hub/cupons'
     | '/_authenticated/hub/laudo'
@@ -789,6 +799,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedHubCalculadoraRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/hub/blog': {
+      id: '/_authenticated/hub/blog'
+      path: '/hub/blog'
+      fullPath: '/hub/blog'
+      preLoaderRoute: typeof AuthenticatedHubBlogRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/hub/$pais': {
       id: '/_authenticated/hub/$pais'
       path: '/hub/$pais'
@@ -798,10 +815,10 @@ declare module '@tanstack/react-router' {
     }
     '/_authenticated/hub/blog/': {
       id: '/_authenticated/hub/blog/'
-      path: '/hub/blog'
+      path: '/'
       fullPath: '/hub/blog/'
       preLoaderRoute: typeof AuthenticatedHubBlogIndexRouteImport
-      parentRoute: typeof AuthenticatedRoute
+      parentRoute: typeof AuthenticatedHubBlogRoute
     }
     '/lovable/email/transactional/send': {
       id: '/lovable/email/transactional/send'
@@ -840,38 +857,49 @@ declare module '@tanstack/react-router' {
     }
     '/_authenticated/hub/blog/$slug': {
       id: '/_authenticated/hub/blog/$slug'
-      path: '/hub/blog/$slug'
+      path: '/$slug'
       fullPath: '/hub/blog/$slug'
       preLoaderRoute: typeof AuthenticatedHubBlogSlugRouteImport
-      parentRoute: typeof AuthenticatedRoute
+      parentRoute: typeof AuthenticatedHubBlogRoute
     }
   }
 }
 
+interface AuthenticatedHubBlogRouteChildren {
+  AuthenticatedHubBlogSlugRoute: typeof AuthenticatedHubBlogSlugRoute
+  AuthenticatedHubBlogIndexRoute: typeof AuthenticatedHubBlogIndexRoute
+}
+
+const AuthenticatedHubBlogRouteChildren: AuthenticatedHubBlogRouteChildren = {
+  AuthenticatedHubBlogSlugRoute: AuthenticatedHubBlogSlugRoute,
+  AuthenticatedHubBlogIndexRoute: AuthenticatedHubBlogIndexRoute,
+}
+
+const AuthenticatedHubBlogRouteWithChildren =
+  AuthenticatedHubBlogRoute._addFileChildren(AuthenticatedHubBlogRouteChildren)
+
 interface AuthenticatedRouteChildren {
   AuthenticatedContaRoute: typeof AuthenticatedContaRoute
   AuthenticatedHubPaisRoute: typeof AuthenticatedHubPaisRoute
+  AuthenticatedHubBlogRoute: typeof AuthenticatedHubBlogRouteWithChildren
   AuthenticatedHubCalculadoraRoute: typeof AuthenticatedHubCalculadoraRoute
   AuthenticatedHubCuponsRoute: typeof AuthenticatedHubCuponsRoute
   AuthenticatedHubLaudoRoute: typeof AuthenticatedHubLaudoRoute
   AuthenticatedHubLaudosRoute: typeof AuthenticatedHubLaudosRoute
   AuthenticatedHubLeadsRoute: typeof AuthenticatedHubLeadsRoute
   AuthenticatedHubIndexRoute: typeof AuthenticatedHubIndexRoute
-  AuthenticatedHubBlogSlugRoute: typeof AuthenticatedHubBlogSlugRoute
-  AuthenticatedHubBlogIndexRoute: typeof AuthenticatedHubBlogIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedContaRoute: AuthenticatedContaRoute,
   AuthenticatedHubPaisRoute: AuthenticatedHubPaisRoute,
+  AuthenticatedHubBlogRoute: AuthenticatedHubBlogRouteWithChildren,
   AuthenticatedHubCalculadoraRoute: AuthenticatedHubCalculadoraRoute,
   AuthenticatedHubCuponsRoute: AuthenticatedHubCuponsRoute,
   AuthenticatedHubLaudoRoute: AuthenticatedHubLaudoRoute,
   AuthenticatedHubLaudosRoute: AuthenticatedHubLaudosRoute,
   AuthenticatedHubLeadsRoute: AuthenticatedHubLeadsRoute,
   AuthenticatedHubIndexRoute: AuthenticatedHubIndexRoute,
-  AuthenticatedHubBlogSlugRoute: AuthenticatedHubBlogSlugRoute,
-  AuthenticatedHubBlogIndexRoute: AuthenticatedHubBlogIndexRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
