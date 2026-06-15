@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 import { z } from "zod";
 import { Copy, Check, Search, Download, FileText } from "lucide-react";
+import { TextoFormatado } from "@/components/texto-formatado";
 import { getCountryHubData, type HubData } from "@/lib/hub.functions";
 import { CTAButton } from "@/components/cta-button";
 import { FavoritoButton } from "@/components/hub/favorito-button";
