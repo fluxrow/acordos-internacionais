@@ -7,6 +7,7 @@ import {
   updateBlogPostDraft,
   setBlogPostStatus,
   deleteBlogPost,
+  renameBlogPostSlug,
 } from "@/lib/blog-admin.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
