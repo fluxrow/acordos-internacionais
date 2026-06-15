@@ -74,7 +74,7 @@ export const ensureAcordos10Coupon = createServerFn({ method: "POST" })
       });
       if (!existing.data.length) {
         await stripe.promotionCodes.create({
-          coupon: COUPON_ID,
+          promotion: { type: "coupon", coupon: COUPON_ID },
           code: PROMO_CODE,
           active: true,
         });
