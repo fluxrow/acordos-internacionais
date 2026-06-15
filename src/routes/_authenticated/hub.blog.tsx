@@ -100,10 +100,79 @@ function HubBlogPage() {
             de qualquer coisa ir ao ar.
           </p>
         </div>
-        <Link to="/blog" target="_blank">
-          <Button variant="outline">Ver blog público ↗</Button>
-        </Link>
+        <div className="flex flex-wrap gap-2">
+          <Button
+            onClick={() => generate.mutate(undefined)}
+            disabled={generate.isPending}
+          >
+            {generate.isPending ? "Gerando... (~60s)" : "Gerar próxima da fila"}
+          </Button>
+          <Link to="/blog" target="_blank">
+            <Button variant="outline">Ver blog público ↗</Button>
+          </Link>
+        </div>
       </header>
+
+      {/* Pautas */}
+      <section className="rounded-xl border border-border bg-card p-5 space-y-3">
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <h2 className="font-display text-lg text-foreground">Pautas na fila</h2>
+            <p className="text-xs text-muted-foreground">
+              Cada pauta vira um rascunho via Firecrawl + IA. Pode levar ~60s.
+            </p>
+          </div>
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={() => topicsQ.refetch()}
+            disabled={topicsQ.isFetching}
+          >
+            {topicsQ.isFetching ? "..." : "Atualizar"}
+          </Button>
+        </div>
+        {topicsQ.isLoading ? (
+          <p className="text-sm text-muted-foreground">Carregando pautas...</p>
+        ) : (topicsQ.data?.topics?.length ?? 0) === 0 ? (
+          <p className="text-sm text-muted-foreground">Nenhuma pauta cadastrada.</p>
+        ) : (
+          <ul className="divide-y divide-border">
+            {topicsQ.data!.topics.map((t: any) => {
+              const used = !!t.usado_em;
+              const inactive = !t.ativo;
+              return (
+                <li key={t.id} className="flex flex-wrap items-center gap-3 py-2.5">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2">
+                      {inactive && (
+                        <Badge variant="secondary" className="text-[10px]">inativa</Badge>
+                      )}
+                      {used && (
+                        <Badge variant="outline" className="text-[10px]">
+                          usada {new Date(t.usado_em).toLocaleDateString("pt-BR")}
+                        </Badge>
+                      )}
+                      <span className="text-[10px] text-muted-foreground">
+                        prio {t.prioridade ?? 0}
+                      </span>
+                    </div>
+                    <p className="mt-0.5 text-sm text-foreground">{t.titulo_sugerido}</p>
+                  </div>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => generate.mutate(t.id)}
+                    disabled={generate.isPending}
+                  >
+                    Gerar agora
+                  </Button>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </section>
+
 
       <div className="flex flex-wrap gap-2">
         {(["all", "draft", "published", "archived"] as Status[]).map((s) => (
