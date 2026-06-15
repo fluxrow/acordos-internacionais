@@ -44,6 +44,7 @@ import { Route as AuthenticatedHubCuponsRouteImport } from './routes/_authentica
 import { Route as AuthenticatedHubCalculadoraRouteImport } from './routes/_authenticated/hub.calculadora'
 import { Route as AuthenticatedHubBlogRouteImport } from './routes/_authenticated/hub.blog'
 import { Route as AuthenticatedHubPaisRouteImport } from './routes/_authenticated/hub.$pais'
+import { Route as AuthenticatedHubBlogIndexRouteImport } from './routes/_authenticated/hub.blog.index'
 import { Route as LovableEmailTransactionalSendRouteImport } from './routes/lovable/email/transactional/send'
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 import { Route as LovableEmailQueueProcessRouteImport } from './routes/lovable/email/queue/process'
@@ -227,6 +228,12 @@ const AuthenticatedHubPaisRoute = AuthenticatedHubPaisRouteImport.update({
   path: '/hub/$pais',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedHubBlogIndexRoute =
+  AuthenticatedHubBlogIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedHubBlogRoute,
+  } as any)
 const LovableEmailTransactionalSendRoute =
   LovableEmailTransactionalSendRouteImport.update({
     id: '/lovable/email/transactional/send',
@@ -304,6 +311,7 @@ export interface FileRoutesByFullPath {
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
   '/lovable/email/transactional/send': typeof LovableEmailTransactionalSendRoute
+  '/hub/blog/': typeof AuthenticatedHubBlogIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -330,7 +338,6 @@ export interface FileRoutesByTo {
   '/guias': typeof GuiasIndexRoute
   '/jornadas': typeof JornadasIndexRoute
   '/hub/$pais': typeof AuthenticatedHubPaisRoute
-  '/hub/blog': typeof AuthenticatedHubBlogRouteWithChildren
   '/hub/calculadora': typeof AuthenticatedHubCalculadoraRoute
   '/hub/cupons': typeof AuthenticatedHubCuponsRoute
   '/hub/laudo': typeof AuthenticatedHubLaudoRoute
@@ -346,6 +353,7 @@ export interface FileRoutesByTo {
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
   '/lovable/email/transactional/send': typeof LovableEmailTransactionalSendRoute
+  '/hub/blog': typeof AuthenticatedHubBlogIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -390,6 +398,7 @@ export interface FileRoutesById {
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
   '/lovable/email/transactional/send': typeof LovableEmailTransactionalSendRoute
+  '/_authenticated/hub/blog/': typeof AuthenticatedHubBlogIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -434,6 +443,7 @@ export interface FileRouteTypes {
     | '/lovable/email/queue/process'
     | '/lovable/email/transactional/preview'
     | '/lovable/email/transactional/send'
+    | '/hub/blog/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -460,7 +470,6 @@ export interface FileRouteTypes {
     | '/guias'
     | '/jornadas'
     | '/hub/$pais'
-    | '/hub/blog'
     | '/hub/calculadora'
     | '/hub/cupons'
     | '/hub/laudo'
@@ -476,6 +485,7 @@ export interface FileRouteTypes {
     | '/lovable/email/queue/process'
     | '/lovable/email/transactional/preview'
     | '/lovable/email/transactional/send'
+    | '/hub/blog'
   id:
     | '__root__'
     | '/'
@@ -519,6 +529,7 @@ export interface FileRouteTypes {
     | '/lovable/email/queue/process'
     | '/lovable/email/transactional/preview'
     | '/lovable/email/transactional/send'
+    | '/_authenticated/hub/blog/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -802,6 +813,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedHubPaisRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/hub/blog/': {
+      id: '/_authenticated/hub/blog/'
+      path: '/'
+      fullPath: '/hub/blog/'
+      preLoaderRoute: typeof AuthenticatedHubBlogIndexRouteImport
+      parentRoute: typeof AuthenticatedHubBlogRoute
+    }
     '/lovable/email/transactional/send': {
       id: '/lovable/email/transactional/send'
       path: '/lovable/email/transactional/send'
@@ -849,10 +867,12 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedHubBlogRouteChildren {
   AuthenticatedHubBlogSlugRoute: typeof AuthenticatedHubBlogSlugRoute
+  AuthenticatedHubBlogIndexRoute: typeof AuthenticatedHubBlogIndexRoute
 }
 
 const AuthenticatedHubBlogRouteChildren: AuthenticatedHubBlogRouteChildren = {
   AuthenticatedHubBlogSlugRoute: AuthenticatedHubBlogSlugRoute,
+  AuthenticatedHubBlogIndexRoute: AuthenticatedHubBlogIndexRoute,
 }
 
 const AuthenticatedHubBlogRouteWithChildren =
