@@ -1,39 +1,31 @@
-# Por que o texto continua "do mesmo jeito"
+## Cupom ACORDOS10 — 10% de desconto, 3 meses, 200 usos
 
-A formatação que eu fiz na rodada anterior está no componente `src/components/texto-integral-acordo.tsx`, usado em `/acordos/:pais`.
+Cupons no Stripe têm duas peças: o **Coupon** (define o desconto) e o **Promotion Code** (o texto digitável `ACORDOS10`). Precisamos criar ambos via API do Stripe (sandbox e live) e habilitar o campo de cupom no checkout.
 
-Mas a tela que você está olhando é **/hub/grecia?tab=acordo**, que usa OUTRO renderizador dentro de `src/routes/_authenticated/hub.$pais.tsx` (linhas 458–464):
+### Passos
 
-```tsx
-<pre className="... whitespace-pre-wrap p-6 font-sans text-[13px] ...">
-  {estado.texto}
-</pre>
-```
+1. **Habilitar campo de cupom no checkout**
+  - Em `src/lib/checkout.functions.ts`, no `stripe.checkout.sessions.create`, adicionar `allow_promotion_codes: true`. Sem isso, mesmo criado no Stripe, o cupom não aparece para digitar na tela de pagamento.
+2. **Criar server function admin para provisionar o cupom**
+  - Novo arquivo `src/lib/admin-coupons.functions.ts` com `createServerFn` protegida por `requireSupabaseAuth` + checagem `has_role(..., 'admin')`.
+  - A função recebe `{ env: "sandbox" | "live" }` e:
+    - `stripe.coupons.create({ id: "acordos10_3m", percent_off: 10, duration: "repeating", duration_in_months: 3, max_redemptions: 200, name: "ACORDOS10" })` — válido para os 3 primeiros ciclos da assinatura (e desconto único no plano Fundadores).
+    - `stripe.promotionCodes.create({ coupon: "acordos10_3m", code: "ACORDOS10", active: true })`.
+  - Idempotente: se já existir (`resource_already_exists`), retorna ok.
+3. **Disparar a criação uma vez**
+  - Criar uma rota admin simples `/admin/cupons` (ou um botão na conta admin) que chama essa server fn para `sandbox` e depois `live`. Alternativa mais rápida: rodar manualmente via `invoke-server-function` após o deploy. Eu sigo pela rota admin para deixar repetível.
 
-Um `<pre>` simples — sem detectar título, sem centralizar, sem negrito, sem justificar. Por isso aparece tudo alinhado à esquerda, mesma espessura, igual à imagem que você mandou. A correção anterior nunca passou por esse caminho.
+### Sobre os parâmetros
 
-# Plano
+- **3 meses**: interpretado como "desconto aplicado por 3 ciclos de cobrança" (`duration: "repeating", duration_in_months: 3`). No plano **Mensal** isso é 3 meses de 10% off; no **Anual** o desconto aplica em 3 renovações (efetivamente vitalício na prática para anual); no **Fundadores** (pagamento único) o desconto incide só na compra.
+- **200 cupons**: `max_redemptions: 200` no Coupon — para de aceitar após 200 resgates.
+- **Validade do código**: se a intenção é que o cupom *expire* em 3 meses corridos (e não "desconte por 3 meses"), uso `redeem_by: <timestamp +90d>` no Coupon e `duration: "once"`. **Confirmar antes de implementar.**
 
-1. Extrair a lógica de formatação (`TextoFormatado`, `classificar`, regex `RE_TITULO/CAPITULO/ARTIGO/SECAO`, tipos `Bloco`) de `src/components/texto-integral-acordo.tsx` para um módulo compartilhado `src/components/texto-formatado.tsx`, exportando `<TextoFormatado />`.
-2. Atualizar `src/components/texto-integral-acordo.tsx` para consumir o componente compartilhado (sem mudança visual em `/acordos/:pais`).
-3. Em `src/routes/_authenticated/hub.$pais.tsx`, substituir o bloco `<pre>` (linhas 458–464) por:
-   ```tsx
-   <div className="hub-surface overflow-hidden">
-     <div className="hub-scroll max-h-[calc(100vh-260px)] min-h-[400px] overflow-y-auto overscroll-contain p-6">
-       <TextoFormatado raw={estado.texto} />
-     </div>
-   </div>
-   ```
-   Mantém o card, scroll e altura do HUB; só troca o renderizador.
-4. Ajustes finos no `TextoFormatado` para casar com a referência do .docx:
-   - Título de abertura ("ACORDO DE PREVIDÊNCIA SOCIAL ENTRE…") detectado mesmo com >160 chars: novo regex `RE_ACORDO = /^ACORDO\s+(DE|ENTRE)/i` → trata como `h1`.
-   - "TÍTULO I", "CAPÍTULO …", "ARTIGO …" continuam centralizados, em caixa-alta e negrito.
-   - "DISPOSIÇÕES GERAIS" e demais blocos curtos all-caps continuam como subtítulo centralizado.
-   - Parágrafos justificados, espaçamento confortável, sem indent forçado.
-5. Verificação: abrir `/hub/grecia?tab=acordo` (cabeçalho centralizado em negrito, parágrafos justificados) e `/acordos/grecia` (sem regressão). Conferir também `/hub/canada` e `/hub/alemanha` para garantir que `---` e títulos longos seguem corretos.
+### Pergunta antes de executar
 
-# Escopo
+O "3 meses" é:
 
-- Sem alterar arquivos em `src/data/acordos-textos/*`.
-- Sem mexer em outras abas do HUB.
-- Mudança vale automaticamente para todos os países, já que o HUB usa o mesmo renderizador.
+- (A) **Desconto de 10% pelos 3 primeiros meses de assinatura** (`duration: repeating, 3 months`), cupom segue resgatável até bater 200 usos. — *opção que descrevi acima - Não, e a pçoa abaixo que eu complementei*
+- (B) **Cupom expira em 90 dias** (deixa de poder ser digitado depois disso), desconto de 10% único no checkout. sim, desconto deve ser aplicaod no priemeiro mems somente. 
+
+Me diz qual é antes de eu construir, pra eu não criar errado no Stripe live.
