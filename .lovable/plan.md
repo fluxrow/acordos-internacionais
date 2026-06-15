@@ -1,31 +1,39 @@
-## Objetivo
+# Por que o texto continua "do mesmo jeito"
 
-Fazer o "Texto integral do acordo" renderizar com a mesma hierarquia visual do .docx oficial (títulos centralizados em negrito, corpo justificado), padronizando para **todos os países** sem mexer no conteúdo já curado em `src/data/acordos-textos/*.ts`.
+A formatação que eu fiz na rodada anterior está no componente `src/components/texto-integral-acordo.tsx`, usado em `/acordos/:pais`.
 
-## O que muda
+Mas a tela que você está olhando é **/hub/grecia?tab=acordo**, que usa OUTRO renderizador dentro de `src/routes/_authenticated/hub.$pais.tsx` (linhas 458–464):
 
-Apenas `src/components/texto-integral-acordo.tsx`. Em vez de jogar a string em um `<pre>` com `text-center`, vou parsear linha a linha (split por `\n\n`) e renderizar cada bloco com a classe certa:
+```tsx
+<pre className="... whitespace-pre-wrap p-6 font-sans text-[13px] ...">
+  {estado.texto}
+</pre>
+```
 
-- **Heading (centralizado, bold, maiúsculo)** quando o bloco for um cabeçalho do acordo. Detecção por regex:
-  - Começa com `TÍTULO `, `CAPÍTULO `, `ARTIGO `, `SEÇÃO `, `PARTE ` (com numeração romana ou arábica), ou
-  - Bloco curto (≤120 chars) **todo em maiúsculas** (cobre `DISPOSIÇÕES GERAIS`, `INVALIDEZ, VELHICE, MORTE`, `ACORDO DE PREVIDÊNCIA SOCIAL ENTRE…`, etc.).
-- **Separador `---`** vira `<hr>` discreto (usado por `canada.ts` e similares).
-- **Corpo (justificado)** para o restante, incluindo alíneas `a)`, `b)`, `1.`, `2.` — mantêm o recuo natural via `text-justify` + `whitespace-pre-wrap` para preservar quebras internas.
+Um `<pre>` simples — sem detectar título, sem centralizar, sem negrito, sem justificar. Por isso aparece tudo alinhado à esquerda, mesma espessura, igual à imagem que você mandou. A correção anterior nunca passou por esse caminho.
 
-Tipografia:
-- Headings: `font-display font-bold uppercase text-center tracking-wide` com tamanhos escalonados (TÍTULO > CAPÍTULO > ARTIGO > demais).
-- Corpo: `text-justify leading-relaxed text-foreground/90`, espaçamento `space-y-4` entre blocos.
-- Mantém o container `max-h-[60vh] overflow-y-auto` e o tema atual (sem hex novo, só tokens).
+# Plano
 
-Mesmo tratamento para o bloco `ajuste`.
+1. Extrair a lógica de formatação (`TextoFormatado`, `classificar`, regex `RE_TITULO/CAPITULO/ARTIGO/SECAO`, tipos `Bloco`) de `src/components/texto-integral-acordo.tsx` para um módulo compartilhado `src/components/texto-formatado.tsx`, exportando `<TextoFormatado />`.
+2. Atualizar `src/components/texto-integral-acordo.tsx` para consumir o componente compartilhado (sem mudança visual em `/acordos/:pais`).
+3. Em `src/routes/_authenticated/hub.$pais.tsx`, substituir o bloco `<pre>` (linhas 458–464) por:
+   ```tsx
+   <div className="hub-surface overflow-hidden">
+     <div className="hub-scroll max-h-[calc(100vh-260px)] min-h-[400px] overflow-y-auto overscroll-contain p-6">
+       <TextoFormatado raw={estado.texto} />
+     </div>
+   </div>
+   ```
+   Mantém o card, scroll e altura do HUB; só troca o renderizador.
+4. Ajustes finos no `TextoFormatado` para casar com a referência do .docx:
+   - Título de abertura ("ACORDO DE PREVIDÊNCIA SOCIAL ENTRE…") detectado mesmo com >160 chars: novo regex `RE_ACORDO = /^ACORDO\s+(DE|ENTRE)/i` → trata como `h1`.
+   - "TÍTULO I", "CAPÍTULO …", "ARTIGO …" continuam centralizados, em caixa-alta e negrito.
+   - "DISPOSIÇÕES GERAIS" e demais blocos curtos all-caps continuam como subtítulo centralizado.
+   - Parágrafos justificados, espaçamento confortável, sem indent forçado.
+5. Verificação: abrir `/hub/grecia?tab=acordo` (cabeçalho centralizado em negrito, parágrafos justificados) e `/acordos/grecia` (sem regressão). Conferir também `/hub/canada` e `/hub/alemanha` para garantir que `---` e títulos longos seguem corretos.
 
-## Escopo
+# Escopo
 
-- Só edita `src/components/texto-integral-acordo.tsx`.
-- Nenhum arquivo em `src/data/acordos-textos/*` é alterado — a formatação passa a valer automaticamente para Grécia, Canadá, Alemanha, Itália, Japão e todos os outros 20+ países que usam o mesmo componente.
-- Sem mudanças em rotas, dados ou outros componentes.
-
-## Verificação
-
-- Abrir `/acordos/grecia` → "Texto integral do acordo": `TÍTULO I`, `DISPOSIÇÕES GERAIS`, `ARTIGO I…XXVIII` aparecem centralizados em negrito; parágrafos justificados.
-- Conferir `/acordos/canada` e `/acordos/alemanha` para garantir que o mesmo layout funciona com textos que já tinham `---` e cabeçalhos longos.
+- Sem alterar arquivos em `src/data/acordos-textos/*`.
+- Sem mexer em outras abas do HUB.
+- Mudança vale automaticamente para todos os países, já que o HUB usa o mesmo renderizador.
