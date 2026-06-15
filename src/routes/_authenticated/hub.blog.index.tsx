@@ -27,6 +27,7 @@ function HubBlogPage() {
   const deleteFn = useServerFn(deleteBlogPost);
   const topicsFn = useServerFn(listBlogTopics);
   const generateFn = useServerFn(generateBlogPostNow);
+  const createFn = useServerFn(createBlogPostDraft);
   const [filter, setFilter] = useState<Status>("all");
 
   const q = useQuery({
