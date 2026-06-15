@@ -457,9 +457,9 @@ function TextoIntegralTab({
 
       {estado.kind === "loaded" && estado.texto && (
         <div className="hub-surface overflow-hidden p-0">
-          <pre className="hub-scroll max-h-[calc(100vh-260px)] min-h-[400px] overflow-y-auto overscroll-contain whitespace-pre-wrap p-6 font-sans text-[13px] leading-relaxed text-foreground/90">
-            {estado.texto}
-          </pre>
+          <div className="hub-scroll max-h-[calc(100vh-260px)] min-h-[400px] overflow-y-auto overscroll-contain p-6">
+            <TextoFormatado raw={estado.texto} />
+          </div>
         </div>
       )}
 
