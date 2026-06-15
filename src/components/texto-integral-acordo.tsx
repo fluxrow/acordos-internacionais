@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { ChevronDown } from "lucide-react";
 
 interface TextoIntegralAcordoProps {
@@ -59,11 +59,7 @@ export function TextoIntegralAcordo({ slug }: TextoIntegralAcordoProps) {
             Não foi possível carregar o texto agora.
           </p>
         )}
-        {estado.kind === "loaded" && acordo && (
-          <pre className="max-h-[60vh] overflow-y-auto whitespace-pre-wrap text-center text-sm leading-relaxed font-sans text-foreground/90">
-            {acordo}
-          </pre>
-        )}
+        {estado.kind === "loaded" && acordo && <TextoFormatado raw={acordo} />}
         {estado.kind === "loaded" && !acordo && (
           <p className="text-sm text-muted-foreground">
             Texto não disponível para este acordo.
@@ -81,9 +77,7 @@ export function TextoIntegralAcordo({ slug }: TextoIntegralAcordoProps) {
             <p className="text-sm text-muted-foreground">Carregando…</p>
           )}
           {estado.kind === "loaded" && ajuste && (
-            <pre className="max-h-[60vh] overflow-y-auto whitespace-pre-wrap text-center text-sm leading-relaxed font-sans text-foreground/90">
-              {ajuste}
-            </pre>
+            <TextoFormatado raw={ajuste} />
           )}
           {estado.kind === "loaded" && !ajuste && (
             <p className="text-sm text-muted-foreground">
@@ -92,6 +86,111 @@ export function TextoIntegralAcordo({ slug }: TextoIntegralAcordoProps) {
           )}
         </Linha>
       )}
+    </div>
+  );
+}
+
+type Bloco =
+  | { tipo: "hr"; key: number }
+  | { tipo: "h1" | "h2" | "h3" | "h4"; texto: string; key: number }
+  | { tipo: "p"; texto: string; key: number };
+
+const RE_TITULO = /^T[ÍI]TULO\s+[IVXLCDM0-9]+/i;
+const RE_CAPITULO = /^CAP[ÍI]TULO\s+[IVXLCDM0-9]+/i;
+const RE_ARTIGO = /^ARTIGO\s+[IVXLCDM0-9]+/i;
+const RE_SECAO = /^(SE[ÇC][ÃA]O|PARTE)\s+[IVXLCDM0-9]+/i;
+
+function classificar(bloco: string, key: number): Bloco {
+  const t = bloco.trim();
+  if (t === "---") return { tipo: "hr", key };
+
+  const primeiraLinha = t.split("\n")[0].trim();
+
+  if (RE_TITULO.test(primeiraLinha)) return { tipo: "h1", texto: t, key };
+  if (RE_CAPITULO.test(primeiraLinha)) return { tipo: "h2", texto: t, key };
+  if (RE_ARTIGO.test(primeiraLinha)) return { tipo: "h3", texto: t, key };
+  if (RE_SECAO.test(primeiraLinha)) return { tipo: "h3", texto: t, key };
+
+  // Bloco curto e todo em maiúsculas → subtítulo (ex.: DISPOSIÇÕES GERAIS)
+  const semPontuacao = t.replace(/[^\p{L}\p{N}]/gu, "");
+  if (
+    t.length <= 160 &&
+    semPontuacao.length > 2 &&
+    semPontuacao === semPontuacao.toUpperCase()
+  ) {
+    return { tipo: "h4", texto: t, key };
+  }
+
+  return { tipo: "p", texto: t, key };
+}
+
+function TextoFormatado({ raw }: { raw: string }) {
+  const blocos = useMemo<Bloco[]>(() => {
+    return raw
+      .split(/\n{2,}/)
+      .map((b, i) => [b, i] as const)
+      .filter(([b]) => b.trim().length > 0)
+      .map(([b, i]) => classificar(b, i));
+  }, [raw]);
+
+  return (
+    <div className="max-h-[60vh] overflow-y-auto px-2 sm:px-6 py-2 space-y-4 text-foreground/90 font-serif">
+      {blocos.map((b) => {
+        if (b.tipo === "hr") {
+          return (
+            <hr key={b.key} className="my-6 border-border/40" />
+          );
+        }
+        if (b.tipo === "h1") {
+          return (
+            <h3
+              key={b.key}
+              className="text-center font-bold uppercase tracking-wide text-base sm:text-lg pt-4"
+            >
+              {b.texto}
+            </h3>
+          );
+        }
+        if (b.tipo === "h2") {
+          return (
+            <h4
+              key={b.key}
+              className="text-center font-bold uppercase tracking-wide text-base pt-2"
+            >
+              {b.texto}
+            </h4>
+          );
+        }
+        if (b.tipo === "h3") {
+          return (
+            <h5
+              key={b.key}
+              className="text-center font-bold uppercase tracking-wide text-sm sm:text-base pt-2"
+            >
+              {b.texto}
+            </h5>
+          );
+        }
+        if (b.tipo === "h4") {
+          return (
+            <p
+              key={b.key}
+              className="text-center font-bold uppercase tracking-wide text-sm sm:text-base"
+            >
+              {b.texto}
+            </p>
+          );
+        }
+        return (
+          <p
+            key={b.key}
+            className="text-justify leading-relaxed text-sm whitespace-pre-wrap"
+            style={{ textIndent: 0, hyphens: "auto" }}
+          >
+            {b.texto}
+          </p>
+        );
+      })}
     </div>
   );
 }
@@ -123,7 +222,7 @@ function Linha({
           }`}
         />
       </button>
-      {aberto && <div className="border-t border-border/40 p-4">{children}</div>}
+      {aberto && <div className="border-t border-border/40 p-2 sm:p-4">{children}</div>}
     </div>
   );
 }
