@@ -131,3 +131,47 @@ export const updateBlogPostDraft = createServerFn({ method: "POST" })
     if (error) throw error;
     return { ok: true };
   });
+
+function slugify(input: string): string {
+  return input
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 100) || "post";
+}
+
+export const createBlogPostDraft = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: { titulo: string }) =>
+    z.object({ titulo: z.string().min(3).max(200) }).parse(i),
+  )
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.userId);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const base = slugify(data.titulo);
+    let slug = base;
+    // garante unicidade tentando sufixos -2, -3...
+    for (let i = 2; i < 50; i++) {
+      const { data: existing } = await supabaseAdmin
+        .from("blog_posts")
+        .select("slug")
+        .eq("slug", slug)
+        .maybeSingle();
+      if (!existing) break;
+      slug = `${base}-${i}`;
+    }
+    const { error } = await supabaseAdmin.from("blog_posts").insert({
+      slug,
+      titulo: data.titulo,
+      resumo: "",
+      blocos: [{ type: "p", text: "" }],
+      tags: [],
+      fontes: [],
+      leitura_min: 5,
+      status: "draft",
+    });
+    if (error) throw error;
+    return { slug, titulo: data.titulo };
+  });
