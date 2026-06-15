@@ -120,6 +120,13 @@ function HubBlogPage() {
         </div>
         <div className="flex flex-wrap gap-2">
           <Button
+            onClick={handleCreateManual}
+            disabled={createManual.isPending}
+          >
+            {createManual.isPending ? "Criando..." : "+ Novo post manual"}
+          </Button>
+          <Button
+            variant="outline"
             onClick={() => generate.mutate(undefined)}
             disabled={generate.isPending}
           >
