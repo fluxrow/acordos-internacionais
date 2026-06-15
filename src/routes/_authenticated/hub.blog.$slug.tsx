@@ -50,6 +50,7 @@ function HubBlogEditorPage() {
     setBlocos(Array.isArray(p.blocos) ? (p.blocos as Bloco[]) : []);
     setTags(Array.isArray(p.tags) ? (p.tags as string[]).join(", ") : "");
     setLeituraMin(typeof p.leitura_min === "number" ? p.leitura_min : 5);
+    setSlugDraft(p.slug ?? "");
   }, [q.data]);
 
   const save = useMutation({
