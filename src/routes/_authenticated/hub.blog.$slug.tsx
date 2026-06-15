@@ -7,6 +7,7 @@ import {
   updateBlogPostDraft,
   setBlogPostStatus,
   deleteBlogPost,
+  renameBlogPostSlug,
 } from "@/lib/blog-admin.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,6 +28,7 @@ function HubBlogEditorPage() {
   const updateFn = useServerFn(updateBlogPostDraft);
   const setStatusFn = useServerFn(setBlogPostStatus);
   const deleteFn = useServerFn(deleteBlogPost);
+  const renameFn = useServerFn(renameBlogPostSlug);
 
   const q = useQuery({
     queryKey: ["blog-admin", "post", slug],
@@ -38,6 +40,7 @@ function HubBlogEditorPage() {
   const [blocos, setBlocos] = useState<Bloco[]>([]);
   const [tags, setTags] = useState<string>("");
   const [leituraMin, setLeituraMin] = useState<number>(5);
+  const [slugDraft, setSlugDraft] = useState("");
 
   useEffect(() => {
     const p = q.data?.post;
@@ -47,6 +50,7 @@ function HubBlogEditorPage() {
     setBlocos(Array.isArray(p.blocos) ? (p.blocos as Bloco[]) : []);
     setTags(Array.isArray(p.tags) ? (p.tags as string[]).join(", ") : "");
     setLeituraMin(typeof p.leitura_min === "number" ? p.leitura_min : 5);
+    setSlugDraft(p.slug ?? "");
   }, [q.data]);
 
   const save = useMutation({
@@ -94,6 +98,15 @@ function HubBlogEditorPage() {
       toast.success("Excluído");
       router.navigate({ to: "/hub/blog" });
     },
+  });
+
+  const rename = useMutation({
+    mutationFn: () => renameFn({ data: { currentSlug: slug, newSlug: slugDraft } }),
+    onSuccess: (res) => {
+      toast.success("Slug atualizado");
+      router.navigate({ to: "/hub/blog/$slug", params: { slug: res.slug } });
+    },
+    onError: (e) => toast.error(e instanceof Error ? e.message : "Erro ao renomear"),
   });
 
   if (q.isLoading) {
@@ -162,8 +175,26 @@ function HubBlogEditorPage() {
 
       <div className="rounded-xl border border-border bg-card p-6 space-y-4">
         <div>
-          <Label>Slug</Label>
-          <p className="mt-1 font-mono text-xs text-muted-foreground">{post.slug}</p>
+          <Label htmlFor="slug">Slug (URL)</Label>
+          <div className="mt-1 flex gap-2">
+            <Input
+              id="slug"
+              value={slugDraft}
+              onChange={(e) => setSlugDraft(e.target.value)}
+              className="font-mono text-xs"
+              placeholder="ex: meu-novo-post"
+            />
+            <Button
+              variant="outline"
+              onClick={() => rename.mutate()}
+              disabled={rename.isPending || !slugDraft.trim() || slugDraft === post.slug}
+            >
+              {rename.isPending ? "Salvando..." : "Salvar slug"}
+            </Button>
+          </div>
+          <p className="mt-1 text-[11px] text-muted-foreground">
+            URL pública: /blog/{slugDraft || post.slug}
+          </p>
         </div>
         <div>
           <Label htmlFor="titulo">Título</Label>
