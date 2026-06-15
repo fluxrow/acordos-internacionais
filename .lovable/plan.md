@@ -1,54 +1,22 @@
 ## Objetivo
-Criar uma conta de testes para o Marcos com acesso completo ao Hub (como um assinante pagante), **sem** papel de admin.
 
-- E-mail: `espinola.mv@gmail.com`
-- Senha: `Marcos2025*`
-- Acesso: Hub completo (lifetime), sem admin
+Substituir o `export const acordo` em `src/data/acordos-textos/grecia.ts` pelo texto integral do Acordo de Previdência Social Brasil–República Helênica conforme o `.docx` enviado, preservando hierarquia (Títulos, Capítulos, Artigos) e cláusulas finais (local de assinatura, signatários).
 
-## Passos
+## Formato (igual aos outros países, ex.: `alemanha.ts`)
 
-1. **Criar usuário no Auth** (via Admin API server-side)
-   - `email_confirm: true` para já entrar direto sem precisar confirmar e-mail.
-   - Senha definida no momento da criação.
+- Arquivo continua exportando `export const acordo = "..."` como string única.
+- Parágrafos e cabeçalhos separados por `\n\n` (sem markdown, sem `#`, sem `**`).
+- Cabeçalhos em CAIXA ALTA na própria linha: `TÍTULO I - DISPOSIÇÕES GERAIS`, `CAPÍTULO I - DOENÇA, MATERNIDADE E PRESTAÇÕES FAMILIAIS`, `ARTIGO I`, `ARTIGO II — Âmbito material` etc.
+- Listas com alíneas (`a)`, `b)`, `1.`, `2.`) ficam em blocos separados, exatamente como aparecem no .docx.
+- Comentário inicial do arquivo (`// Conteúdo curado…`) é mantido.
+- Encerramento com: local/data (Atenas, 12/09/1984), idiomas e signatários (ALARICO SILVEIRA JUNIOR — Embaixador; ROULA KAKLAMANAKI — Vice-Ministro da Segurança Social).
 
-2. **Criar profile** em `public.profiles`
-   - `id` = user.id
-   - `full_name`: "Marcos (teste)"
-   - `email`: espinola.mv@gmail.com
+## Escopo
 
-3. **NÃO inserir** nada em `public.user_roles` — garante que não terá `admin`.
+- Editar apenas `src/data/acordos-textos/grecia.ts`.
+- Não tocar em `ajuste` (Grécia não tem ajuste administrativo cadastrado e o .docx não traz um — manter como está / vazio).
+- Nenhuma alteração em componentes, rotas ou outros países.
 
-4. **Criar subscription "lifetime"** em `public.subscriptions`
-   - `user_id` = user.id
-   - `status` = `active`
-   - `lifetime_access` = `true`
-   - `stripe_customer_id` = `null` (conta de teste, não passou pelo Stripe)
-   - `price_id` = `null`
-   - `cancel_at_period_end` = `false`
-   - `current_period_end` = `null` (lifetime não expira)
+## Verificação
 
-   Isso replica exatamente o estado de um Fundador que pagou via Stripe, fazendo `getAccountData` retornar `subscription.lifetimeAccess = true` e liberando todo o conteúdo Pro do Hub.
-
-5. **Validar**
-   - Login com as credenciais funciona em `/login`.
-   - `/hub` carrega sem cair em paywall.
-   - `/conta` mostra "acesso vitalício".
-   - `isAdmin` no `getHubDashboard` retorna `false` (sem itens admin na sidebar, sem `/hub/leads`).
-
-## Execução técnica
-
-Como o painel Supabase não é acessível no Lovable Cloud e a Service Role Key não fica exposta para uso manual, vou rodar um **script local one-shot** via `bun run scripts/seed-test-user.ts` que usa `supabaseAdmin` (service role já disponível no runtime do servidor) para:
-- `supabaseAdmin.auth.admin.createUser({...})`
-- `supabaseAdmin.from('profiles').insert(...)`
-- `supabaseAdmin.from('subscriptions').insert({ lifetime_access: true, status: 'active', ... })`
-
-O script é descartável (não fica em produção / não vira endpoint público — seria um vazamento de privilégio).
-
-## Fora de escopo
-- Mexer em RLS, migrations ou políticas.
-- Criar endpoint público / serverFn de "seed".
-- Alterar Stripe (a conta teste não passa pelo checkout).
-- Qualquer mudança no fluxo de fundadores reais.
-
-## Risco / reversão
-Se quiser apagar depois: deletar o user em `auth.users` (cascade limpa `profiles`, `subscriptions`, `user_roles` via FK).
+- Abrir a página `/acordos/grecia`, expandir "Texto integral do acordo" e conferir que renderiza do Título I ao Artigo XXVIII com os signatários ao final.
