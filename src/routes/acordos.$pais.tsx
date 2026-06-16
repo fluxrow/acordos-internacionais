@@ -144,8 +144,8 @@ function AcordoPais() {
   if (a.conteudo) tocBlocos.push({ id: "como-funciona", label: "Como funciona" });
   if (a.importado && a.importado.documentos.length > 0)
     tocBlocos.push({ id: "documentos", label: "Documentos" });
-  if (a.importado?.temTextoIntegral)
-    tocBlocos.push({ id: "texto-integral", label: "Texto integral" });
+  if (a.importado && (a.importado.orgaoBR || a.importado.orgaoParceiro))
+    tocBlocos.push({ id: "orgaos", label: "Órgãos de Ligação" });
 
   return (
     <>
