@@ -202,6 +202,12 @@ function AcordoPais() {
                       rotulo={numDocs === 1 ? "documento oficial" : "documentos oficiais"}
                     />
                   )}
+                  {numOrgaos > 0 && (
+                    <StatItem
+                      valor={numOrgaos}
+                      rotulo={numOrgaos === 1 ? "órgão de ligação" : "órgãos de ligação"}
+                    />
+                  )}
                 </dl>
               )}
 
@@ -446,9 +452,7 @@ function AcordoPais() {
                 </ol>
               </nav>
             )}
-            <CTAMarcos
-              contexto={`Tem um caso ligado ao acordo Brasil–${a.nome}? Fale com o Dr. Marcos Espínola.`}
-            />
+            <CTAMarcos contexto="Fale com um dos nossos especialistas." />
 
             <div className="rounded-xl border border-border/60 bg-background/70 p-6 backdrop-blur-sm">
               <p className="eyebrow">Próximos passos</p>
