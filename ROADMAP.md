@@ -406,3 +406,9 @@
 
 ## 2026-06-11 — Encoding fix nos textos dos acordos
 - Reimportação dos 25 `.docx` revisados do repositório do Marcos (`Mapa-de-Acordos/Acordos e Ajustes Revisados`) com encoding correto. Mojibake (`canadã`, `blica`, `aplicaã`) eliminado em todos os arquivos `src/data/acordos-textos/*.ts`. Pendente: blog generation pipeline + pg_cron (aguardando confirmação de cadência).
+
+## 2026-06-16 — Ajustes editoriais site público
+- Removido bloco "Texto integral" da rota pública `/acordos/$pais` (segue no Hub).
+- CTAs do site genericizadas: "Fale com um dos nossos especialistas." substitui menções diretas ao Dr. Marcos em jornadas, sidebar de país e bloco de atendimento.
+- Bloco "Órgãos de Ligação" restaurado em todos os países do `/acordos/$pais` + stat no hero.
+- Iberoamericano e Mercosul: bandeiras dos países-membros no hero + cards de órgãos para Bolívia/Equador/El Salvador/Peru (Iberoamericano). Novo arquivo `src/data/multilaterais-membros.ts`.

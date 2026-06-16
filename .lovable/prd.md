@@ -358,3 +358,9 @@ Comando: `bun run test`. 31 testes — qualquer regressão nas regras de piso, p
 - **QA**: amostragem Canadá/Portugal/Itália comparando `.docx` original vs `.ts` confirmou que 24 de 25 arquivos estavam corrompidos.
 - **Correção**: reexecução do script (já gravava buffer correto) sobrescreveu todos os 25. Verificado: `grep "PREVIDÊNCIA" canada.ts` agora retorna acentos intactos.
 - Países cujo `Ajuste Administrativo` não existe no repo (Bulgária, CPLP, Espanha, Israel, Moçambique) mantiveram ajuste anterior — se aquele já estava limpo, segue limpo.
+
+## Atualização — Ajustes editoriais do site público (2026-06-16)
+- **Texto integral removido da página pública `/acordos/$pais`**: o bloco e o componente `TextoIntegralAcordo` foram retirados; o texto integral permanece exclusivamente no Hub (`/hub/$pais` → abas Acordo / Ajuste).
+- **CTAs genericizadas**: todas as menções a "Fale com o Dr. Marcos Espínola" nas CTAs do site (sidebar de país, bloco de atendimento, jornadas) foram substituídas por "Fale com um dos nossos especialistas." Dr. Marcos continua como rosto especialista na página `/sobre/dr-marcos`, mas as CTAs espalhadas falam em nome do time.
+- **Órgãos de Ligação restaurados** em todos os países na rota pública `/acordos/$pais`, com novo bloco "Órgãos de Ligação" + stat no hero. Cards exibem instituição, endereço, telefone e e-mail (mailto direto). E-mails de órgãos estrangeiros mantidos como vieram do mapa oficial.
+- **Iberoamericano e Mercosul** agora exibem bandeiras dos países-membros logo abaixo do logo no hero. Iberoamericano lista Bolívia, Equador, El Salvador e Peru com cards completos (dados do mapa oficial). Mercosul lista Argentina, Paraguai e Uruguai sem órgão próprio + nota de remissão aos acordos bilaterais. Fonte: `src/data/multilaterais-membros.ts`.

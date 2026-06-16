@@ -6,9 +6,12 @@ import { getInstrumento } from "@/data/acordos-instrumento-overrides";
 import { findTooltipFor } from "@/data/acordo-tooltips";
 import { CTAMarcos } from "@/components/cta-marcos";
 import { ProContentLock } from "@/components/pro-content-lock";
-import { TextoIntegralAcordo } from "@/components/texto-integral-acordo";
 import { Highlight } from "@/lib/highlight";
 import { MULTI_LOGOS } from "@/lib/multi-logos";
+import {
+  MULTILATERAIS_MEMBROS,
+  NOTA_REMISSAO_BILATERAIS,
+} from "@/data/multilaterais-membros";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 export const Route = createFileRoute("/acordos/$pais")({
@@ -141,8 +144,8 @@ function AcordoPais() {
   if (a.conteudo) tocBlocos.push({ id: "como-funciona", label: "Como funciona" });
   if (a.importado && a.importado.documentos.length > 0)
     tocBlocos.push({ id: "documentos", label: "Documentos" });
-  if (a.importado?.temTextoIntegral)
-    tocBlocos.push({ id: "texto-integral", label: "Texto integral" });
+  if (a.importado && (a.importado.orgaoBR || a.importado.orgaoParceiro))
+    tocBlocos.push({ id: "orgaos", label: "Órgãos de Ligação" });
 
   return (
     <>
@@ -199,6 +202,12 @@ function AcordoPais() {
                       rotulo={numDocs === 1 ? "documento oficial" : "documentos oficiais"}
                     />
                   )}
+                  {numOrgaos > 0 && (
+                    <StatItem
+                      valor={numOrgaos}
+                      rotulo={numOrgaos === 1 ? "órgão de ligação" : "órgãos de ligação"}
+                    />
+                  )}
                 </dl>
               )}
 
@@ -236,10 +245,27 @@ function AcordoPais() {
                     />
                   )}
                 </div>
+                {MULTILATERAIS_MEMBROS[a.slug] && (
+                  <ul className="mt-3 flex flex-wrap items-center justify-center gap-1.5">
+                    {MULTILATERAIS_MEMBROS[a.slug].map((m) => (
+                      <li key={m.iso} title={m.nome}>
+                        <img
+                          src={`https://flagcdn.com/w40/${m.iso}.png`}
+                          alt={`Bandeira de ${m.nome}`}
+                          width={24}
+                          height={16}
+                          loading="lazy"
+                          className="h-4 w-6 rounded-[2px] border border-border/60 object-cover"
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
             )}
           </div>
         </header>
+
 
         {/* CONTEÚDO PRINCIPAL */}
         <section className="mx-auto grid max-w-6xl gap-12 px-6 py-16 md:grid-cols-[1fr_320px] md:py-20">
@@ -370,18 +396,23 @@ function AcordoPais() {
                     )),
             )}
 
-            {/* TEXTO INTEGRAL — lazy-loaded por país */}
-            {a.importado?.temTextoIntegral && (
-              <Bloco
-                id="texto-integral"
-                numero={tocBlocos.findIndex((b) => b.id === "texto-integral") + 1}
-                titulo="Texto integral"
-                lede="Acordo e ajuste administrativo na íntegra, importados do mapa oficial."
-              >
-                <TextoIntegralAcordo slug={a.slug} />
+                </div>
               </Bloco>
             )}
-                </div>
+
+            {/* ÓRGÃOS DE LIGAÇÃO */}
+            {a.importado && (a.importado.orgaoBR || a.importado.orgaoParceiro) && (
+              <Bloco
+                id="orgaos"
+                numero={tocBlocos.findIndex((b) => b.id === "orgaos") + 1}
+                titulo="Órgãos de Ligação"
+                lede={
+                  a.tipo === "multilateral"
+                    ? "Onde tramitam pedidos amparados por esta convenção multilateral."
+                    : `Onde tramitam pedidos amparados pelo acordo Brasil–${a.nome}.`
+                }
+              >
+                <OrgaosLigacaoBloco acordo={a} />
               </Bloco>
             )}
 
@@ -392,7 +423,7 @@ function AcordoPais() {
                 <p className="mt-6 text-base text-muted-foreground">
                   A versão pública desta página será expandida em breve. Se
                   você precisa de orientação imediata sobre um caso ligado a{" "}
-                  {a.nome}, fale com o Dr. Marcos Espínola.
+                  {a.nome}, fale com um dos nossos especialistas.
                 </p>
               </Bloco>
             )}
@@ -438,9 +469,7 @@ function AcordoPais() {
                 </ol>
               </nav>
             )}
-            <CTAMarcos
-              contexto={`Tem um caso ligado ao acordo Brasil–${a.nome}? Fale com o Dr. Marcos Espínola.`}
-            />
+            <CTAMarcos contexto="Fale com um dos nossos especialistas." />
 
             <div className="rounded-xl border border-border/60 bg-background/70 p-6 backdrop-blur-sm">
               <p className="eyebrow">Próximos passos</p>
@@ -587,13 +616,33 @@ function FichaItem({ rotulo, valor }: { rotulo: string; valor: string }) {
   );
 }
 
-function OrgaoCard({ orgao, lado }: { orgao: OrgaoLigacao; lado?: string }) {
+function OrgaoCard({
+  orgao,
+  lado,
+  flagIso,
+}: {
+  orgao: OrgaoLigacao;
+  lado?: string;
+  flagIso?: string;
+}) {
   const temDados =
     !!orgao.instituicao || !!orgao.endereco || !!orgao.telefone || !!orgao.email;
   return (
     <article className="rounded-xl border border-border/60 bg-background/70 p-6 backdrop-blur-sm transition-colors hover:border-[var(--accent-ink)]/40">
       {lado && (
-        <p className="eyebrow text-[var(--accent-ink)]">Lado {lado}</p>
+        <p className="eyebrow flex items-center gap-2 text-[var(--accent-ink)]">
+          {flagIso && (
+            <img
+              src={`https://flagcdn.com/w40/${flagIso}.png`}
+              alt=""
+              width={20}
+              height={14}
+              loading="lazy"
+              className="h-3.5 w-5 rounded-[2px] border border-border/60 object-cover"
+            />
+          )}
+          {flagIso ? lado : `Lado ${lado}`}
+        </p>
       )}
       <h3 className="mt-2 font-display text-lg leading-snug">{orgao.titulo}</h3>
       <hr className="rule mt-3" />
@@ -763,4 +812,76 @@ function agruparDocumentos(docs: DocumentoImportado[]): Array<[string, Documento
   for (const [cat, items] of grupos) ordenados.push([cat, items]);
   return ordenados;
 }
+
+function OrgaosLigacaoBloco({
+  acordo,
+}: {
+  acordo: import("@/data/acordos").Acordo;
+}) {
+  const imp = acordo.importado!;
+  const membros = MULTILATERAIS_MEMBROS[acordo.slug];
+  const ehMultilateral = acordo.tipo === "multilateral";
+  const membrosComOrgao = membros?.filter((m) => m.orgao) ?? [];
+  const membrosSemOrgao = membros?.filter((m) => !m.orgao) ?? [];
+
+  return (
+    <div className="space-y-6">
+      <div className="grid gap-4 md:grid-cols-2">
+        {imp.orgaoBR && <OrgaoCard orgao={imp.orgaoBR} lado="Brasil" />}
+        {imp.orgaoParceiro && !ehMultilateral && (
+          <OrgaoCard orgao={imp.orgaoParceiro} lado={acordo.nome} />
+        )}
+      </div>
+
+      {ehMultilateral && membrosComOrgao.length > 0 && (
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {membrosComOrgao.map((m) => (
+            <OrgaoCard
+              key={m.iso}
+              orgao={m.orgao!}
+              lado={m.nome}
+              flagIso={m.iso}
+            />
+          ))}
+        </div>
+      )}
+
+      {ehMultilateral && membrosSemOrgao.length > 0 && (
+        <div className="rounded-xl border border-border/60 bg-background/50 p-5">
+          <p className="eyebrow mb-3 text-[var(--accent-ink)]">
+            Outros países-membros
+          </p>
+          <ul className="flex flex-wrap items-center gap-3">
+            {membrosSemOrgao.map((m) => (
+              <li
+                key={m.iso}
+                className="flex items-center gap-2 text-sm text-muted-foreground"
+              >
+                <img
+                  src={`https://flagcdn.com/w40/${m.iso}.png`}
+                  alt=""
+                  width={20}
+                  height={14}
+                  loading="lazy"
+                  className="h-3.5 w-5 rounded-[2px] border border-border/60 object-cover"
+                />
+                <span>{m.nome}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-3 text-xs text-muted-foreground">
+            {NOTA_REMISSAO_BILATERAIS}
+          </p>
+        </div>
+      )}
+
+      {ehMultilateral && !membros && (
+        <p className="text-sm text-muted-foreground">
+          {NOTA_REMISSAO_BILATERAIS}
+        </p>
+      )}
+    </div>
+  );
+}
+
 

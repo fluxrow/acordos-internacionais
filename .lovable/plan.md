@@ -1,31 +1,61 @@
-## Cupom ACORDOS10 — 10% de desconto, 3 meses, 200 usos
 
-Cupons no Stripe têm duas peças: o **Coupon** (define o desconto) e o **Promotion Code** (o texto digitável `ACORDOS10`). Precisamos criar ambos via API do Stripe (sandbox e live) e habilitar o campo de cupom no checkout.
+Quatro ajustes pedidos no documento, todos na página pública `src/routes/acordos.$pais.tsx` (e arquivos correlatos para CTAs/jornadas).
 
-### Passos
+## 1. Remover o bloco "Texto integral" da página pública do país
+No arquivo `src/routes/acordos.$pais.tsx`:
+- Remover o `<Bloco id="texto-integral">` (linhas ~373-383) e o componente `<TextoIntegralAcordo>` (import na linha 9).
+- Remover a entrada do TOC: `tocBlocos.push({ id: "texto-integral", label: "Texto integral" });` (linhas 144-145).
+- Texto integral continua disponível só dentro do Hub (`/hub/$pais` → abas "Acordo" / "Ajuste"), sem mudanças lá.
 
-1. **Habilitar campo de cupom no checkout**
-  - Em `src/lib/checkout.functions.ts`, no `stripe.checkout.sessions.create`, adicionar `allow_promotion_codes: true`. Sem isso, mesmo criado no Stripe, o cupom não aparece para digitar na tela de pagamento.
-2. **Criar server function admin para provisionar o cupom**
-  - Novo arquivo `src/lib/admin-coupons.functions.ts` com `createServerFn` protegida por `requireSupabaseAuth` + checagem `has_role(..., 'admin')`.
-  - A função recebe `{ env: "sandbox" | "live" }` e:
-    - `stripe.coupons.create({ id: "acordos10_3m", percent_off: 10, duration: "repeating", duration_in_months: 3, max_redemptions: 200, name: "ACORDOS10" })` — válido para os 3 primeiros ciclos da assinatura (e desconto único no plano Fundadores).
-    - `stripe.promotionCodes.create({ coupon: "acordos10_3m", code: "ACORDOS10", active: true })`.
-  - Idempotente: se já existir (`resource_already_exists`), retorna ok.
-3. **Disparar a criação uma vez**
-  - Criar uma rota admin simples `/admin/cupons` (ou um botão na conta admin) que chama essa server fn para `sandbox` e depois `live`. Alternativa mais rápida: rodar manualmente via `invoke-server-function` após o deploy. Eu sigo pela rota admin para deixar repetível.
+## 2. Genericizar todas as CTAs "Dr. Marcos Espínola" → "um dos nossos especialistas"
+Substituir o tom personalíssimo por "nossos especialistas", mantendo o destino `/contato`:
 
-### Sobre os parâmetros
+- `src/components/cta-marcos.tsx`
+  - Variant `card` (sidebar de país): trocar a frase padrão `"Fale com o Dr. Marcos Espínola, advogado responsável."` por `"Fale com um dos nossos especialistas."` e o título "Dúvidas no seu caso?" continua, mas o link "Iniciar contato →" vira "Fale com um dos nossos especialistas →".
+  - Variant `block`: o lede genérico vira `"Um de nossos especialistas traduz a teoria para a sua situação."` e o botão "Falar com o Dr. Marcos" vira **"Fale com um dos nossos especialistas"**.
+  - Variant `result`: botão `"Quero fazer meu planejamento"` mantém (não é "Dr. Marcos"); apenas o item da lista `"Atendimento com o Dr. Marcos"` vira `"Atendimento com nosso especialista"`.
 
-- **3 meses**: interpretado como "desconto aplicado por 3 ciclos de cobrança" (`duration: "repeating", duration_in_months: 3`). No plano **Mensal** isso é 3 meses de 10% off; no **Anual** o desconto aplica em 3 renovações (efetivamente vitalício na prática para anual); no **Fundadores** (pagamento único) o desconto incide só na compra.
-- **200 cupons**: `max_redemptions: 200` no Coupon — para de aceitar após 200 resgates.
-- **Validade do código**: se a intenção é que o cupom *expire* em 3 meses corridos (e não "desconte por 3 meses"), uso `redeem_by: <timestamp +90d>` no Coupon e `duration: "once"`. **Confirmar antes de implementar.**
+- `src/routes/acordos.$pais.tsx` linha 442: o `contexto` do `<CTAMarcos>` vira `"Fale com um dos nossos especialistas."` (sem citar Dr. Marcos nem o país).
 
-### Pergunta antes de executar
+- `src/data/jornadas.ts` (linhas 75, 181, 233, 285): todos os `cta: "... Fale com o Dr. Marcos Espínola."` viram a versão genérica:
+  - "Tem dúvidas no seu caso? Fale com um dos nossos especialistas."
+  - "Quer revisar seu plano? Fale com um dos nossos especialistas."
+  - "Demora ou indeferimento? Fale com um dos nossos especialistas."
+  - "Quer simular seu caso? Fale com um dos nossos especialistas."
 
-O "3 meses" é:
+- `src/routes/acordos.$pais.tsx` linha ~395 (texto fallback "fale com o Dr. Marcos Espínola"): vira "fale com um dos nossos especialistas".
 
-- (A) **Desconto de 10% pelos 3 primeiros meses de assinatura** (`duration: repeating, 3 months`), cupom segue resgatável até bater 200 usos. — *opção que descrevi acima - Não, e a pçoa abaixo que eu complementei*
-- (B) **Cupom expira em 90 dias** (deixa de poder ser digitado depois disso), desconto de 10% único no checkout. sim, desconto deve ser aplicaod no priemeiro mems somente. 
+(Mantemos a página `/sobre/dr-marcos` e o nome do Dr. Marcos nela — só não falamos dele em primeira pessoa nas CTAs espalhadas.)
 
-Me diz qual é antes de eu construir, pra eu não criar errado no Stripe live.
+## 3. Restaurar a seção "Órgãos de Ligação" na página pública de TODOS os países
+Hoje o componente `OrgaoCard` existe em `src/routes/acordos.$pais.tsx` (linha 590) mas não é renderizado em lugar nenhum — daí o `numOrgaos` calculado e nunca usado. Vou:
+
+- Adicionar um novo `<Bloco id="orgaos">` titulado **"Órgãos de Ligação"**, posicionado logo após "Documentos" e antes do bloco final, exibindo:
+  - Para acordos bilaterais: dois cards lado a lado — `orgaoBR` (lado Brasil) e `orgaoParceiro` (lado país parceiro).
+  - Para multilaterais (CPLP, Iberoamericano, Mercosul): card único do Brasil + bloco descrito no item 4.
+- Inserir o item no `tocBlocos` quando `a.importado?.orgaoBR || a.importado?.orgaoParceiro`.
+- Restaurar uso do `numOrgaos` no hero (terceiro StatItem ao lado de "anos em vigor" e "documentos oficiais").
+
+## 4. Iberoamericano e Mercosul — bandeiras + órgãos dos países-membros
+Hoje só aparece a logo (OISS / Mercosul) e nenhum órgão dos membros. Vou:
+
+- Criar `src/data/multilaterais-membros.ts` com a lista de países-membros de cada acordo multilateral, com `iso` (para a bandeira via flagcdn) e nome:
+  - **Iberoamericano**: Bolívia (`bo`), Equador (`ec`), El Salvador (`sv`), Peru (`pe`) — únicos com órgão próprio. Os demais "seguem os organismos de ligação dos respectivos acordos bilaterais" (frase exata do .docx).
+  - **Mercosul**: Argentina (`ar`), Paraguai (`py`), Uruguai (`uy`) — os três sócios fundadores além do Brasil. Sem órgãos próprios documentados → frase "Para os demais países, a referência segue os organismos de ligação dos respectivos acordos bilaterais."
+  - Para Iberoamericano, dados completos dos quatro órgãos vêm do .docx (instituição, endereço, telefone, e-mail).
+
+- No hero (linhas 213-240), quando o país for multilateral com membros, exibir abaixo da logo uma fileira compacta de bandeiras dos membros (apenas visual, sem link).
+
+- No novo bloco "Órgãos de Ligação" (item 3), quando o slug for `iberoamericano`: grid com os 4 cards (Bolívia/Equador/El Salvador/Peru) + nota "Para os demais países…". Quando for `mercosul`: cards APSAI Brasil + bandeiras dos 3 membros com a nota de remissão aos bilaterais.
+
+## 5. Arquivos tocados
+- `src/routes/acordos.$pais.tsx` (remover texto integral, restaurar bloco órgãos, hero multilateral, ajustar CTA)
+- `src/components/cta-marcos.tsx` (genericizar)
+- `src/data/jornadas.ts` (4 strings)
+- `src/data/multilaterais-membros.ts` (novo)
+
+Nenhuma mudança no Hub, no schema, nem em SEO/metadados. Atualizo `.lovable/prd.md` e `ROADMAP.md` ao final (regra de memória do projeto).
+
+## Fora de escopo (confirmação)
+- Iberoamericano/Mercosul **dentro do Hub** (`/hub/$pais`) — o .docx só ilustra a página pública. Posso replicar lá depois se você quiser; me avise.
+- Habilitar download dos arquivos "Indisponíveis" da página do Iberoamericano (página 3 do .docx). Hoje o link `arquivo` é só o nome — não há URL pública resolvida. Se quiser que eu publique os PDFs do GitHub do mapa, é outra rodada (preciso decidir hospedagem).
