@@ -373,18 +373,23 @@ function AcordoPais() {
                     )),
             )}
 
-            {/* TEXTO INTEGRAL — lazy-loaded por país */}
-            {a.importado?.temTextoIntegral && (
-              <Bloco
-                id="texto-integral"
-                numero={tocBlocos.findIndex((b) => b.id === "texto-integral") + 1}
-                titulo="Texto integral"
-                lede="Acordo e ajuste administrativo na íntegra, importados do mapa oficial."
-              >
-                <TextoIntegralAcordo slug={a.slug} />
+                </div>
               </Bloco>
             )}
-                </div>
+
+            {/* ÓRGÃOS DE LIGAÇÃO */}
+            {a.importado && (a.importado.orgaoBR || a.importado.orgaoParceiro) && (
+              <Bloco
+                id="orgaos"
+                numero={tocBlocos.findIndex((b) => b.id === "orgaos") + 1}
+                titulo="Órgãos de Ligação"
+                lede={
+                  a.tipo === "multilateral"
+                    ? "Onde tramitam pedidos amparados por esta convenção multilateral."
+                    : `Onde tramitam pedidos amparados pelo acordo Brasil–${a.nome}.`
+                }
+              >
+                <OrgaosLigacaoBloco acordo={a} />
               </Bloco>
             )}
 
@@ -395,7 +400,7 @@ function AcordoPais() {
                 <p className="mt-6 text-base text-muted-foreground">
                   A versão pública desta página será expandida em breve. Se
                   você precisa de orientação imediata sobre um caso ligado a{" "}
-                  {a.nome}, fale com o Dr. Marcos Espínola.
+                  {a.nome}, fale com um dos nossos especialistas.
                 </p>
               </Bloco>
             )}
