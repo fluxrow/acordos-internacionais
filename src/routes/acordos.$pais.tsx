@@ -6,9 +6,12 @@ import { getInstrumento } from "@/data/acordos-instrumento-overrides";
 import { findTooltipFor } from "@/data/acordo-tooltips";
 import { CTAMarcos } from "@/components/cta-marcos";
 import { ProContentLock } from "@/components/pro-content-lock";
-import { TextoIntegralAcordo } from "@/components/texto-integral-acordo";
 import { Highlight } from "@/lib/highlight";
 import { MULTI_LOGOS } from "@/lib/multi-logos";
+import {
+  MULTILATERAIS_MEMBROS,
+  NOTA_REMISSAO_BILATERAIS,
+} from "@/data/multilaterais-membros";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 export const Route = createFileRoute("/acordos/$pais")({
