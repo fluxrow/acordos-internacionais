@@ -245,10 +245,27 @@ function AcordoPais() {
                     />
                   )}
                 </div>
+                {MULTILATERAIS_MEMBROS[a.slug] && (
+                  <ul className="mt-3 flex flex-wrap items-center justify-center gap-1.5">
+                    {MULTILATERAIS_MEMBROS[a.slug].map((m) => (
+                      <li key={m.iso} title={m.nome}>
+                        <img
+                          src={`https://flagcdn.com/w40/${m.iso}.png`}
+                          alt={`Bandeira de ${m.nome}`}
+                          width={24}
+                          height={16}
+                          loading="lazy"
+                          className="h-4 w-6 rounded-[2px] border border-border/60 object-cover"
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
             )}
           </div>
         </header>
+
 
         {/* CONTEÚDO PRINCIPAL */}
         <section className="mx-auto grid max-w-6xl gap-12 px-6 py-16 md:grid-cols-[1fr_320px] md:py-20">
