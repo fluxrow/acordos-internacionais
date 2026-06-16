@@ -616,13 +616,33 @@ function FichaItem({ rotulo, valor }: { rotulo: string; valor: string }) {
   );
 }
 
-function OrgaoCard({ orgao, lado }: { orgao: OrgaoLigacao; lado?: string }) {
+function OrgaoCard({
+  orgao,
+  lado,
+  flagIso,
+}: {
+  orgao: OrgaoLigacao;
+  lado?: string;
+  flagIso?: string;
+}) {
   const temDados =
     !!orgao.instituicao || !!orgao.endereco || !!orgao.telefone || !!orgao.email;
   return (
     <article className="rounded-xl border border-border/60 bg-background/70 p-6 backdrop-blur-sm transition-colors hover:border-[var(--accent-ink)]/40">
       {lado && (
-        <p className="eyebrow text-[var(--accent-ink)]">Lado {lado}</p>
+        <p className="eyebrow flex items-center gap-2 text-[var(--accent-ink)]">
+          {flagIso && (
+            <img
+              src={`https://flagcdn.com/w40/${flagIso}.png`}
+              alt=""
+              width={20}
+              height={14}
+              loading="lazy"
+              className="h-3.5 w-5 rounded-[2px] border border-border/60 object-cover"
+            />
+          )}
+          {flagIso ? lado : `Lado ${lado}`}
+        </p>
       )}
       <h3 className="mt-2 font-display text-lg leading-snug">{orgao.titulo}</h3>
       <hr className="rule mt-3" />
