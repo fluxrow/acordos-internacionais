@@ -70,7 +70,7 @@ export function CTAMarcos({ variant = "card", contexto, caso }: CTAMarcosProps) 
             {[
               "Análise do seu caso",
               "Estratégia personalizada",
-              "Atendimento com o Dr. Marcos",
+              "Atendimento com nosso especialista",
             ].map((item) => (
               <li
                 key={item}
@@ -117,10 +117,10 @@ export function CTAMarcos({ variant = "card", contexto, caso }: CTAMarcosProps) 
           </h2>
           <p className="lede mx-auto mt-4 max-w-xl text-[var(--ink-soft)]">
             {contexto ??
-              "O Dr. Marcos Espínola é especialista em acordos internacionais de previdência. Conte sua situação e receba um retorno qualificado."}
+              "Um de nossos especialistas traduz a teoria para a sua situação."}
           </p>
           <div className="mt-8 flex justify-center">
-            <CTAButton to="/contato" variant="dark" label="Falar com o Dr. Marcos" />
+            <CTAButton to="/contato" variant="dark" label="Fale com um dos nossos especialistas" />
           </div>
         </div>
       </section>
@@ -134,13 +134,13 @@ export function CTAMarcos({ variant = "card", contexto, caso }: CTAMarcosProps) 
         Dúvidas no seu caso?
       </p>
       <p className="mt-2 text-sm text-muted-foreground">
-        {contexto ?? "Fale com o Dr. Marcos Espínola, advogado responsável."}
+        {contexto ?? "Fale com um dos nossos especialistas."}
       </p>
       <Link
         to="/contato"
         className="mt-4 inline-block text-sm underline underline-offset-4 hover:text-[var(--accent-ink)]"
       >
-        Iniciar contato →
+        Fale com um dos nossos especialistas →
       </Link>
     </aside>
   );
