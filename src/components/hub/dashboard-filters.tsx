@@ -1,6 +1,6 @@
 import { REGIOES, type Regiao } from "@/data/regioes";
 
-export type StatusFiltro = "todos" | "com-material" | "em-curadoria";
+export type StatusFiltro = "todos" | "com-material" | "em-ratificacao";
 export type RegiaoFiltro = "todas" | Regiao;
 
 export function DashboardFilters({
