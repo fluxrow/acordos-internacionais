@@ -1,6 +1,6 @@
 import { REGIOES, type Regiao } from "@/data/regioes";
 
-export type StatusFiltro = "todos" | "com-material" | "em-curadoria";
+export type StatusFiltro = "todos" | "com-material" | "em-ratificacao";
 export type RegiaoFiltro = "todas" | Regiao;
 
 export function DashboardFilters({
@@ -40,10 +40,10 @@ export function DashboardFilters({
           Com material
         </Chip>
         <Chip
-          active={status === "em-curadoria"}
-          onClick={() => onStatus("em-curadoria")}
+          active={status === "em-ratificacao"}
+          onClick={() => onStatus("em-ratificacao")}
         >
-          Em curadoria
+          Em ratificação
         </Chip>
       </FilterGroup>
 
