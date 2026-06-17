@@ -105,7 +105,10 @@ export function CountryCard({
           )}
         </div>
 
-        <div className="mt-auto">
+        <div className="mt-auto flex flex-wrap items-center gap-1.5">
+          {(["cabo-verde", "israel", "cplp"].includes(pais.slug)) && (
+            <StatusBadge label="Em ratificação" tone="info" />
+          )}
           {c.emCuradoria ? (
             <StatusBadge kind="curadoria" label="Em curadoria" tone="muted" />
           ) : locked ? (
@@ -121,6 +124,7 @@ export function CountryCard({
             </p>
           )}
         </div>
+
       </div>
     </Link>
   );
