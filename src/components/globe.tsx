@@ -19,6 +19,14 @@ const PAPER: {
   brightness: 1.6,
 };
 
+// Light — bege/areia claro com markers e glow gold
+const PAPER_LIGHT: typeof PAPER = {
+  base: [0.93, 0.90, 0.84],
+  marker: [0.78, 0.58, 0.22],
+  glow: [0.86, 0.72, 0.40],
+  brightness: 1.05,
+};
+
 // Wine — variante mais avermelhada (mantida para compat)
 const WINE: typeof PAPER = {
   base: [0.18, 0.10, 0.10],
