@@ -13,6 +13,7 @@ export interface MembroMultilateral {
 
 export const MULTILATERAIS_MEMBROS: Record<string, MembroMultilateral[]> = {
   iberoamericano: [
+    { nome: "Argentina", iso: "ar" },
     {
       nome: "Bolívia",
       iso: "bo",
@@ -25,16 +26,8 @@ export const MULTILATERAIS_MEMBROS: Record<string, MembroMultilateral[]> = {
         email: "contactenos@aps.gob.bo",
       },
     },
-    {
-      nome: "Equador",
-      iso: "ec",
-      orgao: {
-        titulo: "Órgão de Ligação (Equador)",
-        instituicao:
-          "Instituto Equatoriano de Seguridad Social — Secretaria Geral · Convenios Internacionales",
-        endereco: "Avenida 10 de Agosto, Edificio Matriz, 6º Piso — Quito, Equador",
-      },
-    },
+    { nome: "Brasil", iso: "br" },
+    { nome: "Chile", iso: "cl" },
     {
       nome: "El Salvador",
       iso: "sv",
@@ -47,6 +40,18 @@ export const MULTILATERAIS_MEMBROS: Record<string, MembroMultilateral[]> = {
       },
     },
     {
+      nome: "Equador",
+      iso: "ec",
+      orgao: {
+        titulo: "Órgão de Ligação (Equador)",
+        instituicao:
+          "Instituto Equatoriano de Seguridad Social — Secretaria Geral · Convenios Internacionales",
+        endereco: "Avenida 10 de Agosto, Edificio Matriz, 6º Piso — Quito, Equador",
+      },
+    },
+    { nome: "Espanha", iso: "es" },
+    { nome: "Paraguai", iso: "py" },
+    {
       nome: "Peru",
       iso: "pe",
       orgao: {
@@ -56,16 +61,21 @@ export const MULTILATERAIS_MEMBROS: Record<string, MembroMultilateral[]> = {
         email: "gsalazar@trabajo.gob.pe",
       },
     },
+    { nome: "Portugal", iso: "pt" },
+    { nome: "Uruguai", iso: "uy" },
   ],
   mercosul: [
     { nome: "Argentina", iso: "ar" },
+    { nome: "Brasil", iso: "br" },
     { nome: "Paraguai", iso: "py" },
     { nome: "Uruguai", iso: "uy" },
   ],
   cplp: [
     { nome: "Angola", iso: "ao" },
+    { nome: "Brasil", iso: "br" },
     { nome: "Cabo Verde", iso: "cv" },
     { nome: "Guiné-Bissau", iso: "gw" },
+    { nome: "Guiné Equatorial", iso: "gq" },
     { nome: "Moçambique", iso: "mz" },
     { nome: "Portugal", iso: "pt" },
     { nome: "São Tomé e Príncipe", iso: "st" },
