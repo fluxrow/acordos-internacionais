@@ -71,13 +71,16 @@ export function Globe({
   tint?: "paper" | "wine";
   mapSamples?: number;
 }) {
-  const palette = tint === "wine" ? WINE : PAPER;
+  const { theme } = useTheme();
+  const palette =
+    tint === "wine" ? WINE : theme === "light" ? PAPER_LIGHT : PAPER;
   const resolvedConfig: COBEOptions = config ?? {
     ...BASE_CONFIG,
     baseColor: palette.base,
     markerColor: palette.marker,
     glowColor: palette.glow,
     mapBrightness: palette.brightness,
+    dark: theme === "light" && tint !== "wine" ? 0 : BASE_CONFIG.dark,
     ...(mapSamples ? { mapSamples } : {}),
   };
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
