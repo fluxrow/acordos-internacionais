@@ -151,8 +151,6 @@ function JornadasIndex() {
           </div>
           </div>
         </div>
-          </div>
-        </div>
       </section>
     </>
   );
