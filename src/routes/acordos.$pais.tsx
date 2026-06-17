@@ -1,17 +1,14 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { Lock, Mail, Phone, MapPin, Building2, Info } from "lucide-react";
+import { Lock, Info } from "lucide-react";
 import { acordos, getAcordo } from "@/data/acordos";
-import type { DocumentoImportado, OrgaoLigacao } from "@/data/acordos.types";
+import type { DocumentoImportado } from "@/data/acordos.types";
 import { getInstrumento } from "@/data/acordos-instrumento-overrides";
 import { findTooltipFor } from "@/data/acordo-tooltips";
 import { CTAMarcos } from "@/components/cta-marcos";
 import { ProContentLock } from "@/components/pro-content-lock";
 import { Highlight } from "@/lib/highlight";
 import { MULTI_LOGOS } from "@/lib/multi-logos";
-import {
-  MULTILATERAIS_MEMBROS,
-  NOTA_REMISSAO_BILATERAIS,
-} from "@/data/multilaterais-membros";
+import { MULTILATERAIS_MEMBROS } from "@/data/multilaterais-membros";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 export const Route = createFileRoute("/acordos/$pais")({
@@ -144,8 +141,6 @@ function AcordoPais() {
   if (a.conteudo) tocBlocos.push({ id: "como-funciona", label: "Como funciona" });
   if (a.importado && a.importado.documentos.length > 0)
     tocBlocos.push({ id: "documentos", label: "Documentos" });
-  if (a.importado && (a.importado.orgaoBR || a.importado.orgaoParceiro))
-    tocBlocos.push({ id: "orgaos", label: "Órgãos de Ligação" });
 
   return (
     <>
@@ -400,21 +395,6 @@ function AcordoPais() {
               </Bloco>
             )}
 
-            {/* ÓRGÃOS DE LIGAÇÃO */}
-            {a.importado && (a.importado.orgaoBR || a.importado.orgaoParceiro) && (
-              <Bloco
-                id="orgaos"
-                numero={tocBlocos.findIndex((b) => b.id === "orgaos") + 1}
-                titulo="Órgãos de Ligação"
-                lede={
-                  a.tipo === "multilateral"
-                    ? "Onde tramitam pedidos amparados por esta convenção multilateral."
-                    : `Onde tramitam pedidos amparados pelo acordo Brasil–${a.nome}.`
-                }
-              >
-                <OrgaosLigacaoBloco acordo={a} />
-              </Bloco>
-            )}
 
             {/* Caso país sem dados importados, mantém a versão editorial */}
             {!a.importado && !a.conteudo && (
@@ -436,6 +416,7 @@ function AcordoPais() {
                 `Texto integral do acordo Brasil–${a.nome} e do decreto de promulgação`,
                 "Portarias do INSS aplicáveis, comentadas",
                 "Documentos e formulários oficiais exigidos",
+                "Órgãos de ligação: contatos completos (instituição, endereço, telefone, e-mail)",
                 "Modelos de petição e requerimento editáveis",
                 "Calculadora de totalização",
                 "Fluxograma processual passo a passo",
