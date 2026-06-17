@@ -1,28 +1,25 @@
-# Globo reativo ao tema
+## Contexto
 
-## Problema
-Hoje `src/components/globe.tsx` usa uma paleta fixa (`PAPER` escura: base marrom-escuro, brilho 1.6) mesmo quando o usuário ativa o modo claro via `ThemeToggle`. No light o globo continua "preto", quebrando o contraste do hero.
+Atualmente, a seção **"Órgãos de Ligação"** (instituição, endereço, telefone, e-mail dos órgãos do Brasil e do país parceiro) aparece na página pública de cada país em `src/routes/acordos.$pais.tsx`, dentro do bloco `#orgaos`.
 
-## Proposta
-Tornar o globo reativo ao tema do `ThemeProvider`, mantendo gold como cor de markers/glow nos dois modos (consistente com a marca).
+No HUB fechado (`src/routes/_authenticated/hub.$pais.tsx`), os dados já são entregues pelo server function (`orgaoBR` e `orgaoParceiro` em `HubDataUnlocked`) e o componente `OrgaoCard` já existe — mas **não é renderizado em nenhuma aba**. Ou seja: o dado chega no hub, só falta exibir.
 
-### Mudanças em `src/components/globe.tsx`
-1. Importar `useTheme` de `@/components/theme-provider`.
-2. Adicionar uma terceira paleta `PAPER_LIGHT` (modo claro):
-   - `base`: bege/areia claro (aprox. `[0.93, 0.90, 0.84]`) — casa com o off-white da marca.
-   - `marker`: gold mantido (`[0.78, 0.58, 0.22]`, levemente mais escuro p/ contraste em fundo claro).
-   - `glow`: gold suave (`[0.86, 0.72, 0.40]`).
-   - `brightness`: ~1.05 e `dark: 0` (sem sombreamento pesado).
-3. Selecionar a paleta:
-   - `tint="wine"` → segue `WINE` (inalterado).
-   - `tint="paper"` (default) → `theme === "light" ? PAPER_LIGHT : PAPER`.
-4. Recriar a instância do COBE quando o tema muda — adicionar `theme` ao `useEffect` deps e ao objeto `resolvedConfig` (o COBE não suporta troca de cor em runtime, então destruir + recriar).
-5. Aplicar uma transição CSS curta de `opacity` (já existe) para suavizar a troca.
+## Mudanças
 
-### Não muda
-- Marcadores/coords/rotação automática.
-- Restrição da Core memory ("Globos nunca mudam — texto fica sempre acima") continua respeitada: o globo segue como fundo decorativo; só a paleta acompanha o tema.
-- `tint="wine"` (se usado em alguma seção) permanece com a paleta atual.
+### 1. Remover do público — `src/routes/acordos.$pais.tsx`
+- Remover o bloco `{/* ÓRGÃOS DE LIGAÇÃO */}` (linhas ~403–417) que renderiza `<Bloco id="orgaos">...<OrgaosLigacaoBloco />`.
+- Remover a entrada `"orgaos"` do array `tocBlocos` (índice lateral).
+- Remover o componente `OrgaosLigacaoBloco`, o componente auxiliar `OrgaoCard` e os imports não usados depois disso (`Mail`, `Phone`, `MapPin`, `Building2`, tipo `OrgaoLigacao`, `Popover*`, `findTooltipFor`, `NOTA_REMISSAO_BILATERAIS` — somente os que ficarem órfãos; vou conferir antes de apagar cada um).
+- Atualizar o bullet correspondente em `<ProContentLock>` para deixar claro que "Órgãos de ligação (contatos completos)" é benefício do hub.
 
-## Arquivo tocado
-- `src/components/globe.tsx` (único)
+### 2. Adicionar no HUB — `src/routes/_authenticated/hub.$pais.tsx`
+- Em `VisaoTab`, acrescentar uma seção **"Órgãos de Ligação"** logo após "Benefícios cobertos", renderizando o `OrgaoCard` já existente para `data.orgaoBR` (lado Brasil) e `data.orgaoParceiro` (lado país parceiro). A seção só aparece se existir pelo menos um dos dois.
+- Nenhuma mudança em `hub.functions.ts` — o payload já carrega os dois campos.
+
+### 3. Escopo
+Vale para **todos os países** automaticamente: a renderização é guiada pelos dados em `acordosImportados`, então qualquer país que tenha `orgaoBR`/`orgaoParceiro` passa a exibir só no hub.
+
+## Fora de escopo
+- Nenhuma alteração nos dados (`src/data/acordos.generated.ts`, JSONs de origem).
+- Nenhuma alteração em rotas/RLS/backend.
+- A nav lateral "Próximos passos" e o restante do conteúdo público permanecem iguais.
