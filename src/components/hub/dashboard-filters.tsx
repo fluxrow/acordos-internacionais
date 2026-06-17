@@ -40,10 +40,10 @@ export function DashboardFilters({
           Com material
         </Chip>
         <Chip
-          active={status === "em-curadoria"}
-          onClick={() => onStatus("em-curadoria")}
+          active={status === "em-ratificacao"}
+          onClick={() => onStatus("em-ratificacao")}
         >
-          Em curadoria
+          Em ratificação
         </Chip>
       </FilterGroup>
 
