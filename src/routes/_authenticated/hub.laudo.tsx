@@ -17,7 +17,7 @@ export const Route = createFileRoute("/_authenticated/hub/laudo")({
   }),
   head: () => ({
     meta: [
-      { title: "Laudo RMI Pro-rata — Acordos Internacionais" },
+      { title: "Laudo RMI Pró-rata — Acordos Internacionais" },
       { name: "robots", content: "noindex,nofollow" },
     ],
     links: [
