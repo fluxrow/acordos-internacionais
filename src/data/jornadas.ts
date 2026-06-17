@@ -282,7 +282,7 @@ export const jornadas: Jornada[] = [
           "Espere meses, não semanas. Mantenha comprovantes, atualize cadastro e cobre se houver demora indevida.",
       },
     ],
-    cta: "Quer simular seu caso? Fale com um dos nossos especialistas.",
+    cta: "Quer simular seu caso? \n",
     paisesRelacionados: ["portugal", "italia", "japao"],
     guiaRelacionado: "aposentadoria-morando-fora",
   },
