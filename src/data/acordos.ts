@@ -283,7 +283,7 @@ export const acordos: Acordo[] = [
     docs: 9,
     status: "vigente",
     resumo:
-      "Convênio Multilateral Iberoamericano de Seguridade Social.",
+      "Convênio Multilateral Iberoamericano de Seguridade Social. ( Argentina, Bolívia, Brasil, Chile, El Salvador, Equador, Espanha, Paraguai, Peru, Portugal e Uruguai.",
   },
 ];
 
