@@ -144,7 +144,7 @@ export function Globe({
       window.removeEventListener("resize", onResize);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [r]);
+  }, [r, theme, tint]);
 
   return (
     <div
