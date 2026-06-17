@@ -72,7 +72,7 @@ export const jornadas: Jornada[] = [
           "CSDP + DSDP na Receita Federal encerram a residência fiscal — passo independente da previdência.",
       },
     ],
-    cta: "Tem dúvidas no seu caso? Fale com um dos nossos especialistas.",
+    cta: "Tem dúvidas no seu caso?",
     paisesRelacionados: ["portugal", "estados-unidos", "alemanha"],
     guiaRelacionado: "certificado-deslocamento-temporario",
   },
