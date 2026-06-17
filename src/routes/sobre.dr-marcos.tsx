@@ -233,8 +233,8 @@ function SobreMarcos() {
 
         <blockquote className="relative mt-8 max-w-2xl pl-10 md:pl-14">
           <p className="font-display text-xl italic leading-snug md:text-2xl">
-            A informação sobre acordos internacionais do INSS está dispersa —
-            no gov.br, em portarias que não se falam, em literatura técnica
+            A informação sobre acordos internacionais do INSS está dispersa no
+            gov.br, em portarias que não se falam, em literatura técnica
             inacessível para quem mais precisa.
           </p>
         </blockquote>
