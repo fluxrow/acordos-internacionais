@@ -469,7 +469,7 @@ function AcordoPais() {
                 </ol>
               </nav>
             )}
-            <CTAMarcos contexto="Fale com um dos nossos especialistas." />
+            <CTAMarcos contexto="\n" />
 
             <div className="rounded-xl border border-border/60 bg-background/70 p-6 backdrop-blur-sm">
               <p className="eyebrow">Próximos passos</p>
