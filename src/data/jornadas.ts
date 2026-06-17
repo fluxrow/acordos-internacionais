@@ -178,7 +178,7 @@ export const jornadas: Jornada[] = [
         ],
       },
     ],
-    cta: "Quer revisar seu plano? Fale com um dos nossos especialistas.",
+    cta: "Quer revisar seu plano?\u00a0",
     paisesRelacionados: ["portugal", "japao", "estados-unidos"],
     guiaRelacionado: "prova-de-vida-no-exterior",
   },
