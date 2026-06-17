@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import createGlobe, { type COBEOptions } from "cobe";
 import { cn } from "@/lib/utils";
 import { BRASIL, PAISES_ACORDO, DESTAQUES_SLUGS } from "@/data/paises-coords";
+import { useTheme } from "@/components/theme-provider";
 
 // Paleta casada com tokens Premium Dark + Gold
 // paper ~ #0a0a0a, accent gold ~ oklch(0.78 0.13 80)
