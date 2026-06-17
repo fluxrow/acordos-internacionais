@@ -1,17 +1,14 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { Lock, Mail, Phone, MapPin, Building2, Info } from "lucide-react";
+import { Lock, Info } from "lucide-react";
 import { acordos, getAcordo } from "@/data/acordos";
-import type { DocumentoImportado, OrgaoLigacao } from "@/data/acordos.types";
+import type { DocumentoImportado } from "@/data/acordos.types";
 import { getInstrumento } from "@/data/acordos-instrumento-overrides";
 import { findTooltipFor } from "@/data/acordo-tooltips";
 import { CTAMarcos } from "@/components/cta-marcos";
 import { ProContentLock } from "@/components/pro-content-lock";
 import { Highlight } from "@/lib/highlight";
 import { MULTI_LOGOS } from "@/lib/multi-logos";
-import {
-  MULTILATERAIS_MEMBROS,
-  NOTA_REMISSAO_BILATERAIS,
-} from "@/data/multilaterais-membros";
+import { MULTILATERAIS_MEMBROS } from "@/data/multilaterais-membros";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 export const Route = createFileRoute("/acordos/$pais")({
@@ -144,8 +141,6 @@ function AcordoPais() {
   if (a.conteudo) tocBlocos.push({ id: "como-funciona", label: "Como funciona" });
   if (a.importado && a.importado.documentos.length > 0)
     tocBlocos.push({ id: "documentos", label: "Documentos" });
-  if (a.importado && (a.importado.orgaoBR || a.importado.orgaoParceiro))
-    tocBlocos.push({ id: "orgaos", label: "Órgãos de Ligação" });
 
   return (
     <>
@@ -400,21 +395,6 @@ function AcordoPais() {
               </Bloco>
             )}
 
-            {/* ÓRGÃOS DE LIGAÇÃO */}
-            {a.importado && (a.importado.orgaoBR || a.importado.orgaoParceiro) && (
-              <Bloco
-                id="orgaos"
-                numero={tocBlocos.findIndex((b) => b.id === "orgaos") + 1}
-                titulo="Órgãos de Ligação"
-                lede={
-                  a.tipo === "multilateral"
-                    ? "Onde tramitam pedidos amparados por esta convenção multilateral."
-                    : `Onde tramitam pedidos amparados pelo acordo Brasil–${a.nome}.`
-                }
-              >
-                <OrgaosLigacaoBloco acordo={a} />
-              </Bloco>
-            )}
 
             {/* Caso país sem dados importados, mantém a versão editorial */}
             {!a.importado && !a.conteudo && (
@@ -436,6 +416,7 @@ function AcordoPais() {
                 `Texto integral do acordo Brasil–${a.nome} e do decreto de promulgação`,
                 "Portarias do INSS aplicáveis, comentadas",
                 "Documentos e formulários oficiais exigidos",
+                "Órgãos de ligação: contatos completos (instituição, endereço, telefone, e-mail)",
                 "Modelos de petição e requerimento editáveis",
                 "Calculadora de totalização",
                 "Fluxograma processual passo a passo",
@@ -616,82 +597,6 @@ function FichaItem({ rotulo, valor }: { rotulo: string; valor: string }) {
   );
 }
 
-function OrgaoCard({
-  orgao,
-  lado,
-  flagIso,
-}: {
-  orgao: OrgaoLigacao;
-  lado?: string;
-  flagIso?: string;
-}) {
-  const temDados =
-    !!orgao.instituicao || !!orgao.endereco || !!orgao.telefone || !!orgao.email;
-  return (
-    <article className="rounded-xl border border-border/60 bg-background/70 p-6 backdrop-blur-sm transition-colors hover:border-[var(--accent-ink)]/40">
-      {lado && (
-        <p className="eyebrow flex items-center gap-2 text-[var(--accent-ink)]">
-          {flagIso && (
-            <img
-              src={`https://flagcdn.com/w40/${flagIso}.png`}
-              alt=""
-              width={20}
-              height={14}
-              loading="lazy"
-              className="h-3.5 w-5 rounded-[2px] border border-border/60 object-cover"
-            />
-          )}
-          {flagIso ? lado : `Lado ${lado}`}
-        </p>
-      )}
-      <h3 className="mt-2 font-display text-lg leading-snug">{orgao.titulo}</h3>
-      <hr className="rule mt-3" />
-      {temDados ? (
-        <dl className="mt-4 space-y-3.5 text-sm">
-          {orgao.instituicao && (
-            <div className="flex items-start gap-2.5">
-              <Building2 size={14} className="mt-0.5 shrink-0 text-muted-foreground/70" aria-hidden />
-              <dd className="leading-snug">{orgao.instituicao}</dd>
-            </div>
-          )}
-          {orgao.endereco && (
-            <div className="flex items-start gap-2.5">
-              <MapPin size={14} className="mt-0.5 shrink-0 text-muted-foreground/70" aria-hidden />
-              <dd className="leading-snug text-muted-foreground">{orgao.endereco}</dd>
-            </div>
-          )}
-          {orgao.telefone && (
-            <div className="flex items-start gap-2.5">
-              <Phone size={14} className="mt-0.5 shrink-0 text-muted-foreground/70" aria-hidden />
-              <dd className="leading-snug">
-                <a
-                  href={`tel:${orgao.telefone.replace(/[^+\d]/g, "")}`}
-                  className="ink-link"
-                >
-                  {orgao.telefone}
-                </a>
-              </dd>
-            </div>
-          )}
-          {orgao.email && (
-            <div className="flex items-start gap-2.5">
-              <Mail size={14} className="mt-0.5 shrink-0 text-muted-foreground/70" aria-hidden />
-              <dd className="leading-snug">
-                <a href={`mailto:${orgao.email}`} className="ink-link break-all">
-                  {orgao.email}
-                </a>
-              </dd>
-            </div>
-          )}
-        </dl>
-      ) : (
-        <p className="mt-4 text-sm italic text-muted-foreground">
-          Dados de contato em organização.
-        </p>
-      )}
-    </article>
-  );
-}
 
 function BeneficiosComparativo({
   slug,
@@ -813,75 +718,5 @@ function agruparDocumentos(docs: DocumentoImportado[]): Array<[string, Documento
   return ordenados;
 }
 
-function OrgaosLigacaoBloco({
-  acordo,
-}: {
-  acordo: import("@/data/acordos").Acordo;
-}) {
-  const imp = acordo.importado!;
-  const membros = MULTILATERAIS_MEMBROS[acordo.slug];
-  const ehMultilateral = acordo.tipo === "multilateral";
-  const membrosComOrgao = membros?.filter((m) => m.orgao) ?? [];
-  const membrosSemOrgao = membros?.filter((m) => !m.orgao) ?? [];
-
-  return (
-    <div className="space-y-6">
-      <div className="grid gap-4 md:grid-cols-2">
-        {imp.orgaoBR && <OrgaoCard orgao={imp.orgaoBR} lado="Brasil" />}
-        {imp.orgaoParceiro && !ehMultilateral && (
-          <OrgaoCard orgao={imp.orgaoParceiro} lado={acordo.nome} />
-        )}
-      </div>
-
-      {ehMultilateral && membrosComOrgao.length > 0 && (
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {membrosComOrgao.map((m) => (
-            <OrgaoCard
-              key={m.iso}
-              orgao={m.orgao!}
-              lado={m.nome}
-              flagIso={m.iso}
-            />
-          ))}
-        </div>
-      )}
-
-      {ehMultilateral && membrosSemOrgao.length > 0 && (
-        <div className="rounded-xl border border-border/60 bg-background/50 p-5">
-          <p className="eyebrow mb-3 text-[var(--accent-ink)]">
-            Outros países-membros
-          </p>
-          <ul className="flex flex-wrap items-center gap-3">
-            {membrosSemOrgao.map((m) => (
-              <li
-                key={m.iso}
-                className="flex items-center gap-2 text-sm text-muted-foreground"
-              >
-                <img
-                  src={`https://flagcdn.com/w40/${m.iso}.png`}
-                  alt=""
-                  width={20}
-                  height={14}
-                  loading="lazy"
-                  className="h-3.5 w-5 rounded-[2px] border border-border/60 object-cover"
-                />
-                <span>{m.nome}</span>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-3 text-xs text-muted-foreground">
-            {NOTA_REMISSAO_BILATERAIS}
-          </p>
-        </div>
-      )}
-
-      {ehMultilateral && !membros && (
-        <p className="text-sm text-muted-foreground">
-          {NOTA_REMISSAO_BILATERAIS}
-        </p>
-      )}
-    </div>
-  );
-}
 
 

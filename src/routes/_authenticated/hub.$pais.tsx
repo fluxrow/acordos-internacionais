@@ -159,6 +159,18 @@ function VisaoTab({ data }: { data: Unlocked }) {
         </div>
       </section>
 
+      {(data.orgaoBR || data.orgaoParceiro) && (
+        <section>
+          <p className="eyebrow mb-3">Órgãos de Ligação</p>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {data.orgaoBR && <OrgaoCard titulo="Brasil" orgao={data.orgaoBR} />}
+            {data.orgaoParceiro && (
+              <OrgaoCard titulo="País parceiro" orgao={data.orgaoParceiro} />
+            )}
+          </div>
+        </section>
+      )}
+
       {data.acordoTrecho && (
         <section>
           <p className="eyebrow mb-3">Trecho do acordo</p>
