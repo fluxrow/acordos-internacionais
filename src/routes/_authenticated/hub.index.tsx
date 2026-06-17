@@ -76,12 +76,14 @@ function HubDashboard() {
   const [regiao, setRegiao] = useState<RegiaoFiltro>("todas");
   const [status, setStatus] = useState<StatusFiltro>("todos");
 
+  const EM_RATIFICACAO = new Set(["cabo-verde", "israel", "cplp"]);
+
   const paisesFiltrados = useMemo(() => {
     return PAISES.filter((p) => {
       if (regiao !== "todas" && REGIAO_POR_PAIS[p.slug] !== regiao) return false;
       const tem = temMaterial(p.slug);
       if (status === "com-material" && !tem) return false;
-      if (status === "em-curadoria" && tem) return false;
+      if (status === "em-ratificacao" && !EM_RATIFICACAO.has(p.slug)) return false;
       return true;
     });
   }, [regiao, status]);
