@@ -86,7 +86,7 @@ function JornadasIndex() {
           <h1 className="mt-5 font-display text-4xl md:text-6xl">Jornadas.</h1>
           <p className="lede mt-6 max-w-2xl">
             Três percursos práticos. Quando precisar de um olhar pessoal sobre
-            o seu caso, o Dr. Marcos Espínola está logo abaixo.
+            o seu caso, um de nossos especialistas está logo abaixo.
           </p>
         </div>
       </section>
@@ -139,7 +139,7 @@ function JornadasIndex() {
           <p className="lede mt-4 max-w-2xl">
             Cada caso tem nuances que nenhuma jornada cobre por completo. Se
             você já explorou as três acima e quer um olhar pessoal, fale com
-            o Dr. Marcos.
+            um de nossos especialistas.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-4">
             <CTAButton
@@ -148,13 +148,9 @@ function JornadasIndex() {
               size="lg"
               label="Agendar consulta"
             />
-            <Link
-              to="/sobre/dr-marcos"
-              className="text-sm underline underline-offset-4 hover:text-[var(--accent-ink)]"
-            >
-              Conhecer o Dr. Marcos →
-            </Link>
           </div>
+          </div>
+        </div>
           </div>
         </div>
       </section>
