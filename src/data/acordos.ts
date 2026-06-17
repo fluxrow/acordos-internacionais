@@ -265,7 +265,7 @@ export const acordos: Acordo[] = [
     docs: 1,
     status: "ratificacao",
     resumo:
-      "Convenção Multilateral da Comunidade dos Países de Língua Portuguesa — assinada, em fase de ratificação.",
+      "Convenção Multilateral da Comunidade dos Países de Língua Portuguesa, assinada, em fase de ratificação. ( Angola, Cabo Verde, Brasil, Guiné-Bissau, Guiné Equatorial, Mossambique, Portugual, São Tomé e Principe e Timor Leste.",
   },
   {
     slug: "mercosul",
