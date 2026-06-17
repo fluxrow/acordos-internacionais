@@ -123,7 +123,7 @@ function AcordoPais() {
   // Termos a destacar no lede / corpo
   const termosChave = [
     "totalização",
-    "pro-rata",
+    "pró-rata",
     "prorata",
     "tempo de contribuição",
     "benefício",

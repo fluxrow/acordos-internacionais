@@ -58,7 +58,7 @@ export function acordoMetaDoPais(pais: string, tipo: TipoBeneficio | ""): LaudoP
   return {
     nome: pais ? `Acordo de Previdência Social Brasil–${pais}` : "Acordo bilateral aplicável",
     decreto: decretoDoPais(pais),
-    dispositivoProrata: "Cálculo pro-rata — Art. 5º do Decreto 6.722/2008 c/c acordo bilateral · IN PRES/INSS nº 128/2022",
+    dispositivoProrata: "Cálculo pró-rata — Art. 5º do Decreto 6.722/2008 c/c acordo bilateral · IN PRES/INSS nº 128/2022",
     carenciaArt: tipo === "pensao_morte"
       ? "Pensão por morte — Art. 26, I, Lei 8.213/91 (sem carência)"
       : "Aposentadoria por idade — 180 meses (Art. 25, II, Lei 8.213/91 — totalização computada)",

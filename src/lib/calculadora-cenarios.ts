@@ -121,7 +121,7 @@ export function detectarCenarios(
       advogado: {
         chamada: "Oportunidade de planejamento detectada.",
         bullets: [
-          `A carência está satisfeita pelo RGPS solo (${resultado.tempoBrasil} meses). A totalização com ${pais} reduziria o RMI via pro-rata. Avalie com o cliente:`,
+          `A carência está satisfeita pelo RGPS solo (${resultado.tempoBrasil} meses). A totalização com ${pais} reduziria o RMI via pró-rata. Avalie com o cliente:`,
           "Requerimento imediato ao INSS sem totalização",
           carenciaPais != null
             ? `Possibilidade de aposentadoria também em ${pais} (${resultado.tempoPais} meses${carenciaPais > 0 ? ` — carência isolada local: ${carenciaPais} meses` : ""}) pelo ${decreto}`
@@ -129,7 +129,7 @@ export function detectarCenarios(
           "Estratégia de maximização do PBC para elevar o SB",
         ],
       },
-      citacoes: [decreto, "Art. 35, Dec. 3.048/99", "Pro-rata indesejado"],
+      citacoes: [decreto, "Art. 35, Dec. 3.048/99", "Pró-rata indesejado"],
     });
   }
 
@@ -175,7 +175,7 @@ export function detectarCenarios(
         chamada: "Janela de planejamento contributivo aberta.",
         bullets: [
           `Carência total: ${resultado.tempoTotal} meses (≥ ${carencia}). Aguarda idade mínima — faltam ${formatarTempo(resultado.mesesParaIdade)}.`,
-          "Continuação contributiva para elevar o denominador brasileiro do pro-rata",
+          "Continuação contributiva para elevar o denominador brasileiro do pró-rata",
           "Revisão do PBC (80% maiores SC, IPCA-E) — possíveis contribuições facultativas estratégicas",
           `Confirmar elegibilidade paralela em ${pais} pelo ${decreto}`,
         ],
@@ -205,15 +205,15 @@ export function detectarCenarios(
         bullets: [
           `Tempo relevante em ambos os países pode viabilizar tanto a totalização para carência quanto a aposentadoria dupla (INSS + sistema ${pais}). Avalie:`,
           "Viabilidade da totalização para atingir carência mínima",
-          `Duplo requerimento (benefício pro-rata no Brasil + benefício autônomo em ${pais})`,
-          "Impacto do pro-rata no RMI brasileiro vs. benefício independente",
+          `Duplo requerimento (benefício pró-rata no Brasil + benefício autônomo em ${pais})`,
+          "Impacto do pró-rata no RMI brasileiro vs. benefício independente",
         ],
       },
       citacoes: ["Totalização", "Duplo requerimento", "Art. 1º, Dec. 3.048/99"],
     });
   }
 
-  // --- G3: pro-rata penaliza mais de 20% (caso 3 com valor) -------------------
+  // --- G3: pró-rata penaliza mais de 20% (caso 3 com valor) -------------------
   if (
     resultado.caso === 3 &&
     resultado.rmiTeorica != null &&
@@ -225,22 +225,22 @@ export function detectarCenarios(
       const pct = (reducao * 100).toFixed(1);
       out.push({
         id: "G3",
-        titulo: `Pro-rata reduz o RMI em ${pct}%`,
-        subtitulo: `RMI teórica ${formatarMoeda(resultado.rmiTeorica)} → pro-rata ${formatarMoeda(resultado.rmiProrata)} — totalização necessária, mas penaliza significativamente o benefício`,
+        titulo: `Pró-rata reduz o RMI em ${pct}%`,
+        subtitulo: `RMI teórica ${formatarMoeda(resultado.rmiTeorica)} → pró-rata ${formatarMoeda(resultado.rmiProrata)} — totalização necessária, mas penaliza significativamente o benefício`,
         segurado: [
           `O cálculo inicial do seu benefício pode ser otimizado.`,
           `Consulte um especialista para avaliar estratégias que possam aumentar o valor da sua aposentadoria.`,
         ].join(" "),
         advogado: {
-          chamada: `Pro-rata causa redução de ${pct}% no RMI.`,
+          chamada: `Pró-rata causa redução de ${pct}% no RMI.`,
           bullets: [
-            "Verifique se é viável aguardar mais contribuições no RGPS para reduzir o impacto do pro-rata antes do requerimento. Considere também:",
+            "Verifique se é viável aguardar mais contribuições no RGPS para reduzir o impacto do pró-rata antes do requerimento. Considere também:",
             "Continuação contributiva para aumentar o denominador brasileiro",
             "Revisão do PBC com recolhimentos facultativos estratégicos",
             "Ação judicial para discussão de tempo especial que eleve o tempo RGPS",
           ],
         },
-        citacoes: [`Pro-rata ${pct}%`, "Planejamento contributivo", "Tempo especial"],
+        citacoes: [`Pró-rata ${pct}%`, "Planejamento contributivo", "Tempo especial"],
       });
     }
   }
@@ -266,7 +266,7 @@ export function detectarCenarios(
         bullets: [
           `${resultado.tempoPais} meses em ${pais} não atingem os ${carenciaPais} meses exigidos autonomamente, mas podem ser totalizados.`,
           `Verifique se ${pais} aceita totalização reversa (tempo brasileiro computa para a carência local).`,
-          `Caso positivo, o cliente pode ter direito a benefício pro-rata também em ${pais} pelo ${decreto}.`,
+          `Caso positivo, o cliente pode ter direito a benefício pró-rata também em ${pais} pelo ${decreto}.`,
         ],
       },
       citacoes: ["Totalização reversa", decreto, "Benefício no exterior"],

@@ -199,12 +199,12 @@ export interface ResultadoCalculo {
   coeficiente?: number;
   /** SB × coeficiente, ANTES de aplicar o piso do salário mínimo. */
   prestacaoTeoricaSemPiso?: number;
-  /** max(prestacaoTeoricaSemPiso, SMmin) — piso aplicado ANTES do pro-rata. */
+  /** max(prestacaoTeoricaSemPiso, SMmin) — piso aplicado ANTES do pró-rata. */
   prestacaoTeorica?: number;
   indiceProrata?: number;
-  /** RMI integral (sem pro-rata) — usada no cenário em que o Brasil cumpre carência sozinho. */
+  /** RMI integral (sem pró-rata) — usada no cenário em que o Brasil cumpre carência sozinho. */
   rmiTeorica?: number;
-  /** RMI proporcional (prestacaoTeorica × indiceProrata). Sem piso pós pro-rata. */
+  /** RMI proporcional (prestacaoTeorica × indiceProrata). Sem piso pós pró-rata. */
   rmiProrata?: number;
   tempoBrasil: number;
   tempoPais: number;
@@ -234,14 +234,14 @@ export function calcularResultado(params: {
   const prestSemPiso = semSalario ? undefined : sbFinal * coef;
   const prestComPiso = prestSemPiso == null ? undefined : Math.max(prestSemPiso, SMmin);
 
-  // Caso 1: Brasil já tem carência solo — RMI integral (sem pro-rata)
+  // Caso 1: Brasil já tem carência solo — RMI integral (sem pró-rata)
   if (tempoBrasilMeses >= carencia) {
     return {
       caso: 1,
       titulo: "Carência cumprida no Brasil sem necessidade de totalização",
       descricao: semSalario
         ? `Com ${formatarTempo(tempoBrasilMeses)} apenas no Brasil, a carência de ${carencia} meses já está atingida. A totalização com ${nomePais} reduziria o valor — recomenda-se requerimento isolado pelo RGPS.`
-        : `Com ${formatarTempo(tempoBrasilMeses)} apenas no Brasil, a carência de ${carencia} meses já está atingida. A totalização com ${nomePais} aplicaria pro-rata e REDUZIRIA o valor — recomenda-se requerimento isolado pelo RGPS.`,
+        : `Com ${formatarTempo(tempoBrasilMeses)} apenas no Brasil, a carência de ${carencia} meses já está atingida. A totalização com ${nomePais} aplicaria pró-rata e REDUZIRIA o valor — recomenda-se requerimento isolado pelo RGPS.`,
       sb: semSalario ? undefined : sbFinal,
       coeficiente: coef,
       prestacaoTeoricaSemPiso: prestSemPiso,
@@ -274,7 +274,7 @@ export function calcularResultado(params: {
     return {
       caso: "2B",
       titulo: "Totalização viável — idade mínima ainda não atingida",
-      descricao: `Carência atingida (${formatarTempo(tempoTotal)}), mas idade atual é ${idadeAtual} anos (mínima ${idadeMin} — EC 103/2019). Faltam ${formatarTempo(mesesRestantes)}. Pode-se projetar a RMI pro-rata para planejamento.`,
+      descricao: `Carência atingida (${formatarTempo(tempoTotal)}), mas idade atual é ${idadeAtual} anos (mínima ${idadeMin} — EC 103/2019). Faltam ${formatarTempo(mesesRestantes)}. Pode-se projetar a RMI pró-rata para planejamento.`,
       sb: semSalario ? undefined : sbFinal,
       coeficiente: coef,
       prestacaoTeoricaSemPiso: prestSemPiso,
@@ -293,7 +293,7 @@ export function calcularResultado(params: {
     return {
       caso: 3,
       titulo: "Totalização válida",
-      descricao: `Tempo mínimo atingido somando Brasil + ${nomePais}. Informe o SB (ou carregue o CNIS) para calcular a RMI pro-rata.`,
+      descricao: `Tempo mínimo atingido somando Brasil + ${nomePais}. Informe o SB (ou carregue o CNIS) para calcular a RMI pró-rata.`,
       coeficiente: coef,
       tempoBrasil: tempoBrasilMeses,
       tempoPais: tempoPaisMeses,
@@ -301,12 +301,12 @@ export function calcularResultado(params: {
     };
   }
   const indiceProrata = tempoBrasilMeses / tempoTotal;
-  // PISO APLICA ANTES DO PRO-RATA — não há piso pós pro-rata.
+  // PISO APLICA ANTES DO PRÓ-RATA — não há piso pós pró-rata.
   const rmiProrata = (prestComPiso as number) * indiceProrata;
   return {
     caso: 3,
     titulo: "Totalização válida",
-    descricao: `RMI pro-rata calculada pelo acordo com ${nomePais}. Período brasileiro: ${formatarTempo(tempoBrasilMeses)} / Total: ${formatarTempo(tempoTotal)}.`,
+    descricao: `RMI pró-rata calculada pelo acordo com ${nomePais}. Período brasileiro: ${formatarTempo(tempoBrasilMeses)} / Total: ${formatarTempo(tempoTotal)}.`,
     sb: sbFinal,
     coeficiente: coef,
     prestacaoTeoricaSemPiso: prestSemPiso,
