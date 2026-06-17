@@ -230,7 +230,7 @@ export const jornadas: Jornada[] = [
           "Processos internacionais são lentos. Acompanhe e tenha apoio jurídico se houver demora indevida.",
       },
     ],
-    cta: "Demora ou indeferimento? Fale com um dos nossos especialistas.",
+    cta: "Demora ou indeferimento?\u00a0",
     paisesRelacionados: ["portugal", "alemanha"],
     guiaRelacionado: "totalizacao",
   },
