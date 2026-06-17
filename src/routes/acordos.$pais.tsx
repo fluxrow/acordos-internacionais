@@ -231,7 +231,7 @@ function AcordoPais() {
                       alt={`Logo ${a.nome}`}
                       width={260}
                       height={173}
-                      className="h-full w-full object-cover"
+                      className="h-full w-full object-contain p-4"
                     />
                   )}
                 </div>
