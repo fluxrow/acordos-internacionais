@@ -133,8 +133,8 @@ export function CTAMarcos({ variant = "card", contexto, caso }: CTAMarcosProps) 
       <p className="mt-2 font-display text-xl leading-tight">
         Dúvidas no seu caso?
       </p>
-      <p className="mt-2 text-sm text-muted-foreground">
-        {contexto ?? "Fale com um dos nossos especialistas."}
+      <p className="mt-2 text-sm text-muted-foreground whitespace-pre-wrap">
+        {contexto ?? "\n"}
       </p>
       <Link
         to="/contato"
