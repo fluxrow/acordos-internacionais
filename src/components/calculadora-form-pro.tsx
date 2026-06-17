@@ -452,7 +452,7 @@ export function CalculadoraFormPro() {
       <div className="flex flex-wrap gap-3 print:hidden">
         <Button type="submit" size="lg" className="gap-2 rounded-sm">
           <Scale className="h-4 w-4" aria-hidden />
-          Calcular RMI Pro-rata
+          Calcular RMI Pró-rata
         </Button>
         {resultado && (
           <>
@@ -577,7 +577,7 @@ function Laudo({
       {/* QUADRO DESTAQUE — caso 3 */}
       {resultado.caso === 3 && resultado.rmiProrata != null && resultado.prestacaoTeorica != null && (
         <div className="mt-6 grid gap-4 md:grid-cols-2">
-          <Destaque label="RMI Pro-rata (Brasil)" sub="parte proporcional paga pelo INSS" value={formatarMoeda(resultado.rmiProrata)} tone={tone} highlight />
+          <Destaque label="RMI Pró-rata (Brasil)" sub="parte proporcional paga pelo INSS" value={formatarMoeda(resultado.rmiProrata)} tone={tone} highlight />
           <Destaque label="Prestação teórica" sub={`max(SB × ${(coef * 100).toFixed(0)}%, salário-mínimo)`} value={formatarMoeda(resultado.prestacaoTeorica)} tone={tone} />
         </div>
       )}
@@ -626,14 +626,14 @@ function Laudo({
               <tr><td className="text-muted-foreground">Prestação teórica usada</td><td>{formatarMoeda(resultado.prestacaoTeorica)}</td></tr>
             )}
             {resultado.indiceProrata != null && (
-              <tr><td className="text-muted-foreground">Índice Pro-rata (BR ÷ Total)</td><td>{(resultado.indiceProrata * 100).toFixed(4)}%</td></tr>
+              <tr><td className="text-muted-foreground">Índice Pró-rata (BR ÷ Total)</td><td>{(resultado.indiceProrata * 100).toFixed(4)}%</td></tr>
             )}
             {resultado.rmiTeorica != null && resultado.caso === 1 && (
-              <tr><td className="text-muted-foreground"><strong>RMI integral (sem pro-rata)</strong></td><td><strong style={{ color: `var(${tone.ink})` }}>{formatarMoeda(resultado.rmiTeorica)}</strong></td></tr>
+              <tr><td className="text-muted-foreground"><strong>RMI integral (sem pró-rata)</strong></td><td><strong style={{ color: `var(${tone.ink})` }}>{formatarMoeda(resultado.rmiTeorica)}</strong></td></tr>
             )}
             {resultado.rmiProrata != null && (
               <tr>
-                <td className="text-muted-foreground"><strong>RMI Pro-rata</strong></td>
+                <td className="text-muted-foreground"><strong>RMI Pró-rata</strong></td>
                 <td><strong style={{ color: `var(${tone.ink})` }}>{formatarMoeda(resultado.rmiProrata)}</strong></td>
               </tr>
             )}
@@ -647,7 +647,7 @@ function Laudo({
         <div className="mt-5 border-t border-border pt-4 font-mono text-xs leading-relaxed text-foreground/75">
           <div>Prestação teórica = max(SB × coef, SM) = max({formatarMoeda(resultado.sb)} × {(coef * 100).toFixed(0)}%, {formatarMoeda(SMmin)}) = <strong className="text-foreground">{formatarMoeda(resultado.prestacaoTeorica)}</strong></div>
           <div className="mt-1">
-            RMI pro-rata = Prestação teórica × (Tempo BR ÷ Total) = {formatarMoeda(resultado.prestacaoTeorica)} × ({resultado.tempoBrasil} ÷ {resultado.tempoTotal}) = <strong className="text-foreground">{formatarMoeda(resultado.rmiProrata)}</strong>
+            RMI pró-rata = Prestação teórica × (Tempo BR ÷ Total) = {formatarMoeda(resultado.prestacaoTeorica)} × ({resultado.tempoBrasil} ÷ {resultado.tempoTotal}) = <strong className="text-foreground">{formatarMoeda(resultado.rmiProrata)}</strong>
           </div>
           <p className="mt-3 font-sans text-[11px] leading-relaxed text-muted-foreground">
             O valor proporcional é calculado sobre a prestação teórica, mediante a razão entre o tempo de contribuição no Brasil e o tempo totalizado Brasil + país acordante.
@@ -668,7 +668,7 @@ function Laudo({
       {/* RODAPÉ */}
       <footer className="mt-6 border-t border-border pt-3 text-[11px] text-muted-foreground">
         <div className="flex flex-wrap justify-between gap-2">
-          <span>www.acordosinternacionais.com — Cálculo de RMI Pro-rata</span>
+          <span>www.acordosinternacionais.com — Cálculo de RMI Pró-rata</span>
           <span>Documento gerado em {new Date().toLocaleDateString("pt-BR")}</span>
         </div>
       </footer>

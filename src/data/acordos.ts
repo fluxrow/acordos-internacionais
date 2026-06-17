@@ -345,7 +345,7 @@ const conteudoExpandido: Record<string, ConteudoPais> = {
       ],
     },
     totalizacao:
-      "Períodos de contribuição ao US Social Security e ao INSS são somados. O cálculo final é pro-rata em cada país, conforme o tempo efetivamente contribuído.",
+      "Períodos de contribuição ao US Social Security e ao INSS são somados. O cálculo final é pró-rata em cada país, conforme o tempo efetivamente contribuído.",
   },
   italia: {
     destaque:
@@ -383,7 +383,7 @@ const conteudoExpandido: Record<string, ConteudoPais> = {
       ],
     },
     totalizacao:
-      "Períodos contribuídos à Deutsche Rentenversicherung e ao INSS podem ser somados para alcançar a carência mínima. O cálculo final é pro-rata.",
+      "Períodos contribuídos à Deutsche Rentenversicherung e ao INSS podem ser somados para alcançar a carência mínima. O cálculo final é pró-rata.",
   },
 };
 

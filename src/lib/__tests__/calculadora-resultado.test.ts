@@ -93,7 +93,7 @@ describe('calcularResultado — Caso 2 / 2B', () => {
 });
 
 describe('calcularResultado — Caso 3 (totalização válida)', () => {
-  it('piso aplica ANTES do pro-rata', () => {
+  it('piso aplica ANTES do pró-rata', () => {
     const r = calcularResultado({
       tempoBrasilMeses: 60, tempoPaisMeses: 180, // total 240, coef 0.90
       sbFinal: 500, // 500*0.90 = 450 → ativa piso
@@ -107,7 +107,7 @@ describe('calcularResultado — Caso 3 (totalização válida)', () => {
     expect(r.rmiProrata).toBeCloseTo(SMmin * (60 / 240));
   });
 
-  it('pro-rata pode resultar em valor abaixo do SMmin (sem re-piso)', () => {
+  it('pró-rata pode resultar em valor abaixo do SMmin (sem re-piso)', () => {
     const r = calcularResultado({
       tempoBrasilMeses: 24, tempoPaisMeses: 200,
       sbFinal: 1700, // pouco acima do piso
@@ -131,7 +131,7 @@ describe('calcularResultado — Caso 3 (totalização válida)', () => {
     expect(r.rmiProrata).toBeUndefined();
   });
 
-  it('indice pro-rata = tBR / (tBR + tPais)', () => {
+  it('indice pró-rata = tBR / (tBR + tPais)', () => {
     const r = calcularResultado({
       tempoBrasilMeses: 120, tempoPaisMeses: 360,
       sbFinal: 5000, tipo: 'aposentadoria_idade',

@@ -59,7 +59,7 @@ export function LaudoPdf({ payload }: { payload: LaudoPayload }) {
           <div className="laudo-header__doc">
             <div className="laudo-header__doc-label">Documento técnico</div>
             <div className="laudo-header__doc-title">
-              Laudo de Cálculo<br />RMI Pro-rata
+              Laudo de Cálculo<br />RMI Pró-rata
             </div>
             <div className="laudo-header__doc-date">
               Gerado em: {fmtDataBr(dataAnalise)} · Ref. #{ref}
@@ -72,7 +72,7 @@ export function LaudoPdf({ payload }: { payload: LaudoPayload }) {
           <section className="laudo-hero">
             <div className="laudo-hero__item">
               <div className="laudo-hero__label">
-                {isCaso2 ? "Situação" : isCaso1 ? "RMI Integral estimada" : "RMI Pro-rata estimada"}
+                {isCaso2 ? "Situação" : isCaso1 ? "RMI Integral estimada" : "RMI Pró-rata estimada"}
               </div>
               <div className="laudo-hero__value laudo-hero__value--lg">
                 {isCaso2
@@ -85,14 +85,14 @@ export function LaudoPdf({ payload }: { payload: LaudoPayload }) {
                 {isCaso2
                   ? "Carência insuficiente para concessão"
                   : isCaso1
-                    ? "Renda Mensal Inicial — RGPS isolado (sem pro-rata)"
+                    ? "Renda Mensal Inicial — RGPS isolado (sem pró-rata)"
                     : "Renda Mensal Inicial calculada pelo método proporcional internacional"}
               </div>
             </div>
 
             <div className="laudo-hero__item">
               <div className="laudo-hero__label">
-                {isCaso1 ? "Cálculo aplicado" : "Fator Pro-rata"}
+                {isCaso1 ? "Cálculo aplicado" : "Fator Pró-rata"}
               </div>
               <div className="laudo-hero__value">
                 {isCaso1
@@ -212,7 +212,7 @@ export function LaudoPdf({ payload }: { payload: LaudoPayload }) {
                   value={resultado.prestacaoTeorica != null ? formatarMoeda(resultado.prestacaoTeorica) : "—"}
                 />
                 <Field
-                  label={isCaso1 ? "Pro-rata" : "Fator Pro-rata aplicado"}
+                  label={isCaso1 ? "Pró-rata" : "Fator Pró-rata aplicado"}
                   value={
                     isCaso1
                       ? "Não aplicável"
@@ -232,7 +232,7 @@ export function LaudoPdf({ payload }: { payload: LaudoPayload }) {
               <div className="laudo-section__title">Memória de Cálculo — Fórmulas</div>
               <div className="laudo-formula">
                 <div className="laudo-formula__title">
-                  {isCaso1 ? "Método integral — Art. 29, II, Lei 8.213/91" : `Método Pro-rata — Acordo BR–${pais}`}
+                  {isCaso1 ? "Método integral — Art. 29, II, Lei 8.213/91" : `Método Pró-rata — Acordo BR–${pais}`}
                 </div>
 
                 {resultado.prestacaoTeoricaSemPiso != null && resultado.sb != null && (
@@ -251,7 +251,7 @@ export function LaudoPdf({ payload }: { payload: LaudoPayload }) {
                   && resultado.prestacaoTeorica != null
                   && resultado.prestacaoTeorica !== resultado.prestacaoTeoricaSemPiso && (
                   <div className="laudo-formula__line">
-                    <span className="laudo-formula__label">Piso do salário mínimo (antes do pro-rata)</span>
+                    <span className="laudo-formula__label">Piso do salário mínimo (antes do pró-rata)</span>
                     <span className="laudo-formula__expr">
                       max(prestação, SM mínimo)
                     </span>
@@ -263,7 +263,7 @@ export function LaudoPdf({ payload }: { payload: LaudoPayload }) {
 
                 {!isCaso1 && fatorProrata != null && (
                   <div className="laudo-formula__line">
-                    <span className="laudo-formula__label">Fator Pro-rata</span>
+                    <span className="laudo-formula__label">Fator Pró-rata</span>
                     <span className="laudo-formula__expr">
                       T_BR ÷ T_Total = {tempoBrasil} ÷ {tempoTotal}
                     </span>
@@ -276,7 +276,7 @@ export function LaudoPdf({ payload }: { payload: LaudoPayload }) {
                 {rmiMostrar != null && (
                   <div className="laudo-formula__line">
                     <span className="laudo-formula__label">
-                      {isCaso1 ? "RMI Integral" : "RMI Pro-rata Final"}
+                      {isCaso1 ? "RMI Integral" : "RMI Pró-rata Final"}
                     </span>
                     <span className="laudo-formula__expr">
                       {isCaso1
@@ -292,10 +292,10 @@ export function LaudoPdf({ payload }: { payload: LaudoPayload }) {
             </section>
           )}
 
-          {/* Detalhamento pro-rata (caso 2B/3) */}
+          {/* Detalhamento pró-rata (caso 2B/3) */}
           {!isCaso1 && !isCaso2 && (
             <section className="laudo-section">
-              <div className="laudo-section__title">Detalhamento do Pro-rata</div>
+              <div className="laudo-section__title">Detalhamento do Pró-rata</div>
               <div className="laudo-data-grid laudo-data-grid--4">
                 <Field label="Tempo Brasil (T_BR)" value={`${tempoBrasil} meses (${formatarTempo(tempoBrasil)})`} />
                 <Field label={`Tempo ${pais || "Exterior"} (T_Pais)`} value={`${tempoPais} meses (${formatarTempo(tempoPais)})`} />
@@ -315,7 +315,7 @@ export function LaudoPdf({ payload }: { payload: LaudoPayload }) {
             <div className="laudo-data-grid laudo-data-grid--2">
               <Field label="Acordo internacional aplicado" value={acordo.nome} />
               <Field label="Decreto de promulgação" value={acordo.decreto} />
-              <Field label="Dispositivo do cálculo pro-rata" value={acordo.dispositivoProrata} />
+              <Field label="Dispositivo do cálculo pró-rata" value={acordo.dispositivoProrata} />
               <Field label="Carência — Espécie" value={acordo.carenciaArt} />
             </div>
           </section>

@@ -10,7 +10,7 @@ interface HighlightProps {
  * Envolve, dentro de `text`, cada ocorrência dos `terms` em <mark>
  * tipografado em wine (token --accent-ink). Case-insensitive, mantém
  * o casing original. Sem regex de palavra inteira para casar expressões
- * com espaços e hífens (ex.: "pro-rata", "em vigor desde 1995").
+ * com espaços e hífens (ex.: "pró-rata", "em vigor desde 1995").
  */
 export function Highlight({ text, terms, className }: HighlightProps) {
   if (!terms.length) return <>{text}</>;

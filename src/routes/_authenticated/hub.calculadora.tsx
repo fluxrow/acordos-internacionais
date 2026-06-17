@@ -11,7 +11,7 @@ export const Route = createFileRoute("/_authenticated/hub/calculadora")({
       {
         name: "description",
         content:
-          "Ferramenta profissional para cálculo de RMI pro-rata. Exclusivo para assinantes.",
+          "Ferramenta profissional para cálculo de RMI pró-rata. Exclusivo para assinantes.",
       },
       { name: "robots", content: "noindex, nofollow" },
     ],
@@ -79,7 +79,7 @@ function CalculadoraProPage() {
                   </li>
                   <li className="flex gap-2">
                     <span className="text-[var(--accent-ink)]">·</span>
-                    <strong className="text-foreground">Pro-rata</strong>{" "}
+                    <strong className="text-foreground">Pró-rata</strong>{" "}
                     proporcional ao tempo contribuído no Brasil.
                   </li>
                   <li className="flex gap-2">
