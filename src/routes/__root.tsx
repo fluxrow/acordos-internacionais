@@ -105,6 +105,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:title", content: SITE_TITLE },
       { name: "twitter:description", content: SITE_DESC },
       { name: "twitter:image", content: "https://acordosinternacionais.com/og-image.jpg" },
+      { title: "Acordos Internacioanais" },
+      { property: "og:title", content: "Acordos Internacioanais" },
+      { name: "twitter:title", content: "Acordos Internacioanais" },
+      { name: "description", content: "O seu Hub completo de Acordos internacionais." },
+      { property: "og:description", content: "O seu Hub completo de Acordos internacionais." },
+      { name: "twitter:description", content: "O seu Hub completo de Acordos internacionais." },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
