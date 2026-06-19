@@ -857,10 +857,40 @@ export const acordosImportados: Record<string, AcordoImportado> = {
         "arquivo": "Ajuste Administrativo Brasil-Espanha.pdf"
       },
       {
-        "nome": "Certificado de Deslocamento",
-        "desc": "Certificado de cobertura para trabalhadores deslocados",
+        "nome": "EB-1 — Certificado de Legislação Aplicável",
+        "desc": "Art. 7 do Convênio. Solicitação de manutenção da legislação previdenciária brasileira durante deslocamento à Espanha.",
         "cat": "formulario",
-        "arquivo": "Certificado de Deslocamento.pdf"
+        "arquivo": "EB-1_Certificado-Legislacao-Aplicavel_Art7-Convenio.pdf"
+      },
+      {
+        "nome": "EB-2 — Prorrogação de Deslocamento",
+        "desc": "Art. 7.1 do Convênio e Art. 4.2 do Ajuste Administrativo. Pedido de prorrogação do deslocamento temporário.",
+        "cat": "formulario",
+        "arquivo": "EB-2_Prorrogacao-Deslocamento_Art7.1-Convenio_Art4.2-AjusteAdministrativo.pdf"
+      },
+      {
+        "nome": "Exercício do Direito de Opção — Certificado de Legislação Aplicável",
+        "desc": "Art. 7.6 e 7.7 do Convênio e Art. 5 do Ajuste Administrativo.",
+        "cat": "formulario",
+        "arquivo": "Exercicio-Direito-Opcao_Certificado-Legislacao-Aplicavel_Art7.6-7.7-Convenio_Art5-AjusteAdministrativo.pdf"
+      },
+      {
+        "nome": "Dados Básicos — Solicitação de Prestações (Velhice, Invalidez, Morte)",
+        "desc": "Arts. 7, 8, 9 e 11 do Convênio e Arts. 3, 4 e 5 do Ajuste Administrativo.",
+        "cat": "formulario",
+        "arquivo": "Dados-Basicos-Solicitacao-Prestacoes-Velhice-Invalidez-Morte_Art7-8-9-11-Convenio_Art3-4-5-AjusteAdministrativo.pdf"
+      },
+      {
+        "nome": "Quesitos de Perícia Médica",
+        "desc": "Art. 13 do Convênio e Art. 6 do Ajuste Administrativo.",
+        "cat": "formulario",
+        "arquivo": "Quesitos-Pericia-Medica_Art13-Convenio_Art6-AjusteAdministrativo.pdf"
+      },
+      {
+        "nome": "Informe Médico Detalhado — Exame Médico Pericial",
+        "desc": "Formulário do exame médico pericial para fins do Convênio Brasil-Espanha.",
+        "cat": "formulario",
+        "arquivo": "Informe-Medico-Detalhado_Exame-Medico-Pericial.pdf"
       }
     ]
   },
